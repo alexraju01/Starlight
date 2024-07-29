@@ -1,0 +1,29 @@
+.container {
+	/* background-color: pink; */
+	display: flex;
+	flex-direction: column;
+	margin-top: 4rem;
+	width: 100%;
+}
+
+.container h2 {
+	font-size: 2rem;
+	text-align: center;
+	/* background-color: brown; */
+}
+
+.movieContainer {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+	padding: 1em;
+	gap: 1rem;
+	transition: all 0.3s;
+	width: 100%;
+}
+
+@media (min-width: 1280px) {
+	.movieContainer {
+		grid-template-columns: repeat(auto-fill, minmax(18em, 1fr));
+		gap: 2rem;
+	}
+}

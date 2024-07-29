@@ -1,0 +1,77 @@
+.container {
+	display: grid;
+	grid-template-rows: auto auto 1fr 20rem;
+	width: 100%;
+	/* gap: 1rem; */
+	padding: 1rem 0;
+	font-size: 2rem;
+	/* height: 100%; */
+}
+
+.searchBox {
+	display: flex;
+	height: 4rem;
+	border: 0.1rem solid rgba(255, 255, 255, 0.2);
+	border-radius: 3rem;
+	background-color: #100f10;
+	color: white;
+	padding-left: 1rem;
+	font-size: 1.4rem;
+}
+.top {
+	height: 100%;
+	display: flex;
+	width: 100%;
+	flex-grow: 1;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	padding-bottom: 1rem;
+	padding-left: 1rem;
+}
+
+.carouselContainer {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+.profile {
+	height: 4rem;
+	display: flex;
+	gap: 1rem;
+	justify-content: center;
+	align-items: center;
+}
+
+.newest {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+.newest h2 {
+	padding: 1rem 0 0 1rem;
+}
+
+/* Small screens (min-width: 640px) */
+@media (min-width: 640px) {
+}
+
+/* Medium screens (min-width: 768px) */
+@media (min-width: 768px) {
+}
+
+/* Large screens (min-width: 1024px) */
+@media (min-width: 1200px) {
+	.container {
+		padding: 4rem;
+	}
+
+	.carouselContainer {
+		border-radius: 1.2rem;
+	}
+}
+
+/* 2x Extra large screens (min-width: 1536px) */
+@media (min-width: 1536px) {
+}

@@ -1,0 +1,7 @@
+.container {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(14em, 1fr));
+	padding: 1em;
+	gap: 1em;
+	transition: all 0.3s;
+}

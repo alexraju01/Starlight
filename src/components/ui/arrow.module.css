@@ -1,0 +1,13 @@
+.arrow {
+	background-color: #292929;
+	border-radius: 50%;
+	height: 3rem;
+	width: 3rem;
+	color: hsla(0, 0%, 100%, 0.7);
+	opacity: 0;
+	transition: all 0.3s ease;
+}
+
+.carousel:hover .arrow {
+	opacity: 1;
+}

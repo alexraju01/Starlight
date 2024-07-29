@@ -1,0 +1,73 @@
+.carousel {
+	width: calc(100vw - 6rem);
+	margin-left: 2rem;
+	margin-top: 2rem;
+	/* background-color: aqua; */
+}
+
+.carouselItem {
+	padding-left: 0.25rem; /* pl-1 */
+	flex-basis: calc(100% / 3); /* basis-1/3 */
+	/* border-radius: 15px; */
+	/* background-color: aqua; */
+	transition: all 0.3s ease;
+	padding: 2rem 0.5rem;
+	background: transparent;
+}
+
+.carouselItem img {
+	border-radius: 0.8rem;
+	box-shadow: 10px 7px 10px rgba(121, 120, 120, 0.2);
+}
+
+.carouselItem:hover {
+	transform: scale(1.05); /* Slightly enlarge the image on hover */
+}
+
+.button {
+	font-size: 1.5rem;
+}
+
+/* @media (min-width: 1200px) {
+	.carousel {
+		width: calc(100vw - 30rem);
+	}
+} */
+
+/* Small screens (min-width: 640px) */
+@media (min-width: 640px) {
+	.carouselItem {
+		flex-basis: calc(100% / 4); /* sm:basis-1/4 */
+	}
+}
+
+/* Medium screens (min-width: 768px) */
+@media (min-width: 768px) {
+	.carouselItem {
+		flex-basis: calc(100% / 5); /* md:basis-1/5 */
+	}
+}
+
+/* Large screens (min-width: 1024px) */
+@media (min-width: 1010px) {
+	.carouselItem {
+		flex-basis: calc(100% / 6); /* lg:basis-1/6 */
+	}
+	.carousel {
+		width: calc(100vw - 1rem);
+	}
+}
+
+/* Extra large screens (min-width: 1280px) */
+@media (min-width: 1280px) {
+	.carouselItem {
+		flex-basis: calc(100% / 7); /* xl:basis-1/7 */
+	}
+}
+
+/* 2x Extra large screens (min-width: 1536px) */
+@media (min-width: 1536px) {
+	.carouselItem {
+		flex-basis: calc(100% / 8); /* 2xl:basis-1/8 */
+	}
+}

@@ -1,0 +1,187 @@
+.carousel {
+	position: relative;
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.carouselList {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	width: 100%;
+	height: 100%;
+	transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+	flex: 0 0 100%; /* Each slide takes full width */
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+
+	flex-direction: column;
+}
+
+.info {
+	position: relative;
+	top: -5rem;
+	order: 1;
+	height: 100%;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	flex: 2;
+	font-size: 3rem;
+	color: white;
+	z-index: 1;
+	gap: 1rem;
+	/* background-color: pink; */
+}
+
+.title {
+	text-align: center;
+	position: relative;
+	font-weight: 600;
+	font-size: 2.5rem;
+}
+
+.movieStats {
+	display: flex;
+	column-gap: 2rem;
+	justify-content: center;
+	align-items: center;
+	color: #515256;
+	font-size: 1.5rem;
+}
+
+.rating {
+	display: flex;
+	font-weight: 500;
+	align-items: center;
+	gap: 0.5rem;
+	color: #515256;
+}
+
+.icon {
+	border: 1px #edc017 solid;
+	border-radius: 0.5rem;
+	height: fit-content;
+	padding: 0.2rem;
+	color: black;
+	background-color: #edc017;
+	font-weight: bold;
+}
+
+.genres {
+	color: #515256;
+	font-size: 1.5rem;
+}
+
+.imageContainer {
+	flex: 4;
+	position: relative;
+	height: 100%;
+	width: 100%;
+}
+
+.image {
+	object-fit: cover;
+	width: 100%;
+	height: 100%;
+	border-radius: 1.5rem;
+}
+
+.fadeLeft {
+	position: absolute;
+	top: 0;
+	left: -0.1rem;
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(to top, #100f10, transparent 50%);
+}
+
+.navButton {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	background: #9e221a;
+	color: lightgray;
+	font-weight: 500;
+	border: none;
+	height: 2.5rem;
+	width: 2.5rem;
+	cursor: pointer;
+	z-index: 2;
+	border-radius: 50%;
+	line-height: 2.5rem;
+}
+
+.navButton:first-of-type {
+	top: 95%;
+
+	right: 5rem;
+}
+
+.navButton:last-of-type {
+	top: 95%;
+	right: 1.5rem;
+}
+
+.watchBtn {
+	position: absolute;
+	top: 100%;
+	left: 10%;
+	/* align-self: start; */
+	font-size: 2rem;
+	padding: 0.9rem;
+	border-radius: 1.8rem;
+	background-color: #9e221a;
+	color: lightgray;
+}
+
+@media (min-width: 1200px) {
+	.slide {
+		flex-direction: row;
+	}
+	.info {
+		order: 0;
+		/* flex-direction: ; */
+	}
+
+	.fadeLeft {
+		background: linear-gradient(to right, #100f10, transparent 50%);
+	}
+
+	/* Carousel buttons positioning */
+
+	.watchBtn {
+		/* color: black; */
+		left: 10%;
+	}
+
+	.navButton:first-of-type {
+		top: 43rem;
+	}
+
+	.navButton:last-of-type {
+		top: 43rem;
+	}
+}
+
+@media (min-width: 1280px) {
+	.watchBtn {
+		/* color: black; */
+		left: 35%;
+		top: 90%;
+	}
+}

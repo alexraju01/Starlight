@@ -1,0 +1,23 @@
+.movieCard {
+	filter: brightness(80%);
+
+	/* padding: 1rem; */
+	transition: all 0.3s ease;
+}
+
+.movieCard:hover {
+	scale: 1.1;
+	filter: brightness(105%);
+}
+
+.img {
+	border-radius: 0.8rem;
+	box-shadow: 4px 6px 8px rgba(121, 120, 120, 0.2);
+}
+
+.loadingImg {
+	color: yellow;
+	font-size: 10rem;
+	position: absolute;
+	z-index: 9999;
+}
