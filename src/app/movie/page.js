@@ -16,7 +16,7 @@ export default async function MoviesPage() {
 			<h2>Movie List</h2>
 			<div className={styles.movieContainer}>
 				{movies.results.map((movie) => (
-					<MediaCard key={movie.id} media={movie} mediaMode={"movies"} />
+					<MediaCard key={movie.id} media={movie} mediaMode={"movie"} />
 				))}
 			</div>
 		</div>

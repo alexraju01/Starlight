@@ -4,7 +4,6 @@ import styles from "./MediaCard.module.css";
 import Link from "next/link";
 
 export default function MediaCard({ media, mediaMode }) {
-	console.log("chesking type:", media);
 	return (
 		<Link href={`/${mediaMode}/${media.id}`}>
 			<div className={styles.mediaCard}>
