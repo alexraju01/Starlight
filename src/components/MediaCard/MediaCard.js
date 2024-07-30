@@ -12,7 +12,8 @@ export default function MediaCard({ media, mediaMode }) {
 					className={styles.img}
 					src={`https://image.tmdb.org/t/p/original${media.poster_path}`}
 					width={70}
-					height={150}
+					height={105}
+					quality={60}
 					layout="responsive"
 					alt={media.title}
 				/>
