@@ -57,7 +57,7 @@ export default function Carousel() {
 									<Image
 										src={movie.logoImage}
 										fill
-										quality={60}
+										quality={50}
 										alt={`${movie.title || movie.name} logo`}
 										className={styles.logoImage}
 									/>
