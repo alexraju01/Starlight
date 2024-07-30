@@ -9,7 +9,6 @@ export const metadata = {
 
 export default async function MoviesPage() {
 	const movies = await fetchData("3", "movie/popular");
-	// console.log(movies.id);
 
 	return (
 		<div className={styles.container}>
