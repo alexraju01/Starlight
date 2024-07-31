@@ -12,7 +12,11 @@ export default async function CastContainer({ castList }) {
 					<div key={index} className={styles.castListItem}>
 						<div className={styles.castImgContainer}>
 							<ImageWithFallback
-								src={`https://image.tmdb.org/t/p/original${cast.profile_path}`}
+								src={
+									cast.profile_path
+										? `https://image.tmdb.org/t/p/original${cast.profile_path}`
+										: `https://image.tmdb.org/t/p/original/${cast.profile_path}`
+								}
 								alt={cast.name}
 							/>
 						</div>

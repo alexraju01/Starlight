@@ -1,6 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-	// output: "export",
 	images: {
 		remotePatterns: [
 			{
@@ -9,7 +8,6 @@ const nextConfig = {
 				port: "",
 				pathname: "/t/p/original/**",
 			},
-
 			{
 				protocol: "https",
 				hostname: "flagcdn.com",

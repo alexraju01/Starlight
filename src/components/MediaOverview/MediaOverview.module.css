@@ -59,13 +59,14 @@
 	justify-content: center;
 	font-weight: normal;
 	gap: 1rem;
+	/* padding: 0 5rem; */
 	font-size: 1.7rem;
 	margin-bottom: 2rem;
 }
 
 .genreList p {
 	border: 2px solid gray;
-	padding: 0.4rem 0.8rem;
+	padding: 0.4rem 0.7rem;
 	border-radius: 0.8rem;
 	backdrop-filter: blur(1rem);
 	box-sizing: border-box;
@@ -167,12 +168,32 @@
 		backdrop-filter: blur(1rem);
 		box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
 	}
+	/* 
+	.summary {
+		font-size: 1.3rem;
+		width: clamp(27rem, 50vw, 37rem);
+		line-height: 1.5rem;
+		height: 3rem;
+		overflow: hidden;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		line-clamp: 2;
+		-webkit-box-orient: vertical;
+		text-overflow: ellipsis;
+	} */
 
 	.description {
 		font-weight: normal;
 		font-size: 1.8rem;
+		/* width: fit-content; */
 		margin-bottom: 2rem;
 		text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.5);
+		overflow: hidden;
+		display: -webkit-box;
+		-webkit-line-clamp: 7;
+		line-clamp: 7;
+		-webkit-box-orient: vertical;
+		text-overflow: ellipsis;
 	}
 
 	.posterContainer {
