@@ -9,10 +9,14 @@ export default function MediaCard({ media, mediaMode }) {
 			<div className={styles.mediaCard}>
 				<Image
 					className={styles.img}
-					src={`https://image.tmdb.org/t/p/original${media.poster_path}`}
+					src={
+						media.poster_path
+							? `https://image.tmdb.org/t/p/original${media.poster_path}`
+							: `https://image.tmdb.org/t/p/original/`
+					}
 					width={70}
 					height={105}
-					quality={50}
+					// quality={100}
 					layout="responsive"
 					alt={media.title}
 				/>

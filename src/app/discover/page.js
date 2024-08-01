@@ -14,7 +14,6 @@ export default function DisoverPage() {
 		const results = await fetchData(3, `search/multi?query=${query}`);
 		setMovies(results.results);
 	}
-	// console.log(movies)
 
 	return (
 		<div className={styles.container}>
