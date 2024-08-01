@@ -1,15 +1,14 @@
 .container {
-	/* background-color: pink; */
 	display: flex;
 	flex-direction: column;
 	margin-top: 4rem;
 	width: 100%;
+	animation: fadeIn 0.5s forwards;
 }
 
 .container h2 {
 	font-size: 2rem;
 	text-align: center;
-	/* background-color: brown; */
 }
 
 .movieContainer {
@@ -25,5 +24,16 @@
 	.movieContainer {
 		grid-template-columns: repeat(auto-fill, minmax(18em, 1fr));
 		gap: 2rem;
+	}
+}
+
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+		scale: 0.7;
+	}
+	100% {
+		opacity: 1;
+		scale: 1;
 	}
 }

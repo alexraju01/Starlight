@@ -1,9 +1,10 @@
-import { FaCompass, FaFilm, FaHouse } from "react-icons/fa6";
+import { FaCompass, FaFilm, FaHouse, FaArrowLeft } from "react-icons/fa6";
 import { MdCategory } from "react-icons/md";
 import { GoBell } from "react-icons/go";
 import { LuMenu } from "react-icons/lu";
 import { FaStar } from "react-icons/fa";
 import { FiTv } from "react-icons/fi";
+// import { FaArrowLeft } from "react-icons/fa6";
 
 const Icons = {
 	home: <FaHouse />,
@@ -14,6 +15,7 @@ const Icons = {
 	star: <FaStar />,
 	menu: <LuMenu />,
 	tv: <FiTv />,
+	goBack: <FaArrowLeft />,
 };
 
 export default Icons;

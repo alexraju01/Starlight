@@ -8,7 +8,7 @@ export default async function CastContainer({ castList }) {
 			<h2>Cast</h2>
 
 			<div className={styles.castListContainer}>
-				{castList.cast.map((cast, index) => (
+				{castList.map((cast, index) => (
 					<div key={index} className={styles.castListItem}>
 						<div className={styles.castImgContainer}>
 							<ImageWithFallback
@@ -22,6 +22,7 @@ export default async function CastContainer({ castList }) {
 						</div>
 						<div className={styles.content}>
 							<p className={styles.name}>{cast.name}</p>
+							{console.log(cast.character)}
 							<p className={styles.character}>{cast.character}</p>
 						</div>
 					</div>

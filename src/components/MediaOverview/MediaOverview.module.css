@@ -89,25 +89,6 @@
 	color: rgba(255, 255, 255, 0.5);
 }
 
-.rating {
-	display: flex;
-	align-items: center;
-	gap: 0.5rem;
-}
-
-.rating p:nth-child(1) {
-	font-weight: bold;
-}
-
-.icon {
-	font-size: 1.5rem;
-	border: 1px #edc017 solid;
-	border-radius: 0.5rem;
-	padding: 0 0.3rem;
-	color: black;
-	background-color: #edc017;
-}
-
 .watchBtn {
 	background-color: #9e221a;
 	color: #000;
@@ -126,6 +107,11 @@
 	scale: 1.1;
 	cursor: pointer;
 	box-shadow: 0 0 8px #9e221a;
+}
+
+.castSection {
+	height: 100%;
+	/* background-color: #9e221a; */
 }
 
 @keyframes fadeIn {
