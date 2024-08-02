@@ -16,7 +16,6 @@ export default function MediaCard({ media, mediaMode }) {
 					}
 					width={70}
 					height={105}
-					// quality={100}
 					layout="responsive"
 					alt={media.title}
 				/>

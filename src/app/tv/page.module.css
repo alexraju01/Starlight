@@ -14,9 +14,9 @@
 
 .movieContainer {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
-	padding: 1em;
-	gap: 1rem;
+	grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+	padding: 1.5rem;
+	gap: 2rem;
 	transition: all 0.3s;
 	width: 100%;
 }

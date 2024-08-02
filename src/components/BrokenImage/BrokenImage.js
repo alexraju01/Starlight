@@ -8,7 +8,7 @@ const BrokenImage = () => (
 			display: "flex",
 			justifyContent: "center",
 			alignItems: "center",
-			backgroundColor: "#ccc",
+			backgroundColor: "#123",
 		}}
 	>
 		<p>Image not available</p>

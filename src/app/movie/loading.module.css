@@ -1,5 +1,4 @@
-.container {
-	/* background-color: pink; */
+/* .container {
 	display: flex;
 	flex-direction: column;
 	margin-top: 4rem;
@@ -24,7 +23,7 @@
 
 @media (prefers-color-scheme: dark) {
 	.loadingItem {
-		background-color: #374151; /* dark:bg-neutral-700 */
+		background-color: #374151;
 	}
 }
 
@@ -44,5 +43,52 @@
 	50% {
 		opacity: 0.5;
 		background-color: #2c323f;
+	}
+} */
+
+/* Loading.module.css */
+
+/* Loading.module.css */
+
+/* app/movies/MoviesPage.module.css */
+
+.container {
+	width: 100%;
+	margin-top: 4rem;
+}
+
+.movieContainer {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+	padding: 1em;
+	gap: 1rem;
+	/* transition: all 0.3s; */
+	width: 100%;
+}
+
+.skeletonCard {
+	width: auto;
+	aspect-ratio: 2/3;
+	background-color: #e0e0e0;
+	border-radius: 8px;
+	animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+	0%,
+	100% {
+		opacity: 1;
+		background-color: #374151;
+	}
+	50% {
+		opacity: 0.5;
+		background-color: #2c323f;
+	}
+}
+
+@media (min-width: 1280px) {
+	.movieContainer {
+		grid-template-columns: repeat(auto-fill, minmax(18em, 1fr));
+		gap: 2rem;
 	}
 }

@@ -13,11 +13,11 @@ export default function tvs() {
 				<Carousel />
 			</div>
 			<div className={styles.newest}>
-				<h2>Top 20 Rated</h2>
+				<h2 className={styles.subHeading}>Top 20 Rated</h2>
 				<Slider type={"top_rated"} />
 			</div>
 			<div className={styles.popular}>
-				<h2>Popular</h2>
+				<h2 className={styles.subHeading}>Popular</h2>
 				<Slider type={"popular"} />
 			</div>
 		</main>

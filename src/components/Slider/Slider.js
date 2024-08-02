@@ -8,8 +8,6 @@ import {
 	CarouselPrevious,
 } from "@/components/ui/carousel";
 import fetchData from "@/utils/fetchData";
-// } from "../../components/ui/carousel";
-// import { fetchData } from "@/utils/fetchData";
 import Image from "next/image";
 import Link from "next/link";
 

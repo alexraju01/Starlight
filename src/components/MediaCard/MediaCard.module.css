@@ -1,21 +1,15 @@
-.movieCard {
+.mediaCard {
 	filter: brightness(80%);
 	transition: all 0.3s ease;
+	height: 100%;
 }
 
-.movieCard:hover {
+.mediaCard:hover {
 	scale: 1.1;
 	filter: brightness(105%);
 }
 
-.img {
+.mediaCard img {
 	border-radius: 0.8rem;
 	box-shadow: 4px 6px 8px rgba(121, 120, 120, 0.2);
-}
-
-.loadingImg {
-	color: yellow;
-	font-size: 10rem;
-	position: absolute;
-	z-index: 9999;
 }

@@ -1,9 +1,9 @@
 export default async function fetchData(version, endpoint) {
 	try {
-		// await new Promise((resolve) => setTimeout(resolve, 8000));
+		// await new Promise((resolve) => setTimeout(resolve, 1000));
 
 		const res = await fetch(`https://api.themoviedb.org/${version}/${endpoint}`, {
-			cache: "no-store",
+			// cache: "no-store",
 			headers: {
 				accept: "application/json",
 				Authorization:

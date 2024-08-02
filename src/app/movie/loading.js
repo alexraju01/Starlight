@@ -1,18 +1,15 @@
 import styles from "./loading.module.css";
+
 export default function Loading() {
+	// Creating an array of placeholder cards
+	const placeholderCards = Array.from({ length: 20 }).map((_, index) => (
+		<div key={index} className={styles.skeletonCard}></div>
+	));
+
 	return (
 		<div className={styles.container}>
-			<h1 className={styles.title}>Movie List</h1>
-
-			<ul className={styles.movieContainer}>
-				{Array(20)
-					.fill(1)
-					.map((_el, index) => (
-						<li key={index}>
-							<div className={styles.loadingItem}></div>
-						</li>
-					))}
-			</ul>
+			{/* <h2>Loading Movies...</h2> */}
+			<div className={styles.movieContainer}>{placeholderCards}</div>
 		</div>
 	);
 }

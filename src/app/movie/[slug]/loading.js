@@ -1,9 +1,8 @@
-import styles from "./loading.module.css";
-export default async function Loading() {
+export default function Loading() {
 	return (
-		<div className={styles.loadingContainer}>
-			{/* <h1>movie details</h1> */}
-			<div className={styles.loadingItem}></div>
-		</div>
+		<>
+			<h1>kjdhsfgsjh jksdh gfkjs hdfkj skdfjhdsfgjhs kgfj sdfjh</h1>
+			jhgsdjshg
+		</>
 	);
 }
