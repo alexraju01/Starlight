@@ -6,7 +6,7 @@ export default function Loading() {
 
 			<ul className={styles.movieContainer}>
 				{Array(20)
-					.fill(0)
+					.fill(1)
 					.map((_el, index) => (
 						<li key={index}>
 							<div className={styles.loadingItem}></div>
