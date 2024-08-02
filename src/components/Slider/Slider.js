@@ -13,8 +13,8 @@ import fetchData from "@/utils/fetchData";
 import Image from "next/image";
 import Link from "next/link";
 
-export default async function Home() {
-	const getTopRated = await fetchData("3", "movie/top_rated");
+export default async function Home({ type }) {
+	const getTopRated = await fetchData("3", `movie/${type}`);
 
 	return (
 		<Carousel

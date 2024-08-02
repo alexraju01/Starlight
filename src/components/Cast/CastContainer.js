@@ -22,7 +22,6 @@ export default async function CastContainer({ castList }) {
 						</div>
 						<div className={styles.content}>
 							<p className={styles.name}>{cast.name}</p>
-							{console.log(cast.character)}
 							<p className={styles.character}>{cast.character}</p>
 						</div>
 					</div>

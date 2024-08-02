@@ -14,7 +14,11 @@ export default function tvs() {
 			</div>
 			<div className={styles.newest}>
 				<h2>Top 20 Rated</h2>
-				<Slider />
+				<Slider type={"top_rated"} />
+			</div>
+			<div className={styles.popular}>
+				<h2>Popular</h2>
+				<Slider type={"popular"} />
 			</div>
 		</main>
 	);
