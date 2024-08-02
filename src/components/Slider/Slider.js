@@ -26,7 +26,7 @@ export default async function Home() {
 			<CarouselContent>
 				{getTopRated.results.map((topRated, index) => (
 					<CarouselItem key={index} className={`${styles.carouselItem}`}>
-						<Link href={`/movies/${topRated.id}`}>
+						<Link href={`/movie/${topRated.id}`}>
 							<CarouselItem>
 								<Image
 									src={`https://image.tmdb.org/t/p/original${topRated.poster_path}`}
