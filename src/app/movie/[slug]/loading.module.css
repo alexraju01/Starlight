@@ -4,15 +4,13 @@
 	align-items: center;
 	height: 100%;
 	width: 100vw;
-	/* background-color: brown; */
-	/* border: 10px solid yellow; */
 }
 
 .loadingItem {
 	width: 20rem;
-	height: 30rem; /* 24 * 0.25rem = 6rem */
+	height: 30rem;
 	border-radius: 0.5rem;
-	background-color: #374151; /* bg-neutral-100 */
+	background-color: #374151;
 	animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 

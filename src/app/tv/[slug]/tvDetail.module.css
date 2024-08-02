@@ -1,16 +1,7 @@
 .imgContainer {
-	/* position: relative; */
-	/* position: static; */
 	height: 100%;
 	width: 100%;
 }
 
 @media (min-width: 680px) {
 }
-
-/* @media (min-width: 1280px) {
-	.imgContainer {
-		width: calc(100vw - 20rem);
-
-	}
-} */

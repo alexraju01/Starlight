@@ -4,7 +4,6 @@ import { GoBell } from "react-icons/go";
 import { LuMenu } from "react-icons/lu";
 import { FaStar } from "react-icons/fa";
 import { FiTv } from "react-icons/fi";
-// import { FaArrowLeft } from "react-icons/fa6";
 
 const Icons = {
 	home: <FaHouse />,

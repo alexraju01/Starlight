@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import styles from "./Carousel.module.css"; // Make sure to create this CSS module
+import styles from "./Carousel.module.css"; 
 import fetchData from "@/utils/fetchData";
 import getGenre from "@/utils/getGenre";
 

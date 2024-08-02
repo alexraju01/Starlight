@@ -38,7 +38,7 @@ export default function DisoverPage() {
 					Submit
 				</button>
 			</form>
-			{/* Movie grid */}
+
 			<MovieGrid media={movies} />
 		</div>
 	);

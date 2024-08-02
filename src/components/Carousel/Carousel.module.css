@@ -35,7 +35,6 @@
 	position: relative;
 	height: clamp(10rem, 14vw, 17rem);
 	width: clamp(14rem, 17vw, 33rem);
-	/* margin-top: 9rem; */
 }
 
 .logoImage {
@@ -126,8 +125,6 @@
 }
 
 .detailBtn {
-	/* position: relative; */
-	/* top: 70%; */
 	width: fit-content;
 	height: fit-content;
 	background-color: #9e221a;
@@ -204,19 +201,8 @@
 
 	.logoContainer {
 		margin-top: 0;
-
-		/* display: ; */
-		/* justify-content: space-between; */
-		/* margin-top: 5rem; */
 	}
 	.summary {
 		display: none;
 	}
 }
-
-/* @media (min-width: 1280px) {
-	.watchBtn {
-		left: 35%;
-		top: 90%;
-	}
-} */

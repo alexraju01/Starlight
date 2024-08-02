@@ -21,7 +21,7 @@ export default function Sidebar() {
 
 	useEffect(() => {
 		const handleResize = () => {
-			if (window.innerWidth < 120) {
+			if (window.innerWidth < 1200) {
 				setToggle(false);
 			} else {
 				setToggle(true);
