@@ -6,16 +6,14 @@
 .movieContainer {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
-	padding: 1em;
+	padding: 1.5em;
 	gap: 1rem;
-	/* transition: all 0.3s; */
 	width: 100%;
 }
 
-.skeletonCard {
+.pulse {
 	width: auto;
 	aspect-ratio: 2/3;
-	background-color: #e0e0e0;
 	border-radius: 8px;
 	animation: pulse 1.5s infinite ease-in-out;
 }

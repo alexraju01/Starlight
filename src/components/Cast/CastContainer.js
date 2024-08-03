@@ -1,11 +1,13 @@
 // import ImageWithFallback from "@/app/components/BrokenImage/ImageWithFallback";
 import ImageWithFallback from "@/components/BrokenImage/ImageWithFallback";
 import styles from "./CastContainer.module.css";
+import SectionHeading from "../SectionHeading/SectionHeading";
+import Icons from "@/utils/icons";
 
 export default async function CastContainer({ castList }) {
 	return (
 		<div className={styles.container}>
-			<h2>Cast</h2>
+			<SectionHeading icon={Icons.play}>Cast</SectionHeading>
 
 			<div className={styles.castListContainer}>
 				{castList.map((cast, index) => (

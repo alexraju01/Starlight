@@ -4,22 +4,17 @@
 	padding: 0 3rem;
 }
 
-.container h2 {
-	text-align: start;
-	margin-bottom: 1rem;
-}
-
 .castListContainer {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+	grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
 	position: relative;
 	font-size: 1.3rem;
 	justify-content: center;
-	align-items: baseline;
+	align-items: self-start;
 }
 
 .castListItem {
-	width: 14rem;
+	width: 13rem;
 	padding: 0.75rem;
 	display: flex;
 	flex-direction: column;
@@ -68,6 +63,10 @@
 
 @media (min-width: 1280px) {
 	.castListContainer {
-		grid-template-columns: repeat(auto-fill, 1fr);
+		grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+		align-items: self-start;
+	}
+	.castListItem {
+		width: 17rem;
 	}
 }

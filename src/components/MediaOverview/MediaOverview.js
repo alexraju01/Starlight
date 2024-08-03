@@ -7,6 +7,8 @@ import RatingIcon from "../RatingIcon/RatingIcon";
 import { displayRuntime } from "@/utils/displayRuntime";
 import CastContainer from "../Cast/CastContainer";
 import GoBack from "../GoBack/GoBack";
+import SimilarMedia from "../SimilarMedia/SimilarMedia";
+import Slider from "../Slider/Slider";
 
 export default async function MediaOverview({ params, mediaMode }) {
 	const [mediaDetails, casts] = await Promise.all([
@@ -55,9 +57,8 @@ export default async function MediaOverview({ params, mediaMode }) {
 					<div className={styles.watchBtn}>Watch Now</div>
 				</div>
 			</div>
-			<div className={styles.castSection}>
-				<CastContainer castList={casts.cast.slice(0, 10)} />
-			</div>
+			<CastContainer castList={casts.cast.slice(0, 10)} />
+			<SimilarMedia mediaMode={mediaMode} params={params} />
 		</div>
 	);
 }

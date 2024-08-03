@@ -12,7 +12,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default async function Home({ type }) {
-	const getTopRated = await fetchData("3", `movie/${type}`);
+	const getTopRated = await fetchData("3", type);
 
 	return (
 		<Carousel
@@ -25,15 +25,17 @@ export default async function Home({ type }) {
 				{getTopRated.results.map((topRated, index) => (
 					<CarouselItem key={index} className={`${styles.carouselItem}`}>
 						<Link href={`/movie/${topRated.id}`}>
-							<CarouselItem>
-								<Image
-									src={`https://image.tmdb.org/t/p/original${topRated.poster_path}`}
-									alt={`Movie Poster ${index}`}
-									width={400}
-									height={650}
-									className={styles.roundedImage}
-								/>
-							</CarouselItem>
+							<Image
+								src={
+									topRated.poster_path
+										? `https://image.tmdb.org/t/p/original${topRated.poster_path}`
+										: `https://image.tmdb.org/t/p/original/`
+								}
+								alt={`Movie Poster ${index}`}
+								width={400}
+								height={650}
+								className={styles.roundedImage}
+							/>
 						</Link>
 					</CarouselItem>
 				))}

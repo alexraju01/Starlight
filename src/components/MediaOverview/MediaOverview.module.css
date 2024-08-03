@@ -108,11 +108,15 @@
 	cursor: pointer;
 	box-shadow: 0 0 8px #9e221a;
 }
-
-.castSection {
-	height: 100%;
-	/* background-color: #9e221a; */
+.box {
+	font-size: 1.8rem;
+	width: 100%;
+	padding: 0 0 0 3rem;
+	margin-bottom: 10rem;
 }
+/* .castSection {
+	height: 100%;
+} */
 
 @keyframes fadeIn {
 	0% {

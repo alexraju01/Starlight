@@ -4,6 +4,7 @@ import { GoBell } from "react-icons/go";
 import { LuMenu } from "react-icons/lu";
 import { FaStar } from "react-icons/fa";
 import { FiTv } from "react-icons/fi";
+import { IoPlay } from "react-icons/io5";
 
 const Icons = {
 	home: <FaHouse />,
@@ -15,6 +16,7 @@ const Icons = {
 	menu: <LuMenu />,
 	tv: <FiTv />,
 	goBack: <FaArrowLeft />,
+	play: <IoPlay />,
 };
 
 export default Icons;

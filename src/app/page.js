@@ -14,11 +14,11 @@ export default function tvs() {
 			</div>
 			<div className={styles.newest}>
 				<h2 className={styles.subHeading}>Top 20 Rated</h2>
-				<Slider type={"top_rated"} />
+				<Slider type={"movie/top_rated"} />
 			</div>
 			<div className={styles.popular}>
 				<h2 className={styles.subHeading}>Popular</h2>
-				<Slider type={"popular"} />
+				<Slider type={"movie/popular"} />
 			</div>
 		</main>
 	);
