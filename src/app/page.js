@@ -3,7 +3,7 @@ import styles from "./page.module.css";
 import Slider from "@/components/Slider/Slider";
 
 export default function tvs() {
-	const mediaMode = "movie";
+	const mediaMode = "tv";
 	return (
 		<main className={styles.container}>
 			<div className={styles.top}>
@@ -11,7 +11,7 @@ export default function tvs() {
 				<div className={styles.profile}>{/* <i>{Icons.bell}</i> */}</div>
 			</div>
 			<div className={styles.carouselContainer}>
-				<Carousel />
+				<Carousel mediaMode={mediaMode} />
 			</div>
 			<div className={styles.newest}>
 				<h2 className={styles.subHeading}>Top 20 Rated</h2>

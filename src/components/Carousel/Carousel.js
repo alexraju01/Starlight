@@ -1,21 +1,45 @@
 "use client";
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import styles from "./Carousel.module.css"; 
+import styles from "./Carousel.module.css";
 import fetchData from "@/utils/fetchData";
 import getGenre from "@/utils/getGenre";
 
-export default function Carousel() {
+export default function Carousel({ mediaMode }) {
 	const [TrendingMovies, setTrendingMovies] = useState([]);
 	const [genres, setGenres] = useState({});
 	const [currentIndex, setCurrentIndex] = useState(0);
 
 	useEffect(() => {
 		async function getMoviesAndGenres() {
-			const [getTrendingMovies, getGenres] = await Promise.all([
-				fetchData("3", "trending/movie/day"),
+			const [getTrendingMedia, getGenres] = await Promise.all([
+				fetchData("3", `trending/${mediaMode}/day`),
 				getGenre("movie"),
 			]);
+
+			// Fetch movie logos and add to movie details
+			const moviesWithLogos = await Promise.all(
+				getTrendingMedia.results.slice(0, 10).map(async (movie) => {
+					const movieDetails = await fetch(
+						`https://api.themoviedb.org/3/${mediaMode}/${movie.id}/images`,
+						{
+							headers: {
+								accept: "application/json",
+								Authorization:
+									"Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzNTA4Y2ZlYjY1ZWExMWEwMGZkMWE1MmZmMmFlMTI0ZCIsInN1YiI6IjY0OWVmZmQ5MDkxZTYyMDBlYjdiZGY0MSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.mbunsoSvSxZCheT49skOZk2hX1TCwxpjAvw0ntVBLhs",
+							},
+						}
+					);
+					const movieDetailsData = await movieDetails.json();
+					const logoImage = movieDetailsData.logos.find((logo) => logo.iso_639_1 === "en");
+					return {
+						...movie,
+						logoImage: logoImage
+							? `https://image.tmdb.org/t/p/original${logoImage.file_path}`
+							: null,
+					};
+				})
+			);
 
 			const genresMap = getGenres.genres.reduce((acc, genre) => {
 				acc[genre.id] = genre.name;
@@ -23,10 +47,11 @@ export default function Carousel() {
 			}, {});
 
 			setGenres(genresMap);
-			setTrendingMovies(getTrendingMovies.results.slice(0, 10)); // Limiting to 10 movies
+			setTrendingMovies(moviesWithLogos);
 		}
+
 		getMoviesAndGenres();
-	}, []);
+	}, [mediaMode]);
 
 	const handlePrev = () => {
 		setCurrentIndex((prevIndex) => (prevIndex === 0 ? TrendingMovies.length - 1 : prevIndex - 1));
