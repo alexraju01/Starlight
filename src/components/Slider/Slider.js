@@ -11,8 +11,8 @@ import fetchData from "@/utils/fetchData";
 import Image from "next/image";
 import Link from "next/link";
 
-export default async function Home({ type }) {
-	const getTopRated = await fetchData("3", type);
+export default async function Home({ mediaMode, endpoint }) {
+	const getTopRated = await fetchData("3", endpoint);
 
 	return (
 		<Carousel
@@ -24,7 +24,7 @@ export default async function Home({ type }) {
 			<CarouselContent>
 				{getTopRated.results.map((topRated, index) => (
 					<CarouselItem key={index} className={`${styles.carouselItem}`}>
-						<Link href={`/movie/${topRated.id}`}>
+						<Link href={`/${mediaMode}/${topRated.id}`}>
 							<Image
 								src={
 									topRated.poster_path
