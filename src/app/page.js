@@ -8,7 +8,7 @@ export default function tvs() {
 		<main className={styles.container}>
 			<div className={styles.top}>
 				<input className={styles.searchBox} type="text" placeholder="Search..." />
-				<div className={styles.profile}>{/* <i>{Icons.bell}</i> */}</div>
+				<div className={styles.profile}></div>
 			</div>
 			<div className={styles.carouselContainer}>
 				<Carousel mediaMode={mediaMode} />
