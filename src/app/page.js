@@ -3,7 +3,7 @@ import styles from "./page.module.css";
 import Slider from "@/components/Slider/Slider";
 
 export default function tvs() {
-	const mediaMode = "tv";
+	const mediaMode = "movie";
 	return (
 		<main className={styles.container}>
 			<div className={styles.top}>

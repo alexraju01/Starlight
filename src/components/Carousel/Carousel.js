@@ -20,18 +20,8 @@ export default function Carousel({ mediaMode }) {
 			// Fetch movie logos and add to movie details
 			const moviesWithLogos = await Promise.all(
 				getTrendingMedia.results.slice(0, 10).map(async (movie) => {
-					const movieDetails = await fetch(
-						`https://api.themoviedb.org/3/${mediaMode}/${movie.id}/images`,
-						{
-							headers: {
-								accept: "application/json",
-								Authorization:
-									"Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzNTA4Y2ZlYjY1ZWExMWEwMGZkMWE1MmZmMmFlMTI0ZCIsInN1YiI6IjY0OWVmZmQ5MDkxZTYyMDBlYjdiZGY0MSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.mbunsoSvSxZCheT49skOZk2hX1TCwxpjAvw0ntVBLhs",
-							},
-						}
-					);
-					const movieDetailsData = await movieDetails.json();
-					const logoImage = movieDetailsData.logos.find((logo) => logo.iso_639_1 === "en");
+					const movieDetails = await fetchData(3, `/${mediaMode}/${movie.id}/images`);
+					const logoImage = movieDetails.logos.find((logo) => logo.iso_639_1 === "en");
 					return {
 						...movie,
 						logoImage: logoImage
