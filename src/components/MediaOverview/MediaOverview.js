@@ -23,7 +23,7 @@ export default async function MediaOverview({ params, mediaMode }) {
 				<Image
 					className={styles.movieBackground}
 					fill
-					alt="jhsdggh"
+					alt={mediaDetails.title || mediaDetails.name}
 					src={
 						mediaDetails.backdrop_path
 							? `https://image.tmdb.org/t/p/original${mediaDetails.backdrop_path}`
