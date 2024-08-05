@@ -13,7 +13,7 @@ export default function DisoverPage() {
 		if (inputRef.current) {
 			inputRef.current.focus(); // Focus on the input element when the component mounts
 		}
-	}, [query]);
+	});
 
 	async function handleSearch(e) {
 		e.preventDefault();
