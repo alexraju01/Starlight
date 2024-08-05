@@ -9,6 +9,7 @@ import CastContainer from "../Cast/CastContainer";
 import GoBack from "../GoBack/GoBack";
 import SimilarMedia from "../SimilarMedia/SimilarMedia";
 import Slider from "../Slider/Slider";
+import Icons from "@/utils/icons";
 
 export default async function MediaOverview({ params, mediaMode }) {
 	const [mediaDetails, casts] = await Promise.all([
@@ -65,7 +66,10 @@ export default async function MediaOverview({ params, mediaMode }) {
 					) : null}
 
 					<p className={styles.description}>{mediaDetails.overview}</p>
-					<div className={styles.watchBtn}>Watch Now</div>
+					<div className={styles.watchBtn}>
+						<i>{Icons.filmPlay}</i>
+						<p>Watch Now</p>
+					</div>
 				</div>
 			</div>
 			<CastContainer castList={casts.cast.slice(0, 10)} />
