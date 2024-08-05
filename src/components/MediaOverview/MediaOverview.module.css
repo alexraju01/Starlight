@@ -53,6 +53,17 @@
 	margin-bottom: 2rem;
 }
 
+.mediaMetadata {
+	display: flex;
+	justify-content: space-evenly;
+	font-size: 2rem;
+	width: 100%;
+	color: rgba(255, 255, 255, 0.5);
+	margin-bottom: 1rem;
+
+	/* padding-inline: 2rem; */
+}
+
 .genreList {
 	display: flex;
 	flex-wrap: wrap;
@@ -139,6 +150,8 @@
 
 @media (min-width: 1280px) {
 	.movieBackground {
+		width: 100%;
+		height: auto;
 		mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.7) 30%);
 		/* mask-image: none; */
 		filter: brightness(100%);

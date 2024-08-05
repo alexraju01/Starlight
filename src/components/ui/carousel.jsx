@@ -182,9 +182,9 @@ const CarouselNext = React.forwardRef(
 				variant={variant}
 				size={size}
 				className={cn(
-					"absolute h-[30px] w-[30px] rounded-full",
+					"absolute h-[40px] w-[40px] rounded-full",
 					orientation === "horizontal"
-						? "-right-[-10px] top-1/2 -translate-y-1/2"
+						? "-right-0 top-1/2 -translate-y-1/2"
 						: "-bottom-12 left-1/2 -translate-x-1/2 rotate-90",
 					className
 				)}

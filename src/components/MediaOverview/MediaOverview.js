@@ -23,7 +23,11 @@ export default async function MediaOverview({ params, mediaMode }) {
 					className={styles.movieBackground}
 					fill
 					alt="jhsdggh"
-					src={`https://image.tmdb.org/t/p/original${mediaDetails.backdrop_path}`}
+					src={
+						mediaDetails.backdrop_path
+							? `https://image.tmdb.org/t/p/original${mediaDetails.backdrop_path}`
+							: `https://image.tmdb.org/t/p/original${mediaDetails.poster_path}`
+					}
 				/>
 			</div>
 			<GoBack />
@@ -52,6 +56,13 @@ export default async function MediaOverview({ params, mediaMode }) {
 							<p key={index}>{genre.name}</p>
 						))}
 					</div>
+
+					{mediaDetails.number_of_seasons && mediaDetails.number_of_episodes ? (
+						<div className={styles.mediaMetadata}>
+							<div>{`${mediaDetails.number_of_seasons} Seasons`}</div>
+							<div>{`${mediaDetails.number_of_episodes} Episodes`}</div>
+						</div>
+					) : null}
 
 					<p className={styles.description}>{mediaDetails.overview}</p>
 					<div className={styles.watchBtn}>Watch Now</div>

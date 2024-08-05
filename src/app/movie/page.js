@@ -10,7 +10,7 @@ export const metadata = {
 };
 
 export default async function MoviesPage() {
-	const movies = await fetchData("3", "movie/popular");
+	const movies = await fetchData("3", "discover/movie");
 
 	return (
 		<div className={styles.container} style={{ animation: "fadeIn 0.5s ease-in-out" }}>

@@ -9,7 +9,6 @@ export default async function SimilarMedia({ mediaMode, params }) {
 
 	return (
 		<>
-			{console.log(similarMedia.results)}
 			{similarMedia.results && similarMedia.results.length > 0 && (
 				<section className={styles.container}>
 					<SectionHeading icon={Icons.play}>{`Similar ${textChanger}`}</SectionHeading>
