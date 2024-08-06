@@ -1,8 +1,34 @@
 import { FaCompass, FaFilm, FaHouse, FaArrowLeft } from "react-icons/fa6";
 import { MdCategory } from "react-icons/md";
 import { GoBell } from "react-icons/go";
-import { LuMenu } from "react-icons/lu";
-import { FaStar, FaPlay } from "react-icons/fa";
+import { LuMenu, LuClapperboard } from "react-icons/lu";
+import {
+	FaStar,
+	FaPlay,
+	FaLaugh,
+	FaUserSecret,
+	FaBook,
+	FaTheaterMasks,
+	FaUsers,
+	FaMagic,
+	FaLandmark,
+	FaGhost,
+	FaMusic,
+	FaQuestionCircle,
+	FaHeart,
+	FaRobot,
+	FaTv,
+	FaBolt,
+	FaFighterJet,
+	FaHatCowboy,
+	FaRunning,
+	FaChild,
+	FaNewspaper,
+	FaRocket,
+	FaSoap,
+	FaComment,
+	FaGavel,
+} from "react-icons/fa";
 import { FiTv } from "react-icons/fi";
 import { IoPlay } from "react-icons/io5";
 
@@ -32,6 +58,35 @@ const Icons = {
 			<path d="M464 336a48 48 0 1 0 96 0 48 48 0 1 0-96 0zm72 112h-48c-4.4 0-8 3.6-8 8v272c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V456c0-4.4-3.6-8-8-8z"></path>
 		</svg>
 	),
+	genreIcons: {
+		Action: <LuClapperboard />,
+		Adventure: <FaCompass />,
+		Animation: <FaFilm />,
+		Comedy: <FaLaugh />,
+		Crime: <FaUserSecret />,
+		Documentary: <FaBook />,
+		Drama: <FaTheaterMasks />,
+		Family: <FaUsers />,
+		Fantasy: <FaMagic />,
+		History: <FaLandmark />,
+		Horror: <FaGhost />,
+		Music: <FaMusic />,
+		Mystery: <FaQuestionCircle />,
+		Romance: <FaHeart />,
+		"Science Fiction": <FaRobot />,
+		"TV Movie": <FaTv />,
+		Thriller: <FaBolt />,
+		War: <FaFighterJet />,
+		Western: <FaHatCowboy />,
+		"Action & Adventure": <FaRunning />,
+		Kids: <FaChild />,
+		News: <FaNewspaper />,
+		Reality: <FaUsers />,
+		"Sci-Fi & Fantasy": <FaRocket />,
+		Soap: <FaSoap />,
+		Talk: <FaComment />,
+		"War & Politics": <FaGavel />,
+	},
 };
 
 export default Icons;
