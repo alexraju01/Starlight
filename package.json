@@ -13,6 +13,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "embla-carousel-react": "^8.1.7",
+    "framer-motion": "^11.3.23",
     "lucide-react": "^0.411.0",
     "next": "14.2.5",
     "react": "^18",
@@ -20,6 +21,7 @@
     "react-dom": "^18",
     "react-icons": "^5.2.1",
     "sharp": "^0.33.4",
+    "styled-components": "^6.1.12",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7"
   },
