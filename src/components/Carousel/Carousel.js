@@ -88,6 +88,8 @@ export default function Carousel({ mediaMode }) {
 								className={styles.image}
 							/>
 							<div className={styles.fadeLeft}>
+								{console.log(movie.backdrop_path)}
+
 								<div>
 									{movie.logoImage && (
 										<div className={styles.logoContainer}>

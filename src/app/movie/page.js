@@ -13,7 +13,7 @@ export default async function MoviesPage() {
 	const movies = await fetchData("3", "discover/movie");
 
 	return (
-		<div className={styles.container}>
+		<div className={styles.container} style={{ animation: "fadeIn 0.5s ease-in-out" }}>
 			<h2>Movies List</h2>
 			<Suspense fallback={<LoadingSkeletons />}>
 				<div className={styles.movieContainer}>
