@@ -8,8 +8,8 @@ export default async function Page({ params }) {
 	const [movieGenre, tvGenre, genreRelatedMovies, genreRelatedTv] = await Promise.all([
 		fetchData(3, "genre/movie/list"),
 		fetchData(3, "genre/tv/list"),
-		fetchData(3, `discover/movie?with_genres=${params.slug}`, 1),
-		fetchData(3, `discover/tv?with_genres=${params.slug}`, 1),
+		fetchData(3, `discover/movie?with_genres=${params.slug}`),
+		fetchData(3, `discover/tv?with_genres=${params.slug}`),
 	]);
 
 	const moviesWithType = genreRelatedMovies.results.map((movie) => ({
@@ -21,13 +21,10 @@ export default async function Page({ params }) {
 		type: "tv",
 	}));
 
-	// const genreRelatedMovies = await fetchData(3, `discover/movie?with_genres=${params.slug}`, 1);
-	// const genreRelatedTv = await fetchData(3, `discover/tv?with_genres=${params.slug}`, 1);
-
 	const combineRelatedMedia = [...moviesWithType, ...tvsWithType];
-	console.log(combineRelatedMedia);
+	const combineRelatedGenre = [...movieGenre.genres, ...tvGenre.genres];
 
-	const foundGenre = movieGenre.genres.find((item) => item.id == parseInt(params.slug));
+	const foundGenre = combineRelatedGenre.find((item) => item.id == parseInt(params.slug));
 	const genreName = foundGenre ? foundGenre.name : "Unknown Genre"; // Default to "Unknown Genre"
 
 	return (

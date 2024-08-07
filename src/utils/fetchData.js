@@ -1,4 +1,4 @@
-export default async function fetchData(version, endpoint, page = 1) {
+export default async function fetchData(version, endpoint) {
 	try {
 		// await new Promise((resolve) => setTimeout(resolve, 3000));
 		// const separator = endpoint.includes("?") ? "&" : "?";
