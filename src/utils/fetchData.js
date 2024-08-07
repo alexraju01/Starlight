@@ -1,7 +1,7 @@
 export default async function fetchData(version, endpoint, page = 1) {
 	try {
-		const separator = endpoint.includes("?") ? "&" : "?";
 		// await new Promise((resolve) => setTimeout(resolve, 3000));
+		const separator = endpoint.includes("?") ? "&" : "?";
 
 		const res = await fetch(
 			`https://api.themoviedb.org/${version}/${endpoint}${separator}page=${page}`,
@@ -16,6 +16,8 @@ export default async function fetchData(version, endpoint, page = 1) {
 		);
 		if (!res.ok) {
 			throw new Error("Failed to fetch data");
+			// const errorData = await res.json(); // Assuming error details in JSON
+			// throw new Error(`Error fetching data: ${errorData.message || res.statusText}`);
 		}
 		const data = await res.json();
 		return data;

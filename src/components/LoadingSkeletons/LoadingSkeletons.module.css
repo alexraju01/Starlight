@@ -15,6 +15,7 @@
 	width: auto;
 	aspect-ratio: 2/3;
 	border-radius: 8px;
+	background-color: #fff;
 	animation: pulse 1.5s infinite ease-in-out;
 }
 

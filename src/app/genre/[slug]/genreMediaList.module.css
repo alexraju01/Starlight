@@ -7,6 +7,9 @@
 
 .container h2 {
 	width: 100%;
+	font-size: clamp(2rem, 5.5vw, 4rem);
+	padding-left: 1rem;
+	/* margin-left: 2rem; */
 }
 
 .cardContainer {
@@ -16,4 +19,11 @@
 	gap: 2rem;
 	transition: all 0.3s;
 	width: 100%;
+}
+
+@media (min-width: 1280px) {
+	.cardContainer {
+		grid-template-columns: repeat(auto-fill, minmax(18em, 1fr));
+		/* gap: 2rem; */
+	}
 }
