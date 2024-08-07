@@ -13,8 +13,6 @@ export default async function fetchData(version, endpoint) {
 		});
 		if (!res.ok) {
 			throw new Error("Failed to fetch data");
-			// const errorData = await res.json(); // Assuming error details in JSON
-			// throw new Error(`Error fetching data: ${errorData.message || res.statusText}`);
 		}
 		const data = await res.json();
 		return data;
