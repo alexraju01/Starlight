@@ -13,6 +13,7 @@ import Link from "next/link";
 
 export default async function Home({ mediaMode, endpoint }) {
 	const getTopRated = await fetchData("3", endpoint);
+	const topRatedMovies = getTopRated.results;
 
 	return (
 		<Carousel
@@ -22,23 +23,21 @@ export default async function Home({ mediaMode, endpoint }) {
 			}}
 		>
 			<CarouselContent>
-				{getTopRated.results.map((topRated, index) => (
-					<CarouselItem key={index} className={`${styles.carouselItem}`}>
-						<Link href={`/${mediaMode}/${topRated.id}`}>
-							<Image
-								src={
-									topRated.poster_path
-										? `https://image.tmdb.org/t/p/original${topRated.poster_path}`
-										: `https://image.tmdb.org/t/p/original/`
-								}
-								alt={`Movie Poster ${index}`}
-								width={400}
-								height={650}
-								className={styles.roundedImage}
-							/>
-						</Link>
-					</CarouselItem>
-				))}
+				{topRatedMovies.map((topRated, index) =>
+					topRated.poster_path ? (
+						<CarouselItem key={index} className={`${styles.carouselItem}`}>
+							<Link href={`/${mediaMode}/${topRated.id}`}>
+								<Image
+									src={`https://image.tmdb.org/t/p/original${topRated.poster_path}`}
+									alt={`Movie Poster ${index}`}
+									width={400}
+									height={650}
+									className={styles.roundedImage}
+								/>
+							</Link>
+						</CarouselItem>
+					) : null
+				)}
 			</CarouselContent>
 			<CarouselPrevious className={styles.button} />
 			<CarouselNext />
