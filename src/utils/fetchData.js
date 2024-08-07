@@ -22,6 +22,6 @@ export default async function fetchData(version, endpoint, page = 1) {
 		const data = await res.json();
 		return data;
 	} catch (err) {
-		throw err; // Re-throw the error after logging it
+		throw err;
 	}
 }
