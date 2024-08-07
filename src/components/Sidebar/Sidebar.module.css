@@ -87,9 +87,9 @@
 	background-color: #100f10;
 	border-radius: 0 0 0 100%;
 	position: absolute;
-	left: calc(100vw - 6.5rem);
-	width: 5rem;
-	height: 5rem;
+	left: calc(100vw - 7.5rem);
+	width: 6rem;
+	height: 6rem;
 	font-size: 3rem;
 	/* z-index: 20; */
 }

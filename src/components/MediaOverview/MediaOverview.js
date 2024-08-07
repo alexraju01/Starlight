@@ -10,12 +10,14 @@ import GoBack from "../GoBack/GoBack";
 import SimilarMedia from "../SimilarMedia/SimilarMedia";
 import Slider from "../Slider/Slider";
 import Icons from "@/utils/icons";
+import Link from "next/link";
 
 export default async function MediaOverview({ params, mediaMode }) {
 	const [mediaDetails, casts] = await Promise.all([
 		fetchData(3, `/${mediaMode}/${params.slug}`),
 		fetchData(3, `/${mediaMode}/${params.slug}/credits`),
 	]);
+	console.log(mediaDetails);
 
 	return (
 		<div className={styles.container}>
@@ -54,7 +56,9 @@ export default async function MediaOverview({ params, mediaMode }) {
 					{/*  ========= genre ========= */}
 					<div className={styles.genreList}>
 						{mediaDetails.genres.map((genre, index) => (
-							<p key={index}>{genre.name}</p>
+							<Link key={index} href={`/genre/${genre.id}`}>
+								<p>{genre.name}</p>
+							</Link>
 						))}
 					</div>
 

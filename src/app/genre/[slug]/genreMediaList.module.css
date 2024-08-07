@@ -1,0 +1,19 @@
+.container {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	margin-top: 5rem;
+}
+
+.container h2 {
+	width: 100%;
+}
+
+.cardContainer {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+	padding: 1.5rem;
+	gap: 2rem;
+	transition: all 0.3s;
+	width: 100%;
+}
