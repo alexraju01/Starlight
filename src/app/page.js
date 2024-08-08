@@ -2,7 +2,7 @@ import Carousel from "@/components/Carousel/Carousel";
 import styles from "./page.module.css";
 import Slider from "@/components/Slider/Slider";
 
-export default function tvs() {
+export default function Home() {
 	const mediaMode = "movie";
 	return (
 		<main className={styles.container}>

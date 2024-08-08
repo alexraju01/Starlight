@@ -4,7 +4,7 @@ export default async function fetchData(version, endpoint) {
 		// const separator = endpoint.includes("?") ? "&" : "?";
 
 		const res = await fetch(`https://api.themoviedb.org/${version}/${endpoint}`, {
-			// cache: "no-store",
+			cache: "no-store",
 			headers: {
 				accept: "application/json",
 				Authorization:

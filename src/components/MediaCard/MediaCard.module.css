@@ -36,3 +36,15 @@
 .loaded {
 	opacity: 1;
 }
+
+@keyframes pulse {
+	0%,
+	100% {
+		opacity: 1;
+		background-color: #374151;
+	}
+	50% {
+		opacity: 0.5;
+		background-color: #2c323f;
+	}
+}
