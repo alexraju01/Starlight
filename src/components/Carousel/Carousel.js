@@ -4,6 +4,7 @@ import Image from "next/image";
 import styles from "./Carousel.module.css";
 import fetchData from "@/utils/fetchData";
 import getGenre from "@/utils/getGenre";
+import mapGenres from "@/utils/mapGenre";
 
 export default function Carousel({ mediaMode }) {
 	const [TrendingMovies, setTrendingMovies] = useState([]);
@@ -31,11 +32,7 @@ export default function Carousel({ mediaMode }) {
 				})
 			);
 
-			const genresMap = getGenres.genres.reduce((acc, genre) => {
-				acc[genre.id] = genre.name;
-				return acc;
-			}, {});
-
+			const genresMap = mapGenres(getGenres.genres);
 			setGenres(genresMap);
 			setTrendingMovies(moviesWithLogos);
 		}
@@ -88,8 +85,6 @@ export default function Carousel({ mediaMode }) {
 								className={styles.image}
 							/>
 							<div className={styles.fadeLeft}>
-								{console.log(movie.backdrop_path)}
-
 								<div>
 									{movie.logoImage && (
 										<div className={styles.logoContainer}>

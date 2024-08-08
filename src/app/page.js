@@ -1,14 +1,16 @@
 import Carousel from "@/components/Carousel/Carousel";
 import styles from "./page.module.css";
 import Slider from "@/components/Slider/Slider";
+import SearchBox from "@/components/SearchBox/SearchBox";
 
 export default async function Home() {
 	const mediaMode = "movie";
 	return (
 		<main className={styles.container}>
 			<div className={styles.top}>
-				<input className={styles.searchBox} type="text" placeholder="Search..." />
-				<div className={styles.profile}></div>
+				<div className={styles.searchWrapper}>
+					<SearchBox />
+				</div>
 			</div>
 			<div className={styles.carouselContainer}>
 				<Carousel mediaMode={mediaMode} />

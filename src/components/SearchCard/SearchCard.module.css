@@ -1,0 +1,46 @@
+.searchResults {
+	position: absolute;
+	left: 0;
+	z-index: 99999;
+	display: flex;
+	flex-direction: column;
+	background-color: #171717;
+	height: fit-content;
+	width: clamp(35rem, 50vw, 45rem);
+	font-size: 1.3rem;
+}
+
+.searchResults .card:nth-child(odd) {
+	background-color: #1c1c1c;
+}
+
+.card {
+	display: flex;
+	gap: 1.5rem;
+	padding: 1rem 1.5rem;
+}
+
+.cardImage {
+	width: 6rem;
+}
+
+.card:hover {
+	background-color: #171717;
+}
+
+.cardDetails {
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+}
+
+.metaData {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	color: #777777;
+}
+
+.rate {
+	font-size: 1rem !important;
+}

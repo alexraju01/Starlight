@@ -6,23 +6,13 @@
 	font-size: 2rem;
 }
 
-.searchBox {
-	display: flex;
-	height: 4rem;
-	border: 0.1rem solid rgba(255, 255, 255, 0.2);
-	border-radius: 3rem;
-	background-color: #100f10;
-	color: white;
-	padding-left: 1rem;
-	font-size: 1.4rem;
-}
 .top {
 	height: 100%;
 	display: flex;
 	width: 100%;
 	flex-grow: 1;
 	flex-wrap: wrap;
-	justify-content: space-between;
+	/* justify-content: space-between; */
 	padding-bottom: 1rem;
 	padding-left: 1rem;
 }
