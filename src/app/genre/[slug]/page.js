@@ -2,6 +2,7 @@
 import MediaCard from "@/components/MediaCard/MediaCard";
 import styles from "./genreMediaList.module.css";
 import fetchData from "@/utils/fetchData";
+import { Suspense } from "react";
 // import { usePathname } from "next/navigation";
 
 export default async function Page({ params }) {
@@ -31,11 +32,13 @@ export default async function Page({ params }) {
 		<section className={styles.container}>
 			<h2>{`Shows related to ${genreName} ...`}</h2>
 
-			<div className={styles.cardContainer}>
-				{combineRelatedMedia.map((media) => (
-					<MediaCard key={media.id} media={media} mediaMode={media.type} />
-				))}
-			</div>
+			<Suspense fallback={<div>Loading...</div>}>
+				<div className={styles.cardContainer}>
+					{combineRelatedMedia.map((media) => (
+						<MediaCard key={media.id} media={media} mediaMode={media.type} />
+					))}
+				</div>
+			</Suspense>
 			<button>Load more</button>
 		</section>
 	);
