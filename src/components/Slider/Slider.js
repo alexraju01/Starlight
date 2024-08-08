@@ -28,7 +28,7 @@ export default async function Home({ mediaMode, endpoint }) {
 						<CarouselItem key={index} className={`${styles.carouselItem}`}>
 							<Link href={`/${mediaMode}/${topRated.id}`}>
 								<Image
-									src={`https://image.tmdb.org/t/p/original${topRated.poster_path}`}
+									src={`https://image.tmdb.org/t/p/w500${topRated.poster_path}`}
 									alt={`Movie Poster ${index}`}
 									width={400}
 									height={650}

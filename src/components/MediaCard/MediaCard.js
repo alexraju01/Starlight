@@ -20,8 +20,8 @@ export default function MediaCard({ media, mediaMode }) {
 					className={`${styles.img} ${isLoaded ? styles.loaded : ""}`}
 					src={
 						media.poster_path
-							? `https://image.tmdb.org/t/p/original${media.poster_path}`
-							: `https://image.tmdb.org/t/p/original/`
+							? `https://image.tmdb.org/t/p/w342${media.poster_path}`
+							: `https://image.tmdb.org/t/p/w500/`
 					}
 					width={70}
 					height={105}

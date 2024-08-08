@@ -25,9 +25,7 @@ export default function Carousel({ mediaMode }) {
 					const logoImage = movieDetails.logos.find((logo) => logo.iso_639_1 === "en");
 					return {
 						...movie,
-						logoImage: logoImage
-							? `https://image.tmdb.org/t/p/original${logoImage.file_path}`
-							: null,
+						logoImage: logoImage ? `https://image.tmdb.org/t/p/w300${logoImage.file_path}` : null,
 					};
 				})
 			);
@@ -79,7 +77,7 @@ export default function Carousel({ mediaMode }) {
 						</div>
 						<div className={styles.imageContainer}>
 							<Image
-								src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
+								src={`https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`}
 								layout="fill"
 								alt={movie.title || movie.name}
 								className={styles.image}

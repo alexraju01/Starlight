@@ -1,33 +1,34 @@
-import Icons, { genreIcons } from "@/utils/icons";
+// import { genreIcons } from "@/utils/icons";
 import styles from "./genre.module.css";
 import fetchData from "@/utils/fetchData";
 import Link from "next/link";
-import { Suspense } from "react";
 import Spinner from "@/components/Spinner/Spinner";
+import Icons from "@/utils/icons";
 
 export default async function GenrePage() {
-	const [movieGenre, tvGenre] = await Promise.all([
+	// Fetch genres concurrently
+	const [{ genres: movieGenres }, { genres: tvGenres }] = await Promise.all([
 		fetchData(3, "genre/movie/list"),
 		fetchData(3, "genre/tv/list"),
 	]);
-	const combinedGenres = [...movieGenre.genres, ...tvGenre.genres];
 
+	// Combine genres into a single array
+	const combinedGenres = [...movieGenres, ...tvGenres];
+	console.log(combinedGenres);
 	return (
 		<section className={styles.container}>
 			<h2>List of all the movies</h2>
 
-			<Suspense fallback={<Spinner />}>
-				<div className={styles.genreList}>
-					{combinedGenres.map((genre) => (
-						<Link key={genre.id} href={`/genre/${genre.id}`}>
-							<div className={styles.genre}>
-								<i>{Icons.genreIcons[genre.name]}</i>
-								<p>{genre.name}</p>
-							</div>
-						</Link>
-					))}
-				</div>
-			</Suspense>
+			<div className={styles.genreList}>
+				{combinedGenres.map(({ id, name }) => (
+					<Link key={id} href={`/genre/${id}`}>
+						<div className={styles.genre}>
+							<i>{Icons.genreIcons[name]}</i>
+							<p>{name}</p>
+						</div>
+					</Link>
+				))}
+			</div>
 		</section>
 	);
 }
