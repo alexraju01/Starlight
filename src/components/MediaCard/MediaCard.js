@@ -27,8 +27,8 @@ export default function MediaCard({ media, mediaMode }) {
 					height={105}
 					layout="responsive"
 					alt={media.title}
-					priority={true}
-					loading="eager"
+					// priority={true}
+					loading="lazy"
 					onLoadingComplete={() => setIsLoaded(true)}
 				/>
 			</div>
