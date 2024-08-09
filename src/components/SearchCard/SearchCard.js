@@ -7,6 +7,7 @@ import MediaCard from "../MediaCard/MediaCard";
 import RatingIcon from "../RatingIcon/RatingIcon";
 import Dot from "../Dot/Dot";
 import { dateConverter } from "@/utils/dateConverter";
+import Link from "next/link";
 
 export default function SearchCard({ query }) {
 	const [result, setResult] = useState([]);
@@ -29,7 +30,12 @@ export default function SearchCard({ query }) {
 						result
 							.filter((media) => media.media_type !== "person") // Filter out "person" media types
 							.map((media) => (
-								<div key={media.id} className={styles.card}>
+								<Link
+									key={media.id}
+									className={styles.card}
+									href={`/${media.media_type}/${media.id}`}
+								>
+									{/* <div className={styles.card}> */}
 									<div className={styles.cardImage}>
 										<MediaCard key={media.id} media={media} mediaMode={media.media_type} />
 									</div>
@@ -47,7 +53,8 @@ export default function SearchCard({ query }) {
 											</p>
 										</div>
 									</div>
-								</div>
+									{/* </div> */}
+								</Link>
 							))
 					) : (
 						<p>No results found</p>

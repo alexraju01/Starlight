@@ -10,22 +10,23 @@
 	font-size: 1.3rem;
 }
 
-.searchResults .card:nth-child(odd) {
-	background-color: #1c1c1c;
-}
-
 .card {
 	display: flex;
 	gap: 1.5rem;
 	padding: 1rem 1.5rem;
+	transition: all 0.3s ease;
+}
+
+.searchResults .card:nth-child(odd):hover,
+.card:hover {
+	background-color: #123;
+}
+.searchResults .card:nth-child(odd) {
+	background-color: #1c1c1e;
 }
 
 .cardImage {
 	width: 6rem;
-}
-
-.card:hover {
-	background-color: #171717;
 }
 
 .cardDetails {
