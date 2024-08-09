@@ -15,7 +15,6 @@
 	width: auto;
 	aspect-ratio: 2/3;
 	border-radius: 8px;
-	/* background-color: #fff; */
 	animation: pulse 1.5s infinite ease-in-out;
 }
 
@@ -30,18 +29,6 @@
 		background-color: #2c323f;
 	}
 }
-
-/* @keyframes pulse {
-	0% {
-		opacity: 1;
-	}
-	50% {
-		opacity: 0.5;
-	}
-	100% {
-		opacity: 1;
-	}
-} */
 
 @media (min-width: 1280px) {
 	.movieContainer {

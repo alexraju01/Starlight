@@ -4,6 +4,8 @@ import fetchData from "@/utils/fetchData";
 import Link from "next/link";
 import Spinner from "@/components/Spinner/Spinner";
 import Icons from "@/utils/icons";
+import { Suspense } from "react";
+import GenreSkeleton from "@/components/LoadingSkeletons/GenreSkeleton";
 
 export default async function GenrePage() {
 	// Fetch genres concurrently
@@ -14,21 +16,22 @@ export default async function GenrePage() {
 
 	// Combine genres into a single array
 	const combinedGenres = [...movieGenres, ...tvGenres];
-	console.log(combinedGenres);
+	// console.log(combinedGenres);
 	return (
 		<section className={styles.container}>
 			<h2>List of all the movies</h2>
-
-			<div className={styles.genreList}>
-				{combinedGenres.map(({ id, name }) => (
-					<Link key={id} href={`/genre/${id}`}>
-						<div className={styles.genre}>
-							<i>{Icons.genreIcons[name]}</i>
-							<p>{name}</p>
-						</div>
-					</Link>
-				))}
-			</div>
+			<Suspense fallback={<GenreSkeleton />}>
+				<div className={styles.genreList}>
+					{combinedGenres.map(({ id, name }) => (
+						<Link key={id} href={`/genre/${id}`}>
+							<div className={styles.genre}>
+								<i>{Icons.genreIcons[name]}</i>
+								<p>{name}</p>
+							</div>
+						</Link>
+					))}
+				</div>
+			</Suspense>
 		</section>
 	);
 }

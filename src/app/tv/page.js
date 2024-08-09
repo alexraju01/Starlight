@@ -12,7 +12,7 @@ export default async function page() {
 			<h2>TV Shows List</h2>
 
 			<Suspense fallback={<LoadingSkeletons />}>
-				<div className={styles.movieContainer}>
+				<div className={styles.tvContainer}>
 					{tvs.results.map((tv) => (
 						<MediaCard key={tv.id} media={tv} mediaMode={"tv"} />
 					))}

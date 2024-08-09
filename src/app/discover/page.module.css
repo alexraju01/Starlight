@@ -10,6 +10,7 @@
 }
 
 .container h2 {
+	text-align: center;
 	font-size: 3rem;
 	animation: fadeIn 0.5s forwards;
 	text-shadow: 0 0 0.5rem rgba(255, 255, 255, 0.8);
@@ -17,7 +18,8 @@
 
 .form {
 	animation: fadeIn 0.5s forwards;
-	width: clamp(30rem, 40vw, 60rem);
+	width: clamp(20rem, 50vw, 60rem);
+	background-color: pink;
 }
 
 .searchBox {

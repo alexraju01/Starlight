@@ -2,6 +2,7 @@ import Carousel from "@/components/Carousel/Carousel";
 import styles from "./page.module.css";
 import Slider from "@/components/Slider/Slider";
 import SearchBox from "@/components/SearchBox/SearchBox";
+import { Suspense } from "react";
 
 export default async function Home() {
 	const mediaMode = "movie";
@@ -12,9 +13,11 @@ export default async function Home() {
 					<SearchBox />
 				</div>
 			</div>
-			<div className={styles.carouselContainer}>
-				<Carousel mediaMode={mediaMode} />
-			</div>
+			<Suspense fallback={<div>jhgjshdgakjhds jhag skjdhakjsdgjhasd hj</div>}>
+				<div className={styles.carouselContainer}>
+					<Carousel mediaMode={mediaMode} />
+				</div>
+			</Suspense>
 			<div className={styles.newest}>
 				<h2 className={styles.subHeading}>Top 20 Rated</h2>
 				<Slider mediaMode={mediaMode} endpoint={`${mediaMode}/top_rated`} />
