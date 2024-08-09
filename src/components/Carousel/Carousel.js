@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import Image from "next/image";
 import styles from "./Carousel.module.css";
 import fetchData from "@/utils/fetchData";
@@ -7,55 +7,71 @@ import getGenre from "@/utils/getGenre";
 import mapGenres from "@/utils/mapGenre";
 
 export default function Carousel({ mediaMode }) {
-	const [TrendingMovies, setTrendingMovies] = useState([]);
+	const [trendingMovies, setTrendingMovies] = useState([]);
 	const [genres, setGenres] = useState({});
 	const [currentIndex, setCurrentIndex] = useState(0);
 
 	useEffect(() => {
-		async function getMoviesAndGenres() {
-			const [getTrendingMedia, getGenres] = await Promise.all([
-				fetchData("3", `trending/${mediaMode}/day`),
-				getGenre("movie"),
-			]);
+		const fetchGenres = async () => {
+			try {
+				const genreData = await getGenre(mediaMode);
+				setGenres(mapGenres(genreData.genres));
+			} catch (error) {
+				console.error("Error fetching genres:", error);
+			}
+		};
 
-			// Fetch movie logos and add to movie details
-			const moviesWithLogos = await Promise.all(
-				getTrendingMedia.results.slice(0, 10).map(async (movie) => {
-					const movieDetails = await fetchData(3, `/${mediaMode}/${movie.id}/images`);
-					const logoImage = movieDetails.logos.find((logo) => logo.iso_639_1 === "en");
-					return {
-						...movie,
-						logoImage: logoImage ? `https://image.tmdb.org/t/p/w300${logoImage.file_path}` : null,
-					};
-				})
-			);
-
-			const genresMap = mapGenres(getGenres.genres);
-			setGenres(genresMap);
-			setTrendingMovies(moviesWithLogos);
-		}
-
-		getMoviesAndGenres();
+		fetchGenres();
 	}, [mediaMode]);
 
-	const handlePrev = () => {
-		setCurrentIndex((prevIndex) => (prevIndex === 0 ? TrendingMovies.length - 1 : prevIndex - 1));
-	};
+	useEffect(() => {
+		const fetchMovies = async () => {
+			try {
+				const { results: trendingMedia } = await fetchData("3", `trending/${mediaMode}/day`);
 
-	const handleNext = () => {
-		setCurrentIndex((prevIndex) => (prevIndex === TrendingMovies.length - 1 ? 0 : prevIndex + 1));
-	};
+				const moviesWithLogos = await Promise.all(
+					trendingMedia.slice(0, 10).map(async (movie) => {
+						const movieDetails = await fetchData(3, `/${mediaMode}/${movie.id}/images`);
+						const logoImage = movieDetails.logos.find((logo) => logo.iso_639_1 === "en");
+						return {
+							...movie,
+							logoImage: logoImage ? `https://image.tmdb.org/t/p/w300${logoImage.file_path}` : null,
+						};
+					})
+				);
+
+				setTrendingMovies(moviesWithLogos);
+			} catch (error) {
+				console.error("Error fetching trending movies:", error);
+			}
+		};
+
+		fetchMovies();
+	}, [mediaMode]);
+
+	const handlePrev = useCallback(() => {
+		setCurrentIndex((prevIndex) => (prevIndex === 0 ? trendingMovies.length - 1 : prevIndex - 1));
+	}, [trendingMovies.length]);
+
+	const handleNext = useCallback(() => {
+		setCurrentIndex((prevIndex) => (prevIndex === trendingMovies.length - 1 ? 0 : prevIndex + 1));
+	}, [trendingMovies.length]);
+
+	const genreNames = useMemo(() => {
+		return (movie) => movie.genre_ids.map((id) => genres[id]).join(", ");
+	}, [genres]);
 
 	return (
 		<div className={styles.carousel}>
-			<button className={styles.navButton} onClick={handlePrev}>
+			<button className={styles.navButton} onClick={handlePrev} aria-label="Previous slide">
 				<p>{"<"}</p>
 			</button>
 			<ul
 				className={styles.carouselList}
 				style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+				key={mediaMode}
 			>
-				{TrendingMovies.map((movie, index) => (
+				{trendingMovies.map((movie, index) => (
 					<li
 						key={movie.id}
 						className={styles.slide}
@@ -73,7 +89,7 @@ export default function Carousel({ mediaMode }) {
 									/>
 								</div>
 							)}
-							<p className={styles.genres}>{movie.genre_ids.map((id) => genres[id]).join(", ")}</p>
+							<p className={styles.genres}>{genreNames(movie)}</p>
 						</div>
 						<div className={styles.imageContainer}>
 							<Image
@@ -81,6 +97,7 @@ export default function Carousel({ mediaMode }) {
 								layout="fill"
 								alt={movie.title || movie.name}
 								className={styles.image}
+								priority={index === 0} // Prioritize the first image
 							/>
 							<div className={styles.fadeLeft}>
 								<div>
@@ -103,7 +120,7 @@ export default function Carousel({ mediaMode }) {
 					</li>
 				))}
 			</ul>
-			<button className={styles.navButton} onClick={handleNext}>
+			<button className={styles.navButton} onClick={handleNext} aria-label="Next slide">
 				<p>{">"}</p>
 			</button>
 		</div>
