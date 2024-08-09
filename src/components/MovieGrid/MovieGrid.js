@@ -8,7 +8,9 @@ export default function MovieGrid({ media }) {
 	return (
 		<div className={styles.container}>
 			{media.map((multi) => (
-				<MediaCard key={multi.id} media={multi} mediaMode={multi.media_type} />
+				<div key={multi.id} className={styles.card}>
+					<MediaCard media={multi} mediaMode={multi.media_type} />
+				</div>
 			))}
 		</div>
 	);
