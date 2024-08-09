@@ -1,12 +1,12 @@
 .searchResults {
 	position: absolute;
-	left: -1rem;
+	left: 0;
 	z-index: 99999;
 	display: flex;
 	flex-direction: column;
 	background-color: #171717;
 	height: fit-content;
-	width: calc(100% + 11rem);
+	width: clamp(25rem, 50vw, 45rem);
 	font-size: 1.3rem;
 }
 
@@ -22,6 +22,7 @@
 
 .cardImage {
 	width: 6rem;
+	background-color: pink;
 }
 
 .card:hover {
@@ -29,18 +30,50 @@
 }
 
 .cardDetails {
+	width: 100%;
 	display: flex;
 	flex-direction: column;
 	gap: 0.75rem;
 }
 
+.cardDetails h2 {
+	font-size: 1.3rem;
+	line-height: 1.5rem;
+	overflow: hidden;
+	display: -webkit-box;
+	line-clamp: 1;
+	-webkit-line-clamp: 1;
+	-webkit-box-orient: vertical;
+	text-overflow: ellipsis;
+}
+
 .metaData {
 	display: flex;
+	/* justify-content: center; */
+	/* line-height: 1.5rem; */
 	align-items: center;
 	gap: 0.75rem;
 	color: #777777;
 }
 
+.cardDetails .date {
+	display: none;
+}
+
+.metaData span:nth-child(4) {
+	display: none;
+}
+
 .rate {
 	font-size: 1rem !important;
+}
+
+@media (min-width: 640px) {
+	.cardDetails .date {
+		display: block;
+	}
+
+	.metaData span:nth-child(4) {
+		display: block;
+	}
 }

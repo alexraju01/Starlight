@@ -6,6 +6,7 @@ import getSearch from "@/utils/actions";
 import MediaCard from "../MediaCard/MediaCard";
 import RatingIcon from "../RatingIcon/RatingIcon";
 import Dot from "../Dot/Dot";
+import { dateConverter } from "@/utils/dateConverter";
 
 export default function SearchCard({ query }) {
 	const [result, setResult] = useState([]);
@@ -38,7 +39,12 @@ export default function SearchCard({ query }) {
 										</div>
 										<div className={styles.metaData}>
 											<RatingIcon className={styles.rate} mediaDetails={media} />
-											<Dot className={styles.dot} />
+											<Dot />
+											<p>{media.media_type}</p>
+											<Dot />
+											<p className={styles.date}>
+												{dateConverter(media.release_date || media.first_air_date)}
+											</p>
 										</div>
 									</div>
 								</div>
