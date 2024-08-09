@@ -22,6 +22,7 @@ export default async function Home() {
 				<h2 className={styles.subHeading}>Top 20 Rated</h2>
 				<Slider mediaMode={mediaMode} endpoint={`${mediaMode}/top_rated`} />
 			</div>
+
 			<div className={styles.popular}>
 				<h2 className={styles.subHeading}>Popular</h2>
 				<Slider mediaMode={mediaMode} endpoint={`${mediaMode}/popular`} />

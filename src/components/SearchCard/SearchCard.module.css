@@ -6,7 +6,7 @@
 	flex-direction: column;
 	background-color: #171717;
 	height: fit-content;
-	width: clamp(35rem, 50vw, 45rem);
+	width: clamp(25rem, 50vw, 45rem);
 	font-size: 1.3rem;
 }
 
