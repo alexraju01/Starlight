@@ -1,12 +1,12 @@
 .searchResults {
 	position: absolute;
-	left: 0;
+	left: -1rem;
 	z-index: 99999;
 	display: flex;
 	flex-direction: column;
 	background-color: #171717;
 	height: fit-content;
-	width: clamp(25rem, 50vw, 45rem);
+	width: calc(100% + 11rem);
 	font-size: 1.3rem;
 }
 
