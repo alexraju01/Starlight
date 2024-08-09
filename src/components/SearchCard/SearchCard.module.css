@@ -22,7 +22,6 @@
 
 .cardImage {
 	width: 6rem;
-	background-color: pink;
 }
 
 .card:hover {
@@ -49,8 +48,6 @@
 
 .metaData {
 	display: flex;
-	/* justify-content: center; */
-	/* line-height: 1.5rem; */
 	align-items: center;
 	gap: 0.75rem;
 	color: #777777;
