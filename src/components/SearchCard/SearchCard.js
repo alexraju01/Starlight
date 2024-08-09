@@ -1,7 +1,7 @@
 "use client";
 import fetchData from "@/utils/fetchData";
 import styles from "./SearchCard.module.css";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import getSearch from "@/utils/actions";
 import MediaCard from "../MediaCard/MediaCard";
 import RatingIcon from "../RatingIcon/RatingIcon";
@@ -25,22 +25,24 @@ export default function SearchCard({ query }) {
 			{query.length > 1 ? (
 				<div className={styles.searchResults}>
 					{result.length > 0 ? (
-						result.map((media) => (
-							<div key={media.id} className={styles.card}>
-								<div className={styles.cardImage}>
-									<MediaCard key={media.id} media={media} mediaMode={media.media_type} />
-								</div>
-								<div className={styles.cardDetails}>
-									<div>
-										<h2>{media.title || media.name}</h2>
+						result
+							.filter((media) => media.media_type !== "person") // Filter out "person" media types
+							.map((media) => (
+								<div key={media.id} className={styles.card}>
+									<div className={styles.cardImage}>
+										<MediaCard key={media.id} media={media} mediaMode={media.media_type} />
 									</div>
-									<div className={styles.metaData}>
-										<RatingIcon className={styles.rate} mediaDetails={media} />
-										<Dot className={styles.dot} />
+									<div className={styles.cardDetails}>
+										<div>
+											<h2>{media.title || media.name}</h2>
+										</div>
+										<div className={styles.metaData}>
+											<RatingIcon className={styles.rate} mediaDetails={media} />
+											<Dot className={styles.dot} />
+										</div>
 									</div>
 								</div>
-							</div>
-						))
+							))
 					) : (
 						<p>No results found</p>
 					)}

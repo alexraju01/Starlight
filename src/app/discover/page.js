@@ -19,7 +19,7 @@ export default function DisoverPage() {
 		e.preventDefault();
 		if (!query) return;
 		const results = await fetchData(3, `search/multi?query=${query}`);
-		setMovies(results.results);
+		setMovies(results.results.filter((media) => media.media_type !== "person"));
 	}
 
 	return (
