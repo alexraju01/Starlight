@@ -20,6 +20,7 @@
     "react-cookie": "^7.2.0",
     "react-dom": "^18",
     "react-icons": "^5.2.1",
+    "react-intersection-observer": "^9.13.0",
     "sharp": "^0.33.4",
     "styled-components": "^6.1.12",
     "tailwind-merge": "^2.4.0",

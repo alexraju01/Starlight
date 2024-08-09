@@ -7,7 +7,6 @@ export default function SearchBox() {
 	const [search, setSearch] = useState("");
 
 	const handleSearch = (e) => {
-		console.log(e.target.value);
 		setSearch(e.target.value);
 	};
 	return (

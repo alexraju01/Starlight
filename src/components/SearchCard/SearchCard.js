@@ -2,12 +2,13 @@
 import fetchData from "@/utils/fetchData";
 import styles from "./SearchCard.module.css";
 import { useEffect, useState } from "react";
-import getSearch from "@/utils/actions";
+// import getSearch from "@/utils/getSearch";
 import MediaCard from "../MediaCard/MediaCard";
 import RatingIcon from "../RatingIcon/RatingIcon";
 import Dot from "../Dot/Dot";
 import { dateConverter } from "@/utils/dateConverter";
 import Link from "next/link";
+import getSearch from "@/utils/serverActions/getSearch";
 
 export default function SearchCard({ query }) {
 	const [result, setResult] = useState([]);
