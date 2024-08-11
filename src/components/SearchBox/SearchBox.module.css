@@ -1,6 +1,6 @@
 .container {
 	width: 100%;
-	width: clamp(25rem, 50vw, 45rem);
+	width: clamp(25rem, 50vw, 40rem);
 	position: relative;
 }
 

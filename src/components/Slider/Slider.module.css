@@ -6,7 +6,7 @@
 .carouselItem {
 	flex-basis: calc(100% / 3);
 	width: 100%;
-	padding: 1.1rem 0.5rem 0rem 1rem;
+	padding: 2rem 0.5rem 2rem 1rem;
 }
 
 .carouselItem img {
