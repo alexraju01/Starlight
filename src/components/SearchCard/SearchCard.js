@@ -1,8 +1,6 @@
 "use client";
-import fetchData from "@/utils/fetchData";
 import styles from "./SearchCard.module.css";
 import { useEffect, useState } from "react";
-// import getSearch from "@/utils/getSearch";
 import MediaCard from "../MediaCard/MediaCard";
 import RatingIcon from "../RatingIcon/RatingIcon";
 import Dot from "../Dot/Dot";
@@ -29,34 +27,43 @@ export default function SearchCard({ query }) {
 				<div className={styles.searchResults}>
 					{result.length > 0 ? (
 						result
-							.filter((media) => media.media_type !== "person") // Filter out "person" media types
-							.map((media) => (
-								<Link
-									key={media.id}
-									className={styles.card}
-									href={`/${media.media_type}/${media.id}`}
-								>
-									{/* <div className={styles.card}> */}
-									<div className={styles.cardImage}>
-										<MediaCard key={media.id} media={media} mediaMode={media.media_type} />
-									</div>
-									<div className={styles.cardDetails}>
-										<div>
-											<h2>{media.title || media.name}</h2>
+							.filter(({ media_type }) => media_type !== "person") // Destructured media_type
+							.map(
+								({
+									id,
+									media_type,
+									title,
+									name,
+									release_date,
+									first_air_date,
+									vote_average,
+									poster_path,
+								}) => (
+									<Link key={id} className={styles.card} href={`/${media_type}/${id}`}>
+										<div className={styles.cardImage}>
+											<MediaCard
+												key={id}
+												media={{ id, title, name, poster_path }}
+												mediaMode={media_type}
+											/>
 										</div>
-										<div className={styles.metaData}>
-											<RatingIcon className={styles.rate} mediaDetails={media} />
-											<Dot />
-											<p>{media.media_type}</p>
-											<Dot />
-											<p className={styles.date}>
-												{dateConverter(media.release_date || media.first_air_date)}
-											</p>
+										<div className={styles.cardDetails}>
+											<div>
+												<h2>{title || name}</h2>
+											</div>
+											<div className={styles.metaData}>
+												<RatingIcon className={styles.rate} vote={vote_average} />
+												<Dot />
+												<p>{media_type}</p>
+												<Dot />
+												<p className={styles.date}>
+													{dateConverter(release_date || first_air_date)}
+												</p>
+											</div>
 										</div>
-									</div>
-									{/* </div> */}
-								</Link>
-							))
+									</Link>
+								)
+							)
 					) : (
 						<p>No results found</p>
 					)}

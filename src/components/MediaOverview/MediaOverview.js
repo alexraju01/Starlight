@@ -62,7 +62,7 @@ export default async function MediaOverview({ params, mediaMode }) {
 					<div className={styles.stat}>
 						<p className={styles.date}>{releaseDate ? dateConverter(releaseDate) : "----"}</p>
 						<p>{displayRuntime({ episode_run_time, runtime })}</p>
-						<RatingIcon mediaDetails={vote_average} />
+						<RatingIcon vote={vote_average} />
 					</div>
 
 					<div className={styles.genreList}>
