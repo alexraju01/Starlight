@@ -15,11 +15,9 @@ export default async function Home() {
 						<SearchBox />
 					</div>
 				</div>
-				<Suspense fallback={<div>jhgjshdgakjhds jhag skjdhakjsdgjhasd hj</div>}>
-					<div className={styles.carouselContainer}>
-						<Carousel mediaMode={mediaMode} />
-					</div>
-				</Suspense>
+				<div className={styles.carouselContainer}>
+					<Carousel mediaMode={mediaMode} />
+				</div>
 				<div className={styles.newest}>
 					<h2 className={styles.subHeading}>Top 20 Rated</h2>
 					<Slider mediaMode={mediaMode} endpoint={`${mediaMode}/top_rated`} />

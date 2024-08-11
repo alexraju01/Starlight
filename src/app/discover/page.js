@@ -11,9 +11,7 @@ export default function DisoverPage() {
 	const inputRef = useRef(null);
 
 	useEffect(() => {
-		if (inputRef.current) {
-			inputRef.current.focus(); // Focus on the input element when the component mounts
-		}
+		if (inputRef.current) inputRef.current.focus(); // Focus on the input element when the component mounts
 	});
 
 	async function handleSearch(e) {

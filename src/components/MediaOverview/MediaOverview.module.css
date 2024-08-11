@@ -163,9 +163,13 @@
 		filter: brightness(100%);
 	}
 	.Introduction {
-		padding: 20rem 0 0 3rem;
-		height: 100vh;
+		padding: 0rem 0 10rem 3rem; /* Adjust padding as needed */
+		height: 100vh; /* Use min-height for flexible growth */
 		width: 50rem;
+		box-sizing: border-box; /* Ensure padding is included in the width/height calculation */
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-end; /* Align content to the bottom */
 	}
 
 	.blurBox {
@@ -173,7 +177,7 @@
 		border: 1px solid rgba(255, 255, 255, 0.4);
 		background: linear-gradient(125deg, rgba(255, 255, 255, 0.1));
 		padding: 2.5rem 1.5rem;
-		margin-top: 5rem;
+		margin-top: 3rem;
 		backdrop-filter: blur(1rem);
 		box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
 	}

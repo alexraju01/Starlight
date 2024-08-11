@@ -3,15 +3,13 @@ import styles from "./movies.module.css";
 import MediaCard from "@/components/MediaCard/MediaCard";
 import { useEffect, useState } from "react";
 import LoadingSkeletons from "@/components/LoadingSkeletons/LoadingSkeletons";
-// import getMovies from "@/utils/actions2";
 import { useInView } from "react-intersection-observer";
-import getMovies from "@/utils/serverActions/getMovies";
-// import { useInView } from "framer-motion";
+import getMedia from "@/utils/serverActions/getMedia";
+
 
 export default function MoviesPage() {
 	const [movies, setMovies] = useState([]);
 	const [page, setPage] = useState(1);
-	// const [loading, setLoading] = useState(true);
 	const [ref, inView] = useInView();
 
 	// Load the first page of movies when the component mounts
@@ -23,7 +21,7 @@ export default function MoviesPage() {
 	}, [inView]);
 
 	const loadMoreMovies = async () => {
-		const movieList = await getMovies(page + 1);
+		const movieList = await getMedia("movie", page + 1);
 		setMovies([...movies, ...movieList]);
 		setPage(page + 1);
 	};
