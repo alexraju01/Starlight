@@ -7,8 +7,6 @@ export default function GenreSkeleton() {
 
 	return (
 		<div className={styles.container}>
-			<h2>List of all the movies</h2>
-
 			<div className={styles.genreContainer}>{placeholderCards}</div>
 		</div>
 	);

@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import styles from "./page.module.css";
 import fetchData from "@/utils/fetchData";
 import MovieGrid from "@/components/MovieGrid/MovieGrid";
+import Spinner from "@/components/Spinner/Spinner";
 
 export default function DisoverPage() {
 	const [query, setQuery] = useState("");
