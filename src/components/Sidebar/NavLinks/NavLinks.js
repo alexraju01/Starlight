@@ -3,14 +3,20 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import styles from "./NavLinks.module.css";
 
-export default function NavLinks({ linkData }) {
+export default function NavLinks({ linkData: { href, icon, name }, closeSidebar }) {
 	const path = usePathname();
+
+	const handleClick = () => {
+		if (closeSidebar) {
+			closeSidebar();
+		}
+	};
 
 	return (
 		<li>
-			<Link className={path === linkData.href ? styles.active : ""} href={linkData.href}>
-				<i>{linkData.icon}</i>
-				<p>{linkData.name}</p>
+			<Link className={path === href ? styles.active : ""} href={href} onClick={handleClick}>
+				<i>{icon}</i>
+				<p>{name}</p>
 			</Link>
 		</li>
 	);

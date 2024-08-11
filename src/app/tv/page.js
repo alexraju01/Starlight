@@ -13,9 +13,9 @@ export default async function page() {
 
 			<Suspense fallback={<LoadingSkeletons />}>
 				<div className={styles.tvContainer}>
-					{tvs.results.map((tv) => (
-						<MediaCard key={tv.id} media={tv} mediaMode={"tv"} />
-					))}
+					{tvs.results.map(
+						(tv) => tv.poster_path && <MediaCard key={tv.id} media={tv} mediaMode={"tv"} />
+					)}
 				</div>
 			</Suspense>
 		</div>

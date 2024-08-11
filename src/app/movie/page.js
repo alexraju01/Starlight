@@ -33,9 +33,10 @@ export default function MoviesPage() {
 			<h2>Movies List</h2>
 
 			<div className={styles.movieContainer}>
-				{movies.map((movie) => (
-					<MediaCard key={movie.id} media={movie} mediaMode={"movie"} />
-				))}
+				{movies.map(
+					(movie) =>
+						movie.poster_path && <MediaCard key={movie.id} media={movie} mediaMode={"movie"} />
+				)}
 			</div>
 			<div ref={ref}>
 				<LoadingSkeletons className={styles.load}></LoadingSkeletons>

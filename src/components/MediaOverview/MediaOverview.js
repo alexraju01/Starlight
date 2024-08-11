@@ -11,6 +11,7 @@ import SimilarMedia from "../SimilarMedia/SimilarMedia";
 import Slider from "../Slider/Slider";
 import Icons from "@/utils/icons";
 import Link from "next/link";
+import MediaCard from "../MediaCard/MediaCard";
 
 export default async function MediaOverview({ params, mediaMode }) {
 	const [mediaDetails, casts] = await Promise.all([
@@ -38,16 +39,16 @@ export default async function MediaOverview({ params, mediaMode }) {
 				<h1 className={styles.title}>{mediaDetails.title || mediaDetails.name}</h1>
 				<div className={styles.blurBox}>
 					<div className={styles.posterContainer}>
-						<Image
-							fill
-							alt="jhsdggh"
-							src={`https://image.tmdb.org/t/p/original${mediaDetails.poster_path}`}
-						/>
+						<MediaCard media={mediaDetails} mediaMode={mediaDetails.media_type} />
 					</div>
 					<div className={styles.stat}>
-						<p className={styles.date}>
-							{dateConverter(mediaDetails.release_date || mediaDetails.first_air_date)}
-						</p>
+						{mediaDetails.release_date || mediaDetails.first_air_date ? (
+							<p className={styles.date}>
+								{dateConverter(mediaDetails.release_date || mediaDetails.first_air_date)}
+							</p>
+						) : (
+							<p>----</p>
+						)}
 						<p>{displayRuntime(mediaDetails)} </p>
 
 						<RatingIcon mediaDetails={mediaDetails} />

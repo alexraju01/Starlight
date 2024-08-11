@@ -19,6 +19,12 @@ export default function Sidebar() {
 		setToggle(!toggle);
 	};
 
+	const closeSidebar = () => {
+		if (window.innerWidth < 1200) {
+			setToggle(false);
+		}
+	};
+
 	useEffect(() => {
 		const handleResize = () => {
 			if (window.innerWidth < 1200) {
@@ -53,7 +59,7 @@ export default function Sidebar() {
 			<div className={styles.navItems}>
 				<ul className={styles.navLinks}>
 					{links.map((link, index) => (
-						<NavLinks key={index} linkData={link} />
+						<NavLinks key={index} linkData={link} closeSidebar={closeSidebar} />
 					))}
 				</ul>
 

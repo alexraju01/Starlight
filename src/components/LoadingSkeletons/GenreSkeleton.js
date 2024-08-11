@@ -9,7 +9,7 @@ export default function GenreSkeleton() {
 		<div className={styles.container}>
 			<h2>List of all the movies</h2>
 
-			<div className={styles.movieContainer}>{placeholderCards}</div>
+			<div className={styles.genreContainer}>{placeholderCards}</div>
 		</div>
 	);
 }

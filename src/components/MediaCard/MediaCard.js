@@ -21,7 +21,7 @@ export default function MediaCard({ media, mediaMode }) {
 					src={
 						media.poster_path
 							? `https://image.tmdb.org/t/p/w342${media.poster_path}`
-							: `https://image.tmdb.org/t/p/w500/`
+							: `https://image.tmdb.org/t/p/w342/`
 					}
 					width={70}
 					height={105}

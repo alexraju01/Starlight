@@ -1,9 +1,14 @@
 .container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin-top: 5rem;
 	width: 100%;
-	margin-top: 4rem;
+	height: 100%;
 }
 
-.movieContainer {
+.genreContainer {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
 	gap: 1.5rem;
@@ -31,26 +36,54 @@
 }
 
 @media (min-width: 640px) {
-	.movieContainer {
-		grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+	.genreContainer {
+		grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
 	}
 }
 
 @media (min-width: 768px) {
-	.movieContainer {
-		grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+	.genreContainer {
+		grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
 	}
 }
 
 @media (min-width: 1200px) {
-	.movieContainer {
-		grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+	.genreContainer {
+		grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
 		padding: 4rem;
 	}
 }
 
-@media (min-width: 1536px) {
+/* @media (min-width: 1536px) {
 	.movieContainer {
 		grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
 	}
+} */
+
+/* @media (min-width: 640px) {
+	.genreList {
+		grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+	}
+	.genre {
+		height: 10rem;
+	}
 }
+
+@media (min-width: 768px) {
+	.genreList {
+		grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+	}
+	.genre {
+		height: 11rem;
+	}
+}
+
+@media (min-width: 1200px) {
+	.genreList {
+		grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+		padding: 4rem;
+	}
+	.genre {
+		height: 12rem;
+	}
+} */

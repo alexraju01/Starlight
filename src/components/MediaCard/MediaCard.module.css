@@ -10,6 +10,7 @@
 }
 
 .mediaCard img {
+	image-rendering: optimizeSpeed;
 	border-radius: 0.8rem;
 	box-shadow: 4px 6px 8px rgba(121, 120, 120, 0.2);
 }
