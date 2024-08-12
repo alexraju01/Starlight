@@ -3,14 +3,11 @@
 // import MediaCard from "../MediaCard/MediaCard";
 // import Image from "next/image";
 
-import fetchData from "@/utils/fetchData";
 import getUpcoming from "@/utils/serverActions/getUpcoming";
-import Image from "next/image";
 import { Suspense, useEffect, useState } from "react";
 import MediaCard from "../MediaCard/MediaCard";
 import { useInView } from "react-intersection-observer";
-import LoadingSkeletons from "../LoadingSkeletons/LoadingSkeletons";
-
+import styles from "./Upcoming.module.css";
 // export default async function Upcoming() {
 // 	try {
 // 		const [tvShows, movies] = await Promise.all([
@@ -113,21 +110,29 @@ export default function Upcoming() {
 	const loadMoreMovies = async () => {
 		const tvList = await getUpcoming(page + 1);
 		setTvs([...tvs, ...tvList]);
-		console.log(tvs);
+		// setTvs((prevTvs) => [...prevTvs, ...tvList]);
 		setPage(page + 1);
 	};
 
-	console.log(tvs);
 	return (
 		<div>
 			<Suspense fallback={<div>Loading. . .</div>}>
-				<div>
-					{tvs.map((tv) => (
-						<p key={tv.id}>{tv.name}</p>
-					))}
+				<div className={styles.container}>
+					{tvs.map(
+						(tv) =>
+							tv.poster_path && (
+								// <div key={tv.id}>
+								<MediaCard key={tv.id} media={tv} mediaMode={"tv"} />
+								// </div>
+							)
+
+						// <p key={tv.id}>
+						// 	{tv.name} - {tv.first_air_date}
+						// </p>
+					)}
 				</div>
 			</Suspense>
-			<div ref={ref}>loading . .</div>
+			<div ref={ref}>Loading more tvs. . .</div>
 		</div>
 	);
 }
