@@ -1,5 +1,6 @@
 import { FaCompass, FaFilm, FaHouse, FaArrowLeft } from "react-icons/fa6";
 import { MdCategory } from "react-icons/md";
+import { FaCalendarAlt } from "react-icons/fa";
 import { GoBell } from "react-icons/go";
 import { LuMenu, LuClapperboard } from "react-icons/lu";
 import {
@@ -44,6 +45,7 @@ const Icons = {
 	goBack: <FaArrowLeft />,
 	play: <IoPlay />,
 	filmPlay: <FaPlay />,
+	calendar: <FaCalendarAlt />,
 	info: (
 		<svg
 			stroke="currentColor"

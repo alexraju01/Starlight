@@ -27,10 +27,11 @@ export default function Tv() {
 	return (
 		<div className={styles.container}>
 			<h2>TV Shows List</h2>
-
-			<div className={styles.tvContainer}>
-				{tvs.map((tv) => tv.poster_path && <MediaCard key={tv.id} media={tv} mediaMode={"tv"} />)}
-			</div>
+			<Suspense fallback={<div>Loading. . .</div>}>
+				<div className={styles.tvContainer}>
+					{tvs.map((tv) => tv.poster_path && <MediaCard key={tv.id} media={tv} mediaMode={"tv"} />)}
+				</div>
+			</Suspense>
 			<div ref={ref}>
 				<LoadingSkeletons></LoadingSkeletons>
 			</div>
