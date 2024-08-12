@@ -1,15 +1,16 @@
 "use client";
 import Image from "next/image";
-import BrokenImage from "./BrokenImage";
+// import BrokenImage from "./BrokenImage";
 import { useState } from "react";
+import BrokenImage from "./BrokenImage";
 
-export default function ImageWithFallback({ src, alt }) {
+export default function ImageWithFallback({ src, alt, className }) {
 	const [imgError, setImgError] = useState(false);
-
 	return imgError ? (
-		<BrokenImage />
+		<BrokenImage className={className} />
 	) : (
 		<Image
+			// className={className}
 			src={src}
 			alt={alt}
 			layout="fill"

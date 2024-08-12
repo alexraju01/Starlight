@@ -22,6 +22,7 @@
 	height: clamp(8rem, 14vw, 11rem);
 	font-size: 1.3rem;
 	text-align: center;
+	transition: all 0.3s ease;
 }
 
 .seasonPoster {
@@ -33,9 +34,14 @@
 .seasonPoster img {
 	border-radius: 0.6rem;
 	object-fit: cover;
-	/* object-position: center center; */
 }
 
 .season:hover {
+	cursor: pointer;
 	scale: 1.1;
+}
+
+.image {
+	border-radius: 0.6rem !important; /* If !important is necessary, use it */
+	object-fit: cover; /* Ensure the image covers the container */
 }

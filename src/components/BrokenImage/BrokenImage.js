@@ -1,18 +1,11 @@
 // BrokenImage.js
-const BrokenImage = () => (
-	<div
-		style={{
-			width: "100%",
-			height: "100%",
-			borderRadius: "50%",
-			display: "flex",
-			justifyContent: "center",
-			alignItems: "center",
-			backgroundColor: "#123",
-		}}
-	>
-		<p>Image not available</p>
-	</div>
-);
+import styles from "./BrokenImage.module.css"; // Import CSS module for styles
 
-export default BrokenImage;
+export default function BrokenImage({ className }) {
+	return (
+		<div className={`${styles.brokenImage} ${className}`}>
+			{console.log(className)}
+			<p>Image not available</p>
+		</div>
+	);
+}
