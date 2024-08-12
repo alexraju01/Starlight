@@ -12,7 +12,17 @@ export default function DisoverPage() {
 
 	useEffect(() => {
 		if (inputRef.current) inputRef.current.focus(); // Focus on the input element when the component mounts
-	});
+	}, []);
+
+	useEffect(() => {
+		const loadMovies = async () => {
+			if (query) {
+				const results = await fetchData(3, `search/multi?query=${query}`);
+				setMovies(results.results.filter((media) => media.media_type !== "person"));
+			}
+		};
+		loadMovies();
+	}, [query]); // Add query as a dependency
 
 	async function handleSearch(e) {
 		e.preventDefault();
