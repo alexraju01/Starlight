@@ -1,8 +1,15 @@
+"use client";
 // import fetchData from "@/utils/fetchData";
 // import MediaCard from "../MediaCard/MediaCard";
 // import Image from "next/image";
 
 import fetchData from "@/utils/fetchData";
+import getUpcoming from "@/utils/serverActions/getUpcoming";
+import Image from "next/image";
+import { Suspense, useEffect, useState } from "react";
+import MediaCard from "../MediaCard/MediaCard";
+import { useInView } from "react-intersection-observer";
+import LoadingSkeletons from "../LoadingSkeletons/LoadingSkeletons";
 
 // export default async function Upcoming() {
 // 	try {
@@ -67,42 +74,60 @@ import fetchData from "@/utils/fetchData";
 // 	}
 // }
 
-async function fetchAllPages(page = 1, allResults = []) {
-	// Fetch data for the current page
-	const response = await fetchData(3, `tv/airing_today?page=${page}`);
-	const results = response.results;
+// async function fetchAllPages(page = 1, allResults = []) {
+// 	// Fetch data for the current page
+// 	const response = await fetchData(
+// 		3,
+// 		`discover/tv?page=${page}&first_air_date.gte=2024-08-12&include_null_first_air_dates=false`
+// 	);
+// 	const results = response.results;
 
-	// Combine current page results with accumulated results
-	allResults = allResults.concat(results);
+// 	// Combine current page results with accumulated results
+// 	allResults = allResults.concat(results);
 
-	// Check if there are more pages
-	if (page < response.total_pages) {
-		// Fetch next page recursively
-		return fetchAllPages(page + 1, allResults);
-	} else {
-		// No more pages to fetch, return all results
-		return allResults;
-	}
-}
+// 	// Check if there are more pages
+// 	if (page < 2) {
+// 		// Fetch next page recursively
+// 		return fetchAllPages(page + 1, allResults);
+// 	} else {
+// 		// No more pages to fetch, return all results
+// 		return allResults;
+// 	}
+// }
 
-export default async function Upcoming() {
+export default function Upcoming() {
+	const [tvs, setTvs] = useState([]);
+	const [page, setPage] = useState(1);
 	// Fetch all pages of data
-	const allTvs = await fetchAllPages();
+	// const allTvs = await fetchAllPages();
+	const [ref, inView] = useInView();
 
-	const today = new Date().toISOString().split("T")[0];
-	const filteredTvs = allTvs.filter((tv) => tv.first_air_date >= today);
+	// Load the first page of movies when the component mounts
 
+	useEffect(() => {
+		if (inView) {
+			loadMoreMovies();
+		}
+	}, [inView]);
+
+	const loadMoreMovies = async () => {
+		const tvList = await getUpcoming(page + 1);
+		setTvs([...tvs, ...tvList]);
+		console.log(tvs);
+		setPage(page + 1);
+	};
+
+	console.log(tvs);
 	return (
 		<div>
-			{filteredTvs.length > 0 ? (
-				filteredTvs.map((tv) => (
-					<p key={tv.id}>
-						{tv.name} - {tv.first_air_date}
-					</p>
-				))
-			) : (
-				<p>No upcoming TV shows found.</p>
-			)}
+			<Suspense fallback={<div>Loading. . .</div>}>
+				<div>
+					{tvs.map((tv) => (
+						<p key={tv.id}>{tv.name}</p>
+					))}
+				</div>
+			</Suspense>
+			<div ref={ref}>loading . .</div>
 		</div>
 	);
 }
