@@ -10,6 +10,10 @@ import SimilarMedia from "../SimilarMedia/SimilarMedia";
 import Icons from "@/utils/icons";
 import Link from "next/link";
 import MediaCard from "../MediaCard/MediaCard";
+import SeasonEpisodeInfo from "./SeasonEpisodeInfo/SeasonEpisodeInfo";
+import Button from "../Button/Button";
+import Season from "./Seasons/Seasons";
+import Seasons from "./Seasons/Seasons";
 
 export default async function MediaOverview({ params, mediaMode }) {
 	const [mediaDetails, { cast }] = await Promise.all([
@@ -26,6 +30,7 @@ export default async function MediaOverview({ params, mediaMode }) {
 		first_air_date,
 		media_type,
 		genres = [],
+		seasons = [],
 		number_of_seasons,
 		number_of_episodes,
 		runtime,
@@ -40,13 +45,6 @@ export default async function MediaOverview({ params, mediaMode }) {
 		? `https://image.tmdb.org/t/p/original${backdrop_path}`
 		: `https://image.tmdb.org/t/p/original${poster_path}`;
 
-	const renderSeasonEpisodeInfo = number_of_seasons && number_of_episodes && (
-		<div className={styles.mediaMetadata}>
-			<div>{`${number_of_seasons} Seasons`}</div>
-			<div>{`${number_of_episodes} Episodes`}</div>
-		</div>
-	);
-
 	return (
 		<div className={styles.container}>
 			<div className={styles.imgContainer}>
@@ -59,6 +57,7 @@ export default async function MediaOverview({ params, mediaMode }) {
 					<div className={styles.posterContainer}>
 						<MediaCard media={{ backdrop_path, poster_path }} mediaMode={media_type} />
 					</div>
+
 					<div className={styles.stat}>
 						<p className={styles.date}>{releaseDate ? dateConverter(releaseDate) : "----"}</p>
 						<p>{displayRuntime({ episode_run_time, runtime })}</p>
@@ -73,15 +72,13 @@ export default async function MediaOverview({ params, mediaMode }) {
 						))}
 					</div>
 
-					{renderSeasonEpisodeInfo}
-
+					<SeasonEpisodeInfo metaData={{ number_of_seasons, number_of_episodes }} />
 					<p className={styles.description}>{overview}</p>
-					<div className={styles.watchBtn}>
-						<i>{Icons.filmPlay}</i>
-						<p>Watch Now</p>
-					</div>
+					<Button icon={Icons.play}>Watch Now</Button>
 				</div>
 			</div>
+
+			<Seasons seasons={seasons} />
 			<CastContainer castList={cast.slice(0, 10)} />
 			<SimilarMedia mediaMode={mediaMode} params={params} />
 		</div>

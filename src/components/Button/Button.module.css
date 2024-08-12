@@ -1,0 +1,21 @@
+.btn {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	background-color: #ffffff;
+	color: #000;
+	border: none;
+	padding: 10px 20px;
+	font-size: 18px;
+	font-weight: bold;
+	border-radius: 10px;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	margin-bottom: 1.5rem;
+}
+
+.watchBtn:hover {
+	scale: 1.1;
+	cursor: pointer;
+	/* box-shadow: 0 0 8px #9e221a; */
+}
