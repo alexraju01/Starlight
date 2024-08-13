@@ -14,7 +14,6 @@ import SeasonEpisodeInfo from "./SeasonEpisodeInfo/SeasonEpisodeInfo";
 import Button from "../Button/Button";
 import Season from "./Seasons/Seasons";
 import Seasons from "./Seasons/Seasons";
-import { Suspense } from "react";
 
 export default async function MediaOverview({ params, mediaMode }) {
 	const [mediaDetails, { cast }] = await Promise.all([
@@ -56,7 +55,6 @@ export default async function MediaOverview({ params, mediaMode }) {
 				<h1 className={styles.title}>{mediaTitle}</h1>
 				<div className={styles.blurBox}>
 					<div className={styles.posterContainer}>
-						{console.log(media_type)}
 						<MediaCard media={mediaDetails} mediaMode={mediaMode} />
 					</div>
 

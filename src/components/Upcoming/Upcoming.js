@@ -19,8 +19,10 @@ export default function Upcoming() {
 
 	const loadMoreMovies = async () => {
 		const tvList = await getUpcoming("tv", page + 1);
-		setTvs([...tvs, ...tvList]);
-		// setTvs((prevTvs) => [...prevTvs, ...tvList]);
+		setTvs((prevTvs) => {
+			const newTvs = [...prevTvs, ...tvList];
+			return newTvs.filter((tv, index, self) => index === self.findIndex((t) => t.id === tv.id));
+		});
 		setPage(page + 1);
 	};
 

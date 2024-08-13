@@ -6,7 +6,6 @@ import LoadingSkeletons from "@/components/LoadingSkeletons/LoadingSkeletons";
 import { useInView } from "react-intersection-observer";
 import getMedia from "@/utils/serverActions/getMedia";
 
-
 export default function MoviesPage() {
 	const [movies, setMovies] = useState([]);
 	const [page, setPage] = useState(1);
