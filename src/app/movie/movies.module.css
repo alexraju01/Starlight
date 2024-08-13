@@ -13,25 +13,40 @@
 
 .movieContainer {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+	grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
 	padding: 1.5rem;
 	gap: 2rem;
 	transition: all 0.3s;
 	width: 100%;
+	margin-bottom: 2rem;
 }
 
-/* .loadMore {
+.loadMore {
 	align-self: center;
-	width: fit-content;
-	height: fit-content;
-	padding: 1rem;
-	background-color: brown;
-	margin: 3rem 0;
-	font-size: 2rem;
-} */
+	margin-bottom: 2rem;
+}
 
 .load {
 	margin-top: 0rem !important;
+}
+
+@keyframes spin {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+.spinner {
+	border: 2px solid #f3f3f3;
+	border-top: 2px solid #555;
+	border-radius: 50%;
+	width: 16px;
+	height: 16px;
+	animation: spin 1s linear infinite;
+	margin-right: 8px;
 }
 
 @keyframes fadeIn {

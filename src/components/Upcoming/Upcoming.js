@@ -38,9 +38,6 @@ export default function Upcoming() {
 									{tv.name} - {tv.first_air_date}
 								</div>
 							)
-
-						// <p key={tv.id}>
-						// </p>
 					)}
 				</div>
 			</Suspense>
