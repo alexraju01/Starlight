@@ -25,14 +25,14 @@ export default function Tv() {
 	// 	setPage(page + 1);
 	// };
 
-	const loadMoreTvShows = async () => {
-		const tvList = await getMedia("tv", page); // Fetch current page
-		setTvs((prevTvs) => {
-			const newTvs = [...prevTvs, ...tvList];
-			return newTvs.filter((tv, index, self) => index === self.findIndex((t) => t.id === tv.id));
-		});
-		setPage((prevPage) => prevPage + 1); // Increment page number
-	};
+	// const loadMoreTvShows = async () => {
+	// 	const tvList = await getMedia("tv", page); // Fetch current page
+	// 	setTvs((prevTvs) => {
+	// 		const newTvs = [...prevTvs, ...tvList];
+	// 		return newTvs.filter((tv, index, self) => index === self.findIndex((t) => t.id === tv.id));
+	// 	});
+	// 	setPage((prevPage) => prevPage + 1); // Increment page number
+	// };
 
 	return (
 		<div className={styles.container}>

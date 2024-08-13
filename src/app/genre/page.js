@@ -15,10 +15,13 @@ async function FetchGenres() {
 
 	// Combine genres into a single array
 	const combinedGenres = [...movieGenres, ...tvGenres];
+	const uniqueGenres = Array.from(
+		new Map(combinedGenres.map((genre) => [genre.id, genre])).values()
+	).sort((a, b) => a.name.localeCompare(b.name));
 
 	return (
 		<div className={styles.genreList}>
-			{combinedGenres.map(({ id, name }) => (
+			{uniqueGenres.map(({ id, name }) => (
 				<Link key={id} href={`/genre/${id}`}>
 					<div className={styles.genre}>
 						<i>{Icons.genreIcons[name]}</i>
