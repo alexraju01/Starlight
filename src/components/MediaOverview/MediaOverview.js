@@ -12,7 +12,6 @@ import Link from "next/link";
 import MediaCard from "../MediaCard/MediaCard";
 import SeasonEpisodeInfo from "./SeasonEpisodeInfo/SeasonEpisodeInfo";
 import Button from "../Button/Button";
-import Season from "./Seasons/Seasons";
 import Seasons from "./Seasons/Seasons";
 
 export default async function MediaOverview({ params, mediaMode }) {
@@ -43,7 +42,7 @@ export default async function MediaOverview({ params, mediaMode }) {
 	const releaseDate = release_date || first_air_date;
 	const mediaSrc = backdrop_path
 		? `https://image.tmdb.org/t/p/original${backdrop_path}`
-		: `https://image.tmdb.org/t/p/original${poster_path}`;
+		: `https://image.tmdb.org/t/p/w342${poster_path}`;
 
 	return (
 		<div className={styles.container}>

@@ -1,6 +1,7 @@
+import Spinner from "@/components/Spinner/Spinner";
 import styles from "./movieDetail.module.css";
 import MediaOverview from "@/components/MediaOverview/MediaOverview";
-import fetchData from "@/utils/fetchData";
+import { Suspense } from "react";
 
 // export async function generateStaticParams() {
 // 	const movies = await fetchData(3, "discover/movie");
@@ -10,12 +11,13 @@ import fetchData from "@/utils/fetchData";
 // }
 
 export default async function page({ params }) {
-	console.log(params);
 	const mediaMode = "movie";
 
 	return (
 		<section className={styles.imgContainer}>
-			<MediaOverview params={params} mediaMode={mediaMode} />
+			<Suspense fallback={<Spinner />}>
+				<MediaOverview params={params} mediaMode={mediaMode} />
+			</Suspense>
 		</section>
 	);
 }

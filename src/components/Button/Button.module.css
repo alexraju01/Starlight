@@ -19,3 +19,8 @@
 	cursor: pointer;
 	/* box-shadow: 0 0 8px #9e221a; */
 }
+
+.btn:disabled {
+	opacity: 0.25;
+	cursor: not-allowed;
+}

@@ -1,10 +1,10 @@
 import styles from "./Button.module.css";
 
-export default function Button({ icon, children, ...props }) {
+export default function Button(props) {
 	return (
 		<button className={styles.btn} {...props}>
-			{icon && <i>{icon}</i>}
-			<p>{children}</p>
+			<i>{props.icon}</i>
+			<p>{props.children}</p>
 		</button>
 	);
 }
