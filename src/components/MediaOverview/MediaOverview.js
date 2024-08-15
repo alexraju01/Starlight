@@ -6,7 +6,7 @@ import RatingIcon from "../RatingIcon/RatingIcon";
 import { displayRuntime } from "@/utils/displayRuntime";
 import CastContainer from "../Cast/CastContainer";
 import GoBack from "../GoBack/GoBack";
-import SimilarMedia from "../SimilarMedia/SimilarMedia";
+import SimilarMedia from "./SimilarMedia/SimilarMedia";
 import Icons from "@/utils/icons";
 import Link from "next/link";
 import MediaCard from "../MediaCard/MediaCard";

@@ -3,7 +3,7 @@ import styles from "./page.module.css";
 import Slider from "@/components/Slider/Slider";
 import SearchBox from "@/components/SearchBox/SearchBox";
 import { Suspense } from "react";
-import Spinner from "@/components/Spinner/Spinner";
+import Spinner from "@/components/LoadingSkeletons/Spinner/Spinner";
 
 export default async function Home() {
 	const mediaMode = "movie";

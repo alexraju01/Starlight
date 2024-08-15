@@ -19,7 +19,7 @@
 	flex-direction: column;
 	gap: 0.4rem;
 	width: 100%;
-	height: clamp(8rem, 14vw, 11rem);
+	height: clamp(10rem, 14vw, 12rem);
 	font-size: 1.3rem;
 	text-align: center;
 	transition: all 0.3s ease;
@@ -44,4 +44,11 @@
 .image {
 	border-radius: 0.6rem !important; /* If !important is necessary, use it */
 	object-fit: cover; /* Ensure the image covers the container */
+}
+
+@media (min-width: 1200px) {
+	.seasonContainer {
+		grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+		gap: 1.5rem;
+	}
 }

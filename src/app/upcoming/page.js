@@ -2,7 +2,7 @@ import Upcoming from "@/components/Upcoming/Upcoming";
 import styles from "./Upcoming.module.css";
 import { Suspense } from "react";
 import MediaWrapper from "@/components/MediaHandlers/MediaWrapper";
-import Spinner from "@/components/Spinner/Spinner";
+import Spinner from "@/components/LoadingSkeletons/Spinner/Spinner";
 export default async function UpcomingPage() {
 	return (
 		<div className={styles.container}>

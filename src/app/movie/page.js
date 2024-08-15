@@ -2,7 +2,7 @@
 import styles from "./page.module.css";
 import MediaWrapper from "../../components/MediaHandlers/MediaWrapper";
 import { Suspense } from "react";
-import Spinner from "@/components/Spinner/Spinner";
+import Spinner from "@/components/LoadingSkeletons/Spinner/Spinner";
 
 export default async function MoviesPage() {
 	return (

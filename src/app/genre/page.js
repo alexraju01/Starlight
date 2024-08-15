@@ -1,7 +1,7 @@
 import styles from "./genre.module.css";
 import fetchData from "@/utils/fetchData";
 import Link from "next/link";
-import Spinner from "@/components/Spinner/Spinner";
+import Spinner from "@/components/LoadingSkeletons/Spinner/Spinner";
 import Icons from "@/utils/icons";
 import { Suspense } from "react";
 import GenreSkeleton from "@/components/LoadingSkeletons/GenreSkeleton";

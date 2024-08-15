@@ -27,6 +27,7 @@ export default function MediaList({ initialMedia, mediaMode }) {
 		const newMedia = mediaList.filter(
 			(newMedia) => !media.some((existingMedia) => existingMedia.id === newMedia.id)
 		);
+
 		setButtonHidden(mediaList.length === 0);
 		setMedia((prevMedia) => [...prevMedia, ...newMedia]);
 		setPage((prevPage) => prevPage + 1);

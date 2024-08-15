@@ -10,6 +10,7 @@ import {
 import fetchData from "@/utils/fetchData";
 import Image from "next/image";
 import Link from "next/link";
+import MediaCard from "../MediaCard/MediaCard";
 
 export default async function Home({ mediaMode, endpoint }) {
 	const getTopRated = await fetchData("3", endpoint);
@@ -26,15 +27,16 @@ export default async function Home({ mediaMode, endpoint }) {
 				{topRatedMovies.map((topRated, index) =>
 					topRated.poster_path ? (
 						<CarouselItem key={index} className={`${styles.carouselItem}`}>
-							<Link href={`/${mediaMode}/${topRated.id}`}>
-								<Image
+							{/* <Link href={`/${mediaMode}/${topRated.id}`}> */}
+							<MediaCard className={styles.roundedImage} media={topRated} mediaMode={mediaMode} />
+							{/* <Image
 									src={`https://image.tmdb.org/t/p/w500${topRated.poster_path}`}
 									alt={`Movie Poster ${index}`}
 									width={400}
 									height={650}
 									className={styles.roundedImage}
-								/>
-							</Link>
+								/> */}
+							{/* </Link> */}
 						</CarouselItem>
 					) : null
 				)}
