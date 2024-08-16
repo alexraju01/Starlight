@@ -31,7 +31,7 @@ export default function Carousel({ mediaMode }) {
 				const { results: trendingMedia } = await fetchData("3", `trending/${mediaMode}/day`);
 
 				const moviesWithLogos = await Promise.all(
-					trendingMedia.slice(0, 10).map(async (movie) => {
+					trendingMedia.slice(0, 5).map(async (movie) => {
 						const movieDetails = await fetchData(3, `/${mediaMode}/${movie.id}/images`);
 						const logoImage = movieDetails.logos.find((logo) => logo.iso_639_1 === "en");
 						return {

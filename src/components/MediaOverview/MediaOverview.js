@@ -21,6 +21,7 @@ export default async function MediaOverview({ params, mediaMode }) {
 	]);
 
 	const {
+		id,
 		backdrop_path,
 		poster_path,
 		title,
@@ -77,7 +78,7 @@ export default async function MediaOverview({ params, mediaMode }) {
 				</div>
 			</div>
 
-			<Seasons seasons={seasons} />
+			<Seasons seasons={{ id, seasons }} />
 
 			<CastContainer castList={cast.slice(0, 10)} />
 			<SimilarMedia mediaMode={mediaMode} params={params} />
