@@ -17,7 +17,7 @@ export default async function SeasonsCard({ id, season }) {
 					alt={season.name}
 				/>
 			</div>
-			<p>{season.name}</p>
+			<h2>{season.name}</h2>
 		</div>
 	);
 }

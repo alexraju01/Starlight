@@ -5,7 +5,7 @@ import SectionHeading from "../SectionHeading/SectionHeading";
 import Icons from "@/utils/icons";
 
 export default async function CastContainer({ castList }) {
-	if (!castList.cast) return null;
+	if (!castList) return null;
 	return (
 		<div className={styles.container}>
 			<SectionHeading icon={Icons.play}>Cast</SectionHeading>

@@ -12,8 +12,9 @@
 	grid-auto-rows: auto;
 	width: 100%;
 	gap: 1.2rem;
+	/* align-items: last baseline; */
+	/* align-items: self-start; */
 }
-
 
 @media (min-width: 1200px) {
 	.seasonContainer {

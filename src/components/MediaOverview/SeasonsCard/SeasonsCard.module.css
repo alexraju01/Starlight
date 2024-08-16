@@ -1,31 +1,42 @@
+.season {
+	transition: all 0.3s ease;
+}
+
 .seasonPoster {
-	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: 0.6rem;
 	width: 100%;
-	height: 100%;
+	height: clamp(10rem, 14vw, 12rem);
+	font-size: 1.3rem;
+	text-align: center;
+	position: relative;
 }
 
 .seasonPoster img {
 	border-radius: 0.6rem;
 	object-fit: cover;
+	background-color: pink;
+	height: 100%;
 }
 
-.season:hover {
+/* .season:hover {
 	cursor: pointer;
 	scale: 1.1;
-}
+} */
 
 .image {
 	border-radius: 0.6rem !important; /* If !important is necessary, use it */
 	object-fit: cover; /* Ensure the image covers the container */
 }
 
-.season {
-	display: flex;
-	flex-direction: column;
-	gap: 0.4rem;
-	width: 100%;
-	height: clamp(10rem, 14vw, 12rem);
-	font-size: 1.3rem;
+.season h2 {
+	font-size: 1.2rem;
 	text-align: center;
-	transition: all 0.3s ease;
+}
+
+@media (min-width: 768px) {
+	.season:hover {
+		scale: 1.1;
+	}
 }

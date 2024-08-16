@@ -1,4 +1,3 @@
-import Upcoming from "@/components/Upcoming/Upcoming";
 import styles from "./Upcoming.module.css";
 import { Suspense } from "react";
 import MediaWrapper from "@/components/MediaHandlers/MediaWrapper";

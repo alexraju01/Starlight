@@ -4,7 +4,7 @@ import Image from "next/image";
 import styles from "./MediaCard.module.css";
 import Link from "next/link";
 
-export default function MediaCard({ media, mediaMode }) {
+export default function MediaCard({ media, mediaMode, className }) {
 	const [isLoaded, setIsLoaded] = useState(false);
 	const { id, name, title, poster_path } = media;
 	const displayName = title || name;
@@ -16,7 +16,7 @@ export default function MediaCard({ media, mediaMode }) {
 
 	return (
 		<Link href={`/${mediaMode}/${id}`}>
-			<div className={styles.mediaCard}>
+			<div className={`${styles.mediaCard} ${className}`}>
 				{!isLoaded && <div className={styles.pulse}></div>}
 				<Image
 					className={`${styles.img} ${isLoaded ? styles.loaded : ""}`}
