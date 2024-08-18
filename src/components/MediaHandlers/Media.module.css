@@ -1,8 +1,4 @@
 .container {
-	/* display: flex;
-	flex-direction: column;
-	margin-top: 4rem;
-	width: 100%; */
 	animation: fadeIn 0.5s forwards;
 }
 
@@ -14,6 +10,18 @@
 	transition: all 0.3s;
 	width: 100%;
 	margin-bottom: 2rem;
+}
+
+.upcomingContainer {
+	/* background-color: pink; */
+	display: grid;
+	grid-template-columns: 1fr;
+	padding: 1.5rem;
+	gap: 2rem;
+	transition: all 0.3s;
+	width: 100%;
+	/* margin-bottom: 2rem; */
+	grid-auto-rows: auto;
 }
 
 .loadMore {
@@ -56,6 +64,10 @@
 @media (min-width: 640px) {
 	.mediaContainer {
 		grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+	}
+
+	.upcomingContainer {
+		grid-template-columns: repeat(auto-fill, minmax(45rem, 1fr));
 	}
 }
 

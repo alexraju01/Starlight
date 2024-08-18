@@ -36,15 +36,15 @@ export default function MediaList({ initialMedia, mediaMode }) {
 
 	return (
 		<div className={styles.container}>
-			<div className={styles.mediaContainer}>
+			<div className={mediaMode === "upcoming" ? styles.upcomingContainer : styles.mediaContainer}>
 				{media.map((media) =>
 					media.poster_path ? (
 						<div key={media.id} className={styles.posterContainer}>
 							{mediaMode === "upcoming" ? (
-								<div className={styles.upComing}>
-									<UpcomingMedia media={media} mediaMode={mediaMode} />
-								</div>
+								// <div className={styles.upComing}>
+								<UpcomingMedia media={media} mediaMode={"tv"} />
 							) : (
+								// </div>
 								<div className={styles.mediaCard}>
 									<MediaCard
 										className={styles.nohover}

@@ -32,6 +32,7 @@ import {
 } from "react-icons/fa";
 import { FiTv } from "react-icons/fi";
 import { IoPlay } from "react-icons/io5";
+import { Calendar } from "lucide-react";
 
 const Icons = {
 	home: <FaHouse />,
