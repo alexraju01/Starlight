@@ -45,13 +45,11 @@ export default function MediaList({ initialMedia, mediaMode }) {
 								<UpcomingMedia media={media} mediaMode={"tv"} />
 							) : (
 								// </div>
-								<div className={styles.mediaCard}>
-									<MediaCard
-										className={styles.nohover}
-										media={media}
-										mediaMode={mediaMode === "upcoming" ? "tv" : mediaMode}
-									/>
-								</div>
+								<MediaCard
+									className={styles.nohover}
+									media={media}
+									mediaMode={mediaMode === "upcoming" ? "tv" : mediaMode}
+								/>
 							)}
 						</div>
 					) : null

@@ -13,6 +13,7 @@
 }
 
 .noHover img {
+	height: 17rem !important;
 	border-radius: 0.8rem 0 0 0.8rem !important;
 }
 
