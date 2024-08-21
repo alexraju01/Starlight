@@ -12,9 +12,12 @@ export default function UpcomingMedia({ media, mediaMode }) {
 				<MediaCard className={styles.noHover} media={media} mediaMode={"tv"} />
 			</div>
 			<div className={styles.content}>
-				<h2>{media.title || media.name}</h2>
+				<div className={styles.heading}>
+					<h2>{media.title || media.name}</h2>
+					<span>{mediaMode.toUpperCase()}</span>
+				</div>
+
 				<p className={styles.description}>{media.overview}</p>
-				<p>{mediaMode}</p>
 
 				<p className={styles.date}>
 					<i>{Icons.calendar}</i>
