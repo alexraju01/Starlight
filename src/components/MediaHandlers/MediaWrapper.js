@@ -1,6 +1,8 @@
 import getMedia from "@/utils/serverActions/getMedia";
 import MediaList from "./MediaList";
 import getUpcoming from "@/utils/serverActions/getUpcoming";
+import { Suspense } from "react";
+import LoadingSkeletons from "../LoadingSkeletons/LoadingSkeletons";
 
 export default async function MediaWrapper({ mediaMode }) {
 	let media;
