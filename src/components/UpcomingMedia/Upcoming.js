@@ -30,26 +30,32 @@ export default function UpcomingMedia({ media, mediaMode }) {
 // export default async function UpcomingMedia() {
 // 	const media = await getUpcoming("tv");
 // 	const mediaMode = "tv";
-// 	console.log(media.title || media.name);
+// 	console.log(media);
 
 // 	return (
-// 		<div className={styles.container}>
-// 			<div className={styles.imgContainer}>
-// 				<MediaCard className={styles.noHover} media={media} mediaMode={"tv"} />
-// 			</div>
-// 			<div className={styles.content}>
-// 				<div className={styles.heading}>
-// 					<h2>{media.title || media.name}</h2>
-// 					<span>{mediaMode}</span>
+// 		<>
+// 			{media.map((item) => (
+// 				<div key={item.id} className={styles.container}>
+// 					<div className={styles.itemContainer}>
+// 						<div className={styles.imgContainer}>
+// 							<MediaCard className={styles.noHover} media={item} mediaMode={"tv"} />
+// 						</div>
+// 						<div className={styles.content}>
+// 							<div className={styles.heading}>
+// 								<h2>{media.title || media.name}</h2>
+// 								<span>{mediaMode.toUpperCase()}</span>
+// 							</div>
+
+// 							<p className={styles.description}>{media.overview}</p>
+
+// 							<p className={styles.date}>
+// 								<i>{Icons.calendar}</i>
+// 								Release Date: {media.release_date || media.first_air_date}
+// 							</p>
+// 						</div>
+// 					</div>
 // 				</div>
-
-// 				<p className={styles.description}>{media.overview}</p>
-
-// 				<p className={styles.date}>
-// 					<i>{Icons.calendar}</i>
-// 					Release Date: {media.release_date || media.first_air_date}
-// 				</p>
-// 			</div>
-// 		</div>
+// 			))}
+// 		</>
 // 	);
 // }

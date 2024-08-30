@@ -11,5 +11,11 @@
 }
 
 .upcomingContainer {
+	display: grid;
+	grid-template-columns: 1fr;
+	padding: 1.5rem;
+	gap: 2rem;
+	transition: all 0.3s;
 	width: 100%;
+	grid-auto-rows: auto;
 }
