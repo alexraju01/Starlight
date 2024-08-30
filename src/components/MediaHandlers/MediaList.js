@@ -10,6 +10,7 @@ import { Loader } from "lucide-react";
 import { Suspense, useState } from "react";
 import UpcomingMedia from "../UpcomingMedia/Upcoming";
 import LoadingSkeletons from "../LoadingSkeletons/LoadingSkeletons";
+import Range from "../Range/Range";
 
 export default function MediaList({ initialMedia, mediaMode }) {
 	const [media, setMedia] = useState(initialMedia);
@@ -36,39 +37,38 @@ export default function MediaList({ initialMedia, mediaMode }) {
 	};
 
 	return (
-			<div className={styles.container}>
-				<div
-					className={mediaMode === "upcoming" ? styles.upcomingContainer : styles.mediaContainer}
-				>
-					{media.map((media) =>
-						media.poster_path ? (
-							<div key={media.id} className={styles.posterContainer}>
-								{mediaMode === "upcoming" ? (
-									// <div className={styles.upComing}>
+		<div className={styles.container}>
+			<div className={mediaMode === "upcoming" ? styles.upcomingContainer : styles.mediaContainer}>
+				{media.map((media) =>
+					media.poster_path ? (
+						<div key={media.id} className={styles.posterContainer}>
+							{mediaMode === "upcoming" ? (
+								<div>
 									<UpcomingMedia media={media} mediaMode={"tv"} />
-								) : (
-									// </div>
-									<MediaCard
-										className={styles.nohover}
-										media={media}
-										mediaMode={mediaMode === "upcoming" ? "tv" : mediaMode}
-									/>
-								)}
-							</div>
-						) : null
-					)}
-				</div>
-				{!buttonHidden && (
-					<div className={styles.loadMore}>
-						<Button
-							icon={loading && <Loader className={styles.animateSpin} />}
-							onClick={loadMoreMedia}
-							disabled={loading}
-						>
-							Load More
-						</Button>
-					</div>
+								</div>
+							) : (
+								// </div>
+								<MediaCard
+									className={styles.nohover}
+									media={media}
+									mediaMode={mediaMode === "upcoming" ? "tv" : mediaMode}
+								/>
+							)}
+						</div>
+					) : null
 				)}
 			</div>
+			{!buttonHidden && (
+				<div className={styles.loadMore}>
+					<Button
+						icon={loading && <Loader className={styles.animateSpin} />}
+						onClick={loadMoreMedia}
+						disabled={loading}
+					>
+						Load More
+					</Button>
+				</div>
+			)}
+		</div>
 	);
 }

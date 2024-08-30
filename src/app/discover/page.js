@@ -10,6 +10,11 @@ export default function DisoverPage() {
 	const [movies, setMovies] = useState([]);
 	const inputRef = useRef(null);
 
+	const searchParams = useSearchParams();
+	const pathname = usePathname();
+	const { replace } = useRouter();
+	const search = searchParams.get("search") ?? "";
+
 	useEffect(() => {
 		if (inputRef.current) inputRef.current.focus(); // Focus on the input element when the component mounts
 	}, []);
@@ -24,12 +29,24 @@ export default function DisoverPage() {
 		loadMovies();
 	}, [query]); // Add query as a dependency
 
+	useEffect(() => {
+		// Set query state with the value from the search param
+		if (search) setQuery(search);
+	}, [search]);
+
 	async function handleSearch(e) {
 		e.preventDefault();
 		if (!query) return;
 		const results = await fetchData(3, `search/multi?query=${query}`);
 		setMovies(results.results.filter((media) => media.media_type !== "person"));
 	}
+
+	const handleInputChange = (e) => {
+		const params = new URLSearchParams();
+		params.set("search", e.target.value);
+		setQuery(e.target.value);
+		replace(`${pathname}/?${params.toString()}`);
+	};
 
 	return (
 		<div className={styles.container}>
@@ -39,7 +56,8 @@ export default function DisoverPage() {
 					className={styles.searchBox}
 					type="text"
 					value={query}
-					onChange={(e) => setQuery(e.target.value)}
+					// onChange={(e) => setQuery(e.target.value)}
+					onChange={handleInputChange}
 					placeholder="Search..."
 					ref={inputRef}
 				/>
