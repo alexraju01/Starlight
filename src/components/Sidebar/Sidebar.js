@@ -15,6 +15,7 @@ const links = [
 
 export default function Sidebar() {
 	const [toggle, setToggle] = useState(false);
+	const [mounted, setMounted] = useState(false);
 
 	const handleToggle = () => {
 		setToggle(!toggle);
@@ -27,6 +28,7 @@ export default function Sidebar() {
 	};
 
 	useEffect(() => {
+		setMounted(true);
 		const handleResize = () => {
 			if (window.innerWidth < 1200) {
 				setToggle(false);
@@ -64,9 +66,11 @@ export default function Sidebar() {
 					))}
 				</ul>
 
-				<div className={styles.account}>
-					<div className="Login">Login</div>
-				</div>
+				
+					<div className={styles.account}>
+						sign in
+					</div>
+				
 			</div>
 			<div className={styles.toggleBtn} onClick={handleToggle}>
 				<i className={styles.icon}>{Icons.menu}</i>

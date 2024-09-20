@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./UpcomingMedia.module.css"; // Assuming you have specific styles
 import MediaCard from "../MediaCard/MediaCard";
-import Icons from "@/utils/icons";
+import Icons from "../../utils/icons";
 // import getUpcoming from "@/utils/serverActions/getUpcoming";
 
 export default function UpcomingMedia({ media, mediaMode }) {

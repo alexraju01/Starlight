@@ -1,6 +1,6 @@
-import getMedia from "@/utils/serverActions/getMedia";
+import getMedia from "../../utils/serverActions/getMedia";
 import MediaList from "./MediaList";
-import getUpcoming from "@/utils/serverActions/getUpcoming";
+import getUpcoming from "../../utils/serverActions/getUpcoming";
 
 export default async function MediaWrapper({ mediaMode }) {
 	let media;

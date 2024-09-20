@@ -1,13 +1,13 @@
 import Image from "next/image";
 import styles from "./MediaOverview.module.css";
-import fetchData from "@/utils/fetchData";
-import { dateConverter } from "@/utils/dateConverter";
+import fetchData from "../../utils/fetchData";
+import { dateConverter } from "../../utils/dateConverter";
 import RatingIcon from "../RatingIcon/RatingIcon";
-import { displayRuntime } from "@/utils/displayRuntime";
+import { displayRuntime } from "../../utils/displayRuntime";
 import CastContainer from "../Cast/CastContainer";
 import GoBack from "../GoBack/GoBack";
 import SimilarMedia from "./SimilarMedia/SimilarMedia";
-import Icons from "@/utils/icons";
+import Icons from "../../utils/icons";
 import Link from "next/link";
 import MediaCard from "../MediaCard/MediaCard";
 import SeasonEpisodeInfo from "./SeasonEpisodeInfo/SeasonEpisodeInfo";

@@ -1,6 +1,6 @@
-import MediaCard from "@/components/MediaCard/MediaCard";
+import MediaCard from "../../../../components/MediaCard/MediaCard";
 import styles from "./genreMediaList.module.css";
-import fetchData from "@/utils/fetchData";
+import fetchData from "../../../../utils/fetchData";
 import { Suspense } from "react";
 
 export default async function Page({ params }) {

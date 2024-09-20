@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import MediaCard from "../MediaCard/MediaCard";
 import RatingIcon from "../RatingIcon/RatingIcon";
 import Dot from "../Dot/Dot";
-import { dateConverter } from "@/utils/dateConverter";
+import { dateConverter } from "../../utils/dateConverter";
 import Link from "next/link";
-import getSearch from "@/utils/serverActions/getSearch";
+import getSearch from "../../utils/serverActions/getSearch";
 
 export default function SearchCard({ query }) {
 	const [result, setResult] = useState([]);

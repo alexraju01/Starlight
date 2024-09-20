@@ -1,6 +1,6 @@
 import styles from "./Seasons.module.css";
-import SectionHeading from "@/components/SectionHeading/SectionHeading";
-import Icons from "@/utils/icons";
+import SectionHeading from "../../../components/SectionHeading/SectionHeading";
+import Icons from "../../../utils/icons";
 import { Suspense } from "react";
 import SeasonsCard from "../SeasonsCard/SeasonsCard";
 export default async function Seasons({ seasons }) {

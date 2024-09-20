@@ -1,6 +1,6 @@
-import Spinner from "@/components/LoadingSkeletons/Spinner/Spinner";
+import Spinner from "../../../../components/LoadingSkeletons/Spinner/Spinner";
 import styles from "./movieDetail.module.css";
-import MediaOverview from "@/components/MediaOverview/MediaOverview";
+import MediaOverview from "../../../../components/MediaOverview/MediaOverview";
 import { Suspense } from "react";
 
 // export async function generateStaticParams() {

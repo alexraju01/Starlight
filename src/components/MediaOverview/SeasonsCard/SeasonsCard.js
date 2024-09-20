@@ -1,7 +1,5 @@
-import Link from "next/link";
 import styles from "./SeasonsCard.module.css";
-import ImageWithFallback from "@/components/BrokenImage/ImageWithFallback";
-import fetchData from "@/utils/fetchData";
+import ImageWithFallback from "../../../components/BrokenImage/ImageWithFallback";
 
 export default async function SeasonsCard({ id, season }) {
 	return (

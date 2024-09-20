@@ -1,10 +1,9 @@
 import styles from "./genre.module.css";
-import fetchData from "@/utils/fetchData";
+import fetchData from "../../../utils/fetchData";
 import Link from "next/link";
-import Spinner from "@/components/LoadingSkeletons/Spinner/Spinner";
-import Icons from "@/utils/icons";
+import Icons from "../../../utils/icons";
 import { Suspense } from "react";
-import GenreSkeleton from "@/components/LoadingSkeletons/GenreSkeleton";
+import GenreSkeleton from "../../../components/LoadingSkeletons/GenreSkeleton";
 
 // Fetch genres concurrently in a separate component
 async function FetchGenres() {

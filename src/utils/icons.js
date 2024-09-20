@@ -32,7 +32,7 @@ import {
 } from "react-icons/fa";
 import { FiTv } from "react-icons/fi";
 import { IoPlay } from "react-icons/io5";
-import { Calendar } from "lucide-react";
+import { LuLogOut } from "react-icons/lu";
 
 const Icons = {
 	home: <FaHouse />,
@@ -47,6 +47,7 @@ const Icons = {
 	play: <IoPlay />,
 	filmPlay: <FaPlay />,
 	calendar: <FaCalendarAlt />,
+	logOut: <LuLogOut />,
 	info: (
 		<svg
 			stroke="currentColor"

@@ -127,6 +127,14 @@
 	width: 0;
 }
 
+.account {
+	display: flex;
+	justify-content: center;
+	height: 4rem;
+	font-size: 1.4rem;
+	margin-bottom: 2rem;
+}
+
 @media (min-width: 1200px) {
 	.sidebar {
 		position: sticky;

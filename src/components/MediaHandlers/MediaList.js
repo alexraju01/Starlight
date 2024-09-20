@@ -1,16 +1,15 @@
 "use client";
 import styles from "./Media.module.css";
-
-import Button from "@/components/Button/Button";
-import MediaCard from "@/components/MediaCard/MediaCard";
+import Button from "../../components/Button/Button";
+import MediaCard from "../../components/MediaCard/MediaCard";
 // import UpcomingMedia from "@/components/UpcomingMedia/UpcomingMedia"; // Import the new component
-import getMedia from "@/utils/serverActions/getMedia";
-import getUpcoming from "@/utils/serverActions/getUpcoming";
+import getMedia from "../../utils/serverActions/getMedia";
+import getUpcoming from "../../utils/serverActions/getUpcoming";
 import { Loader } from "lucide-react";
 import { Suspense, useState } from "react";
 import UpcomingMedia from "../UpcomingMedia/Upcoming";
-import LoadingSkeletons from "../LoadingSkeletons/LoadingSkeletons";
-import Range from "../Range/Range";
+// import LoadingSkeletons from "../LoadingSkeletons/LoadingSkeletons";
+// import Range from "../Range/Range";
 
 export default function MediaList({ initialMedia, mediaMode }) {
 	const [media, setMedia] = useState(initialMedia);

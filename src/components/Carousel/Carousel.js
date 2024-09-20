@@ -2,9 +2,9 @@
 import { useState, useEffect, useCallback, useMemo, Suspense } from "react";
 import Image from "next/image";
 import styles from "./Carousel.module.css";
-import fetchData from "@/utils/fetchData";
-import getGenre from "@/utils/getGenre";
-import mapGenres from "@/utils/mapGenre";
+import fetchData from "../../utils/fetchData";
+import getGenre from "../../utils/getGenre";
+import mapGenres from "../../utils/mapGenre";
 import Link from "next/link";
 
 export default function Carousel({ mediaMode }) {

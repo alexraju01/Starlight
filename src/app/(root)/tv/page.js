@@ -1,7 +1,7 @@
-import MediaWrapper from "@/components/MediaHandlers/MediaWrapper";
+import MediaWrapper from "../../../components/MediaHandlers/MediaWrapper";
 import styles from "./page.module.css";
 import { Suspense } from "react";
-import LoadingSkeletons from "@/components/LoadingSkeletons/LoadingSkeletons";
+import LoadingSkeletons from "../../../components/LoadingSkeletons/LoadingSkeletons";
 
 export default async function Tv() {
 	return (

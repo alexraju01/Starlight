@@ -6,10 +6,8 @@ import {
 	CarouselItem,
 	CarouselNext,
 	CarouselPrevious,
-} from "@/components/ui/carousel";
-import fetchData from "@/utils/fetchData";
-import Image from "next/image";
-import Link from "next/link";
+} from "../../components/ui/carousel";
+import fetchData from "../../utils/fetchData";
 import MediaCard from "../MediaCard/MediaCard";
 
 export default async function Home({ mediaMode, endpoint }) {
