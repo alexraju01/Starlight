@@ -67,9 +67,9 @@ export default function Sidebar() {
 				</ul>
 
 				
-					<div className={styles.account}>
+					{/* <div className={styles.account}>
 						sign in
-					</div>
+					</div> */}
 				
 			</div>
 			<div className={styles.toggleBtn} onClick={handleToggle}>
