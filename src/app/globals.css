@@ -20,28 +20,10 @@ html {
 	font-size: 62.5%;
 }
 
-.reset-font {
-	font-size: initial; /* Revert to the original root size */
-}
-.reset-font * {
-	font-size: inherit; /* Ensure children inherit the div's font size */
-}
-
 body {
 	display: flex;
 	width: 100%;
 	height: 100%;
 	background-color: #100f10;
 	color: white;
-}
-
-.cl-signIn-start {
-	/* gap: ; */
-	width: 40rem;
-	/* font-size: 2rem; */
-}
-
-.cl-avatarBox {
-	height: 3.6rem;
-	width: 3.6rem;
 }

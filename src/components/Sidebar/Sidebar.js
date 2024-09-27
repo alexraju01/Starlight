@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import styles from "./Sidebar.module.css";
 import Icons from "../../utils/icons";
 import NavLinks from "./NavLinks/NavLinks";
+import Link from "next/link";
 
 const links = [
 	{ name: "Home", href: "/", icon: Icons.home },
@@ -66,11 +67,9 @@ export default function Sidebar() {
 					))}
 				</ul>
 
-				
-					{/* <div className={styles.account}>
-						sign in
-					</div> */}
-				
+				{/* <div className={styles.account}>
+					<Link href="/signup">sign in</Link>
+				</div> */}
 			</div>
 			<div className={styles.toggleBtn} onClick={handleToggle}>
 				<i className={styles.icon}>{Icons.menu}</i>

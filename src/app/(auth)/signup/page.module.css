@@ -1,0 +1,162 @@
+.main {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100vh;
+	position: relative;
+	padding: 1.5rem;
+}
+
+.main::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-image: url("../../../../public/images/logo.webp");
+	background-size: cover;
+	background-position: center;
+	filter: brightness(0.5);
+	z-index: -1;
+}
+.formContainer {
+	width: 40rem;
+	padding: 3rem;
+	border: 0.1rem solid rgba(255, 255, 255, 0.2);
+	border-radius: 0.8rem;
+	backdrop-filter: blur(1rem);
+	text-align: center;
+	filter: brightness(1.3);
+	box-shadow: 10px 10px 20px #2a3a4b, -10px -10px 20px #1d2935;
+}
+
+.formContainer a {
+	color: #efefef;
+}
+
+.formContainer a:hover {
+	text-decoration: underline;
+}
+
+.form {
+	display: flex;
+	flex-direction: column;
+}
+
+.form h2 {
+	font-size: 3.2rem;
+	color: white;
+	margin-bottom: 2rem;
+}
+
+.formItem {
+	margin: 1.5rem 0;
+	position: relative;
+	border-bottom: 0.2rem solid #ccc;
+}
+
+.formItem input {
+	width: 100%;
+	height: 4rem;
+	background: transparent;
+	border: none;
+	outline: none;
+	font-size: 1.4rem;
+	accent-color: transparent;
+}
+
+.formItem input:-webkit-autofill {
+	background-color: transparent !important; /* Or any color you prefer */
+	color: white !important;
+	transition: background-color 5000s ease-in 0s;
+}
+
+.formItem input:-webkit-autofill:focus {
+	background-color: transparent !important;
+}
+
+.formItem input:-webkit-autofill::first-line {
+	color: white; /* Ensure it respects your font color */
+}
+
+.formItem input:-moz-autofill {
+	background-color: white !important;
+	color: white !important;
+}
+
+.formItem label {
+	position: absolute;
+	top: 50%;
+	left: 0;
+	transform: translateY(-50%);
+	color: white;
+	font-size: 1.6rem;
+	pointer-events: none;
+	transition: 0.3s ease;
+}
+
+.formItem input ~ label {
+	transform: translateY(-120%);
+	font-size: 1.6rem;
+	top: 1rem;
+}
+
+.passwordOptions {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin: 2.5rem 0 3.5rem 0;
+	color: white;
+	font-size: 1.2rem;
+}
+
+.passwordOptions label {
+	display: flex;
+	align-items: center;
+}
+
+.remember {
+	accent-color: white;
+}
+
+.passwordOptions label p {
+	margin-left: 0.8rem;
+}
+
+.logIn {
+	background-color: white;
+	color: black;
+	font-size: 1.6rem;
+	font-weight: 600;
+	padding: 1rem 2rem;
+	border: 0.2rem solid transparent;
+	border-radius: 0.3rem;
+}
+
+.logIn:hover {
+	background: rgba(255, 255, 255, 0.15);
+	color: #fff;
+	border-color: #fff;
+	transition: 0.3s ease;
+}
+
+.accountOptions {
+	text-align: center;
+	margin-top: 3rem;
+	color: #fff;
+	font-size: 1.2rem;
+}
+
+.accountOptions a {
+	margin-left: 0.6rem;
+}
+
+/* .alert {
+	font-size: 1.2rem;
+	color: red;
+	font-weight: 600;
+	margin-top: -1rem;
+	margin-bottom: 1rem;
+} */

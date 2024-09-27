@@ -1,6 +1,6 @@
 import { FaCompass, FaFilm, FaHouse, FaArrowLeft } from "react-icons/fa6";
 import { MdCategory } from "react-icons/md";
-import { FaCalendarAlt } from "react-icons/fa";
+import { FaCalendarAlt, FaUser } from "react-icons/fa";
 import { GoBell } from "react-icons/go";
 import { LuMenu, LuClapperboard } from "react-icons/lu";
 import {
@@ -47,6 +47,7 @@ const Icons = {
 	play: <IoPlay />,
 	filmPlay: <FaPlay />,
 	calendar: <FaCalendarAlt />,
+	user: <FaUser />,
 	logOut: <LuLogOut />,
 	info: (
 		<svg
