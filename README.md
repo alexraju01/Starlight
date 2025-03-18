@@ -17,7 +17,7 @@ Starlight is a sleek and modern movie and TV series discovery app built with **N
 - **React** – Component-based UI development.
 - **Tailwind CSS** – Styling for a modern and responsive UI.
 - **Movie API** – Fetches movie and TV series data.
-- **Framer Motion** – Smooth animations for a great user experience.
+
 
 ## 📸 Screenshots
 
@@ -37,7 +37,7 @@ cd starlight
 ### 2️⃣ Install Dependencies
 
 ```bash
-yarn install  # or npm install
+npm install  # or yarn install
 ```
 
 ### 3️⃣ Set Up Environment Variables
