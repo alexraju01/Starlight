@@ -11,6 +11,40 @@ Starlight is a sleek and modern movie and TV series discovery app built with **N
 - ⚡ **Optimized Performance** – Built with Next.js for fast, server-side rendering and seamless client-side navigation.
 - 🔗 **Direct Links to Trailers** – Watch trailers directly from the app.
 
+## 📝 Changelog
+
+### [1.0.10] - 2025-03-18
+#### Added
+- Implemented infinite scrolling for smoother browsing.
+- Improved search with advanced filters.
+- Enhanced UI animations using Framer Motion.
+
+#### Fixed
+- Resolved API fetch errors for specific movie IDs.
+- Fixed a bug causing incorrect dark mode toggling.
+
+---
+
+### [1.0.9] - 2025-03-10
+#### Added
+- Added user authentication (OAuth support).
+- Implemented watchlist and favorites feature.
+
+#### Fixed
+- Fixed minor UI glitches on mobile devices.
+- Improved performance by optimizing API calls.
+
+---
+
+### [1.0.8] - 2025-02-28
+#### Added
+- Integrated trailer links for movies & TV shows.
+- Introduced theme switching between Dark/Light mode.
+
+#### Fixed
+- Search results now correctly display all matching entries.
+
+
 ## 🛠️ Technologies Used
 
 - **Next.js** – Server-side rendering and static site generation.
