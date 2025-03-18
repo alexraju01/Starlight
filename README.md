@@ -7,8 +7,8 @@ Starlight is a sleek and modern movie and TV series discovery app built with **N
 - 🔍 **Search Functionality** – Instantly search for The Movie Database (`TMDB`) Api and TV series by title.
 - 🎬 **Browse Popular Movies & TV Shows** – Explore trending and top-rated content.
 - 📄 **Detailed Information** – View synopsis, ratings, genres, and more.
-<!-- - 🌙 **Dark/Light Mode** – Enjoy a visually appealing interface with theme toggling. -->
 - ⚡ **Optimized Performance** – Built with Next.js for fast, server-side rendering and seamless client-side navigation.
+<!-- - 🌙 **Dark/Light Mode** – Enjoy a visually appealing interface with theme toggling. -->
 <!-- - 🔗 **Direct Links to Trailers** – Watch trailers directly from the app. -->
 
 ## 🛠️ Technologies Used
