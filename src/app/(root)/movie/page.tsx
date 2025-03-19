@@ -13,19 +13,3 @@ export default function MoviesPage() {
 		</div>
 	);
 }
-
-// import { redirect } from "next/navigation"
-
-// export default function Page() {
-//   const authenticated = false
-
-//   if (!authenticated) {
-//     redirect("/")
-//   }
-
-//   return (
-//     <div>
-//       <p>{"You shouldn't be seeing this page"}</p>
-//     </div>
-//   )
-// }
