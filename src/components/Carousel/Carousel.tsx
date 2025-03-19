@@ -5,8 +5,8 @@ import styles from "./Carousel.module.css";
 import mapGenres from "../../utils/mapGenre";
 import Link from "next/link";
 import fetchData from "@/utils/fetchData";
-import { MediaMode } from "../../../types/mediaMode";
-import { Logo, MoviesWithLogos } from "../../../types/global";
+import { MediaMode } from "@/types/mediaMode";
+import { Logo, MoviesWithLogos } from "@/types/global";
 
 interface Props {
 	mediaMode: MediaMode;

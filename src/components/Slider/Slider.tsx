@@ -1,3 +1,4 @@
+import { MediaMode } from "@/types/mediaMode";
 import fetchData from "../../utils/fetchData";
 import MediaCard from "../MediaCard/MediaCard";
 import {
@@ -9,6 +10,7 @@ import {
 } from "../ui/carousel";
 
 import styles from "./Slider.module.css";
+import { Movie } from "@/types/global";
 
 interface Props {
 	mediaMode: MediaMode;
@@ -18,6 +20,7 @@ interface Props {
 export default async function Home({ mediaMode, endpoint }: Props) {
 	const getTopRated = await fetchData("3", endpoint);
 	const topRatedMovies = getTopRated.results;
+	console.log(mediaMode);
 
 	return (
 		<Carousel

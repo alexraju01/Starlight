@@ -7,7 +7,7 @@ import Carousel from "@/components/Carousel/Carousel";
 import { MediaMode } from "../../../types/mediaMode";
 
 export default async function Home() {
-	const mediaMode = MediaMode.Movie; // Now using the enum
+	const mediaMode: MediaMode = MediaMode.Movie; // Now using the enum
 	return (
 		<main className={styles.container}>
 			<Suspense fallback={<Spinner />}>

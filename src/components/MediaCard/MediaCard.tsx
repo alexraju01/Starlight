@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import styles from "./MediaCard.module.css";
 import Link from "next/link";
+import { MediaMode } from "@/types/mediaMode";
+import { Movie, TVShow } from "@/types/global";
 
 interface Props {
 	media: Movie | TVShow;
@@ -19,7 +21,7 @@ export default function MediaCard({ media, mediaMode, className }: Props) {
 		// Logic to handle loading state and animation until the image is fully loaded
 		if (!poster_path) setIsLoaded(true);
 	}, [poster_path]);
-
+	console.log(mediaMode, "chekkkkerr");
 	return (
 		<Link href={`/${mediaMode}/${id}`}>
 			<div className={`${styles.mediaCard} ${className}`}>
