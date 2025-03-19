@@ -13,7 +13,6 @@ For full documentation, visit the [`docs/`](./docs/index.md) folder:
 - [Getting Started](docs/getting-started.md)
 - [API Reference](docs/api-reference.md)
 - [System Architecture](docs/architecture.md)
-- [Contributing](docs/contributing.md)
 
 ## 🚀 Features
 
