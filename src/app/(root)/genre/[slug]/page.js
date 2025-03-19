@@ -3,7 +3,8 @@ import styles from "./genreMediaList.module.css";
 import fetchData from "../../../../utils/fetchData";
 import { Suspense } from "react";
 
-export default async function Page({ params }) {
+export default async function Page(props) {
+	const params = await props.params;
 	const [movieGenre, tvGenre, genreRelatedMovies, genreRelatedTv] = await Promise.all([
 		fetchData(3, "genre/movie/list"),
 		fetchData(3, "genre/tv/list"),

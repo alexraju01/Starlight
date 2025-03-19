@@ -1,11 +1,12 @@
+import { useActionState } from "react";
 "use client";
 import { signup } from "@/utils/serverActions/auth";
 import styles from "./page.module.css";
 import Link from "next/link";
-import { useFormState, useFormStatus } from "react-dom";
+import { useFormStatus } from "react-dom";
 
 export default function SignUpPage() {
-	const [state, action] = useFormState(signup, undefined);
+	const [state, action] = useActionState(signup, undefined);
 	return (
 		<main className={styles.main}>
 			<div className={styles.formContainer}>
