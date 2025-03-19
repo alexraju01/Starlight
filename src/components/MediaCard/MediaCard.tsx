@@ -7,7 +7,7 @@ import Link from "next/link";
 interface Props {
 	media: Movie | TVShow;
 	mediaMode: "movie" | "tv";
-	className: string;
+	className?: string;
 }
 
 export default function MediaCard({ media, mediaMode, className }: Props) {

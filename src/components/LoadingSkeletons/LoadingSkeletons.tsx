@@ -1,6 +1,11 @@
 import styles from "./LoadingSkeletons.module.css";
 
-export default function LoadingSkeletons({ children, className }) {
+interface Props {
+	children?: React.ReactNode;
+	className?: string;
+}
+
+export default function LoadingSkeletons({ children, className }: Props) {
 	const placeholderCards = Array.from({ length: 20 }).map((_, index) => (
 		<div key={index} className={styles.pulse}></div>
 	));

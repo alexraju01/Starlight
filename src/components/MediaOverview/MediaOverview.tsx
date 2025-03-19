@@ -13,11 +13,17 @@ import MediaCard from "../MediaCard/MediaCard";
 import SeasonEpisodeInfo from "./SeasonEpisodeInfo/SeasonEpisodeInfo";
 import Button from "../Button/Button";
 import Seasons from "./Seasons/Seasons";
+import { Genre } from "../../../types/genre";
 
-export default async function MediaOverview({ params, mediaMode }) {
+interface Props {
+	params: string;
+	mediaMode: "movie" | "tv";
+}
+
+export default async function MediaOverview({ params, mediaMode }: Props) {
 	const [mediaDetails, { cast }] = await Promise.all([
-		fetchData(3, `/${mediaMode}/${params.slug}`),
-		fetchData(3, `/${mediaMode}/${params.slug}/credits`),
+		fetchData("3", `/${mediaMode}/${params}`),
+		fetchData("3", `/${mediaMode}/${params}/credits`),
 	]);
 
 	const {
@@ -65,7 +71,7 @@ export default async function MediaOverview({ params, mediaMode }) {
 					</div>
 
 					<div className={styles.genreList}>
-						{genres.map((genre) => (
+						{genres.map((genre: Genre) => (
 							<Link key={genre.id} href={`/genre/${genre.id}`}>
 								<p>{genre.name}</p>
 							</Link>
