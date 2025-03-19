@@ -4,7 +4,7 @@ import getUpcoming from "../../utils/serverActions/getUpcoming";
 import { MediaMode } from "@/types/mediaMode";
 
 interface Props {
-	mediaMode: MediaMode.Movie | MediaMode.TV | MediaMode.UPCOMING | MediaMode.CHECK;
+	mediaMode: MediaMode.Movie | MediaMode.TV | MediaMode.UPCOMING;
 }
 
 export default async function MediaWrapper({ mediaMode }: Props) {
