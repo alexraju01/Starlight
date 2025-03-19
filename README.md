@@ -2,14 +2,27 @@
 
 Starlight is a sleek and modern movie and TV series discovery app built with **Next.js**. It leverages a Movie API to provide users with the ability to browse, search, and view details of their favorite movies and TV shows in a user-friendly interface.
 
+# Starlight 🎬
+
+Starlight is a modern **Next.js 15** movie and TV series discovery app.
+
+## 📖 Documentation
+
+For full documentation, visit the [`docs/`](./docs/index.md) folder:
+
+- [Getting Started](docs/getting-started.md)
+- [API Reference](docs/api-reference.md)
+- [System Architecture](docs/architecture.md)
+- [Contributing](docs/contributing.md)
+
 ## 🚀 Features
 
 - 🔍 **Search Functionality** – Instantly search for The Movie Database (`TMDB`) Api and TV series by title.
 - 🎬 **Browse Popular Movies & TV Shows** – Explore trending and top-rated content.
 - 📄 **Detailed Information** – View synopsis, ratings, genres, and more.
 - ⚡ **Optimized Performance** – Built with Next.js for fast, server-side rendering and seamless client-side navigation.
-<!-- - 🌙 **Dark/Light Mode** – Enjoy a visually appealing interface with theme toggling. -->
-<!-- - 🔗 **Direct Links to Trailers** – Watch trailers directly from the app. -->
+  <!-- - 🌙 **Dark/Light Mode** – Enjoy a visually appealing interface with theme toggling. -->
+  <!-- - 🔗 **Direct Links to Trailers** – Watch trailers directly from the app. -->
 
 ## 🛠️ Technologies Used
 
@@ -17,7 +30,6 @@ Starlight is a sleek and modern movie and TV series discovery app built with **N
 - **React** – Component-based UI development.
 - **Tailwind CSS** – Styling for a modern and responsive UI.
 - **Movie API** – Fetches movie and TV series data.
-
 
 ## 📸 Screenshots
 
