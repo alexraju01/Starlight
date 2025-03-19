@@ -1,6 +1,5 @@
 import { Suspense } from "react";
 import GenreSkeleton from "../../../components/LoadingSkeletons/GenreSkeleton";
-import dynamic from "next/dynamic";
 import styles from "./genre.module.css";
 import FetchGenres from "./FetchGenres";
 
