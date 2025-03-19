@@ -10,10 +10,11 @@ import { Suspense } from "react";
 // 	}));
 // }
 
-export default async function page({ params }) {
-	const mediaMode = "movie";
+export default async function page(props) {
+    const params = await props.params;
+    const mediaMode = "movie";
 
-	return (
+    return (
 		<section className={styles.imgContainer}>
 			<Suspense fallback={<Spinner />}>
 				<MediaOverview params={params} mediaMode={mediaMode} />
