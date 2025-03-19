@@ -4,9 +4,10 @@ import Slider from "../../components/Slider/Slider";
 import { Suspense } from "react";
 import SearchBox from "../../components/SearchBox/SearchBox";
 import Carousel from "@/components/Carousel/Carousel";
+import { MediaMode } from "../../../types/mediaMode";
 
 export default async function Home() {
-	const mediaMode = "movie";
+	const mediaMode = MediaMode.Movie; // Now using the enum
 	return (
 		<main className={styles.container}>
 			<Suspense fallback={<Spinner />}>

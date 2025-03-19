@@ -4,7 +4,7 @@ import styles from "./SimilarMedia.module.css";
 import fetchData from "../../../utils/fetchData";
 import Slider from "../../Slider/Slider";
 interface Props {
-	mediaMode: "movie" | "tv";
+	mediaMode: MediaMode;
 	params: string;
 }
 
