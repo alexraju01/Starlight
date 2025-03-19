@@ -2,7 +2,6 @@
 import styles from "./Media.module.css";
 import Button from "../Button/Button";
 import MediaCard from "../MediaCard/MediaCard";
-// import UpcomingMedia from "@/components/UpcomingMedia/UpcomingMedia"; // Import the new component
 import getMedia from "../../utils/serverActions/getMedia";
 import getUpcoming from "../../utils/serverActions/getUpcoming";
 import { Loader } from "lucide-react";

@@ -15,7 +15,7 @@ interface Props {
 export default function MediaCard({ media, mediaMode, className }: Props) {
 	const [isLoaded, setIsLoaded] = useState(false);
 
-	const { id, name, title, poster_path } = media;
+	const { id, name, title, poster_path, backdrop_path } = media;
 	const displayName = title || name;
 	useEffect(() => {
 		// Logic to handle loading state and animation until the image is fully loaded

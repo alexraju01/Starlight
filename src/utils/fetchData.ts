@@ -1,20 +1,22 @@
-export default async function fetchData(version: string, endpoint: string) {
+export default async function fetchData<T>(version: string, endpoint: string): Promise<T> {
 	try {
-		// await new Promise((resolve) => setTimeout(resolve, 3000));
-
 		const res = await fetch(`https://api.themoviedb.org/${version}/${endpoint}`, {
 			cache: "no-store",
 			headers: {
 				accept: "application/json",
-				Authorization: `Bearer ${process.env.TMDB_API_KEY}`, // Change this line
+				Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
 			},
 		});
+
 		if (!res.ok) {
-			throw new Error("Failed to fetch data");
+			throw new Error(`Failed to fetch data: ${res.status} ${res.statusText}`);
 		}
-		const data = await res.json();
+
+		// Ensure TypeScript knows the return type
+		const data: T = await res.json();
 		return data;
 	} catch (err) {
 		console.error(`fetchData Error: ${err instanceof Error ? err.message : err}`);
+		throw err; // Ensure the error propagates for proper handling
 	}
 }
