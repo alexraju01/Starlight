@@ -26,9 +26,9 @@ export default async function Home({ mediaMode, endpoint }: Props) {
 				align: "start",
 			}}>
 			<CarouselContent>
-				{topRatedMovies.map((topRated, index) =>
+				{topRatedMovies.map((topRated: Movie) =>
 					topRated.poster_path ? (
-						<CarouselItem key={index} className={`${styles.carouselItem}`}>
+						<CarouselItem key={topRated.id} className={`${styles.carouselItem}`}>
 							<MediaCard className={styles.roundedImage} media={topRated} mediaMode={mediaMode} />
 						</CarouselItem>
 					) : null
