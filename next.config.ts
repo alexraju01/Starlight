@@ -2,6 +2,9 @@ import { NextConfig } from "next";
 
 /** @type {import('next').NextConfig} */
 const nextConfig: NextConfig = {
+	env: {
+		TMDB_API_KEY: process.env.TMDB_API_KEY,
+	},
 	// output: "export",
 	images: {
 		unoptimized: true,

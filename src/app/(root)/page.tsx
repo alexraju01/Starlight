@@ -3,7 +3,7 @@ import styles from "./page.module.css";
 import Slider from "../../components/Slider/Slider";
 import { Suspense } from "react";
 import SearchBox from "../../components/SearchBox/SearchBox";
-import Carousel from "../../components/Carousel/Carousel";
+import Carousel from "@/components/Carousel/Carousel";
 
 export default async function Home() {
 	const mediaMode = "movie";
