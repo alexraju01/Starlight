@@ -1,10 +1,12 @@
 import Sidebar from "../../components/Sidebar/Sidebar";
 
-export default function Layout({ children }) {
+const layout = ({ children }: { children: React.ReactNode }) => {
 	return (
 		<>
 			<Sidebar />
 			{children}
 		</>
 	);
-}
+};
+
+export default layout;
