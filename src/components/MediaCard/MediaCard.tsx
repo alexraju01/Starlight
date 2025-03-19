@@ -6,7 +6,7 @@ import Link from "next/link";
 
 interface Props {
 	media: Movie | TVShow;
-	mediaMode: "movie" | "tv";
+	mediaMode: MediaMode;
 	className?: string;
 }
 
@@ -15,7 +15,6 @@ export default function MediaCard({ media, mediaMode, className }: Props) {
 
 	const { id, name, title, poster_path } = media;
 	const displayName = title || name;
-	console.log(displayName);
 	useEffect(() => {
 		// Logic to handle loading state and animation until the image is fully loaded
 		if (!poster_path) setIsLoaded(true);

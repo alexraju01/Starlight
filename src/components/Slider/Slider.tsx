@@ -11,7 +11,7 @@ import {
 import styles from "./Slider.module.css";
 
 interface Props {
-	mediaMode: "movie" | "tv";
+	mediaMode: MediaMode;
 	endpoint: string;
 }
 

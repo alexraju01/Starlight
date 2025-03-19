@@ -17,7 +17,7 @@ import { Genre } from "../../../types/genre";
 
 interface Props {
 	params: string;
-	mediaMode: "movie" | "tv";
+	mediaMode: MediaMode;
 }
 
 export default async function MediaOverview({ params, mediaMode }: Props) {

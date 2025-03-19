@@ -32,7 +32,7 @@ interface MoviesWithLogos extends BaseMedia {
 	logoImage?: string; // Optional because some movies may not have a logo
 }
 
-interface Logo {
+export interface Logo {
 	aspect_ratio: number;
 	height: number;
 	iso_639_1: string | null; // Some logos may not have a language code

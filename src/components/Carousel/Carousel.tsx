@@ -5,9 +5,11 @@ import styles from "./Carousel.module.css";
 import mapGenres from "../../utils/mapGenre";
 import Link from "next/link";
 import fetchData from "@/utils/fetchData";
+import { MediaMode } from "../../../types/mediaMode";
+import { Logo, MoviesWithLogos } from "../../../types/global";
 
 interface Props {
-	mediaMode: "movie" | "tv";
+	mediaMode: MediaMode;
 }
 
 export default function Carousel({ mediaMode }: Props) {
@@ -33,7 +35,7 @@ export default function Carousel({ mediaMode }: Props) {
 			try {
 				const { results: trendingMedia } = await fetchData("3", `trending/${mediaMode}/day`);
 				const moviesWithLogos: MoviesWithLogos[] = await Promise.all(
-					trendingMedia.slice(0, 5).map(async (movie: Movie) => {
+					trendingMedia.slice(0, 5).map(async (movie: MoviesWithLogos) => {
 						const movieDetails = await fetchData("3", `/${mediaMode}/${movie.id}/images`);
 						const logoImage = movieDetails.logos.find((logo: Logo) => logo.iso_639_1 === "en");
 						return {
