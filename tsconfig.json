@@ -22,6 +22,13 @@
 			"@/*": ["./src/*"]
 		}
 	},
-	"include": ["next-env.d.ts", ".next/types/**/*.ts", "**/*.ts", "**/*.tsx", "src/components/MediaCard/MediaCard.tsx"],
+	"include": [
+		"next-env.d.ts",
+		"globals.d.ts",
+		".next/types/**/*.ts",
+		"**/*.ts",
+		"**/*.tsx",
+		"src/components/MediaCard/MediaCard.tsx"
+	],
 	"exclude": ["node_modules"]
 }

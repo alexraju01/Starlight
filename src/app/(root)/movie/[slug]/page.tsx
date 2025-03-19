@@ -3,13 +3,13 @@ import styles from "./movieDetail.module.css";
 import MediaOverview from "../../../../components/MediaOverview/MediaOverview";
 import { Suspense } from "react";
 
-// interface Props {
-// 	params: Promise<{ slug: string }>;
-// }
+interface Props {
+	params: Promise<{ slug: string }>;
+}
 
-export default async function page({ params }: { params: Promise<{ slug: string }> }) {
+export default async function page({ params }: Props) {
 	const { slug } = await params;
-	const mediaMode = "movie";
+	const mediaMode = "tv";
 
 	return (
 		<section className={styles.imgContainer}>

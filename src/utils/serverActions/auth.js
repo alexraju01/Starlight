@@ -18,7 +18,6 @@ export async function signup(state, formData) {
 			errors: validatedFields.error.flatten().fieldErrors,
 		};
 	}
-	console.log("jgsfjhgsd");
 	// Call the provider or db to create a user...
 	console.log("Form validated successfully!", {
 		username: validatedFields.data.username,
