@@ -15,6 +15,6 @@ export default async function fetchData(version: string, endpoint: string) {
 		const data = await res.json();
 		return data;
 	} catch (err) {
-		throw err;
+		console.error(`fetchData Error: ${err instanceof Error ? err.message : err}`);
 	}
 }
