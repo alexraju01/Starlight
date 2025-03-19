@@ -14,3 +14,6 @@ Welcome to **Starlight**, a modern Next.js movie and TV series discovery app.
 - [API Reference](api-reference.md)
 - [System Architecture](architecture.md)
 - [Contributing](contributing.md)
+- [GitHub Commits](commits.md)
+
+
