@@ -1,32 +1,37 @@
 "use client";
 import styles from "./Media.module.css";
-import Button from "../../components/Button/Button";
-import MediaCard from "../../components/MediaCard/MediaCard";
+import Button from "../Button/Button";
+import MediaCard from "../MediaCard/MediaCard";
 // import UpcomingMedia from "@/components/UpcomingMedia/UpcomingMedia"; // Import the new component
 import getMedia from "../../utils/serverActions/getMedia";
 import getUpcoming from "../../utils/serverActions/getUpcoming";
 import { Loader } from "lucide-react";
 import { Suspense, useState } from "react";
 import UpcomingMedia from "../UpcomingMedia/Upcoming";
-// import LoadingSkeletons from "../LoadingSkeletons/LoadingSkeletons";
-// import Range from "../Range/Range";
+import { Movie, TVShow } from "@/types/global";
+import { MediaMode } from "@/types/mediaMode";
 
-export default function MediaList({ initialMedia, mediaMode }) {
-	const [media, setMedia] = useState(initialMedia);
-	const [page, setPage] = useState(1);
-	const [buttonHidden, setButtonHidden] = useState(initialMedia.length === 0);
-	const [loading, setLoading] = useState(false);
+interface Props {
+	initialMedia: (Movie | TVShow)[];
+	mediaMode: MediaMode; // ✅ This should allow ALL values in the enum
+}
+
+export default function MediaList({ initialMedia, mediaMode }: Props) {
+	const [media, setMedia] = useState<(Movie | TVShow)[]>(initialMedia);
+	const [page, setPage] = useState<number>(1);
+	const [buttonHidden, setButtonHidden] = useState<boolean>(initialMedia.length === 0);
+	const [loading, setLoading] = useState<boolean>(false);
 
 	const loadMoreMedia = async () => {
 		setLoading(true);
 
-		const mediaList =
-			mediaMode === "upcoming"
-				? await getUpcoming("tv", page + 1)
+		const mediaList: (Movie | TVShow)[] =
+			mediaMode === MediaMode.UPCOMING
+				? await getUpcoming(MediaMode.TV, page + 1)
 				: await getMedia(mediaMode, page + 1);
 
 		const newMedia = mediaList.filter(
-			(newMedia) => !media.some((existingMedia) => existingMedia.id === newMedia.id)
+			(newItem) => !media.some((existingMedia) => existingMedia.id === newItem.id)
 		);
 
 		setButtonHidden(mediaList.length === 0);
@@ -37,21 +42,21 @@ export default function MediaList({ initialMedia, mediaMode }) {
 
 	return (
 		<div className={styles.container}>
-			<div className={mediaMode === "upcoming" ? styles.upcomingContainer : styles.mediaContainer}>
+			<div
+				className={
+					mediaMode === MediaMode.UPCOMING ? styles.upcomingContainer : styles.mediaContainer
+				}>
 				{media.map((media) =>
 					media.poster_path ? (
 						<div key={media.id} className={styles.posterContainer}>
-							{mediaMode === "upcoming" ? (
+							{mediaMode === MediaMode.UPCOMING ? (
 								<div>
-									<UpcomingMedia media={media} mediaMode={"tv"} />
+									<UpcomingMedia media={media} mediaMode={MediaMode.TV} />
 								</div>
 							) : (
-								// </div>
-								<MediaCard
-									className={styles.nohover}
-									media={media}
-									mediaMode={mediaMode === "upcoming" ? "tv" : mediaMode}
-								/>
+								<div>
+									<MediaCard className={styles.nohover} media={media} mediaMode={mediaMode} />
+								</div>
 							)}
 						</div>
 					) : null
@@ -62,8 +67,7 @@ export default function MediaList({ initialMedia, mediaMode }) {
 					<Button
 						icon={loading && <Loader className={styles.animateSpin} />}
 						onClick={loadMoreMedia}
-						disabled={loading}
-					>
+						disabled={loading}>
 						Load More
 					</Button>
 				</div>
