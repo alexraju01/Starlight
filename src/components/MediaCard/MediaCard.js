@@ -27,7 +27,7 @@ export default function MediaCard({ media, mediaMode, className }) {
 					}
 					width={70}
 					height={105}
-					layout="responsive"
+					layout='responsive'
 					alt={displayName}
 					priority
 					onLoad={() => setIsLoaded(true)}
