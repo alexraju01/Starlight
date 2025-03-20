@@ -1,5 +1,5 @@
 // import ImageWithFallback from "@/app/components/BrokenImage/ImageWithFallback";
-import ImageWithFallback from "../../components/BrokenImage/ImageWithFallback";
+import ImageWithFallback from "../BrokenImage/ImageWithFallback";
 import styles from "./CastContainer.module.css";
 import SectionHeading from "../SectionHeading/SectionHeading";
 import Icons from "../../utils/icons";
