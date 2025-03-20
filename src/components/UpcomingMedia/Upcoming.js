@@ -30,7 +30,6 @@ export default function UpcomingMedia({ media, mediaMode }) {
 // export default async function UpcomingMedia() {
 // 	const media = await getUpcoming("tv");
 // 	const mediaMode = "tv";
-// 	console.log(media);
 
 // 	return (
 // 		<>
