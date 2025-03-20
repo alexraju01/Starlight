@@ -1,11 +1,11 @@
-interface BaseMedia {
+interface MultiMedia {
 	id: number;
 	title?: string; // Some TV shows use `original_name`, so it’s optional here
 	name?: string; // Alternative name for TV shows
 	overview: string;
 	poster_path: string;
 	backdrop_path?: string;
-	media_type: "movie" | "tv"; // Distinguish between movie & TV show
+	media_type: "movie" | "tv" | "person"; // Distinguish between movie & TV show
 	original_language: string;
 	genre_ids: number[];
 	popularity: number;
