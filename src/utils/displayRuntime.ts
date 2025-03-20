@@ -1,4 +1,10 @@
-export function displayRuntime({ episode_run_time, runtime }) {
+export function displayRuntime({
+	episode_run_time,
+	runtime,
+}: {
+	episode_run_time?: number[];
+	runtime?: number;
+}) {
 	const movieRuntime = runtime ? `${runtime} mins` : null;
 
 	const episodeRuntime =
@@ -6,6 +12,5 @@ export function displayRuntime({ episode_run_time, runtime }) {
 			? `${episode_run_time[0]} MPE`
 			: null;
 
-	const displayRuntime = movieRuntime || episodeRuntime || "N/A";
-	return displayRuntime;
+	return movieRuntime || episodeRuntime || "N/A";
 }
