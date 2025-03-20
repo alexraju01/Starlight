@@ -12,7 +12,6 @@ export default async function FetchGenres() {
 		fetchData<{ genres: Genre[] }>("3", "genre/movie/list"),
 		fetchData<{ genres: Genre[] }>("3", "genre/tv/list"),
 	]);
-	console.log(movieGenres);
 
 	// Combine genres into a single array
 	const combinedGenres = [...movieGenres, ...tvGenres];
