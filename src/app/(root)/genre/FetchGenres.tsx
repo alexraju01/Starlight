@@ -1,4 +1,3 @@
-// FetchGenres.js (This will be a server component)
 import styles from "./genre.module.css";
 import fetchData from "../../../utils/fetchData";
 import Link from "next/link";
