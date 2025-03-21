@@ -56,7 +56,6 @@ async function fetchMediaData(params: string, mediaMode: MediaMode.TV | MediaMod
 
 export default async function MediaOverview({ params, mediaMode }: Props) {
 	const { mediaDetails, credits } = await fetchMediaData(params, mediaMode);
-	console.log("=========", mediaDetails);
 	if (!mediaDetails) {
 		return <div className={styles.error}>Error loading media details.</div>;
 	}

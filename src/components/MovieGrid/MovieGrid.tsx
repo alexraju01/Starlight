@@ -1,8 +1,13 @@
 "use client";
+import { Media } from "@/types/global";
 import MediaCard from "../MediaCard/MediaCard";
 import styles from "./MovieGrid.module.css";
 
-export default function MovieGrid({ media }) {
+interface Props {
+	media: Media[];
+}
+
+export default function MovieGrid({ media }: Props) {
 	if (!media.length) return null;
 
 	return (

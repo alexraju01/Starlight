@@ -3,8 +3,14 @@ import ImageWithFallback from "../BrokenImage/ImageWithFallback";
 import styles from "./CastContainer.module.css";
 import SectionHeading from "../SectionHeading/SectionHeading";
 import Icons from "../../utils/icons";
+import { CastMember } from "@/types/cast";
 
-export default async function CastContainer({ castList }) {
+interface Props {
+	castList: CastMember[];
+}
+
+export default async function CastContainer({ castList }: Props) {
+	
 	if (!castList) return null;
 	return (
 		<div className={styles.container}>
