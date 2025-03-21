@@ -1,72 +1,22 @@
-name: Release & Deploy
-
+name: test
 on:
   push:
     branches:
-      - main
+      # Change this if your primary branch is not main
+      - master
+      - dev
 
 jobs:
-  release:
+  main:
     runs-on: ubuntu-latest
-
+    environment:
+      name: Semver #your environment name
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Ensures full commit history for semantic-release
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "22"
-          cache: "npm"
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Create .env file for Next.js
-        run: |
-          echo "TMDB_API_KEY=${{ secrets.TMDB_API_KEY }}" >> .env.local
-
-      - name: Build Next.js App
+          persist-credentials: false
+      - name: Semantic Release
+        uses: cycjimmy/semantic-release-action@v4
         env:
-          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
-        run: npm run build
-
-      - name: Run Semantic Release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }} # Use Personal Access Token instead of default GitHub token
-          DEBUG: "semantic-release:*"
-        run: npx semantic-release
-
-  deploy:
-    needs: release # Ensures release job completes first
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # Ensures full commit history is available
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "22"
-          cache: "npm"
-
-      - name: Install Vercel CLI
-        run: npm install -g vercel
-
-      - name: Pull Vercel Environment Info
-        run: vercel pull --yes --environment=production --token ${{ secrets.VERCEL_TOKEN }}
-
-      - name: Create .env file for Deployment
-        run: |
-          echo "TMDB_API_KEY=${{ secrets.TMDB_API_KEY }}" >> .env.local
-
-      - name: Build Next.js App for Vercel
-        run: vercel build --prod --token ${{ secrets.VERCEL_TOKEN }}
-
-      - name: Deploy to Vercel
-        run: vercel deploy --prebuilt --prod --token ${{ secrets.VERCEL_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
