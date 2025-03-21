@@ -1,7 +1,7 @@
 export default async function fetchData<T>(version: string, endpoint: string): Promise<T> {
 	try {
 		const res = await fetch(`https://api.themoviedb.org/${version}/${endpoint}`, {
-			next: { revalidate: 60 },
+			next: { revalidate: 0 },
 			headers: {
 				accept: "application/json",
 				Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
