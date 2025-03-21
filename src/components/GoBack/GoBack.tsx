@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 export default function GoBack() {
 	const router = useRouter();
 	return (
-		<button className={styles.goBackBtn} type="button" onClick={() => router.back()}>
+		<button className={styles.goBackBtn} type='button' onClick={() => router.back()}>
 			{Icons.goBack}
 		</button>
 	);

@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useCallback, useMemo, Suspense } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import styles from "./Carousel.module.css";
 import mapGenres from "../../utils/mapGenre";
@@ -7,10 +7,23 @@ import Link from "next/link";
 import fetchData from "@/utils/fetchData";
 import { MediaMode } from "@/types/mediaMode";
 import { Logo, MoviesWithLogos } from "@/types/global";
+import { Genre } from "@/types/genre";
 
 interface Props {
 	mediaMode: MediaMode;
 }
+
+type GenreResponse = {
+	genres: Genre[];
+};
+
+type TrendingMediaResponse = {
+	results: MoviesWithLogos[];
+};
+
+type ImageResponse = {
+	logos: Logo[];
+};
 
 export default function Carousel({ mediaMode }: Props) {
 	const [trendingMovies, setTrendingMovies] = useState<MoviesWithLogos[]>([]);
@@ -20,8 +33,8 @@ export default function Carousel({ mediaMode }: Props) {
 	useEffect(() => {
 		const fetchGenres = async () => {
 			try {
-				const genreData = await fetchData("3", `genre/${mediaMode}/list`);
-				setGenres(mapGenres(genreData.genres));
+				const { genres } = await fetchData<GenreResponse>("3", `genre/${mediaMode}/list`);
+				setGenres(mapGenres(genres));
 			} catch (error) {
 				console.error("Error fetching genres:", error);
 			}
@@ -33,11 +46,19 @@ export default function Carousel({ mediaMode }: Props) {
 	useEffect(() => {
 		const fetchMovies = async () => {
 			try {
-				const { results: trendingMedia } = await fetchData("3", `trending/${mediaMode}/day`);
+				const { results: trendingMedia } = await fetchData<TrendingMediaResponse>(
+					"3",
+					`trending/${mediaMode}/day`
+				);
+
 				const moviesWithLogos: MoviesWithLogos[] = await Promise.all(
-					trendingMedia.slice(0, 5).map(async (movie: MoviesWithLogos) => {
-						const movieDetails = await fetchData("3", `/${mediaMode}/${movie.id}/images`);
-						const logoImage = movieDetails.logos.find((logo: Logo) => logo.iso_639_1 === "en");
+					trendingMedia.slice(0, 5).map(async (movie) => {
+						const movieDetails = await fetchData<ImageResponse>(
+							"3",
+							`${mediaMode}/${movie.id}/images`
+						);
+						const logoImage = movieDetails.logos.find((logo) => logo.iso_639_1 === "en");
+
 						return {
 							...movie,
 							logoImage: logoImage
@@ -56,25 +77,24 @@ export default function Carousel({ mediaMode }: Props) {
 		fetchMovies();
 	}, [mediaMode]);
 
-	const handlePrev = useCallback(() => {
+	const handlePrev = () => {
 		setCurrentIndex((prevIndex) => (prevIndex === 0 ? trendingMovies.length - 1 : prevIndex - 1));
-	}, [trendingMovies.length]);
+	};
 
-	const handleNext = useCallback(() => {
+	const handleNext = () => {
 		setCurrentIndex((prevIndex) => (prevIndex === trendingMovies.length - 1 ? 0 : prevIndex + 1));
-	}, [trendingMovies.length]);
+	};
 
-	const genreNames = useMemo(
-		() => (movie: MoviesWithLogos) =>
-			movie.genre_ids.map((id) => genres[id] || "Unknown").join(", "),
-		[genres]
-	);
+	const getGenreGenreNames = (movie: MoviesWithLogos): string => {
+		return movie.genre_ids?.map((id) => genres[id] || "Unknown").join(", ") ?? "";
+	};
 
 	return (
 		<div className={styles.carousel}>
 			<button className={styles.navButton} onClick={handlePrev} aria-label='Previous slide'>
 				<p>{"<"}</p>
 			</button>
+
 			<ul
 				className={styles.carouselList}
 				style={{ transform: `translateX(-${currentIndex * 100}%)` }}
@@ -96,15 +116,16 @@ export default function Carousel({ mediaMode }: Props) {
 									/>
 								</div>
 							)}
-							<p className={styles.genres}>{genreNames(movie)}</p>
+							<p className={styles.genres}>{getGenreGenreNames(movie)}</p>
 						</div>
+
 						<div className={styles.imageContainer}>
 							<Image
 								src={`https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`}
-								layout='fill'
+								fill
 								alt={movie.title || movie.name || "Media"}
 								className={styles.image}
-								priority={index === 0} // Prioritize the first image
+								priority={index === 0}
 							/>
 							<div className={styles.fadeLeft}>
 								<div>
@@ -120,7 +141,7 @@ export default function Carousel({ mediaMode }: Props) {
 										</div>
 									)}
 									<p className={styles.summary}>{movie.overview}</p>
-									<Link href={`/movie/${movie.id}`}>
+									<Link href={`/${mediaMode}/${movie.id}`}>
 										<button className={styles.detailBtn}>More Details</button>
 									</Link>
 								</div>
@@ -129,6 +150,7 @@ export default function Carousel({ mediaMode }: Props) {
 					</li>
 				))}
 			</ul>
+
 			<button className={styles.navButton} onClick={handleNext} aria-label='Next slide'>
 				<p>{">"}</p>
 			</button>

@@ -1,6 +1,13 @@
 import styles from "./SeasonEpisodeInfo.module.css";
 
-export default function SeasonEpisodeInfo({ metaData }) {
+interface Props {
+	metaData: {
+		number_of_seasons: number;
+		number_of_episodes: number;
+	};
+}
+
+export default function SeasonEpisodeInfo({ metaData }: Props) {
 	const { number_of_seasons, number_of_episodes } = metaData;
 	const plural = number_of_seasons === 1 || 0 || null ? "Season" : "Seasons";
 	return (

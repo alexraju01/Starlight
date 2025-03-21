@@ -3,11 +3,11 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import styles from "./MediaCard.module.css";
 import Link from "next/link";
-import { Movie, TVShow } from "@/types/global";
+import { Movie, TVSeries } from "@/types/global";
 import { MediaMode } from "@/types/mediaMode";
 
 interface Props {
-	media: Movie | TVShow;
+	media: Movie | TVSeries;
 	mediaMode: MediaMode;
 	className?: string;
 }
