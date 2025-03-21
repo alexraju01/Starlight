@@ -16,30 +16,37 @@ import Seasons from "./Seasons/Seasons";
 import { Genre } from "@/types/genre";
 import { MediaMode } from "@/types/mediaMode";
 import { CastMember } from "@/types/cast";
-import { Movie, TVSeries, Media } from "@/types/global"; // Improved imports
+import { Movie, TVSeries, Media } from "@/types/global";
 
 // Type definition for component props
 interface Props {
 	params: string;
-	mediaMode: MediaMode;
+	mediaMode: MediaMode.TV | MediaMode.Movie;
 }
 
-// Type guards to differentiate media types
+// Utility type guards
 function isMovie(media: Media): media is Movie {
-	return media.media_type === "movie";
+	return (media as Movie).media_type === "movie";
 }
 
 function isTVSeries(media: Media): media is TVSeries {
-	return media.media_type === "tv";
+	return (media as TVSeries).media_type === "tv";
 }
 
+// Fetch media details and credits in a reusable fnction
 // Fetch media details and credits in a reusable function
-async function fetchMediaData(params: string, mediaMode: MediaMode) {
+async function fetchMediaData(params: string, mediaMode: MediaMode.TV | MediaMode.Movie) {
 	try {
 		const [mediaDetails, credits] = await Promise.all([
 			fetchData<Media>("3", `/${mediaMode}/${params}`),
 			fetchData<{ cast: CastMember[] }>("3", `/${mediaMode}/${params}/credits`),
 		]);
+
+		// ✅ Dynamically add media_type based on mediaMode
+		if (mediaDetails) {
+			mediaDetails.media_type = mediaMode;
+		}
+
 		return { mediaDetails, credits };
 	} catch (error) {
 		console.error("Error fetching media data:", error);
@@ -49,13 +56,13 @@ async function fetchMediaData(params: string, mediaMode: MediaMode) {
 
 export default async function MediaOverview({ params, mediaMode }: Props) {
 	const { mediaDetails, credits } = await fetchMediaData(params, mediaMode);
-
+	console.log("=========", mediaDetails);
 	if (!mediaDetails) {
 		return <div className={styles.error}>Error loading media details.</div>;
 	}
 
 	// Destructure shared properties
-	const { id, backdrop_path, poster_path, overview, vote_average, genres = [] } = mediaDetails;
+	const { backdrop_path, poster_path, overview, vote_average, genres } = mediaDetails;
 
 	// Determine type-specific fields
 	const mediaTitle = isMovie(mediaDetails) ? mediaDetails.title : mediaDetails.name;
@@ -67,7 +74,7 @@ export default async function MediaOverview({ params, mediaMode }: Props) {
 		? `https://image.tmdb.org/t/p/original${backdrop_path}`
 		: poster_path
 		? `https://image.tmdb.org/t/p/w342${poster_path}`
-		: "/placeholder.jpg"; // Default placeholder
+		: "/placeholder.jpg";
 
 	return (
 		<div className={styles.container}>
@@ -86,6 +93,7 @@ export default async function MediaOverview({ params, mediaMode }: Props) {
 
 					<div className={styles.stat}>
 						<p className={styles.date}>{releaseDate ? dateConverter(releaseDate) : "----"}</p>
+
 						<p>{displayRuntime(mediaDetails)}</p>
 						<RatingIcon vote={vote_average} />
 					</div>
@@ -112,8 +120,7 @@ export default async function MediaOverview({ params, mediaMode }: Props) {
 				</div>
 			</div>
 
-			{isTVSeries(mediaDetails) && <Seasons seasons={{ id, seasons: mediaDetails.seasons }} />}
-
+			{isTVSeries(mediaDetails) && <Seasons seasons={mediaDetails.seasons} />}
 			<CastContainer castList={credits.cast.slice(0, 10)} />
 			<SimilarMedia mediaMode={mediaMode} params={params} />
 		</div>
