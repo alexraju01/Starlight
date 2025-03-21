@@ -24,15 +24,19 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Create .env file for Next.js
+        run: |
+          echo "TMDB_API_KEY=${{ secrets.TMDB_API_KEY }}" >> .env.local
+
       - name: Build Next.js App
         env:
-          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY}} # Inject API Key
+          API_KEY: ${{ secrets.TMDB_API_KEY }}
         run: npm run build
 
       - name: Run Semantic Release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }} # Use Personal Access Token (PAT) if needed
-          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY}} # Ensure API Key is available for release
+          API_KEY: ${{ secrets.TMDB_API_KEY }}
         run: npx semantic-release
 
   deploy:
@@ -46,10 +50,15 @@ jobs:
       - name: Install Vercel CLI
         run: npm install -g vercel
 
+      - name: Pull Vercel Environment Info
+        run: vercel pull --yes --environment=production --token ${{ secrets.VERCEL_TOKEN }}
+
+      - name: Create .env file for Deployment
+        run: |
+          echo "TMDB_API_KEY=${{ secrets.TMDB_API_KEY }}" >> .env.local
+
+      - name: Build Next.js App for Vercel
+        run: vercel build --prod --token ${{ secrets.VERCEL_TOKEN }}
+
       - name: Deploy to Vercel
-        env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }} # Optional if you have an org
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }} # Optional for multi-projects
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY}} # Inject API Key for deployment
-        run: vercel --prod --token ${{ secrets.VERCEL_TOKEN }} --project starlight
+        run: vercel deploy --prebuilt --prod --token ${{ secrets.VERCEL_TOKEN }}
