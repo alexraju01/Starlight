@@ -16,7 +16,7 @@ import Seasons from "./Seasons/Seasons";
 import { Genre } from "@/types/genre";
 import { MediaMode } from "@/types/mediaMode";
 import { CastMember } from "@/types/cast";
-import { Movie, TVSeries, Media } from "@/types/global";
+import { Movie, TVShow, Media } from "@/types/global";
 
 // Type definition for component props
 interface Props {
@@ -29,8 +29,8 @@ function isMovie(media: Media): media is Movie {
 	return (media as Movie).media_type === "movie";
 }
 
-function isTVSeries(media: Media): media is TVSeries {
-	return (media as TVSeries).media_type === "tv";
+function isTVShow(media: Media): media is TVShow {
+	return (media as TVShow).media_type === "tv";
 }
 
 // Fetch media details and credits in a reusable fnction
@@ -105,7 +105,7 @@ export default async function MediaOverview({ params, mediaMode }: Props) {
 						))}
 					</div>
 
-					{isTVSeries(mediaDetails) && (
+					{isTVShow(mediaDetails) && (
 						<SeasonEpisodeInfo
 							metaData={{
 								number_of_seasons: mediaDetails.number_of_seasons,
@@ -119,7 +119,7 @@ export default async function MediaOverview({ params, mediaMode }: Props) {
 				</div>
 			</div>
 
-			{isTVSeries(mediaDetails) && <Seasons seasons={mediaDetails.seasons} />}
+			{isTVShow(mediaDetails) && <Seasons seasons={mediaDetails.seasons} />}
 			<CastContainer castList={credits.cast.slice(0, 10)} />
 			<SimilarMedia mediaMode={mediaMode} params={params} />
 		</div>

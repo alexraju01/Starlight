@@ -1,10 +1,12 @@
-import Spinner from "../../components/LoadingSkeletons/Spinner/Spinner";
-import styles from "./page.module.css";
-import Slider from "../../components/Slider/Slider";
 import { Suspense } from "react";
-import SearchBox from "../../components/SearchBox/SearchBox";
+
 import Carousel from "@/components/Carousel/Carousel";
+
+import styles from "./page.module.css";
 import { MediaMode } from "../../../types/mediaMode";
+import Spinner from "../../components/LoadingSkeletons/Spinner/Spinner";
+import SearchBox from "../../components/SearchBox/SearchBox";
+import Slider from "../../components/Slider/Slider";
 
 export default async function Home() {
 	const mediaMode: MediaMode = MediaMode.Movie; // Now using the enum

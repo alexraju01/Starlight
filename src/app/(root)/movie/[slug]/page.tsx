@@ -10,12 +10,11 @@ interface Props {
 
 export default async function page({ params }: Props) {
 	const { slug } = await params;
-	const mediaMode: MediaMode = MediaMode.Movie;
 
 	return (
 		<section className={styles.imgContainer}>
 			<Suspense fallback={<Spinner />}>
-				<MediaOverview params={slug} mediaMode={mediaMode} />
+				<MediaOverview params={slug} mediaMode={MediaMode.Movie} />
 			</Suspense>
 		</section>
 	);
