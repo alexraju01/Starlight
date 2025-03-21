@@ -36,7 +36,7 @@ jobs:
       - name: Run Semantic Release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }} # Use Personal Access Token (PAT) if needed
-          API_KEY: ${{ secrets.TMDB_API_KEY }}
+          # API_KEY: ${{ secrets.TMDB_API_KEY }}
         run: npx semantic-release
 
   deploy:
