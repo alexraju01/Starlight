@@ -42,7 +42,7 @@ export default function DiscoverPage(): JSX.Element {
 			if (!query) return;
 			try {
 				const results = await fetchData<APIResponse>("3", `search/multi?query=${query}`);
-				setMovies(results.results.filter((media: MultiMedia) => media.media_type !== "person"));
+				setMovies(results.results.filter((media) => media.media_type !== "person"));
 			} catch (error) {
 				console.error("Error fetching movies:", error);
 			}

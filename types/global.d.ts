@@ -21,7 +21,7 @@ interface BaseMedia {
 }
 
 interface Movie extends BaseMedia {
-	media_type: MediaMode.Movie; // ✅ Explicitly define for movies
+	// media_type: MediaMode.Movie; // ✅ Explicitly define for movies
 	title: string;
 	original_title: string;
 	release_date: string;
@@ -34,8 +34,8 @@ interface Movie extends BaseMedia {
 	belongs_to_collection?: object | null;
 }
 
-interface TVSeries extends BaseMedia {
-	media_type: MediaMode.TV; // ✅ Explicitly define for TV shows
+interface TVShow extends BaseMedia {
+	// media_type: MediaMode.TV; // ✅ Explicitly define for TV shows
 	name: string;
 	original_name: string;
 	first_air_date: string;
@@ -54,10 +54,10 @@ interface TVSeries extends BaseMedia {
 	languages?: string[];
 }
 
-type Media = Movie | TVSeries;
+type Media = Movie | TVShow;
 
 // Unified media type for API responses
-type Media = Movie | TVSeries;
+type Media = Movie | TVShow;
 
 interface MoviesWithLogos extends BaseMedia {
 	logoImage?: string; // Optional because some movies may not have a logo
@@ -74,7 +74,7 @@ export interface Logo {
 	width: number;
 }
 
-type MultiMedia = Movie | TVSeries;
+type MultiMedia = Movie | TVShow;
 
 interface APIResponse {
 	page: number;

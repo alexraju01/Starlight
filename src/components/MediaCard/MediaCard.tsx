@@ -3,12 +3,12 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import styles from "./MediaCard.module.css";
 import Link from "next/link";
-import { Movie, TVSeries } from "@/types/global";
+import { Movie, TVShow } from "@/types/global";
 import { MediaMode } from "@/types/mediaMode";
 import { SearchMedia } from "@/types/searchMedia";
 
 interface Props {
-	media: Movie | TVSeries | SearchMedia;
+	media: Movie | TVShow | SearchMedia;
 	mediaMode: MediaMode;
 	className?: string;
 }
