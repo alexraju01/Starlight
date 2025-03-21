@@ -18,14 +18,6 @@ interface GenreResponse {
 	genres: Genre[];
 }
 
-// interface MediaItem {
-// 	id: number;
-// 	title?: string;
-// 	name?: string;
-// 	type: "movie" | "tv";
-// 	[key: string]: any;
-// }
-
 interface MediaResponse {
 	page: number;
 	results: (Movie | TVShow)[];
