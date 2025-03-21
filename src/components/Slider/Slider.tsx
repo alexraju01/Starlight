@@ -20,7 +20,6 @@ interface Props {
 export default async function Home({ mediaMode, endpoint }: Props) {
 	const getTopRated = await fetchData("3", endpoint);
 	const topRatedMovies = getTopRated.results;
-	console.log(mediaMode);
 
 	return (
 		<Carousel

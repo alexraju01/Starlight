@@ -9,7 +9,7 @@ export default async function UpcomingPage() {
 			<h2>Upcoming shows</h2>
 			<div className={styles.upcomingContainer}>
 				<Suspense fallback={<Spinner />}>
-					<MediaWrapper mediaMode={MediaMode.UPCOMING} />
+					<MediaWrapper />
 				</Suspense>
 			</div>
 		</div>
