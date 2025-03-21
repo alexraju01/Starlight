@@ -1,4 +1,3 @@
-// BrokenImage.js
 import styles from "./BrokenImage.module.css"; // Import CSS module for styles
 
 interface Props {
