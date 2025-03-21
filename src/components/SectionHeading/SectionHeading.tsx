@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import styles from "./SectionHeading.module.css";
 
 interface Props {
-	icon?: ReactNode;
+	icon?: JSX.Element;
 	children: ReactNode;
 }
 
