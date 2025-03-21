@@ -1,24 +1,26 @@
+/* eslint-disable camelcase */
 import Image from "next/image";
 import Link from "next/link";
+
+import { CastMember } from "@/types/cast";
+import { Genre } from "@/types/genre";
+import { Movie, TVShow, Media } from "@/types/global";
+import { MediaMode } from "@/types/mediaMode";
+import { dateConverter } from "@/utils/dateConverter";
+import { displayRuntime } from "@/utils/displayRuntime";
+import fetchData from "@/utils/fetchData";
+import Icons from "@/utils/icons";
+
 import styles from "./MediaOverview.module.css";
-import fetchData from "../../utils/fetchData";
-import { dateConverter } from "../../utils/dateConverter";
-import { displayRuntime } from "../../utils/displayRuntime";
-import RatingIcon from "../RatingIcon/RatingIcon";
-import CastContainer from "../Cast/CastContainer";
 import GoBack from "../GoBack/GoBack";
-import SimilarMedia from "./SimilarMedia/SimilarMedia";
-import Icons from "../../utils/icons";
 import MediaCard from "../MediaCard/MediaCard";
+import RatingIcon from "../RatingIcon/RatingIcon";
 import SeasonEpisodeInfo from "./SeasonEpisodeInfo/SeasonEpisodeInfo";
 import Button from "../Button/Button";
 import Seasons from "./Seasons/Seasons";
-import { Genre } from "@/types/genre";
-import { MediaMode } from "@/types/mediaMode";
-import { CastMember } from "@/types/cast";
-import { Movie, TVShow, Media } from "@/types/global";
+import CastContainer from "../CastContainer/CastContainer";
+import SimilarMedia from "./SimilarMedia/SimilarMedia";
 
-// Type definition for component props
 interface Props {
 	params: string;
 	mediaMode: MediaMode.TV | MediaMode.Movie;

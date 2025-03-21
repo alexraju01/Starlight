@@ -1,11 +1,13 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import styles from "./page.module.css";
-import fetchData from "../../../utils/fetchData";
-import MovieGrid from "../../../components/MovieGrid/MovieGrid";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+
+import { MovieGrid } from "@/components";
 import { MultiMedia } from "@/types/global";
+import fetchData from "@/utils/fetchData";
+
+import styles from "./page.module.css";
 
 // Define media type
 // interface Media {

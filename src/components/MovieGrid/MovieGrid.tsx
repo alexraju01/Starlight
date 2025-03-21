@@ -1,7 +1,8 @@
 "use client";
 import { Media } from "@/types/global";
-import MediaCard from "../MediaCard/MediaCard";
+
 import styles from "./MovieGrid.module.css";
+import MediaCard from "../MediaCard/MediaCard";
 
 interface Props {
 	media: Media[];

@@ -6,7 +6,6 @@ interface Props {
 }
 
 export default function RatingIcon({ vote, className }: Props) {
-	console.log("qqqqqqqqqqqqqqqqq", vote);
 	return (
 		<div className={styles.rating}>
 			<p className={`${styles.icon} ${className}`}>TMDB</p>

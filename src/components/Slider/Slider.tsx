@@ -1,4 +1,7 @@
+import { APIResponse, Media } from "@/types/global";
 import { MediaMode } from "@/types/mediaMode";
+
+import styles from "./Slider.module.css";
 import fetchData from "../../utils/fetchData";
 import MediaCard from "../MediaCard/MediaCard";
 import {
@@ -8,9 +11,6 @@ import {
 	CarouselNext,
 	CarouselPrevious,
 } from "../ui/carousel";
-
-import styles from "./Slider.module.css";
-import { APIResponse, Media, Movie } from "@/types/global";
 
 interface Props {
 	mediaMode: MediaMode;
