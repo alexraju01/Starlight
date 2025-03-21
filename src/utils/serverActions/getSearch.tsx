@@ -1,6 +1,7 @@
 "use server";
 
 import { APIResponse } from "@/types/global";
+
 import fetchData from "../fetchData";
 
 export default async function getSearch(query: string) {

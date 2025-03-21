@@ -1,4 +1,5 @@
 import { APIResponse } from "@/types/global";
+
 import fetchData from "../fetchData";
 
 const today = new Date().toISOString().split("T")[0];
