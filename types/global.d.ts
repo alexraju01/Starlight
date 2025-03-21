@@ -61,6 +61,7 @@ type Media = Movie | TVSeries;
 
 interface MoviesWithLogos extends BaseMedia {
 	logoImage?: string; // Optional because some movies may not have a logo
+	genre_ids: number[];
 }
 
 export interface Logo {

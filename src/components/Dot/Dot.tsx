@@ -1,5 +1,9 @@
 import styles from "./Dot.module.css";
 
-export default function Dot({ className }) {
+interface Props {
+	className: string;
+}
+
+export default function Dot({ className }: Props) {
 	return <span className={`${styles.dot} ${className}`}></span>;
 }

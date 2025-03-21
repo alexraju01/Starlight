@@ -7,16 +7,16 @@ import getUpcoming from "../../utils/serverActions/getUpcoming";
 import { Loader } from "lucide-react";
 import { Suspense, useState } from "react";
 import UpcomingMedia from "../UpcomingMedia/Upcoming";
-import { Movie, TVShow } from "@/types/global";
+import { Movie, TVSeries } from "@/types/global";
 import { MediaMode } from "@/types/mediaMode";
 
 interface Props {
-	initialMedia: (Movie | TVShow)[];
+	initialMedia: (Movie | TVSeries)[];
 	mediaMode: MediaMode; // ✅ This should allow ALL values in the enum
 }
 
 export default function MediaList({ initialMedia, mediaMode }: Props) {
-	const [media, setMedia] = useState<(Movie | TVShow)[]>(initialMedia);
+	const [media, setMedia] = useState<(Movie | TVSeries)[]>(initialMedia);
 	const [page, setPage] = useState<number>(1);
 	const [buttonHidden, setButtonHidden] = useState<boolean>(initialMedia.length === 0);
 	const [loading, setLoading] = useState<boolean>(false);
@@ -24,7 +24,7 @@ export default function MediaList({ initialMedia, mediaMode }: Props) {
 	const loadMoreMedia = async () => {
 		setLoading(true);
 
-		const mediaList: (Movie | TVShow)[] =
+		const mediaList: (Movie | TVSeries)[] =
 			mediaMode === MediaMode.UPCOMING
 				? await getUpcoming(MediaMode.TV, page + 1)
 				: await getMedia(mediaMode, page + 1);
