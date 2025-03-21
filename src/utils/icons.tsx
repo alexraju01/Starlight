@@ -1,9 +1,6 @@
-import { FaCompass, FaFilm, FaHouse, FaArrowLeft } from "react-icons/fa6";
-import { MdCategory } from "react-icons/md";
-import { FaCalendarAlt, FaUser } from "react-icons/fa";
-import { GoBell } from "react-icons/go";
-import { LuMenu, LuClapperboard } from "react-icons/lu";
 import {
+	FaCalendarAlt,
+	FaUser,
 	FaStar,
 	FaPlay,
 	FaLaugh,
@@ -30,9 +27,12 @@ import {
 	FaComment,
 	FaGavel,
 } from "react-icons/fa";
+import { FaCompass, FaFilm, FaHouse, FaArrowLeft } from "react-icons/fa6";
 import { FiTv } from "react-icons/fi";
+import { GoBell } from "react-icons/go";
 import { IoPlay } from "react-icons/io5";
-import { LuLogOut } from "react-icons/lu";
+import { LuMenu, LuClapperboard, LuLogOut } from "react-icons/lu";
+import { MdCategory } from "react-icons/md";
 
 const genreIcons = {
 	Action: <LuClapperboard />,
