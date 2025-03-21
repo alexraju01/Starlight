@@ -30,12 +30,13 @@ jobs:
 
       - name: Build Next.js App
         env:
-          API_KEY: ${{ secrets.TMDB_API_KEY }}
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
         run: npm run build
 
       - name: Run Semantic Release
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }} # Use Personal Access Token (PAT) instead of default GITHUB_TOKEN
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }} # Use Personal Access Token instead of default GitHub token
+          DEBUG: "semantic-release:*"
         run: npx semantic-release
 
   deploy:
@@ -45,6 +46,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Ensures full commit history is available
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
