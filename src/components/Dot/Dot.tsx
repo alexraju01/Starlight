@@ -1,7 +1,7 @@
 import styles from "./Dot.module.css";
 
 interface Props {
-	className: string;
+	className?: string;
 }
 
 export default function Dot({ className }: Props) {

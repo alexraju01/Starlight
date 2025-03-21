@@ -5,9 +5,10 @@ import styles from "./MediaCard.module.css";
 import Link from "next/link";
 import { Movie, TVSeries } from "@/types/global";
 import { MediaMode } from "@/types/mediaMode";
+import { SearchMedia } from "@/types/searchMedia";
 
 interface Props {
-	media: Movie | TVSeries;
+	media: Movie | TVSeries | SearchMedia;
 	mediaMode: MediaMode;
 	className?: string;
 }
@@ -15,7 +16,7 @@ interface Props {
 export default function MediaCard({ media, mediaMode, className }: Props) {
 	const [isLoaded, setIsLoaded] = useState(false);
 
-	const { id, name, title, poster_path, backdrop_path } = media;
+	const { id, name, title, poster_path } = media;
 	const displayName = title || name;
 	useEffect(() => {
 		// Logic to handle loading state and animation until the image is fully loaded
