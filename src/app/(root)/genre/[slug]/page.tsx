@@ -1,10 +1,14 @@
-import MediaCard from "../../../../components/MediaCard/MediaCard";
-import styles from "./genreMediaList.module.css";
-import fetchData from "../../../../utils/fetchData";
 import { Suspense } from "react";
+
+import { MediaCard } from "@/components";
 import { Genre } from "@/types/genre";
 import { Movie, TVShow } from "@/types/global";
 import { MediaMode } from "@/types/mediaMode";
+import fetchData from "@/utils/fetchData";
+
+import styles from "./genreMediaList.module.css";
+// import MediaCard from "../../../../components/MediaCard/MediaCard";
+// import fetchData from "../../../../utils/fetchData";
 
 interface Props {
 	params: Promise<{ slug: string }>;
@@ -14,13 +18,13 @@ interface GenreResponse {
 	genres: Genre[];
 }
 
-interface MediaItem {
-	id: number;
-	title?: string;
-	name?: string;
-	type: "movie" | "tv";
-	[key: string]: any;
-}
+// interface MediaItem {
+// 	id: number;
+// 	title?: string;
+// 	name?: string;
+// 	type: "movie" | "tv";
+// 	[key: string]: any;
+// }
 
 interface MediaResponse {
 	page: number;
@@ -56,7 +60,7 @@ export default async function Page({ params }: Props) {
 
 	const combineRelatedGenre = [...movieGenre.genres, ...tvGenre.genres];
 
-	const foundGenre = combineRelatedGenre.find((item) => item.id == parseInt(slug));
+	const foundGenre = combineRelatedGenre.find((item) => item.id === parseInt(slug));
 	const genreName = foundGenre ? foundGenre.name : "Unknown Genre";
 
 	return (

@@ -1,16 +1,17 @@
-import styles from "./Seasons.module.css";
-import SectionHeading from "../../SectionHeading/SectionHeading";
-import Icons from "../../../utils/icons";
 import { Suspense } from "react";
-import SeasonsCard from "../SeasonsCard/SeasonsCard";
+
+import SectionHeading from "@/components/SectionHeading/SectionHeading";
 import { Season } from "@/types/seasons";
+import Icons from "@/utils/icons";
+
+import styles from "./Seasons.module.css";
+import SeasonsCard from "../SeasonsCard/SeasonsCard";
+
 interface Props {
 	seasons: Season[];
 }
 
 export default async function Seasons({ seasons }: Props) {
-	// const { id } = seasons;
-	// const seasonsDetail = seasons.seasons;
 	const plural = seasons.length === 1 || 0 ? "Season" : "Seasons";
 
 	if (!seasons || seasons.length === 0) return null; // Return null if there are no seasons to display

@@ -1,16 +1,16 @@
 // import ImageWithFallback from "@/app/components/BrokenImage/ImageWithFallback";
-import ImageWithFallback from "../BrokenImage/ImageWithFallback";
-import styles from "./CastContainer.module.css";
-import SectionHeading from "../SectionHeading/SectionHeading";
-import Icons from "../../utils/icons";
 import { CastMember } from "@/types/cast";
+
+import styles from "./CastContainer.module.css";
+import Icons from "../../utils/icons";
+import ImageWithFallback from "../BrokenImage/ImageWithFallback";
+import SectionHeading from "../SectionHeading/SectionHeading";
 
 interface Props {
 	castList: CastMember[];
 }
 
 export default async function CastContainer({ castList }: Props) {
-	
 	if (!castList) return null;
 	return (
 		<div className={styles.container}>

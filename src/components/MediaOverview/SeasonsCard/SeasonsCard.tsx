@@ -1,6 +1,7 @@
+import { Season } from "@/types/seasons";
+
 import styles from "./SeasonsCard.module.css";
 import ImageWithFallback from "../../BrokenImage/ImageWithFallback";
-import { Season } from "@/types/seasons";
 
 // Define Props Type
 interface Props {
@@ -8,7 +9,7 @@ interface Props {
 	season: Season;
 }
 
-export default async function SeasonsCard({ id, season }: Props) {
+export default async function SeasonsCard({ season }: Props) {
 	return (
 		<div key={season.id} className={styles.season}>
 			<div className={styles.seasonPoster}>

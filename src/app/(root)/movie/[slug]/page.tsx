@@ -1,8 +1,10 @@
-import styles from "./movieDetail.module.css";
 import { Suspense } from "react";
-import MediaOverview from "@/components/MediaOverview/MediaOverview";
-import Spinner from "@/components/LoadingSkeletons/Spinner/Spinner";
+
+import { MediaOverview } from "@/components";
+import { Spinner } from "@/components/LoadingSkeletons";
 import { MediaMode } from "@/types/mediaMode";
+
+import styles from "./movieDetail.module.css";
 
 interface Props {
 	params: Promise<{ slug: string }>;

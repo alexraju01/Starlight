@@ -1,9 +1,11 @@
 "use client";
-import { useState, useEffect } from "react";
-import styles from "./Sidebar.module.css";
-import Icons from "../../utils/icons";
+
+import { useEffect, useState } from "react";
+
+import Icons from "@/utils/icons";
+
 import NavLinks from "./NavLinks/NavLinks";
-import Link from "next/link";
+import styles from "./Sidebar.module.css";
 
 const links = [
 	{ name: "Home", href: "/", icon: Icons.home },
@@ -15,43 +17,35 @@ const links = [
 ];
 
 export default function Sidebar() {
-	const [toggle, setToggle] = useState(false);
-	const [mounted, setMounted] = useState(false);
+	const [isOpen, setIsOpen] = useState(false);
 
-	const handleToggle = () => {
-		setToggle(!toggle);
-	};
+	useEffect(() => {
+		// Setup matchMedia for responsiveness
+		const mediaQuery = window.matchMedia("(min-width: 1200px)");
 
-	const closeSidebar = () => {
+		const handleMediaChange = (e: MediaQueryListEvent | MediaQueryList) => {
+			setIsOpen(e.matches);
+		};
+
+		// Initial check
+		handleMediaChange(mediaQuery);
+
+		// Listen for changes
+		mediaQuery.addEventListener("change", handleMediaChange);
+
+		return () => mediaQuery.removeEventListener("change", handleMediaChange);
+	}, []);
+
+	const toggleSidebar = () => setIsOpen((prev) => !prev);
+
+	const closeSidebarOnMobile = () => {
 		if (window.innerWidth < 1200) {
-			setToggle(false);
+			setIsOpen(false);
 		}
 	};
 
-	useEffect(() => {
-		setMounted(true);
-		const handleResize = () => {
-			if (window.innerWidth < 1200) {
-				setToggle(false);
-			} else {
-				setToggle(true);
-			}
-		};
-
-		// Set the initial state based on the current window width
-		handleResize();
-
-		// Add the event listener
-		window.addEventListener("resize", handleResize);
-
-		// Clean up the event listener
-		return () => {
-			window.removeEventListener("resize", handleResize);
-		};
-	}, []);
-
 	return (
-		<nav className={`${styles.sidebar} ${toggle ? styles.open : styles.close}`}>
+		<nav className={`${styles.sidebar} ${isOpen ? styles.open : styles.close}`}>
 			<div className={styles.logo}>
 				<p>
 					<span className={styles.s}>S</span>
@@ -59,21 +53,15 @@ export default function Sidebar() {
 				</p>
 			</div>
 
-			{/* Sidebar - links items rendered using NavLinks component */}
-			<div className={styles.navItems}>
-				<ul className={styles.navLinks}>
-					{links.map((link, index) => (
-						<NavLinks key={index} linkData={link} closeSidebar={closeSidebar} />
-					))}
-				</ul>
+			<ul className={styles.navLinks}>
+				{links.map((link) => (
+					<NavLinks key={link.href} linkData={link} closeSidebar={closeSidebarOnMobile} />
+				))}
+			</ul>
 
-				{/* <div className={styles.account}>
-					<Link href="/signup">sign in</Link>
-				</div> */}
-			</div>
-			<div className={styles.toggleBtn} onClick={handleToggle}>
-				<i className={styles.icon}>{Icons.menu}</i>
-			</div>
+			<button className={styles.toggleBtn} onClick={toggleSidebar} aria-label='Toggle Sidebar'>
+				<span className={styles.icon}>{Icons.menu}</span>
+			</button>
 		</nav>
 	);
 }

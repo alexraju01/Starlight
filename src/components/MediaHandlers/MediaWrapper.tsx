@@ -1,7 +1,8 @@
-import getMedia from "../../utils/serverActions/getMedia";
-import MediaList from "./MediaList";
-import getUpcoming from "../../utils/serverActions/getUpcoming";
 import { MediaMode } from "@/types/mediaMode";
+import getMedia from "@/utils/serverActions/getMedia";
+import getUpcoming from "@/utils/serverActions/getUpcoming";
+
+import MediaList from "./MediaList";
 
 interface Props {
 	mediaMode: MediaMode;

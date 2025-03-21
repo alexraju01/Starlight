@@ -18,6 +18,7 @@
 				"name": "next"
 			}
 		],
+		"baseUrl": ".",
 		"paths": {
 			"@/*": ["./src/*"],
 			"@/types/*": ["./types/*"]
@@ -28,7 +29,8 @@
 		".next/types/**/*.ts",
 		"**/*.ts",
 		"**/*.tsx",
-		"src/components/MediaCard/MediaCard.tsx"
-, "src/utils/getMoviesLogo.js"	],
+		"src/components/MediaCard/MediaCard.tsx",
+		"src/utils/getMoviesLogo.js"
+	],
 	"exclude": ["node_modules"]
 }

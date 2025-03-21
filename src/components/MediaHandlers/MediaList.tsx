@@ -1,14 +1,16 @@
 "use client";
+import { Loader } from "lucide-react";
+import { useState } from "react";
+
+import { Movie, TVShow } from "@/types/global";
+import { MediaMode } from "@/types/mediaMode";
+import getMedia from "@/utils/serverActions/getMedia";
+import getUpcoming from "@/utils/serverActions/getUpcoming";
+
 import styles from "./Media.module.css";
 import Button from "../Button/Button";
 import MediaCard from "../MediaCard/MediaCard";
-import getMedia from "../../utils/serverActions/getMedia";
-import getUpcoming from "../../utils/serverActions/getUpcoming";
-import { Loader } from "lucide-react";
-import { Suspense, useState } from "react";
-import UpcomingMedia from "../UpcomingMedia/Upcoming";
-import { Movie, TVShow } from "@/types/global";
-import { MediaMode } from "@/types/mediaMode";
+import UpcomingMedia from "../UpcomingMedia/UpcomingMedia";
 
 interface Props {
 	initialMedia: (Movie | TVShow)[];

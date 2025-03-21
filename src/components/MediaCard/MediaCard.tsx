@@ -1,11 +1,14 @@
+/* eslint-disable camelcase */
 "use client";
-import { useState, useEffect } from "react";
 import Image from "next/image";
-import styles from "./MediaCard.module.css";
 import Link from "next/link";
+import { useState, useEffect } from "react";
+
 import { Movie, TVShow } from "@/types/global";
 import { MediaMode } from "@/types/mediaMode";
 import { SearchMedia } from "@/types/searchMedia";
+
+import styles from "./MediaCard.module.css";
 
 interface Props {
 	media: Movie | TVShow | SearchMedia;
