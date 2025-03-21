@@ -1,9 +1,11 @@
-import styles from "./genre.module.css";
-import fetchData from "../../../utils/fetchData";
 import Link from "next/link";
-import Icons, { GenreKey } from "../../../utils/icons";
-import { Genre } from "@/types/genre";
 import { FaQuestionCircle } from "react-icons/fa";
+
+import { Genre } from "@/types/genre";
+import fetchData from "@/utils/fetchData";
+import Icons, { GenreKey } from "@/utils/icons";
+
+import styles from "./genre.module.css";
 
 // Server Component (async component)
 export default async function FetchGenres() {

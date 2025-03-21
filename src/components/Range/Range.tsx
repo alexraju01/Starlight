@@ -1,7 +1,7 @@
 "use client";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import styles from "./Range.module.css";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 interface RangeProps {
 	defautView?: "tv" | "movie"; // ✅ Type for props

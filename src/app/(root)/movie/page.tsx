@@ -1,8 +1,10 @@
-import styles from "./page.module.css";
-import MediaWrapper from "../../../components/MediaHandlers/MediaWrapper";
 import { Suspense } from "react";
-import LoadingSkeletons from "../../../components/LoadingSkeletons/LoadingSkeletons";
+
+import { LoadingSkeletons } from "@/components";
+import MediaWrapper from "@/components/MediaHandlers/MediaWrapper";
 import { MediaMode } from "@/types/mediaMode";
+
+import styles from "./page.module.css";
 
 export default function MoviesPage() {
 	return (

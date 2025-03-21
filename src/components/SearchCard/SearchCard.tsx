@@ -1,14 +1,16 @@
+/* eslint-disable camelcase */
 "use client";
-import styles from "./SearchCard.module.css";
+import Link from "next/link";
 import { useEffect, useState } from "react";
+
+import { SearchMedia } from "@/types/searchMedia";
+
+import styles from "./SearchCard.module.css";
+import { dateConverter } from "../../utils/dateConverter";
+import getSearch from "../../utils/serverActions/getSearch";
+import Dot from "../Dot/Dot";
 import MediaCard from "../MediaCard/MediaCard";
 import RatingIcon from "../RatingIcon/RatingIcon";
-import Dot from "../Dot/Dot";
-import { dateConverter } from "../../utils/dateConverter";
-import Link from "next/link";
-import getSearch from "../../utils/serverActions/getSearch";
-import { MediaMode } from "@/types/mediaMode"; // ✅ Ensure MediaMode is used
-import { SearchMedia } from "@/types/searchMedia";
 
 interface Props {
 	query: string;

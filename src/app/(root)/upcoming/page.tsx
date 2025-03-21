@@ -1,8 +1,11 @@
-import styles from "./Upcoming.module.css";
 import { Suspense } from "react";
-import MediaWrapper from "../../../components/MediaHandlers/MediaWrapper";
-import Spinner from "../../../components/LoadingSkeletons/Spinner/Spinner";
+
+import { Spinner } from "@/components/LoadingSkeletons";
+import MediaWrapper from "@/components/MediaHandlers/MediaWrapper";
 import { MediaMode } from "@/types/mediaMode";
+
+import styles from "./Upcoming.module.css";
+
 export default async function UpcomingPage() {
 	return (
 		<div className={styles.container}>

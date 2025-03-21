@@ -1,7 +1,8 @@
 "use client";
 import { useState } from "react";
-import SearchCard from "../SearchCard/SearchCard";
+
 import styles from "./SearchBox.module.css";
+import SearchCard from "../SearchCard/SearchCard";
 
 export default function SearchBox() {
 	const [search, setSearch] = useState<string>("");
