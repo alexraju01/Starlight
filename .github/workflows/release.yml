@@ -13,7 +13,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Required for semantic-release to analyze commit history
+          fetch-depth: 0 # Ensures full commit history for semantic-release
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -35,17 +35,22 @@ jobs:
 
       - name: Run Semantic Release
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }} # Use Personal Access Token (PAT) if needed
-          # API_KEY: ${{ secrets.TMDB_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }} # Use Personal Access Token (PAT) instead of default GITHUB_TOKEN
         run: npx semantic-release
 
   deploy:
-    needs: release # Runs after the release job is completed
+    needs: release # Ensures release job completes first
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "22"
+          cache: "npm"
 
       - name: Install Vercel CLI
         run: npm install -g vercel
