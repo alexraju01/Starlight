@@ -75,3 +75,10 @@ export interface Logo {
 }
 
 type MultiMedia = Movie | TVSeries;
+
+interface APIResponse {
+	page: number;
+	results: Media[];
+	total_pages: number;
+	total_results: number;
+}

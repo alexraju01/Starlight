@@ -10,7 +10,7 @@ import {
 } from "../ui/carousel";
 
 import styles from "./Slider.module.css";
-import { Movie } from "@/types/global";
+import { APIResponse, Media, Movie } from "@/types/global";
 
 interface Props {
 	mediaMode: MediaMode;
@@ -18,7 +18,7 @@ interface Props {
 }
 
 export default async function Home({ mediaMode, endpoint }: Props) {
-	const getTopRated = await fetchData("3", endpoint);
+	const getTopRated = await fetchData<APIResponse>("3", endpoint);
 	const topRatedMovies = getTopRated.results;
 
 	return (
@@ -28,7 +28,7 @@ export default async function Home({ mediaMode, endpoint }: Props) {
 				align: "start",
 			}}>
 			<CarouselContent>
-				{topRatedMovies.map((topRated: Movie) =>
+				{topRatedMovies.map((topRated: Media) =>
 					topRated.poster_path ? (
 						<CarouselItem key={topRated.id} className={`${styles.carouselItem}`}>
 							<MediaCard className={styles.roundedImage} media={topRated} mediaMode={mediaMode} />
