@@ -29,11 +29,11 @@ jobs:
 
       - name: Run Semantic Release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }} # Use Personal Access Token (PAT) if needed
         run: npx semantic-release
 
   deploy:
-    needs: release # Runs after release job is completed
+    needs: release # Runs after the release job is completed
     runs-on: ubuntu-latest
 
     steps:
@@ -44,4 +44,7 @@ jobs:
         run: npm install -g vercel
 
       - name: Deploy to Vercel
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }} # Optional if you have an org
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }} # Optional for multi-projects
         run: vercel --prod --token ${{ secrets.VERCEL_TOKEN }} --project starlight
