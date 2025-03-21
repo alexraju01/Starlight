@@ -19,7 +19,6 @@ interface APIResponse {
 
 export default async function SimilarMedia({ mediaMode, params }: Props) {
 	const similarMedia = await fetchData<APIResponse>("3", `${mediaMode}/${params}/similar`);
-	console.log("=======================================================", similarMedia);
 	const textChanger = mediaMode === "tv" ? "TV Shows" : "Movies";
 
 	return (
