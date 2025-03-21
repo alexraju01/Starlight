@@ -26,13 +26,13 @@ jobs:
 
       - name: Build Next.js App
         env:
-          API_KEY: ${{ secrets.TMDB_API_KEY}} # Inject API Key
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY}} # Inject API Key
         run: npm run build
 
       - name: Run Semantic Release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }} # Use Personal Access Token (PAT) if needed
-          API_KEY: ${{ secrets.TMDB_API_KEY}} # Ensure API Key is available for release
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY}} # Ensure API Key is available for release
         run: npx semantic-release
 
   deploy:
@@ -51,5 +51,5 @@ jobs:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }} # Optional if you have an org
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }} # Optional for multi-projects
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          API_KEY: ${{ secrets.TMDB_API_KEY}} # Inject API Key for deployment
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY}} # Inject API Key for deployment
         run: vercel --prod --token ${{ secrets.VERCEL_TOKEN }} --project starlight
