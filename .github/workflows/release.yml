@@ -35,7 +35,7 @@ jobs:
 
       - name: Run Semantic Release
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }} # Use Personal Access Token instead of default GitHub token
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }} # Use Personal Access Token instead of default GitHub token
           DEBUG: "semantic-release:*"
         run: npx semantic-release
 
