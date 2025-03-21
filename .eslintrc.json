@@ -40,7 +40,8 @@
 		{
 			"files": ["*.ts", "*.tsx"],
 			"rules": {
-				"no-undef": "off"
+				"no-undef": "off",
+				"camelcase": ["off", { "properties": "never" }]
 			}
 		}
 	]

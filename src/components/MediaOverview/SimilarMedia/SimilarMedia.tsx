@@ -1,10 +1,12 @@
-import Icons from "../../../utils/icons";
-import SectionHeading from "../../SectionHeading/SectionHeading";
+import { MultiMedia } from "@/types/global";
+import { MediaMode } from "@/types/mediaMode";
+
 import styles from "./SimilarMedia.module.css";
 import fetchData from "../../../utils/fetchData";
+import Icons from "../../../utils/icons";
+import SectionHeading from "../../SectionHeading/SectionHeading";
 import Slider from "../../Slider/Slider";
-import { MediaMode } from "@/types/mediaMode";
-import { MultiMedia } from "@/types/global";
+
 interface Props {
 	mediaMode: MediaMode;
 	params: string;

@@ -1,13 +1,15 @@
 "use client";
-import { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { useState, useEffect } from "react";
+
+import { Genre } from "@/types/genre";
+import { Logo, MoviesWithLogos } from "@/types/global";
+import { MediaMode } from "@/types/mediaMode";
+import fetchData from "@/utils/fetchData";
+
 import styles from "./Carousel.module.css";
 import mapGenres from "../../utils/mapGenre";
-import Link from "next/link";
-import fetchData from "@/utils/fetchData";
-import { MediaMode } from "@/types/mediaMode";
-import { Logo, MoviesWithLogos } from "@/types/global";
-import { Genre } from "@/types/genre";
 
 interface Props {
 	mediaMode: MediaMode;
