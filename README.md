@@ -1,21 +1,11 @@
-# Starlight
-
-Starlight is a sleek and modern movie and TV series discovery app built with **Next.js**. It leverages a Movie API to provide users with the ability to browse, search, and view details of their favorite movies and TV shows in a user-friendly interface.
-
 # Starlight 🎬
+Starlight is a modern, elegant movie and TV series discovery app built using the latest **Next.js 15 App Router**. 
+It offers a clean, responsive interface that allows users to browse, search, and explore detailed information about their favorite films and shows — all powered by a robust movie API.
 
-Starlight is a modern **Next.js 15** movie and TV series discovery app.
+The app is designed with performance and user experience in mind, making it fast, intuitive, and mobile-friendly.
 
-## 📖 Documentation
-
-For full documentation, visit the [`docs/`](./docs/index.md) folder:
-
-- [Getting Started](docs/getting-started.md)
-- [API Reference](docs/api-reference.md)
-- [System Architecture](docs/architecture.md)
 
 ## 🚀 Features
-
 - 🔍 **Search Functionality** – Instantly search for The Movie Database (`TMDB`) Api and TV series by title.
 - 🎬 **Browse Popular Movies & TV Shows** – Explore trending and top-rated content.
 - 📄 **Detailed Information** – View synopsis, ratings, genres, and more.
@@ -69,15 +59,6 @@ yarn dev  # or npm run dev
 ```
 
 Visit **[http://localhost:3000](http://localhost:3000)** to view the app.
-
-## 🔧 Deployment
-
-Starlight can be deployed on platforms like **Vercel** for seamless performance. To deploy:
-
-1. Push your code to GitHub.
-2. Connect the repository to [Vercel](https://vercel.com/).
-3. Add environment variables in the Vercel dashboard.
-4. Deploy with one click!
 
 ## 📌 Roadmap
 
