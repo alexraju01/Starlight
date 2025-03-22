@@ -1,3 +1,13 @@
+## [2.0.1](https://github.com/alexraju01/Starlight/compare/v2.0.0...v2.0.1) (2025-03-22)
+
+### Bug Fixes
+
+* **semantic:** release notes github action errors fixed ([5c18719](https://github.com/alexraju01/Starlight/commit/5c1871933bdd5aa37c5667767bc4fcc7ce6bf7e9))
+
+### Features
+
+* Implemented automated patch notes using github actions ([eb4a73f](https://github.com/alexraju01/Starlight/commit/eb4a73f63c2be7ffb04605b7abcc3c211cdc490f))
+
 # [2.0.0](https://github.com/alexraju01/Starlight/compare/v1.1.0...v2.0.0) (2025-03-22)
 
 
