@@ -1,22 +1,19 @@
 module.exports = {
-	private: true,
+	branches: ["main"],
 	plugins: [
-		"@semantic-release/commit-analyzer",
-		"@semantic-release/release-notes-generator",
-		"@semantic-release/changelog",
-		"@semantic-release/github",
-		"@semantic-release/npm",
-		"@semantic-release/git",
-	],
-	release: {
-		prepare: [
-			"@semantic-release/changelog",
-			"@semantic-release/npm",
+		[
+			"@semantic-release/commit-analyzer",
 			{
-				path: "@semantic-release/git",
-				assets: ["package.json", "package-lock.json", "CHANGELOG.md"],
-				message: "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
+				preset: "conventionalcommits",
+				releaseRules: [
+					{ type: "chore", scope: "deps", release: "patch" },
+					{ type: "refactor", release: "patch" },
+					{ type: "docs", release: false },
+				],
 			},
 		],
-	},
+		"@semantic-release/release-notes-generator",
+		"@semantic-release/npm",
+		"@semantic-release/github",
+	],
 };
