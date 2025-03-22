@@ -1,9 +1,15 @@
 module.exports = {
 	repositoryUrl: "https://github.com/alexraju01/Starlight.git",
-	branches: ["main"],
+	branches: [
+		"main",
+		{
+			name: "1-upgrade-next15-ts",
+			prerelease: true,
+		},
+	],
 	plugins: [
 		[
-			// "@semantic-release/commit-analyzer",
+			"@semantic-release/commit-analyzer",
 			{
 				preset: "conventionalcommits",
 				releaseRules: [{ type: "refactor", release: "patch" }],
