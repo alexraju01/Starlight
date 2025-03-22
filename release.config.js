@@ -9,7 +9,21 @@ module.exports = {
 				releaseRules: [{ type: "refactor", release: "patch" }],
 			},
 		],
-		"@semantic-release/release-notes-generator",
+		[
+			"@semantic-release/release-notes-generator",
+			{
+				preset: "conventionalcommits",
+				writerOpts: {
+					groupBy: "type",
+					commitGroupsSort: "title",
+					commitGroupTitleMap: {
+						feat: "✨ Features",
+						fix: "🐛 Bug Fixes",
+						refactor: "🛠 Refactors",
+					},
+				},
+			},
+		],
 		"@semantic-release/changelog",
 		"@semantic-release/github",
 		[
