@@ -62,8 +62,8 @@ Visit **[http://localhost:3000](http://localhost:3000)** to view the app.
 
 ## 📌 Roadmap
 
-- [ ] Upgrade to Next.js 15.
-- [ ] Transition to typescript.
+- [x] Upgrade to Next.js 15.
+- [x] Transition to typescript.
 - [ ] Improve Pagination for all the pages that require it.
 - [ ] Add user authentication.
 - [ ] Implement watchlist and favorites.
