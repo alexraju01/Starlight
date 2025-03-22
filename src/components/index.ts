@@ -17,3 +17,5 @@ export { default as SearchCard } from "./SearchCard/SearchCard";
 export { default as SectionHeading } from "./SectionHeading/SectionHeading";
 export { default as Slider } from "./Slider/Slider";
 export { default as UpcomingMedia } from "./UpcomingMedia/UpcomingMedia";
+
+// import paths imporved
