@@ -12,7 +12,10 @@ module.exports = {
 			"@semantic-release/commit-analyzer",
 			{
 				preset: "conventionalcommits",
-				releaseRules: [{ type: "refactor", release: "patch" }],
+				releaseRules: [
+					{ type: "refactor", release: "patch" },
+					{ type: "upgrade", release: "minor" },
+				],
 			},
 		],
 		[
@@ -26,6 +29,7 @@ module.exports = {
 						feat: "✨ Features",
 						fix: "🐛 Bug Fixes",
 						refactor: "🛠 Refactors",
+						upgrade: "📦 Upgrades",
 					},
 				},
 			},
