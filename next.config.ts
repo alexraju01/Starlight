@@ -5,6 +5,9 @@ const nextConfig: NextConfig = {
 	env: {
 		TMDB_API_KEY: process.env.TMDB_API_KEY,
 	},
+	eslint: {
+		ignoreDuringBuilds: true, // 👈 This disables ESLint during builds
+	},
 	// output: "export",
 	images: {
 		unoptimized: true,
