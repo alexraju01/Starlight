@@ -1,8 +1,7 @@
 "use client";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-import styles from "./NavLinks.module.css";
 
 interface LinkData {
 	href: string;
@@ -17,6 +16,7 @@ interface NavLinksProps {
 
 export default function NavLinks({ linkData, closeSidebar }: NavLinksProps) {
 	const path = usePathname();
+	const isActive = path === linkData.href;
 
 	const handleClick = () => {
 		if (closeSidebar) {
@@ -25,13 +25,17 @@ export default function NavLinks({ linkData, closeSidebar }: NavLinksProps) {
 	};
 
 	return (
-		<li role='listitem'>
+		<li role='listitem' className='w-full h-14 flex justify-center items-center text-xl'>
 			<Link
-				className={path === linkData.href ? styles.active : ""}
 				href={linkData.href}
-				onClick={handleClick}>
-				<i>{linkData.icon}</i>
-				<p>{linkData.name}</p>
+				onClick={handleClick}
+				className={`flex items-center w-full h-full gap-4 px-4 rounded-xl transition-all
+					${isActive ? "text-white bg-[#1c1b1c]" : "text-[#515256]"}
+					hover:text-white hover:bg-[#1c1b1c]`}>
+				<span className={`flex justify-end w-1/5 ${isActive ? "text-[#9e221a]" : ""}`}>
+					{linkData.icon}
+				</span>
+				<p className='flex justify-start w-1/2'>{linkData.name}</p>
 			</Link>
 		</li>
 	);

@@ -113,17 +113,17 @@
 	width: 0;
 }
 .close ul {
-	transform: translateX(-21rem); /* Sidebar is hidden */
+	transform: translateX(-21rem);
 	width: 0;
 	background-color: pink;
 }
 .close .logo {
-	transform: translateX(-21rem); /* Sidebar is hidden */
+	transform: translateX(-21rem);
 	width: 0;
 }
 
 .close .account {
-	transform: translateX(-21rem); /* Sidebar is hidden */
+	transform: translateX(-21rem);
 	width: 0;
 }
 

@@ -1,4 +1,4 @@
-.btn {
+/* .btn {
 	display: flex;
 	align-items: center;
 	gap: 1rem;
@@ -17,10 +17,9 @@
 .watchBtn:hover {
 	scale: 1.1;
 	cursor: pointer;
-	/* box-shadow: 0 0 8px #9e221a; */
 }
 
 .btn:disabled {
 	opacity: 0.25;
 	cursor: not-allowed;
-}
+} */

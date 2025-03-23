@@ -10,8 +10,4 @@
 	html {
 		font-size: 62.5%;
 	}
-
-	body {
-		@apply flex w-full h-full bg-[#100f10] text-white;
-	}
 }
