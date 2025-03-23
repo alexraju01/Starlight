@@ -3,7 +3,7 @@ module.exports = {
 	branches: [
 		"main",
 		{
-			name: "1-upgrade-next15-ts",
+			name: "4-style/css-to-tailwind",
 			prerelease: true,
 		},
 	],
