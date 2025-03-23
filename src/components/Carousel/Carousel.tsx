@@ -108,7 +108,7 @@ export default function Carousel({ mediaMode }: Props) {
 						{/* Info (desktop only) */}
 						<div className='hidden xl:flex flex-col justify-center items-center flex-[2] text-white h-full border-[0.5rem] border-[#100f10] gap-8'>
 							{movie.logoImage && (
-								<div className='relative h-[clamp(10rem,14vw,17rem)] w-[clamp(14rem,17vw,33rem)]'>
+								<div className=' relative h-[clamp(10rem,14vw,17rem)] w-[clamp(14rem,17vw,33rem)]'>
 									<Image
 										src={movie.logoImage}
 										fill
@@ -127,7 +127,7 @@ export default function Carousel({ mediaMode }: Props) {
 								src={`https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`}
 								fill
 								alt={movie.title || movie.name || "Media"}
-								className='object-cover object-center brightness-[80%] rounded-none xl:rounded-2xl'
+								className='object-cover object-center brightness-[80%] rounded-none md:rounded-2xl xl:rounded-2xl'
 								priority={index === 0}
 							/>
 

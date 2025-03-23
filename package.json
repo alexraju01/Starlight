@@ -39,7 +39,7 @@
     "eslint-config-prettier": "^10.1.1",
     "eslint-config-standard": "^17.1.0",
     "eslint-plugin-tailwindcss": "^3.18.0",
-    "postcss": "^8.4.39",
+    "postcss": "^8.5.3",
     "semantic-release": "^24.2.3",
     "tailwindcss": "^4.0.15"
   }
