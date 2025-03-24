@@ -11,3 +11,39 @@
 		font-size: 62.5%;
 	}
 }
+
+@layer utilities {
+	@keyframes fadeIn {
+		0% {
+			opacity: 0;
+		}
+		100% {
+			opacity: 1;
+		}
+	}
+
+	.animate-fadeIn {
+		animation: fadeIn 1s forwards;
+	}
+
+	.image-pixelated {
+		image-rendering: pixelated;
+	}
+	.genre-item {
+		@apply border-[2px] border-solid border-gray-100 px-[0.7rem] py-[0.4rem] rounded-[0.8rem] backdrop-blur-lg 
+        transition-all duration-300 hover:cursor-pointer hover:border-[#9e221a] hover:bg-[#9e221a1a] hover:scale-108
+        xl:border xl:border-white/0 xl:bg-white/25  xl:hover:border-white xl:hover:bg-white/10;
+	}
+
+	.mask-gradient-default {
+		mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0.5) 100%);
+		-webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0.5) 100%);
+	}
+
+	@media (min-width: 1280px) {
+		.mask-gradient-default {
+			mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.7) 30%);
+			-webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.7) 30%);
+		}
+	}
+}

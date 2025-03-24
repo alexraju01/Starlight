@@ -1,5 +1,3 @@
-import styles from "./SeasonEpisodeInfo.module.css";
-
 interface Props {
 	metaData: {
 		number_of_seasons: number;
@@ -9,11 +7,12 @@ interface Props {
 
 export default function SeasonEpisodeInfo({ metaData }: Props) {
 	const { number_of_seasons, number_of_episodes } = metaData;
-	const plural = number_of_seasons === 1 || 0 || null ? "Season" : "Seasons";
+	const plural = number_of_seasons === 1 || !number_of_seasons ? "Season" : "Seasons";
+
 	return (
-		<section className={styles.container}>
+		<section className='w-full'>
 			{number_of_seasons && number_of_episodes && (
-				<div className={styles.mediaMetadata}>
+				<div className='flex justify-evenly text-[2rem] w-full text-white/50 mb-4'>
 					<div>{`${number_of_seasons} ${plural}`}</div>
 					<div>{`${number_of_episodes} Episodes`}</div>
 				</div>

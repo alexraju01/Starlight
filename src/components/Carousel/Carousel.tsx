@@ -105,7 +105,6 @@ export default function Carousel({ mediaMode }: Props) {
 						key={movie.id}
 						className='flex-shrink-0 flex w-full h-full items-center justify-evenly flex-row'
 						data-active={index === currentIndex ? true : undefined}>
-						{/* Info (desktop only) */}
 						<div className='hidden xl:flex flex-col justify-center items-center flex-[2] text-white h-full border-[0.5rem] border-[#100f10] gap-8'>
 							{movie.logoImage && (
 								<div className=' relative h-[clamp(10rem,14vw,17rem)] w-[clamp(14rem,17vw,33rem)]'>
@@ -127,7 +126,7 @@ export default function Carousel({ mediaMode }: Props) {
 								src={`https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`}
 								fill
 								alt={movie.title || movie.name || "Media"}
-								className='object-cover object-center brightness-[80%] rounded-none md:rounded-2xl xl:rounded-2xl'
+								className='object-cover object-center brightness-[80%] rounded-none md:rounded-3xl '
 								priority={index === 0}
 							/>
 
@@ -135,7 +134,7 @@ export default function Carousel({ mediaMode }: Props) {
 							<div className='absolute top-0 w-full h-full bg-gradient-to-t xl:bg-gradient-to-r from-[#100f10] to-transparent mt-[clamp(5rem,7.5vw,10rem)] xl:mt-0 xl:ml-[-0.1rem] flex justify-start items-center'>
 								<div className='flex flex-col gap-8 px-8 xl:hidden'>
 									{movie.logoImage && (
-										<div className='relative h-[clamp(10rem,14vw,17rem)] w-[clamp(14rem,17vw,33rem)]'>
+										<div className='relative h-[clamp(1rem,14vw,17rem)] w-[clamp(14rem,17vw,33rem)]'>
 											<Image
 												src={movie.logoImage}
 												fill
@@ -145,11 +144,11 @@ export default function Carousel({ mediaMode }: Props) {
 											/>
 										</div>
 									)}
-									<p className='text-base leading-snug line-clamp-2 text-white w-[clamp(27rem,50vw,37rem)]'>
+									<p className='text-xl leading-snug line-clamp-2  text-white w-[clamp(27rem,50vw,37rem)]'>
 										{movie.overview}
 									</p>
 									<Link href={`/${mediaMode}/${movie.id}`}>
-										<button className='bg-[#9e221a] text-white rounded-2xl px-6 py-2 text-base'>
+										<button className='bg-[#9e221a] text-white rounded-2xl px-6 py-4 text-xl font-normal'>
 											More Details
 										</button>
 									</Link>
