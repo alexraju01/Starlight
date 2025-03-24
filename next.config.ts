@@ -10,13 +10,14 @@ const nextConfig: NextConfig = {
 	},
 	// output: "export",
 	images: {
+		imageSizes: [185, 342],
 		unoptimized: true,
 		remotePatterns: [
 			{
 				protocol: "https",
 				hostname: "image.tmdb.org",
 				port: "",
-				pathname: "/t/p/original/**",
+				pathname: "/t/p/**",
 			},
 			{
 				protocol: "https",

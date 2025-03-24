@@ -77,8 +77,8 @@ export interface Logo {
 type MultiMedia = Movie | TVShow;
 
 interface APIResponse {
-	page: number;
+	page?: number;
 	results: Media[];
-	total_pages: number;
-	total_results: number;
+	total_pages?: number;
+	total_results?: number;
 }
