@@ -19,19 +19,11 @@ import Button from "../Button/Button";
 import Seasons from "./Seasons/Seasons";
 import CastContainer from "../CastContainer/CastContainer";
 import SimilarMedia from "./SimilarMedia/SimilarMedia";
+import { isMovie, isTVShow } from "@/utils/typeGuard";
 
 interface Props {
 	params: string;
 	mediaMode: MediaMode.TV | MediaMode.Movie;
-}
-
-// Utility type guards
-function isMovie(media: Media): media is Movie {
-	return (media as Movie).media_type === "movie";
-}
-
-function isTVShow(media: Media): media is TVShow {
-	return (media as TVShow).media_type === "tv";
 }
 
 async function fetchMediaData(params: string, mediaMode: MediaMode.TV | MediaMode.Movie) {

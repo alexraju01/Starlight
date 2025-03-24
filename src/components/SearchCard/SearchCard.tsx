@@ -51,10 +51,10 @@ export default function SearchCard({ query }: Props) {
 										<div className={styles.metaData}>
 											<RatingIcon className={styles.rate} vote={media.vote_average ?? 0} />
 											<Dot />
-											<p>{media.media_type}</p>
+											<p>{media.media_type.toUpperCase()}</p>
 											<Dot />
 											<p className={styles.date}>
-												{dateConverter(media.release_date ?? media.first_air_date ?? "N/A")}
+												{dateConverter(media.release_date || media.first_air_date)}
 											</p>
 										</div>
 									</div>

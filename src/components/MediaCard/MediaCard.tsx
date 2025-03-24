@@ -25,37 +25,37 @@ export default function MediaCard({ media, mediaMode, className }: Props) {
 	}, [poster_path]);
 
 	return (
-		<Link href={`/${mediaMode}/${id}`}>
-			<div
-				className={`
+		// <Link href={`/${mediaMode}/${id}`}>
+		<div
+			className={`
 					relative w-full h-full overflow-hidden 
 					transition-all duration-300 ease-in-out 
 					filter brightness-[80%] hover:brightness-[105%] 
 					hover:scale-110 ${className}
 				`}>
-				{!isLoaded && (
-					<div className='absolute top-0 left-0 w-full h-full bg-slate-700 animate-[pulse_1.5s_ease-in-out_infinite] rounded-md z-[1]' />
-				)}
+			{!isLoaded && (
+				<div className='absolute top-0 left-0 w-full h-full bg-slate-700 animate-[pulse_1.5s_ease-in-out_infinite] rounded-md z-[1]' />
+			)}
 
-				<Image
-					className={`
+			<Image
+				className={`
 						transition-opacity duration-300 ease-in-out 
 						${isLoaded ? "opacity-100" : "opacity-0"} 
 						relative z-[2] rounded-xl shadow-md
 					`}
-					src={
-						poster_path
-							? `https://image.tmdb.org/t/p/w342${poster_path}`
-							: `https://image.tmdb.org/t/p/w342/`
-					}
-					width={70}
-					height={105}
-					layout='responsive'
-					alt={displayName ?? "Image poster"}
-					priority
-					onLoad={() => setIsLoaded(true)}
-				/>
-			</div>
-		</Link>
+				src={
+					poster_path
+						? `https://image.tmdb.org/t/p/w342${poster_path}`
+						: `https://image.tmdb.org/t/p/w342/`
+				}
+				width={70}
+				height={105}
+				layout='responsive'
+				alt={displayName ?? "Image poster"}
+				priority
+				onLoad={() => setIsLoaded(true)}
+			/>
+		</div>
+		// </Link>
 	);
 }

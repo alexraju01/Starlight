@@ -1,6 +1,6 @@
-export const dateConverter = (date: string): string => {
+export const dateConverter = (date: string | undefined | null): string => {
 	if (!date || isNaN(Date.parse(date))) {
-		throw new Error("Invalid date string provided.");
+		return "----";
 	}
 
 	const dateObj = new Date(date);
