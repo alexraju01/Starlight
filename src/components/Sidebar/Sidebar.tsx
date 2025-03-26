@@ -38,8 +38,9 @@ export default function Sidebar() {
 	return (
 		<nav
 			className={`fixed top-0 left-0 z-10 h-screen bg-[#100f10] text-white border-r border-[#252525] transition-all duration-300 ${
-				isOpen ? "w-60 translate-x-0" : "w-0"
-			} xl:sticky xl:w-80`}>
+				isOpen ? "min-w-70 translate-x-0" : "w-0"
+			} xl:sticky xl:w-70`}
+			style={{ borderRight: "0.1rem solid #252525" }}>
 			<div
 				className={`flex justify-center items-center pt-12 pb-4 text-3xl font-semibold whitespace-nowrap transition-all duration-300 ${
 					isOpen ? "translate-x-0 w-full" : "-translate-x-80 w-0"
