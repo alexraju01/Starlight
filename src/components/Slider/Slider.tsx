@@ -22,7 +22,7 @@ export default async function Home({ mediaMode, endpoint }: Props) {
 
 	return (
 		<Carousel
-			className='w-full'
+			className='w-full '
 			opts={{
 				align: "start",
 			}}>
@@ -32,17 +32,25 @@ export default async function Home({ mediaMode, endpoint }: Props) {
 						<CarouselItem
 							key={topRated.id}
 							className={`
-								basis-1/3 sm:basis-1/4 md:basis-1/5 lg:basis-1/6 2xl:basis-1/8
+								basis-[calc((100%-1rem)/3)]
+								sm:basis-[calc((100%-1rem)/4)]
+								md:basis-[calc((100%-1rem)/5)]
+								lg:basis-[calc((100%-1rem)/6)]
+								xl:basis-[calc((100%-1rem)/6)]
+								2xl:basis-[calc((100%-1rem)/8)]
 								w-full
-								px-2
 								pt-8
+								pr-2
+								pb-8
+								pl-4
+								xl:pr-[0.8rem]
 							`}>
 							<MediaCard className='rounded-2xl' media={topRated} mediaMode={mediaMode} />
 						</CarouselItem>
 					) : null
 				)}
 			</CarouselContent>
-			<CarouselPrevious className='text-xl' />
+			<CarouselPrevious className='text-[1.5rem]' />
 			<CarouselNext />
 		</Carousel>
 	);

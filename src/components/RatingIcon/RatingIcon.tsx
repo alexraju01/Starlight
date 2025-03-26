@@ -1,5 +1,3 @@
-import styles from "./RatingIcon.module.css";
-
 interface Props {
 	vote: number;
 	className?: string;
@@ -7,9 +5,23 @@ interface Props {
 
 export default function RatingIcon({ vote, className }: Props) {
 	return (
-		<div className={styles.rating}>
-			<p className={`${styles.icon} ${className}`}>TMDB</p>
-			<p className={styles.rate}>{vote?.toFixed(1)}</p>
+		<div className='flex items-center gap-[0.5rem]'>
+			<p
+				className={`
+					font-bold 
+					text-black 
+					bg-[#edc017] 
+					border 
+					border-[#edc017] 
+					rounded-[0.5rem] 
+					px-[0.2rem]
+                    py-[0.1rem]
+					text-xl
+					${className ?? ""}
+				`}>
+				TMDB
+			</p>
+			<p className='text-white font-medium'>{vote?.toFixed(1)}</p>
 		</div>
 	);
 }
