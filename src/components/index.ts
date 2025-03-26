@@ -10,7 +10,7 @@ export { default as MediaCard } from "./MediaCard/MediaCard";
 // export { default as MediaHandlers } from "./MediaHandlers/MediaHandlers";
 export { default as MediaOverview } from "./MediaOverview/MediaOverview";
 export { default as MovieGrid } from "./MovieGrid/MovieGrid";
-export { default as Range } from "./Range/Range";
+// export { default as Range } from "./Range/Range";
 export { default as RatingIcon } from "./RatingIcon/RatingIcon";
 export { default as SearchBox } from "./SearchBox/SearchBox";
 export { default as SearchCard } from "./SearchCard/SearchCard";
