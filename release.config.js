@@ -7,6 +7,8 @@ module.exports = {
 			
 		},
 	],
+	// improve this
+	
 	plugins: [
 		[
 			"@semantic-release/commit-analyzer",
@@ -51,8 +53,8 @@ module.exports = {
 				},
 			  },
 			},
-		  ],
-		  
+		  ]
+,		  
 		"@semantic-release/changelog",
 		"@semantic-release/github",
 		[
