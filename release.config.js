@@ -42,7 +42,7 @@ module.exports = {
 				  // Return a *new* commit object
 				  return {
 					...commit,
-					subject: `* ${commit.subject} (${commitUrl})`,
+					subject: `* ${commit.subject}`,
 				  };
 				},
 			  }
