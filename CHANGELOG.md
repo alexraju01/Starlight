@@ -1,3 +1,9 @@
+## [2.1.8](https://github.com/alexraju01/Starlight/compare/v2.1.7...v2.1.8) (2025-04-01)
+
+### 🐛 Bug Fixes
+
+* testing ([5320989](https://github.com/alexraju01/Starlight/commit/5320989bb2a05564ce0cf6794892e213d2572cde))
+
 ## [2.1.7](https://github.com/alexraju01/Starlight/compare/v2.1.6...v2.1.7) (2025-04-01)
 
 ### 🐛 Bug Fixes
