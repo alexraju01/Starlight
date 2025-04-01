@@ -21,11 +21,35 @@ The app is designed with performance and user experience in mind, making it fast
 - **Movie API** – Fetches movie and TV series data.
 
 ## 📸 Screenshots
+ Home Page - Desktop View
+ ![starlight-desktop](https://github.com/user-attachments/assets/5e21ca4b-31ac-43c9-976b-b4ba2fa5b5de)
 
-> _Add relevant screenshots showcasing the UI and features._
+ Movie List Page - Desktop View
+ ![Screenshot 2025-04-01 161409](https://github.com/user-attachments/assets/49f6b137-4da0-40a0-b0be-b7c224d1fcd2)
+
+Movie Detail Page - Desktop View
+![Screenshot 2025-04-01 161750](https://github.com/user-attachments/assets/d86518a1-8f22-4566-85fc-767a946cb737)
+![Screenshot 2025-04-01 165856](https://github.com/user-attachments/assets/e7919f58-f71a-4fbc-a7eb-ee13eac925bb)
+
+
+TV Show Detail Page - Desktop View
+![starlight-tvShow](https://github.com/user-attachments/assets/2316c9b7-8cce-4905-828e-5da443e5bbaf)
+![starlight-TvShowDeatil-part2](https://github.com/user-attachments/assets/4f404052-2f45-4de0-9555-84640dcbb91a)
+
+Genre List Page - Desktop View
+![starlight-genreList](https://github.com/user-attachments/assets/1e297b80-199c-4f81-b0c8-9b981d374afe)
+
+Genre specified(Animation) Media List - Desktop View
+![Screenshot 2025-04-01 165924](https://github.com/user-attachments/assets/a98e50f6-57e6-4699-a526-f6a7058f8125)
+
+Discover Search Page - Desktop View
+![Screenshot 2025-04-01 170705](https://github.com/user-attachments/assets/547ecc9d-8eb0-4f11-b44a-99314c6e0dfb)
 
 ## 📦 Installation & Setup
+Prerequisites:
+- Node.js v22.14.0 or later
 
+  
 To get started with Starlight on your local machine, follow these steps:
 
 ### 1️⃣ Clone the Repository
