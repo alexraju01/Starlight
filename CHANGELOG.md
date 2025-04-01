@@ -1,3 +1,9 @@
+## [2.1.9](https://github.com/alexraju01/Starlight/compare/v2.1.8...v2.1.9) (2025-04-01)
+
+### 🐛 Bug Fixes
+
+* reverting changes ([167acbf](https://github.com/alexraju01/Starlight/commit/167acbfee08496d6cdaa3cc21eadb6a4e6d1bb27))
+
 ## [2.1.8](https://github.com/alexraju01/Starlight/compare/v2.1.7...v2.1.8) (2025-04-01)
 
 ### 🐛 Bug Fixes
