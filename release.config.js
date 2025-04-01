@@ -4,7 +4,7 @@ module.exports = {
 		"main",
 		{
 			name: "4-style/css-to-tailwind",
-			prerelease: true,
+			
 		},
 	],
 	plugins: [
