@@ -36,13 +36,15 @@ module.exports = {
 			  },
 			  writerOpts: {
 				transform: (commit, context) => {
-				  const shortHash = commit.hash?.substring(0, 7);
-				  const repoUrl = context.repositoryUrl?.replace(/\.git$/, "") || "";
-				  const commitUrl = commit.hash ? `${repoUrl}/commit/${commit.hash}` : "";
+				  const shortHash = commit.hash?.substring(0, 7) || "";
+				  
+				  // Use repositoryUrl and remove `.git` suffix
+				  const repoUrl = context.repositoryUrl?.replace(/\.git$/, "");
+				  const commitUrl = commit.hash && repoUrl ? `${repoUrl}/commit/${commit.hash}` : "";
 			  
 				  const formattedSubject = commitUrl
 					? `* ${commit.subject} (${commitUrl})`
-					: `* ${commit.subject}`;
+					: `* ${commit.subject} (${shortHash})`;
 			  
 				  return {
 					...commit,
