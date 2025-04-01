@@ -1,6 +1,7 @@
 "use client";
 import { Media } from "@/types/global";
 import MediaCard from "../MediaCard/MediaCard";
+import Link from "next/link";
 
 interface Props {
 	media: Media[];
@@ -28,7 +29,9 @@ export default function MovieGrid({ media }: Props) {
 			'>
 			{media.map((multi) => (
 				<div key={multi.id}>
+					 <Link href={`/${multi.media_type}/${multi.id}`}>
 					<MediaCard media={multi} mediaMode={multi.media_type} />
+					</Link>
 				</div>
 			))}
 		</div>

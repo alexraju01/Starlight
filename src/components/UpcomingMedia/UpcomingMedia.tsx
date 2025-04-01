@@ -5,6 +5,7 @@ import { MediaMode } from "@/types/mediaMode";
 import Icons from "@/utils/icons";
 
 import MediaCard from "../MediaCard/MediaCard";
+import Link from "next/link";
 
 interface Props {
 	media: Media;
@@ -19,11 +20,14 @@ export default function UpcomingMedia({ media, mediaMode }: Props) {
 	return (
 		<div className='flex gap-4 w-full h-full rounded-[0.8rem] bg-[rgba(255,255,255,0.08)]'>
 			<div className='relative h-full w-[14rem] sm:w-[18rem]'>
-				<MediaCard
-					className='!h-[17rem] !rounded-l-[0.8rem] !scale-100 hover:!scale-100 transition-none'
-					media={media}
-					mediaMode={mediaMode}
-				/>
+				 <Link href={`/${mediaMode}/${media.id}`}>
+
+					<MediaCard
+						className='!h-[17rem] !rounded-l-[0.8rem] !scale-100 hover:!scale-100 transition-none'
+						media={media}
+						mediaMode={mediaMode}
+					/>
+				</Link>
 			</div>
 
 			<div className='flex flex-col justify-between h-full w-full'>

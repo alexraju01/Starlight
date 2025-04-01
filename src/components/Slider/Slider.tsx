@@ -10,6 +10,7 @@ import {
 	CarouselNext,
 	CarouselPrevious,
 } from "../ui/carousel";
+import Link from "next/link";
 
 interface Props {
 	mediaMode: MediaMode;
@@ -45,7 +46,9 @@ export default async function Home({ mediaMode, endpoint }: Props) {
 								pl-4
 								xl:pr-[0.8rem]
 							`}>
-							<MediaCard className='rounded-2xl' media={topRated} mediaMode={mediaMode} />
+			 				<Link href={`/${mediaMode}/${topRated.id}`}>
+								<MediaCard className='rounded-2xl' media={topRated} mediaMode={mediaMode} />
+							</Link>
 						</CarouselItem>
 					) : null
 				)}
