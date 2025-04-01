@@ -63,9 +63,11 @@ Visit **[http://localhost:3000](http://localhost:3000)** to view the app.
 ## 📌 Roadmap
 
 - [x] Upgrade to Next.js 15.
-- [x] Transition to typescript.
-- [ ] Improve Pagination for all the pages that require it.
+- [x] Transition from JavaScript to TypeScript.
+- [ ] Transition from CSS Module to Tailwind
+- [ ] Improve pagination for all the pages that require it.
 - [ ] Add user authentication.
 - [ ] Implement watchlist and favorites.
 - [ ] Improve search with advanced filters.
 - [ ] Implement infinite scrolling for a smoother experience.
+- [ ] Redesign the website using Figma designs.
