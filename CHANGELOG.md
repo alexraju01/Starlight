@@ -1,3 +1,11 @@
+## [2.1.3](https://github.com/alexraju01/Starlight/compare/v2.1.2...v2.1.3) (2025-04-01)
+
+* * Merge branch 'main' of https://github.com/alexraju01/Starlight ([](https://github.com/alexraju01/Starlight/commit/4256f286b0795ca72e846ff485ca72b83c2fcb5f))
+
+### fix
+
+* * Checking changes ([](https://github.com/alexraju01/Starlight/commit/b5d9c1a09516d0f06e29de9b3546765d5bfbe540))
+
 ## [2.1.2](https://github.com/alexraju01/Starlight/compare/v2.1.1...v2.1.2) (2025-04-01)
 
 * * Merge branch 'main' of https://github.com/alexraju01/Starlight (https://github.com/alexraju01/Starlight/commit/2e9a0d04253827e9370d16d5d2612cce13136c73) ([](https://github.com/alexraju01/Starlight/commit/2e9a0d04253827e9370d16d5d2612cce13136c73))
