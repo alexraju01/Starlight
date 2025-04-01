@@ -37,8 +37,6 @@ module.exports = {
 			  writerOpts: {
 				transform: (commit, context) => {
 				  const shortHash = commit.hash?.substring(0, 7) || "";
-				  
-				  // Use repositoryUrl and remove `.git` suffix
 				  const repoUrl = context.repositoryUrl?.replace(/\.git$/, "");
 				  const commitUrl = commit.hash && repoUrl ? `${repoUrl}/commit/${commit.hash}` : "";
 			  
@@ -46,12 +44,18 @@ module.exports = {
 					? `* ${commit.subject} (${commitUrl})`
 					: `* ${commit.subject} (${shortHash})`;
 			  
+				  // If references (e.g. issues) are empty, clear them to avoid trailing ()
+				  if (!commit.references || commit.references.length === 0) {
+					commit.references = [];
+				  }
+			  
 				  return {
 					...commit,
 					subject: formattedSubject,
 				  };
 				},
 			  }
+			  
 			  
 			  ,
 			},
