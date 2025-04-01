@@ -1,3 +1,16 @@
+## [2.1.0](https://github.com/alexraju01/Starlight/compare/v2.0.1...v2.1.0) (2025-04-01)
+
+### Bug Fixes
+
+* fixed build error causing deployment failures ([3f172f6](https://github.com/alexraju01/Starlight/commit/3f172f69c0b6ed29301d8dd1ca5fd1853d57221c))
+* fixed conflicting dependencies ([2c2af49](https://github.com/alexraju01/Starlight/commit/2c2af494e34d4363a889a86f57a4abaf735a273f))
+* Fixed conflicting tailwind error for now as tailwind eslint doesn't support tailwind v4 ([77b20c1](https://github.com/alexraju01/Starlight/commit/77b20c1c283193ebc89b2b15a5932e56fd6002c7))
+* Fixed link issues and also improves the home page search box style ([89dadde](https://github.com/alexraju01/Starlight/commit/89dadde060144c515a23d83a84a64c7424571f6f))
+* Fixed navbar styling ([edf5807](https://github.com/alexraju01/Starlight/commit/edf58079538453a98d86c01b7fbedef77d87fd8f))
+* Fixed the error shown when typing into the home page search box ([ebc9184](https://github.com/alexraju01/Starlight/commit/ebc9184f33c471ee2c153aa3e47f1469154e20ed))
+* Fixing building errors ([fc1d8b8](https://github.com/alexraju01/Starlight/commit/fc1d8b8f4805b36c2f46467fd65961084f20cfe9))
+* Fixing the release issue ([35ef338](https://github.com/alexraju01/Starlight/commit/35ef33860624d6a0f9c02969197596393c7fd3f2))
+
 ## [2.0.1](https://github.com/alexraju01/Starlight/compare/v2.0.0...v2.0.1) (2025-03-22)
 
 ### Bug Fixes
