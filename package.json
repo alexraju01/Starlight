@@ -31,7 +31,7 @@
     "@semantic-release/github": "^11.0.1",
     "@semantic-release/npm": "^12.0.1",
     "@semantic-release/release-notes-generator": "^14.0.3",
-    "@tailwindcss/postcss": "^4.0.15",
+    "@tailwindcss/postcss": "^4.0.17",
     "@types/node": "^22.13.11",
     "conventional-changelog-conventionalcommits": "^8.0.0",
     "eslint": "^8",
@@ -41,7 +41,7 @@
     "eslint-plugin-tailwindcss": "^4.0.0-alpha.0",
     "postcss": "^8.5.3",
     "semantic-release": "^24.2.3",
-    "tailwindcss": "^4.0.15",
+    "tailwindcss": "^4.0.17",
     "typescript": "^5.8.2"
   }
 }

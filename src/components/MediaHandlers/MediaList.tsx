@@ -10,6 +10,7 @@ import getUpcoming from "@/utils/serverActions/getUpcoming";
 import Button from "../Button/Button";
 import MediaCard from "../MediaCard/MediaCard";
 import UpcomingMedia from "../UpcomingMedia/UpcomingMedia";
+import Link from "next/link";
 
 interface Props {
 	initialMedia: (Movie | TVShow)[];
@@ -66,7 +67,10 @@ export default function MediaList({ initialMedia, mediaMode }: Props) {
 							{mediaMode === MediaMode.UPCOMING ? (
 								<UpcomingMedia media={item} mediaMode={MediaMode.TV} />
 							) : (
+								<Link href={`/${mediaMode}/${item.id}`}>
+
 								<MediaCard media={item} mediaMode={mediaMode} />
+									</Link>
 							)}
 						</div>
 					) : null
