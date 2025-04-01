@@ -1,5 +1,3 @@
-"use server";
-
 import { APIResponse } from "@/types/global";
 
 import fetchData from "../fetchData";

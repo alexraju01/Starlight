@@ -1,11 +1,11 @@
 "use client";
 
+import * as React from "react";
 import useEmblaCarousel, { type UseEmblaCarouselType } from "embla-carousel-react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import * as React from "react";
 
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 type CarouselApi = UseEmblaCarouselType[1];
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
@@ -110,7 +110,7 @@ const Carousel = React.forwardRef<
 		<CarouselContext.Provider
 			value={{
 				carouselRef,
-				api,
+				api: api,
 				opts,
 				orientation: orientation || (opts?.axis === "y" ? "vertical" : "horizontal"),
 				scrollPrev,
@@ -193,7 +193,7 @@ const CarouselPrevious = React.forwardRef<HTMLButtonElement, React.ComponentProp
 				disabled={!canScrollPrev}
 				onClick={scrollPrev}
 				{...props}>
-				<ArrowLeft className='size-4' />
+				<ArrowLeft className='h-4 w-4' />
 				<span className='sr-only'>Previous slide</span>
 			</Button>
 		);
@@ -220,7 +220,7 @@ const CarouselNext = React.forwardRef<HTMLButtonElement, React.ComponentProps<ty
 				disabled={!canScrollNext}
 				onClick={scrollNext}
 				{...props}>
-				<ArrowRight className='size-4' />
+				<ArrowRight className='h-4 w-4' />
 				<span className='sr-only'>Next slide</span>
 			</Button>
 		);

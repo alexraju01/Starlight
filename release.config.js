@@ -3,7 +3,7 @@ module.exports = {
 	branches: [
 		"main",
 		{
-			name: "1-upgrade-next15-ts",
+			name: "4-style/css-to-tailwind",
 			prerelease: true,
 		},
 	],
@@ -12,7 +12,10 @@ module.exports = {
 			"@semantic-release/commit-analyzer",
 			{
 				preset: "conventionalcommits",
-				releaseRules: [{ type: "refactor", release: "patch" }],
+				releaseRules: [
+					{ type: "refactor", release: "patch" },
+					{ type: "upgrade", release: "minor" },
+				],
 			},
 		],
 		[
@@ -26,6 +29,7 @@ module.exports = {
 						feat: "✨ Features",
 						fix: "🐛 Bug Fixes",
 						refactor: "🛠 Refactors",
+						upgrade: "📦 Upgrades",
 					},
 				},
 			},

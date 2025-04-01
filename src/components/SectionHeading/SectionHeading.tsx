@@ -1,7 +1,5 @@
 import { ReactNode } from "react";
 
-import styles from "./SectionHeading.module.css";
-
 interface Props {
 	icon?: JSX.Element;
 	children: ReactNode;
@@ -9,9 +7,9 @@ interface Props {
 
 export default function SectionHeading({ children, icon }: Props) {
 	return (
-		<div className={styles.heading}>
-			<i>{icon}</i>
-			<h2>{children}</h2>
+		<div className='text-[1.8rem] font-bold flex items-center my-4'>
+			<i className='text-white'>{icon}</i>
+			<h2 className='ml-3'>{children}</h2>
 		</div>
 	);
 }

@@ -7,14 +7,14 @@ import { MediaMode } from "@/types/mediaMode";
 import getMedia from "@/utils/serverActions/getMedia";
 import getUpcoming from "@/utils/serverActions/getUpcoming";
 
-import styles from "./Media.module.css";
 import Button from "../Button/Button";
 import MediaCard from "../MediaCard/MediaCard";
 import UpcomingMedia from "../UpcomingMedia/UpcomingMedia";
+import Link from "next/link";
 
 interface Props {
 	initialMedia: (Movie | TVShow)[];
-	mediaMode: MediaMode; // ✅ This should allow ALL values in the enum
+	mediaMode: MediaMode;
 }
 
 export default function MediaList({ initialMedia, mediaMode }: Props) {
@@ -42,31 +42,45 @@ export default function MediaList({ initialMedia, mediaMode }: Props) {
 	};
 
 	return (
-		<div className={styles.container}>
+		<div className='animate-fadeIn'>
 			<div
-				className={
-					mediaMode === MediaMode.UPCOMING ? styles.upcomingContainer : styles.mediaContainer
-				}>
-				{media.map((media) =>
-					media.poster_path ? (
-						<div key={media.id} className={styles.posterContainer}>
+				className={`
+					grid gap-8 w-full transition-all
+					${
+						mediaMode === MediaMode.UPCOMING
+							? `
+							grid-cols-1 auto-rows-auto p-6
+							sm:grid-cols-[repeat(auto-fill,minmax(45rem,1fr))]
+						`
+							: `
+							grid-cols-[repeat(auto-fill,minmax(9rem,1fr))] p-6 mb-8
+							sm:grid-cols-[repeat(auto-fill,minmax(12rem,1fr))]
+							md:grid-cols-[repeat(auto-fill,minmax(14rem,1fr))]
+							xl:grid-cols-[repeat(auto-fill,minmax(16rem,1fr))] xl:p-16
+							2xl:grid-cols-[repeat(auto-fill,minmax(18rem,1fr))]
+						`
+					}
+				`}>
+				{media.map((item) =>
+					item.poster_path ? (
+						<div key={item.id}>
 							{mediaMode === MediaMode.UPCOMING ? (
-								<div>
-									<UpcomingMedia media={media} mediaMode={MediaMode.TV} />
-								</div>
+								<UpcomingMedia media={item} mediaMode={MediaMode.TV} />
 							) : (
-								<div>
-									<MediaCard className={styles.nohover} media={media} mediaMode={mediaMode} />
-								</div>
+								<Link href={`/${mediaMode}/${item.id}`}>
+
+								<MediaCard media={item} mediaMode={mediaMode} />
+									</Link>
 							)}
 						</div>
 					) : null
 				)}
 			</div>
+
 			{!buttonHidden && (
-				<div className={styles.loadMore}>
+				<div className='flex justify-center col-span-full'>
 					<Button
-						icon={loading && <Loader className={styles.animateSpin} />}
+						icon={loading && <Loader className='animate-spin' />}
 						onClick={loadMoreMedia}
 						disabled={loading}>
 						Load More

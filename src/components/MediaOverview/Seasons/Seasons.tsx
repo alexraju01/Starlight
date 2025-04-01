@@ -4,7 +4,6 @@ import SectionHeading from "@/components/SectionHeading/SectionHeading";
 import { Season } from "@/types/seasons";
 import Icons from "@/utils/icons";
 
-import styles from "./Seasons.module.css";
 import SeasonsCard from "../SeasonsCard/SeasonsCard";
 
 interface Props {
@@ -14,17 +13,22 @@ interface Props {
 export default async function Seasons({ seasons }: Props) {
 	const plural = seasons.length === 1 || 0 ? "Season" : "Seasons";
 
-	if (!seasons || seasons.length === 0) return null; // Return null if there are no seasons to display
+	if (!seasons || seasons.length === 0) return null;
 
 	return (
-		<section className={styles.container}>
+		<section className='flex flex-col gap-4 px-12 w-full'>
 			<SectionHeading icon={Icons.play}>{`${plural} (${seasons.length})`}</SectionHeading>
+
 			<Suspense fallback={<div>Loading season. . . </div>}>
-				<div className={styles.seasonContainer}>
+				<div
+					className='
+						grid w-full gap-[1.2rem]
+						[grid-template-columns:repeat(auto-fill,minmax(13rem,1fr))]
+						@xl:[grid-template-columns:repeat(auto-fill,minmax(17rem,1fr))]
+						xl:gap-[1.5rem]
+					'>
 					{seasons.map((season, index) => (
 						<SeasonsCard key={index} id={season.id} season={season} />
-
-						// </div>
 					))}
 				</div>
 			</Suspense>
