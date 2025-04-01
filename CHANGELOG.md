@@ -1,3 +1,9 @@
+## [2.1.10](https://github.com/alexraju01/Starlight/compare/v2.1.9...v2.1.10) (2025-04-01)
+
+### 🐛 Bug Fixes
+
+* testing changes on release config ([08a5f38](https://github.com/alexraju01/Starlight/commit/08a5f38cb80ebd7e8ddd2d2798b8d1849891eea3))
+
 ## [2.1.9](https://github.com/alexraju01/Starlight/compare/v2.1.8...v2.1.9) (2025-04-01)
 
 ### 🐛 Bug Fixes
