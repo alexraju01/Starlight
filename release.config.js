@@ -35,7 +35,10 @@ module.exports = {
 				],
 			  },
 			  writerOpts: {
-				transform: (commit, context) => {
+				transform: (originalCommit, context) => {
+				  // Clone the commit to avoid mutating the frozen object
+				  const commit = { ...originalCommit };
+			  
 				  const shortHash = commit.hash?.substring(0, 7) || "";
 				  const repoUrl = context.repositoryUrl?.replace(/\.git$/, "");
 				  const commitUrl = commit.hash && repoUrl ? `${repoUrl}/commit/${commit.hash}` : "";
@@ -44,20 +47,19 @@ module.exports = {
 					? `* ${commit.subject} (${commitUrl})`
 					: `* ${commit.subject} (${shortHash})`;
 			  
-				  // If references (e.g. issues) are empty, clear them to avoid trailing ()
-				  if (!commit.references || commit.references.length === 0) {
-					commit.references = [];
-				  }
-			  
-				  return {
+				  // Only work on our clone
+				  const transformed = {
 					...commit,
 					subject: formattedSubject,
+					references: Array.isArray(commit.references) && commit.references.length > 0
+					  ? commit.references
+					  : [],
 				  };
+			  
+				  return transformed;
 				},
 			  }
 			  
-			  
-			  ,
 			},
 		  ],		  
 		"@semantic-release/changelog",
