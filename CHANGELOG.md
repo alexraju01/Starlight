@@ -1,3 +1,15 @@
+## [2.3.1](https://github.com/alexraju01/Starlight/compare/v2.3.0...v2.3.1) (2025-04-01)
+
+### 🐛 Bug Fixes
+
+* Fix semantic release ([496fbb8](https://github.com/alexraju01/Starlight/commit/496fbb82ba8841af61f0b896ffef31d5e299c8b5))
+* Fixing the release issue ([9668d91](https://github.com/alexraju01/Starlight/commit/9668d9174abc0f0aa13b2171af9839d2184dcf6b))
+* Fixing the release issue ([35ef338](https://github.com/alexraju01/Starlight/commit/35ef33860624d6a0f9c02969197596393c7fd3f2))
+
+### 🛠 Refactors
+
+* Improved release notes ([7b6d30f](https://github.com/alexraju01/Starlight/commit/7b6d30f6dd9097bf41cdf5407b6c14bb30dae74a))
+
 ## [2.1.1](https://github.com/alexraju01/Starlight/compare/v2.1.0...v2.1.1) (2025-04-01)
 
 ### 🐛 Bug Fixes
