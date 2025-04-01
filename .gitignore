@@ -27,6 +27,7 @@ yarn-error.log*
 
 # Ignore all .env files
 .env*
+.env
 
 
 # vercel
@@ -35,3 +36,4 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
