@@ -36,16 +36,21 @@ module.exports = {
 			  },
 			  writerOpts: {
 				transform: (commit, context) => {
-				  const shortHash = commit.hash.substring(0, 7);
-				  const commitUrl = `${context.host}/${context.owner}/${context.repository}/commit/${commit.hash}`;
+				  const shortHash = commit.hash?.substring(0, 7);
+				  const repoUrl = context.repositoryUrl?.replace(/\.git$/, "") || "";
+				  const commitUrl = commit.hash ? `${repoUrl}/commit/${commit.hash}` : "";
 			  
-				  // Return a *new* commit object
+				  const formattedSubject = commitUrl
+					? `* ${commit.subject} (${commitUrl})`
+					: `* ${commit.subject}`;
+			  
 				  return {
 					...commit,
-					subject: `* ${commit.subject}`,
+					subject: formattedSubject,
 				  };
 				},
 			  }
+			  
 			  ,
 			},
 		  ],		  
