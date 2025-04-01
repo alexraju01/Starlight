@@ -21,24 +21,18 @@ module.exports = {
 		[
 			"@semantic-release/release-notes-generator",
 			{
-			  preset: "conventionalcommits",
-			  writerOpts: {
-				transform: (commit, context) => commit,
-				groupBy: "type",
-				commitGroupsSort: "title",
-				commitGroupTitleMap: {
-				  feat: "✨ Features",
-				  fix: "🐛 Bug Fixes",
-				  refactor: "🛠 Refactors",
-				  upgrade: "📦 Upgrades",
-				},
-				commitsSort: ["scope", "subject"],
-				noteGroupsSort: "title",
-				notesSort: compareFunc,
-			  },
+				preset: "conventionalcommits",
+			    presetConfig: {
+					types: [
+					  { type: "feat", section: "✨ Features" },
+					  { type: "fix", section: "🐛 Bug Fixes" },
+					  { type: "refactor", section: "🛠 Refactors" },
+					  { type: "upgrade", section: "📦 Upgrades" },
+					  { type: "chore", hidden: true },
+					],
+				  },
 			},
-		  ]
-		  ,
+		],
 		"@semantic-release/changelog",
 		"@semantic-release/github",
 		[
