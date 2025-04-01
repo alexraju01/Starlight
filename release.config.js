@@ -24,18 +24,31 @@ module.exports = {
 		[
 			"@semantic-release/release-notes-generator",
 			{
-				preset: "conventionalcommits",
-			    presetConfig: {
-					types: [
-					  { type: "feat", section: "✨ Features" },
-					  { type: "fix", section: "🐛 Bug Fixes" },
-					  { type: "refactor", section: "🛠 Refactors" },
-					  { type: "upgrade", section: "📦 Upgrades" },
-					  { type: "chore", hidden: true },
-					],
-				  },
+			  preset: "conventionalcommits",
+			  presetConfig: {
+				types: [
+				  { type: "feat", section: "✨ Features" },
+				  { type: "fix", section: "🐛 Bug Fixes" },
+				  { type: "refactor", section: "🛠 Refactors" },
+				  { type: "upgrade", section: "📦 Upgrades" },
+				  { type: "chore", hidden: true },
+				],
+			  },
+			  writerOpts: {
+				transform: (commit, context) => {
+				  const shortHash = commit.hash.substring(0, 7);
+				  const commitUrl = `${context.host}/${context.owner}/${context.repository}/commit/${commit.hash}`;
+			  
+				  // Return a *new* commit object
+				  return {
+					...commit,
+					subject: `* ${commit.subject} (${commitUrl})`,
+				  };
+				},
+			  }
+			  ,
 			},
-		],
+		  ],		  
 		"@semantic-release/changelog",
 		"@semantic-release/github",
 		[
