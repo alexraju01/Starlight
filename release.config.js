@@ -22,41 +22,18 @@ module.exports = {
 		[
 			"@semantic-release/release-notes-generator",
 			{
-			  preset: "conventionalcommits",
-			  presetConfig: {
-				types: [
-				  { type: "feat", section: "✨ Features" },
-				  { type: "fix", section: "🐛 Bug Fixes" },
-				  { type: "refactor", section: "🛠 Refactors" },
-				  { type: "upgrade", section: "📦 Upgrades" },
-				  { type: "chore", hidden: true },
-				],
-			  },
-			  writerOpts: {
-				transform: (commit, context) => {
-				  const issues = [];
-		  
-				  // Format commit message
-				  let message = commit.header;
-		  
-				  if (commit.hash) {
-					const shortHash = commit.hash.substring(0, 7);
-					const commitUrl = `${context.repository.url}/commit/${commit.hash}`;
-					message += ` ([\`${shortHash}\`](${commitUrl}))`;
-				  }
-		  
-				  commit.subject = message;
-		  
-				  return commit;
-				},
-				groupBy: "type",
-				commitGroupsSort: "title",
-				commitsSort: ["scope", "subject"],
-				noteGroupsSort: "title",
-			  },
+				preset: "conventionalcommits",
+			    presetConfig: {
+					types: [
+					  { type: "feat", section: "✨ Features" },
+					  { type: "fix", section: "🐛 Bug Fixes" },
+					  { type: "refactor", section: "🛠 Refactors" },
+					  { type: "upgrade", section: "📦 Upgrades" },
+					  { type: "chore", hidden: true },
+					],
+				  },
 			},
-		  ],
-		  
+		],
 		"@semantic-release/changelog",
 		"@semantic-release/github",
 		[
