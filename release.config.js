@@ -16,6 +16,7 @@ module.exports = {
 					{ type: "refactor", release: "patch" },
 					{ type: "upgrade", release: "minor" },
 				],
+				defaultRelease: false,
 			},
 		],
 		[
