@@ -4,7 +4,7 @@ module.exports = {
 		"main",
 		{
 			name: "4-style/css-to-tailwind",
-			prerelease: true,
+			
 		},
 	],
 	plugins: [
@@ -16,22 +16,22 @@ module.exports = {
 					{ type: "refactor", release: "patch" },
 					{ type: "upgrade", release: "minor" },
 				],
+				defaultRelease: false,
 			},
 		],
 		[
 			"@semantic-release/release-notes-generator",
 			{
 				preset: "conventionalcommits",
-				writerOpts: {
-					groupBy: "type",
-					commitGroupsSort: "title",
-					commitGroupTitleMap: {
-						feat: "✨ Features",
-						fix: "🐛 Bug Fixes",
-						refactor: "🛠 Refactors",
-						upgrade: "📦 Upgrades",
-					},
-				},
+			    presetConfig: {
+					types: [
+					  { type: "feat", section: "✨ Features" },
+					  { type: "fix", section: "🐛 Bug Fixes" },
+					  { type: "refactor", section: "🛠 Refactors" },
+					  { type: "upgrade", section: "📦 Upgrades" },
+					  { type: "chore", hidden: true },
+					],
+				  },
 			},
 		],
 		"@semantic-release/changelog",
