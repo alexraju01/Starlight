@@ -11,12 +11,12 @@ export default async function Home() {
 		<main className='grid grid-rows-[auto_auto_auto_auto] w-full text-2xl sm:text-base '>
 			<Suspense fallback={<Spinner />}>
 				<div className=' hidden lg:flex w-full flex-wrap items-center justify-between py-7'>
-					<div className='w-full'>
+					<div className='ml-21 w-full'>
 						<SearchBox />
 					</div>
 				</div>
-{/* testing changes */}
-				<div className='relative w-full mb-8 rounded-xl'>
+
+				<div className='relative w-full mb-8 rounded-xl lg:px-16'>
 					<Carousel mediaMode={mediaMode} />
 				</div>
 
