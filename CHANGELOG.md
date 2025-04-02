@@ -1,3 +1,33 @@
+## [2.1.1](https://github.com/alexraju01/Starlight/compare/v2.1.0...v2.1.1) (2025-04-02)
+
+### 🐛 Bug Fixes
+
+* Checking changes ([b5d9c1a](https://github.com/alexraju01/Starlight/commit/b5d9c1a09516d0f06e29de9b3546765d5bfbe540))
+* Fix semantic release ([4ccdec8](https://github.com/alexraju01/Starlight/commit/4ccdec822ecc6569b113ea70ed0b19e3fa9202f9))
+* Fixed home page creating overflow making a scrollbar appear ([2680e49](https://github.com/alexraju01/Starlight/commit/2680e49c458e1af95a93030769d9b6382fcaa68d))
+* Fixed production error ([9c6cb02](https://github.com/alexraju01/Starlight/commit/9c6cb0252e5e23a4bcb9245eb380ad7ac0082279))
+* Fixed release commit links ([eb6ebcc](https://github.com/alexraju01/Starlight/commit/eb6ebcce448ac4386e3c8ef6f7589bc7c239a459))
+* Fixed the searchbox being too close to the nav bar ([c9ec64d](https://github.com/alexraju01/Starlight/commit/c9ec64d5da33b5ee63b3f05b632593b6042c3cd1))
+* Fixing the release issue ([0dc6d0a](https://github.com/alexraju01/Starlight/commit/0dc6d0a84546de539c518c6b3ef6491083117512))
+* Removed the padding on x-axis on lg screen and above ([0921d6c](https://github.com/alexraju01/Starlight/commit/0921d6cc43ce399aed1522924ab9cd34b0e0cf39))
+* reverting changes ([167acbf](https://github.com/alexraju01/Starlight/commit/167acbfee08496d6cdaa3cc21eadb6a4e6d1bb27))
+* testing ([5320989](https://github.com/alexraju01/Starlight/commit/5320989bb2a05564ce0cf6794892e213d2572cde))
+* testing ([7b416ea](https://github.com/alexraju01/Starlight/commit/7b416eae2667d07081d7d187f0668ad5850d8daa))
+* testing ([f3982f3](https://github.com/alexraju01/Starlight/commit/f3982f3c39a6e01800a4e226da3108db9f9dfe30))
+* testing ([042650e](https://github.com/alexraju01/Starlight/commit/042650e69780dc5414191d8ab11febfa1bf308dd))
+* Testing ([315abd9](https://github.com/alexraju01/Starlight/commit/315abd9c7279a0d25bbb94aa6ba12dd7824667f0))
+* Testing changes again ([76c50be](https://github.com/alexraju01/Starlight/commit/76c50be802b1b60d76385818aeb3eb2127146d0d))
+* testing changes on release config ([08a5f38](https://github.com/alexraju01/Starlight/commit/08a5f38cb80ebd7e8ddd2d2798b8d1849891eea3))
+* Testing release change for commit message ([0b5cd94](https://github.com/alexraju01/Starlight/commit/0b5cd94c2bda5982532d84c97ce5b8de6b7d7431))
+* Testing release changes ([eaf452a](https://github.com/alexraju01/Starlight/commit/eaf452a9e70be24a13193638cc4fd4dc3937857d))
+* Testing release changes again ([27e62c1](https://github.com/alexraju01/Starlight/commit/27e62c1e81b1798d626102cf4429a3b17e944121))
+* Testing release notes ([b549010](https://github.com/alexraju01/Starlight/commit/b5490108ef826d4637b14023bb5112e18e37d061))
+
+### 🛠 Refactors
+
+* Added a debounce to the search box in the home page ([fdc0c58](https://github.com/alexraju01/Starlight/commit/fdc0c582d2782c35b606eb98512d51274535f491))
+* Improved release notes ([271daac](https://github.com/alexraju01/Starlight/commit/271daaca7dd8232ffd341af0fa1f8bc932c947e9))
+
 ## [2.1.4](https://github.com/alexraju01/Starlight/compare/v2.1.3...v2.1.4) (2025-04-02)
 
 ### 🐛 Bug Fixes
