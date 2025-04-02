@@ -78,7 +78,7 @@ TMDB_API_KEY=your_api_key_here
 ### 4️⃣ Run the Development Server
 
 ```bash
-yarn dev  # or npm run dev
+npm run dev # or yarn dev 
 ```
 
 Visit **[http://localhost:3000](http://localhost:3000)** to view the app.
