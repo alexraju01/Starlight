@@ -15,8 +15,8 @@ export default async function Home() {
 						<SearchBox />
 					</div>
 				</div>
-
-				<div className='relative w-full mb-8 rounded-xl lg:px-16'>
+{/* testing chages */}
+				<div className='relative w-full mb-8 rounded-xl lg:px-10'>
 					<Carousel mediaMode={mediaMode} />
 				</div>
 
