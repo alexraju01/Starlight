@@ -1,3 +1,9 @@
+## [2.1.4](https://github.com/alexraju01/Starlight/compare/v2.1.3...v2.1.4) (2025-04-02)
+
+### 🐛 Bug Fixes
+
+* Fixed the searchbox being too close to the nav bar ([c9ec64d](https://github.com/alexraju01/Starlight/commit/c9ec64d5da33b5ee63b3f05b632593b6042c3cd1))
+
 ## [2.1.3](https://github.com/alexraju01/Starlight/compare/v2.1.2...v2.1.3) (2025-04-02)
 
 ### 🐛 Bug Fixes
