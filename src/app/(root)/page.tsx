@@ -8,7 +8,7 @@ export default async function Home() {
 	const mediaMode: MediaMode = MediaMode.Movie;
 
 	return (
-		<main className='grid grid-rows-[auto_auto_auto_auto] w-full text-2xl sm:text-base lg:px-16'>
+		<main className='grid grid-rows-[auto_auto_auto_auto] w-full text-2xl sm:text-base '>
 			<Suspense fallback={<Spinner />}>
 				<div className=' hidden lg:flex w-full flex-wrap items-center justify-between py-7'>
 					<div className='w-full'>
