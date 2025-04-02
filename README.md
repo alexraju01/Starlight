@@ -70,8 +70,7 @@ npm install  # or yarn install
 Create a `.env.local` file in the root directory and add the following:
 
 ```env
-NEXT_PUBLIC_MOVIE_API_KEY=your_api_key_here
-NEXT_PUBLIC_MOVIE_API_URL=https://api.themoviedb.org/3
+TMDB_API_KEY=your_api_key_here
 ```
 
 > Replace `your_api_key_here` with your actual API key from [The Movie Database (TMDb)](https://www.themoviedb.org/).
