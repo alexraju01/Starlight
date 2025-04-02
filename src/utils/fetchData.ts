@@ -5,7 +5,7 @@ export default async function fetchData<T>(version: string, endpoint: string): P
 			next: { revalidate: 100 },
 			headers: {
 				accept: "application/json",
-				Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_API_KEY}`,
+				Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_API_KEY ||  process.env.TMDB_API_KEY}`,
 			},
 		});
 
