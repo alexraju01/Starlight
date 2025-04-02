@@ -1,3 +1,9 @@
+## [2.1.3](https://github.com/alexraju01/Starlight/compare/v2.1.2...v2.1.3) (2025-04-02)
+
+### 🐛 Bug Fixes
+
+* Removed the padding on x-axis on lg screen and above ([0921d6c](https://github.com/alexraju01/Starlight/commit/0921d6cc43ce399aed1522924ab9cd34b0e0cf39))
+
 ## [2.1.2](https://github.com/alexraju01/Starlight/compare/v2.1.1...v2.1.2) (2025-04-02)
 
 ### 🐛 Bug Fixes
