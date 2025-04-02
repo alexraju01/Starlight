@@ -40,10 +40,9 @@ export default async function Home({ mediaMode, endpoint }: Props) {
 								xl:basis-[calc((100%-1rem)/6)]
 								2xl:basis-[calc((100%-1rem)/8)]
 								w-full
-								pt-8
-								pr-2
-								pb-8
-								pl-4
+								py-8
+								pl-8
+														
 								xl:pr-[0.8rem]
 							`}>
 			 				<Link href={`/${mediaMode}/${topRated.id}`}>

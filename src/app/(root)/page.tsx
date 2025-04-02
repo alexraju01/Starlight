@@ -20,12 +20,12 @@ export default async function Home() {
 					<Carousel mediaMode={mediaMode} />
 				</div>
 
-				<div className='w-full mb-4'>
+				<div className='w-full mb-4 px-16'>
 					<h2 className='ml-3 text-xl font-semibold'>Top 20 Rated</h2>
 					<Slider mediaMode={mediaMode} endpoint={`${mediaMode}/top_rated`} />
 				</div>
 
-				<div className='w-full mb-4'>
+				<div className='w-full mb-4 px-16 '>
 					<h2 className='ml-3 text-xl font-semibold'>Popular</h2>
 					<Slider mediaMode={mediaMode} endpoint={`${mediaMode}/popular`} />
 				</div>
