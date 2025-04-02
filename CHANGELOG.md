@@ -1,3 +1,10 @@
+## [2.1.2](https://github.com/alexraju01/Starlight/compare/v2.1.1...v2.1.2) (2025-04-02)
+
+### 🐛 Bug Fixes
+
+* Fixed home page creating overflow making a scrollbar appear ([2680e49](https://github.com/alexraju01/Starlight/commit/2680e49c458e1af95a93030769d9b6382fcaa68d))
+* Fixed production error ([9c6cb02](https://github.com/alexraju01/Starlight/commit/9c6cb0252e5e23a4bcb9245eb380ad7ac0082279))
+
 ## [2.1.1](https://github.com/alexraju01/Starlight/compare/v2.1.0...v2.1.1) (2025-04-02)
 
 ### 🐛 Bug Fixes
