@@ -8,8 +8,20 @@ export default async function Home() {
 	const mediaMode: MediaMode = MediaMode.Movie;
 
 	return (
-		<main className='grid grid-rows-[auto_auto_auto_auto] w-full text-2xl sm:text-base '>
-			<Suspense fallback={<Spinner />}>
+		<main className='w-screen h-screen'>
+			<Carousel mediaMode={mediaMode} />
+
+<section className="h-screen bg-amber-400">
+
+			<div>genre List</div>
+
+			<div>Top 20 movies</div>
+			<div>Populaur Movies</div>
+			<div>trending Show now</div>
+			<footer>Footer</footer>
+</section>
+
+			{/* <Suspense fallback={<Spinner />}>
 				<div className=' hidden lg:flex w-full flex-wrap items-center justify-between py-7'>
 					<div className='ml-21 w-full'>
 						<SearchBox />
@@ -29,7 +41,7 @@ export default async function Home() {
 					<h2 className='ml-3 text-xl font-semibold'>Popular</h2>
 					<Slider mediaMode={mediaMode} endpoint={`${mediaMode}/popular`} />
 				</div>
-			</Suspense>
+			</Suspense> */}
 		</main>
 	);
 }
