@@ -3,7 +3,7 @@ module.exports = {
 	branches: [
 		"main",
 		{
-			name: "4-style/css-to-tailwind",
+			name: "7-fix-image-errors",
 			
 		},
 	],
