@@ -1,3 +1,9 @@
+## [2.1.2](https://github.com/alexraju01/Starlight/compare/v2.1.1...v2.1.2) (2025-04-03)
+
+### 🐛 Bug Fixes
+
+* Fixed Image component's legacy props error ([f7e7ecb](https://github.com/alexraju01/Starlight/commit/f7e7ecb77f74083982ba37fdcf8fa7de0dc28156))
+
 ## [2.1.1](https://github.com/alexraju01/Starlight/compare/v2.1.0...v2.1.1) (2025-04-02)
 
 ### 🐛 Bug Fixes
