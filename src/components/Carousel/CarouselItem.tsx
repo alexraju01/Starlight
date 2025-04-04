@@ -4,6 +4,7 @@ import Image from "next/image";
 import { MoviesWithLogos } from "@/types/global";
 import MediaMeta from "./MediaMeta";
 import ActionButtons from "./ActionButton";
+import { getGenreNames } from "@/utils/getGenreNames";
 // import { getGenreNames } from "./utils/getGenreNames";
 
 interface Props {
@@ -15,6 +16,7 @@ interface Props {
 export default function CarouselItem({ movie, genres, isActive }: Props) {
   return (
     <li className="flex-shrink-0 flex w-full h-full items-center justify-evenly flex-row relative">
+      {/* dark backdrop  */}
       <div className="custom-bg-gradient absolute bottom-0 w-full h-full z-10"></div>
 
       <Image
@@ -26,9 +28,9 @@ export default function CarouselItem({ movie, genres, isActive }: Props) {
         priority={isActive}
       />
 
-      <div className="absolute z-20 w-[854px] bottom-0 left-[102px]">
+      <div className="absolute z-20 w-[854px] bottom-0 md:left-[25px] lg:left-[102px]">
         {movie.logoImage ? (
-          <div className="relative h-[clamp(1rem,14vw,13rem)] w-[clamp(14rem,17vw,33rem)]">
+          <div className="relative h-[clamp(1rem,14vw,13rem)] w-[clamp(14rem,17vw,33rem)] mb-5">
             <Image
               src={movie.logoImage}
               fill
@@ -41,7 +43,7 @@ export default function CarouselItem({ movie, genres, isActive }: Props) {
           <p className="text-[90px] font-bold">{movie.title}</p>
         )}
 
-        <MediaMeta movie={movie} />
+        <MediaMeta movie={movie} genres={genres} />
         <p className="text-[20px] mb-9 leading-[175%] text-white">
           {movie.overview}
         </p>

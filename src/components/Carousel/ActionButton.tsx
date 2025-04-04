@@ -4,7 +4,7 @@ export default function ActionButtons() {
   return (
     <div className="flex gap-5 items-center mb-[47px]">
       <button className="flex text-[20px] items-center gap-[4px] bg-[#9E221A] h-[59px] px-[14px] rounded-[8px] text-white">
-        <span>{Icons.play}</span> Watch Trailer
+        <span>{Icons.play}</span>Watch Trailer
       </button>
       <div className="flex gap-2.5">
         {/* Placeholder for future actions */}

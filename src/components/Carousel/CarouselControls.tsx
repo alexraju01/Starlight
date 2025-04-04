@@ -5,9 +5,9 @@ interface Props {
 
 export default function CarouselControls({ onPrev, onNext }: Props) {
   return (
-    <div className="absolute flex justify-between gap-2.5 p-5 z-30 right-[101px] bottom-[47px]">
+    <div className="absolute flex justify-between gap-2.5 p-5 z-30 md:right-[25px] lg:right-[101px] bottom-[47px]">
       <button
-        className="border-2 hover:cursor-pointer border-solid p-3.5 rounded-lg  border-white"
+        className="border-2 hover:cursor-pointer border-solid p-3.5 rounded-lg border-white"
         onClick={onPrev}
       >
         {/* Left Arrow */}

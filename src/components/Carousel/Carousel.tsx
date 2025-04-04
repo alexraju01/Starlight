@@ -28,7 +28,7 @@ export default async function Carousel({ mediaMode }: Props) {
     );
 
     const moviesWithLogos: MoviesWithLogos[] = await Promise.all(
-      trendingMedia.slice(0, 5).map(async (movie) => {
+      trendingMedia.slice(0, 7).map(async (movie) => {
         const { logos } = await fetchData<ImageResponse>(
           "3",
           `${mediaMode}/${movie.id}/images`
