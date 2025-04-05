@@ -4,6 +4,7 @@ import { SearchBox, Slider, Carousel } from "@/components";
 import { Spinner } from "@/components/LoadingSkeletons";
 import { MediaMode } from "@/types/mediaMode";
 import GenreCollection from "@/components/GenreCollection/GenreCollection";
+import CustomSlider from "@/components/CustomSlider/CustomSlider";
 
 export default async function Home() {
   const mediaMode: MediaMode = MediaMode.Movie;
@@ -14,10 +15,11 @@ export default async function Home() {
 
       <section className="relative h-screen bg-[#100F10] w-full mt-20">
         <div className="absolute z-1 w-[407px] h-[407px] left-[-334px] top-[-54px] bg-[#9E221A70] blur-[255px]"></div>
+        <div className="fixed z-1 w-[407px] h-[407px] right-[-300px] top-1/2 bg-[#9E221A70] blur-[255px]"></div>
 
         <GenreCollection />
 
-        <div>Top 20 movies</div>
+        <CustomSlider endpoint="trending/movie/day" />
         <div>Populaur Movies</div>
         <div>trending Show now</div>
         <footer>Footer</footer>

@@ -1,4 +1,5 @@
 import fetchData from "@/utils/fetchData";
+import Image from "next/image";
 
 const genres = [
   { id: 28, name: "Action" },
@@ -26,7 +27,7 @@ const GenreCollection = async () => {
   );
 
   return (
-    <section className="relative z-2 flex flex-col gap-[57px] lg:mx-[101px]">
+    <section className="relative z-2 flex flex-col gap-[57px] mb-[79.69px] lg:mx-[101px]">
       <div className="flex justify-between">
         <h2 className="text-[44px] font-medium font-Helvetica">Our Genres</h2>
         <div className="flex gap-[18px]">
@@ -35,7 +36,7 @@ const GenreCollection = async () => {
         </div>
       </div>
 
-      <div className="flex gap-[30px] overflow-x-auto">
+      <div className="flex gap-[34px] ">
         {genreMovies.map((genre) => (
           <div
             key={genre.id}
@@ -47,11 +48,13 @@ const GenreCollection = async () => {
               <div className="absolute bottom-0 left-0 w-full h-full rounded-[9px] bg-amber-500 z-10 genre-gradient"></div>
               {genre.movies.map((movie) => (
                 <div key={movie.id} className="relative w-full h-[100px]">
-                  <img
+                  <Image
                     src={`${IMAGE_BASE_URL}${movie.poster_path}`}
                     alt={movie.title}
+                    fill
                     className="w-full h-full object-cover rounded-[11px]"
                   />
+                  {/* <img /> */}
                 </div>
               ))}
             </div>

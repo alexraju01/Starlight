@@ -1,8 +1,6 @@
 "use client";
 
 import { useState } from "react";
-// import CarouselItem from "./CarouselItem";
-// import CarouselControls from "./CarouselControls";
 import { MoviesWithLogos } from "@/types/global";
 import CarouselItem from "./CarouselItem";
 import CarouselControls from "./CarouselControls";

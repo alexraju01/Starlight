@@ -17,7 +17,7 @@ export default async function Carousel({ mediaMode }: Props) {
   try {
     const [genreRes, trendingRes] = await Promise.all([
       fetchData<GenreResponse>("3", `genre/${mediaMode}/list`),
-      fetchData<TrendingMediaResponse>("3", `trending/${mediaMode}/day`),
+      fetchData<TrendingMediaResponse>("3", `trending/${mediaMode}/week`),
     ]);
 
     const genreMap = mapGenres(genreRes.genres);
