@@ -1,10 +1,9 @@
-// import CarouselClient from "./CarouselClient";
+import CarouselClient from "./CarouselClient";
 import fetchData from "@/utils/fetchData";
 import mapGenres from "@/utils/mapGenre";
 import { MediaMode } from "@/types/mediaMode";
 import { Genre } from "@/types/genre";
 import { MoviesWithLogos } from "@/types/global";
-import CarouselClient from "./CarouselClient";
 
 type GenreResponse = { genres: Genre[] };
 type TrendingMediaResponse = { results: MoviesWithLogos[] };
@@ -16,31 +15,33 @@ interface Props {
 
 export default async function Carousel({ mediaMode }: Props) {
   try {
-    const { genres } = await fetchData<GenreResponse>(
-      "3",
-      `genre/${mediaMode}/list`
-    );
-    const genreMap = mapGenres(genres);
+    const [genreRes, trendingRes] = await Promise.all([
+      fetchData<GenreResponse>("3", `genre/${mediaMode}/list`),
+      fetchData<TrendingMediaResponse>("3", `trending/${mediaMode}/day`),
+    ]);
 
-    const { results: trendingMedia } = await fetchData<TrendingMediaResponse>(
-      "3",
-      `trending/${mediaMode}/day`
-    );
+    const genreMap = mapGenres(genreRes.genres);
+    const trendingMedia = trendingRes.results.slice(0, 9);
 
     const moviesWithLogos: MoviesWithLogos[] = await Promise.all(
-      trendingMedia.slice(0, 7).map(async (movie) => {
-        const { logos } = await fetchData<ImageResponse>(
-          "3",
-          `${mediaMode}/${movie.id}/images`
-        );
-        const logoImage = logos.find((logo) => logo.iso_639_1 === "en");
+      trendingMedia.map(async (movie) => {
+        try {
+          const { logos } = await fetchData<ImageResponse>(
+            "3",
+            `${mediaMode}/${movie.id}/images`
+          );
+          const logo = logos.find((l) => l.iso_639_1 === "en");
 
-        return {
-          ...movie,
-          logoImage: logoImage
-            ? `https://image.tmdb.org/t/p/w300${logoImage.file_path}`
-            : undefined,
-        };
+          return {
+            ...movie,
+            logoImage: logo
+              ? `https://image.tmdb.org/t/p/w300${logo.file_path}`
+              : undefined,
+          };
+        } catch (logoErr) {
+          console.warn(`Logo fetch failed for movie ${movie.id}:`, logoErr);
+          return movie;
+        }
       })
     );
 

@@ -37,6 +37,15 @@
       rgba(0, 0, 0, 0.8) 100%
     );
   }
+
+  .genre-gradient {
+    background: linear-gradient(
+      180deg,
+      rgba(26, 26, 26, 0) 0%,
+      #1a1a1a 101.79%
+    );
+  }
+
   .genre-item {
     @apply border-[2px] border-solid border-gray-100 px-[0.7rem] py-[0.4rem] rounded-[0.8rem] backdrop-blur-lg 
         transition-all duration-300 hover:cursor-pointer hover:border-[#9e221a] hover:bg-[#9e221a1a] hover:scale-108

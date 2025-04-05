@@ -3,25 +3,27 @@ import { Suspense } from "react";
 import { SearchBox, Slider, Carousel } from "@/components";
 import { Spinner } from "@/components/LoadingSkeletons";
 import { MediaMode } from "@/types/mediaMode";
+import GenreCollection from "@/components/GenreCollection/GenreCollection";
 
 export default async function Home() {
-	const mediaMode: MediaMode = MediaMode.Movie;
+  const mediaMode: MediaMode = MediaMode.Movie;
 
-	return (
-		<main className='w-screen h-screen'>
-			<Carousel mediaMode={mediaMode} />
+  return (
+    <main className="w-full h-screen">
+      <Carousel mediaMode={mediaMode} />
 
-<section className="h-screen bg-amber-400">
+      <section className="relative h-screen bg-[#100F10] w-full mt-20">
+        <div className="absolute z-1 w-[407px] h-[407px] left-[-334px] top-[-54px] bg-[#9E221A70] blur-[255px]"></div>
 
-			<div>genre List</div>
+        <GenreCollection />
 
-			<div>Top 20 movies</div>
-			<div>Populaur Movies</div>
-			<div>trending Show now</div>
-			<footer>Footer</footer>
-</section>
+        <div>Top 20 movies</div>
+        <div>Populaur Movies</div>
+        <div>trending Show now</div>
+        <footer>Footer</footer>
+      </section>
 
-			{/* <Suspense fallback={<Spinner />}>
+      {/* <Suspense fallback={<Spinner />}>
 				<div className=' hidden lg:flex w-full flex-wrap items-center justify-between py-7'>
 					<div className='ml-21 w-full'>
 						<SearchBox />
@@ -42,6 +44,6 @@ export default async function Home() {
 					<Slider mediaMode={mediaMode} endpoint={`${mediaMode}/popular`} />
 				</div>
 			</Suspense> */}
-		</main>
-	);
+    </main>
+  );
 }

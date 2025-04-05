@@ -8,7 +8,7 @@ export default function ActionButtons() {
       </button>
       <div className="flex gap-2.5">
         {/* Placeholder for future actions */}
-        <button className="bg-[#100F10] w-[56px] h-[56px] rounded-[8px] flex items-center justify-center ">
+        <button className="bg-[#100F10] w-[56px] h-[56px] rounded-[8px] flex items-center justify-center border-solid border-[1px] border-[#100F10]">
           <svg
             width="28"
             height="28"
@@ -25,7 +25,7 @@ export default function ActionButtons() {
             />
           </svg>
         </button>
-        <button className="bg-[#100F10] w-[56px] h-[56px] rounded-[8px] flex items-center justify-center ">
+        <button className="bg-[#100F10] w-[56px] h-[56px] rounded-[8px] flex items-center justify-center  border-solid border-[1px] border-[#100F10]">
           <svg
             width="26"
             height="24"
@@ -42,7 +42,7 @@ export default function ActionButtons() {
             />
           </svg>
         </button>
-        <button className="bg-[#100F10] w-[56px] h-[56px] rounded-[8px] flex items-center justify-center ">
+        <button className="bg-[#100F10] w-[56px] h-[56px] rounded-[8px] flex items-center justify-center  border-solid border-[1px] border-[#100F10]">
           <svg
             width="26"
             height="24"
