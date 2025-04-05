@@ -10,7 +10,6 @@ interface Props {
 }
 
 export default function MediaMeta({ movie, genres }: Props) {
-  console.log(genres);
   return (
     <div className="flex gap-3.5 items-center mb-8 text-white text-[20px] font-normal">
       <p>{dateConverter(movie.release_date)}</p>
