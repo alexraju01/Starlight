@@ -1,43 +1,43 @@
-const SliderControl = () => {
+const SliderControl = ({ onPrev, onNext }) => {
   return (
-    <div className="absolute flex justify-between gap-2.5 p-5 z-30 md:right-[25px] lg:right-[101px] bottom-[47px]">
+    <div className="flex justify-between gap-2.5 p-5 z-30 md:right-[25px] lg:right-[101px] bottom-[47px]">
       <button
-        className="border-2 hover:cursor-pointer border-solid p-3.5 rounded-lg border-white"
+        className="border-2 hover:cursor-pointer bg-[#1A1A1A] p-3.5 rounded-lg "
         onClick={onPrev}
       >
         {/* Left Arrow */}
         <svg
-          width="20"
-          height="18"
-          viewBox="0 0 20 18"
+          width="23"
+          height="22"
+          viewBox="0 0 23 22"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            d="M18.75 9L1.25 9M1.25 9L9.125 16.875M1.25 9L9.125 1.125"
+            d="M21.7488 10.9999L1.69043 10.9999M1.69043 10.9999L10.7167 20.0262M1.69043 10.9999L10.7167 1.97363"
             stroke="white"
-            strokeWidth="2"
+            strokeWidth="2.29239"
             strokeLinecap="round"
             strokeLinejoin="round"
           />
         </svg>
       </button>
       <button
-        className="bg-white border-2 p-3.5 hover:cursor-pointer rounded-lg border-white"
+        className="bg-[#1A1A1A] border-2 p-3.5 hover:cursor-pointer rounded-lg"
         onClick={onNext}
       >
         {/* Right Arrow */}
         <svg
-          width="20"
-          height="18"
-          viewBox="0 0 24 20"
+          width="28"
+          height="24"
+          viewBox="0 0 28 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            d="M13.75 1.25L22.5 10M22.5 10L13.75 18.75M22.5 10H1.5"
-            stroke="#100F10"
-            strokeWidth="2"
+            d="M15.9125 1.9707L25.9417 11.9999M25.9417 11.9999L15.9125 22.0291M25.9417 11.9999H1.87164"
+            stroke="white"
+            strokeWidth="2.29239"
             strokeLinecap="round"
             strokeLinejoin="round"
           />
