@@ -1,7 +1,13 @@
+import { Media } from "@/types/global";
 import Image from "next/image";
 import React from "react";
 
-const SliderItem = ({ media, isActive }) => {
+interface Props {
+  media: Media;
+  isActive: boolean;
+}
+
+const SliderItem = ({ media, isActive }: Props) => {
   return (
     <div
       key={media.id}

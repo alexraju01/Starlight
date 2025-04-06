@@ -1,3 +1,4 @@
+import { APIResponse } from "@/types/global";
 import fetchData from "@/utils/fetchData";
 import Image from "next/image";
 import Link from "next/link";
@@ -16,7 +17,7 @@ const GenreCollection = async () => {
   // Fetch movies for each genre in parallel
   const genreMovies = await Promise.all(
     genres.map(async (genre) => {
-      const data = await fetchData(
+      const data = await fetchData<APIResponse>(
         "3",
         `discover/movie?with_genres=${genre.id}&sort_by=popularity.desc`
       );
@@ -49,7 +50,7 @@ const GenreCollection = async () => {
                   <div key={movie.id} className="relative w-full h-[100px]">
                     <Image
                       src={`${IMAGE_BASE_URL}${movie.poster_path}`}
-                      alt={movie.title}
+                      alt={movie.title || "Movie poster"}
                       fill
                       className="w-full h-full object-cover rounded-[11px]"
                     />

@@ -1,7 +1,4 @@
-import { Suspense } from "react";
-
-import { SearchBox, Slider, Carousel } from "@/components";
-import { Spinner } from "@/components/LoadingSkeletons";
+import { Carousel } from "@/components";
 import { MediaMode } from "@/types/mediaMode";
 import GenreCollection from "@/components/GenreCollection/GenreCollection";
 import CustomSlider from "@/components/CustomSlider/CustomSlider";

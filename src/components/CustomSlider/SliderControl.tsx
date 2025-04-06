@@ -1,4 +1,9 @@
-const SliderControl = ({ onPrev, onNext }) => {
+interface Props {
+  onPrev: () => void;
+  onNext: () => void;
+}
+
+const SliderControl = ({ onPrev, onNext }: Props) => {
   return (
     <div className="flex justify-between gap-2.5 p-5 z-30 md:right-[25px] lg:right-[101px] bottom-[47px]">
       <button

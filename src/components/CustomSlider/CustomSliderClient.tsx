@@ -2,10 +2,15 @@
 import SliderItem from "./SliderItem";
 import SliderControl from "./SliderControl";
 import { useState } from "react";
+import { Media, Movie } from "@/types/global";
+
+interface Props {
+  media: Media[];
+}
 
 const ITEM_WIDTH = 240;
 
-const CustomSliderClient = ({ media }) => {
+const CustomSliderClient = ({ media }: Props) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handlePrev = () =>
@@ -30,7 +35,7 @@ const CustomSliderClient = ({ media }) => {
             transform: `translateX(-${currentIndex * (ITEM_WIDTH + 25)}px)`,
           }}
         >
-          {media.map((media: Movie, index) => (
+          {media.map((media: Media, index) => (
             <SliderItem
               key={media.id}
               media={media}
