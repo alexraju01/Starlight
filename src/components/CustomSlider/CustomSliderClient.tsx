@@ -3,14 +3,16 @@ import SliderItem from "./SliderItem";
 import SliderControl from "./SliderControl";
 import { useState } from "react";
 import { Media, Movie } from "@/types/global";
+import Link from "next/link";
 
 interface Props {
   media: Media[];
+  title: string;
 }
 
 const ITEM_WIDTH = 240;
 
-const CustomSliderClient = ({ media }: Props) => {
+const CustomSliderClient = ({ media, title }: Props) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handlePrev = () =>
@@ -21,9 +23,7 @@ const CustomSliderClient = ({ media }: Props) => {
   return (
     <section className="relative z-2 flex flex-col gap-[57px] lg:mx-[101px]">
       <div className="flex justify-between ">
-        <h2 className="text-[44px] font-medium font-Helvetica">
-          Top 20 movies
-        </h2>
+        <h2 className="text-[44px] font-medium font-Helvetica">{title}</h2>
         <SliderControl onPrev={handlePrev} onNext={handleNext} />
       </div>
 
@@ -36,11 +36,9 @@ const CustomSliderClient = ({ media }: Props) => {
           }}
         >
           {media.map((media: Media, index) => (
-            <SliderItem
-              key={media.id}
-              media={media}
-              isActive={index === currentIndex}
-            />
+            <Link key={media.id} href={`/movie/${media.id}`}>
+              <SliderItem media={media} isActive={index === currentIndex} />
+            </Link>
           ))}
         </div>
       </div>

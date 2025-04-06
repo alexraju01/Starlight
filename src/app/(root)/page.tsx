@@ -16,7 +16,9 @@ export default async function Home() {
 
         <GenreCollection />
 
-        <CustomSlider endpoint="trending/movie/day" />
+        <CustomSlider endpoint="trending/movie/day" title="Top 20 Movies" />
+        <CustomSlider endpoint="movie/popular" title="Popular" />
+
         <div>Populaur Movies</div>
         <div>trending Show now</div>
         <footer>Footer</footer>

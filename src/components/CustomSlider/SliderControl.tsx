@@ -5,9 +5,9 @@ interface Props {
 
 const SliderControl = ({ onPrev, onNext }: Props) => {
   return (
-    <div className="flex justify-between gap-2.5 p-5 z-30 md:right-[25px] lg:right-[101px] bottom-[47px]">
+    <div className="inline-flex justify-between gap-2.5 p-5 z-30 md:right-[25px] lg:right-[101px] bottom-[47px]">
       <button
-        className="border-2 hover:cursor-pointer bg-[#1A1A1A] p-3.5 rounded-lg "
+        className="bg-[#1A1A1A] flex items-center justify-center size-[64px] border-2 rounded-[9px]  hover:cursor-pointer"
         onClick={onPrev}
       >
         {/* Left Arrow */}
@@ -28,7 +28,7 @@ const SliderControl = ({ onPrev, onNext }: Props) => {
         </svg>
       </button>
       <button
-        className="bg-[#1A1A1A] border-2 p-3.5 hover:cursor-pointer rounded-lg"
+        className="bg-[#1A1A1A] flex items-center justify-center size-[64px] border-2  hover:cursor-pointer rounded-[9px]"
         onClick={onNext}
       >
         {/* Right Arrow */}
