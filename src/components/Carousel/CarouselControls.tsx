@@ -7,10 +7,11 @@ export default function CarouselControls({ onPrev, onNext }: Props) {
   return (
     <div className="absolute flex justify-between gap-2.5 p-5 z-30 md:right-[25px] lg:right-[101px] bottom-[47px]">
       <button
-        className="border-2 hover:cursor-pointer border-solid p-3.5 rounded-lg border-white"
+        className="border-2 flex justify-center items-center size-[56px] hover:cursor-pointer border-solid p-3.5 rounded-lg border-white"
         onClick={onPrev}
       >
         {/* Left Arrow */}
+
         <svg
           width="20"
           height="18"
@@ -28,7 +29,7 @@ export default function CarouselControls({ onPrev, onNext }: Props) {
         </svg>
       </button>
       <button
-        className="bg-white border-2 p-3.5 hover:cursor-pointer rounded-lg border-white"
+        className="bg-white border-2 p-3.5 flex justify-center items-center size-[56px] hover:cursor-pointer rounded-lg border-white"
         onClick={onNext}
       >
         {/* Right Arrow */}
