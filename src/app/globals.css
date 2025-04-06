@@ -42,7 +42,7 @@
     background: linear-gradient(
       180deg,
       rgba(26, 26, 26, 0) 0%,
-      #1a1a1a 101.79%
+      #1a1a1a 105.79%
     );
   }
 
@@ -83,4 +83,5 @@
 
 @theme {
   --font-Helvetica: "Helvetica", "sans-serif";
+  --breakpoint-3xl: 120rem;
 }
