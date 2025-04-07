@@ -3,8 +3,8 @@ module.exports = {
 	branches: [
 		"main",
 		{
-			name: "1-upgrade-next15-ts",
-			prerelease: true,
+			name: "7-fix-image-errors",
+			
 		},
 	],
 	plugins: [
@@ -12,24 +12,14 @@ module.exports = {
 			"@semantic-release/commit-analyzer",
 			{
 				preset: "conventionalcommits",
-				releaseRules: [{ type: "refactor", release: "patch" }],
+				releaseRules: [
+					{ type: "refactor", release: "patch" },
+					{ type: "upgrade", release: "minor" },
+				],
+				defaultRelease: false,
 			},
 		],
-		[
-			"@semantic-release/release-notes-generator",
-			{
-				preset: "conventionalcommits",
-				writerOpts: {
-					groupBy: "type",
-					commitGroupsSort: "title",
-					commitGroupTitleMap: {
-						feat: "✨ Features",
-						fix: "🐛 Bug Fixes",
-						refactor: "🛠 Refactors",
-					},
-				},
-			},
-		],
+		"@semantic-release/release-notes-generator",
 		"@semantic-release/changelog",
 		"@semantic-release/github",
 		[

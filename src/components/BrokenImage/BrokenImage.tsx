@@ -1,12 +1,11 @@
-import styles from "./BrokenImage.module.css"; // Import CSS module for styles
-
 interface Props {
-	className: string;
+	className?: string;
 }
 
-export default function BrokenImage({ className }: Props) {
+export default function BrokenImage({ className = "" }: Props) {
 	return (
-		<div className={`${styles.brokenImage} ${className}`}>
+		<div
+			className={`w-full h-full rounded-full flex justify-center items-center bg-[#123] text-white text-center ${className}`}>
 			<p>Image not available</p>
 		</div>
 	);

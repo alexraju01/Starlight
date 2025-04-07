@@ -1,7 +1,6 @@
 import { APIResponse, Media } from "@/types/global";
 import { MediaMode } from "@/types/mediaMode";
 
-import styles from "./Slider.module.css";
 import fetchData from "../../utils/fetchData";
 import MediaCard from "../MediaCard/MediaCard";
 import {
@@ -11,6 +10,7 @@ import {
 	CarouselNext,
 	CarouselPrevious,
 } from "../ui/carousel";
+import Link from "next/link";
 
 interface Props {
 	mediaMode: MediaMode;
@@ -23,20 +23,36 @@ export default async function Home({ mediaMode, endpoint }: Props) {
 
 	return (
 		<Carousel
-			className={styles.carousel}
+			className='w-full '
 			opts={{
 				align: "start",
 			}}>
 			<CarouselContent>
 				{topRatedMovies.map((topRated: Media) =>
 					topRated.poster_path ? (
-						<CarouselItem key={topRated.id} className={`${styles.carouselItem}`}>
-							<MediaCard className={styles.roundedImage} media={topRated} mediaMode={mediaMode} />
+						<CarouselItem
+							key={topRated.id}
+							className={`
+								basis-[calc((100%-1rem)/3)]
+								sm:basis-[calc((100%-1rem)/4)]
+								md:basis-[calc((100%-1rem)/5)]
+								lg:basis-[calc((100%-1rem)/6)]
+								xl:basis-[calc((100%-1rem)/6)]
+								2xl:basis-[calc((100%-1rem)/8)]
+								w-full
+								py-8
+								pl-8
+														
+								xl:pr-[0.8rem]
+							`}>
+			 				<Link href={`/${mediaMode}/${topRated.id}`}>
+								<MediaCard className='rounded-2xl' media={topRated} mediaMode={mediaMode} />
+							</Link>
 						</CarouselItem>
 					) : null
 				)}
 			</CarouselContent>
-			<CarouselPrevious className={styles.button} />
+			<CarouselPrevious className='text-[1.5rem]' />
 			<CarouselNext />
 		</Carousel>
 	);

@@ -7,17 +7,6 @@ import { MovieGrid } from "@/components";
 import { MultiMedia } from "@/types/global";
 import fetchData from "@/utils/fetchData";
 
-import styles from "./page.module.css";
-
-// Define media type
-// interface Media {
-// 	id: number;
-// 	title?: string;
-// 	name?: string;
-// 	media_type: string;
-// 	poster_path?: string;
-// }
-
 interface APIResponse {
 	page: number;
 	results: MultiMedia[];
@@ -36,7 +25,7 @@ export default function DiscoverPage(): JSX.Element {
 	const search = searchParams.get("search") ?? "";
 
 	useEffect(() => {
-		if (inputRef.current) inputRef.current.focus(); // Focus on input on mount
+		if (inputRef.current) inputRef.current.focus();
 	}, []);
 
 	useEffect(() => {
@@ -75,18 +64,23 @@ export default function DiscoverPage(): JSX.Element {
 	};
 
 	return (
-		<div className={styles.container}>
-			<h2>Discover More Movies...</h2>
-			<form className={styles.form} onSubmit={handleSearch}>
+		<div className='flex min-h-screen w-full flex-col items-center justify-center gap-16 px-4 py-6'>
+			<h2 className='text-center text-4xl font-bold text-white animate-fadeIn drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]'>
+				Discover More Movies...
+			</h2>
+
+			<form className='relative w-[clamp(20rem,50vw,60rem)] animate-fadeIn' onSubmit={handleSearch}>
 				<input
-					className={styles.searchBox}
 					type='text'
 					value={query}
 					onChange={handleInputChange}
-					placeholder='Search...'
 					ref={inputRef}
+					placeholder='Search...'
+					className='w-full h-24 rounded-full bg-[#100f10] px-8 text-white text-2xl border border-white/20 transition-all duration-300 focus:outline-none focus:shadow-[0_0_12px_rgba(255,255,255,0.8)] hover:shadow-[0_0_12px_rgba(255,255,255,0.8)]'
 				/>
-				<button className={styles.button} type='submit'>
+				<button
+					type='submit'
+					className='absolute right-0 top-1/2 -translate-y-1/2 h-full px-8 text-2xl text-[#878d98] border-l border-white/20 rounded-r-full transition-all duration-300 hover:shadow-[inset_0_0_12px_rgba(255,255,255,0.8)]'>
 					Submit
 				</button>
 			</form>
