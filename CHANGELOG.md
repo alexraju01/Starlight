@@ -1,3 +1,16 @@
+## [2.1.3](https://github.com/alexraju01/Starlight/compare/v2.1.2...v2.1.3) (2025-04-07)
+
+
+### Bug Fixes
+
+* Fetch function in the wrong folder ([a2521c8](https://github.com/alexraju01/Starlight/commit/a2521c86b8beef437639c4338176f1543893b712))
+* Fixed eslint error ([d30ddaf](https://github.com/alexraju01/Starlight/commit/d30ddaf9fc70d4ce0247abc0ab31b4c50788f83c))
+* Fixing build time eslint errors ([d94c3a4](https://github.com/alexraju01/Starlight/commit/d94c3a4f150fa7975e5b81a46d05f2fb5abeb7b2))
+* Fixing build time eslint errors ([46d7330](https://github.com/alexraju01/Starlight/commit/46d73305205ea25a65eb219647809936b65da0fd))
+* Making sure that .env files are ignored ([d763598](https://github.com/alexraju01/Starlight/commit/d763598b708d9e8180ba2c5621d6c24546cf0ca7))
+* Moved the workflow to the correct folder ([ba70270](https://github.com/alexraju01/Starlight/commit/ba70270a9c50362c14c07ab0034c7f16069565c3))
+* **semantic:** release notes github action errors fixed ([5c18719](https://github.com/alexraju01/Starlight/commit/5c1871933bdd5aa37c5667767bc4fcc7ce6bf7e9))
+
 ## [2.1.2](https://github.com/alexraju01/Starlight/compare/v2.1.1...v2.1.2) (2025-04-03)
 
 ### 🐛 Bug Fixes
