@@ -33,10 +33,8 @@ const CustomSliderClient = ({ media, title }: Props) => {
 
 	return (
 		<section className='relative z-2 flex flex-col gap-[18px] lg:gap-[22px] 2xl:gap-[52px] mb-[28px]'>
-			<div className='flex justify-between items-center'>
-				<h2 className='leading-[150%] text-[22.63px] lg:text-[29.28px] 2xl:text-[44px] font-normal font-Helvetica'>
-					{title}
-				</h2>
+			<div className='flex justify-between items-center  '>
+				<h2 className='slider-title'>{title}</h2>
 				<SliderControl onPrev={handlePrev} onNext={handleNext} />
 			</div>
 

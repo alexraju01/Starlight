@@ -55,6 +55,18 @@
 			-webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.7) 30%);
 		}
 	}
+
+	.slider-control-btn {
+		@apply bg-[#1A1A1A] flex items-center justify-center rounded-[4.72px] lg:rounded-[6.1px] 2xl:rounded-[9px] hover:cursor-pointer border-[1.15px] border-solid border-[#262626];
+
+		width: clamp(33px, 5vw, 64px);
+		height: clamp(33px, 5vw, 64px);
+	}
+
+	.slider-title {
+		@apply leading-[150%] text-[22.63px] lg:text-[29.28px] 2xl:text-[44px] font-normal font-Helvetica;
+		font-size: clamp(22.63px, 2.5vw, 44px);
+	}
 }
 
 @theme {
