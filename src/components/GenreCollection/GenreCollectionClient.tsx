@@ -6,6 +6,7 @@ import React, { useEffect, useRef, useState } from "react";
 import SliderButton from "../CustomSlider/CustomSliderButtons";
 import { Movie } from "@/types/global";
 import { GenreWithMovies } from "@/types/genre";
+import { ROUTES } from "@/constants/route";
 
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w185";
 
@@ -87,7 +88,7 @@ export default function GenreCollectionClient({ genreMovies }: Props) {
 					}}>
 					{genreMovies?.map((genre, i) => (
 						<Link
-							href={`/genre/${genre.id}`}
+							href={ROUTES.GENRE(genre.id)}
 							key={genre.id}
 							className=' rounded-[13.75px] border-[1.15px] border-solid  border-[#262626] bg-[#1A1A1A] px-[17px] pt-[17px] pb-[6px] xl:px-[34.39px] xl:pt-[34px] xl:pb-[12px] flex flex-col gap-4 cursor-pointer transition hover:bg-[#E500000F] hover:border-[#E50000]'
 							style={{

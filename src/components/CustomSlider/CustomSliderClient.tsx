@@ -7,6 +7,7 @@ import CustomSliderButtons from "./CustomSliderButtons";
 import { Media } from "@/types/global";
 import { MediaMode } from "@/types/mediaMode";
 import { ROUTES } from "@/constants/route";
+import { getImageUrl } from "@/utils/getImageUrl";
 
 interface Props {
 	media: Media[];
@@ -110,7 +111,7 @@ export default function CustomSliderClient({ media, title, mediaMode }: Props) {
 								}}>
 								<div className='relative aspect-[2/3] w-full shrink-0 rounded-[15.92px] overflow-hidden'>
 									<Image
-										src={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
+										src={getImageUrl(item.poster_path, "poster", "w500")}
 										alt={item.title || item.name || "Movie Poster"}
 										fill
 										quality={90}

@@ -8,4 +8,7 @@ export const ROUTES = {
 
 	// TV route: ID + optional slug
 	TV: (id: number, slug?: string) => (slug ? `/tv/${id}-${slugify(slug)}` : `/tv/${id}`),
+
+	// Genre route:  genre Name
+	GENRE: (id: number) => `/genre/${id}`,
 };
