@@ -1,7 +1,7 @@
 import fetchData from "@/utils/fetchData";
-import GenreControls from "./GenreControls"; // client component
 import { APIResponse } from "@/types/global";
 import { Genre } from "@/types/genre";
+import GenreCollectionClient from "@/components/GenreCollection/GenreCollectionClient";
 
 const GenreCollection = async () => {
 	const { genres }: { genres: Genre[] } = await fetchData("3", "/genre/movie/list");
@@ -20,8 +20,8 @@ const GenreCollection = async () => {
 	);
 
 	return (
-		<section className='relative z-2 mb-[80px] '>
-			<GenreControls genreMovies={genreMovies} />
+		<section className='relative z-2 mb-[28px] '>
+			<GenreCollectionClient genreMovies={genreMovies} />
 		</section>
 	);
 };
