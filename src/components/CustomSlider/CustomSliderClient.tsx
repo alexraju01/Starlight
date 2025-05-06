@@ -6,6 +6,7 @@ import React, { useEffect, useRef, useState, useCallback, useMemo } from "react"
 import CustomSliderButtons from "./CustomSliderButtons";
 import { Media } from "@/types/global";
 import { MediaMode } from "@/types/mediaMode";
+import { ROUTES } from "@/constants/route";
 
 interface Props {
 	media: Media[];
@@ -100,7 +101,7 @@ export default function CustomSliderClient({ media, title, mediaMode }: Props) {
 
 						return (
 							<Link
-								href={`/${mediaMode}/${item.id}`}
+								href={ROUTES.MOVIE(item.id, item.name || item.title)}
 								key={item.id}
 								style={{
 									width: widthStyle,
