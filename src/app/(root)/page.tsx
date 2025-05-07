@@ -23,6 +23,12 @@ export default function Home() {
 						title='Popular Movies'
 						mediaMode={MediaMode.MOVIE}
 					/>
+
+					<CustomSlider
+						endpoint='trending/tv/day'
+						title='Trending TV Shows'
+						mediaMode={MediaMode.TV}
+					/>
 				</div>
 				<footer>Footer</footer>
 			</section>

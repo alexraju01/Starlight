@@ -1,3 +1,4 @@
+import { MediaMode } from "@/types/mediaMode";
 import { slugify } from "@/utils/slugify";
 
 export const ROUTES = {
@@ -9,6 +10,10 @@ export const ROUTES = {
 	// TV route: ID + optional slug
 	TV: (id: number, slug?: string) => (slug ? `/tv/${id}-${slugify(slug)}` : `/tv/${id}`),
 
-	// Genre route:  genre Name
+	// Unified route based on mediaMode
+	MEDIA: (mediaMode: MediaMode, id: number, slug?: string) =>
+		mediaMode === "movie" ? ROUTES.MOVIE(id, slug) : ROUTES.TV(id, slug),
+
+	// Genre route
 	GENRE: (id: number) => `/genre/${id}`,
 };
