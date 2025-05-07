@@ -16,7 +16,7 @@ interface Props {
 	mediaMode: MediaMode;
 }
 
-const GAP = 16;
+const itemGap = 16;
 
 export default function CustomSliderClient({ media, title, mediaMode }: Props) {
 	const sliderRef = useRef<HTMLDivElement>(null);
@@ -65,17 +65,19 @@ export default function CustomSliderClient({ media, title, mediaMode }: Props) {
 					}}>
 					{media.map((item, i) => {
 						const isLast = i === media.length - 1;
-						const widthStyle = `calc(${100 / itemsPerScreen}% - ${GAP}px)`;
-						const marginRight = isLast ? "0" : `${GAP}px`;
+						const width = `calc(${100 / itemsPerScreen}% - ${itemGap}px)`;
+						const marginRight = isLast ? "0px" : `${itemGap}px`;
 
 						return (
 							<MediaCard2
 								key={item.id}
 								item={item}
 								genreMap={genres}
-								width={widthStyle}
-								marginRight={marginRight}
 								mediaMode={mediaMode}
+								style={{
+									width,
+									marginRight,
+								}}
 							/>
 						);
 					})}
