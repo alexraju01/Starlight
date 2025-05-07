@@ -14,7 +14,13 @@ interface Props {
 const CustomSlider = async ({ endpoint, title, mediaMode }: Props) => {
 	const { results } = await fetchData<TrendingMediaResponse>("3", endpoint);
 
-	return <CustomSliderClient media={results} title={title} mediaMode={mediaMode} />;
+	// Enrich results with `media_type`
+	const enrichedResults = results.map((item) => ({
+		...item,
+		media_type: mediaMode.toLowerCase(), // 'movie' | 'tv'
+	}));
+
+	return <CustomSliderClient media={enrichedResults} title={title} mediaMode={mediaMode} />;
 };
 
 export default CustomSlider;

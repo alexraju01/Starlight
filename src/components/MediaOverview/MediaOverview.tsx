@@ -23,10 +23,10 @@ import { isMovie, isTVShow } from "@/utils/typeGuard";
 
 interface Props {
 	params: string;
-	mediaMode: MediaMode.TV | MediaMode.Movie;
+	mediaMode: MediaMode.TV | MediaMode.MOVIE;
 }
 
-async function fetchMediaData(params: string, mediaMode: MediaMode.TV | MediaMode.Movie) {
+async function fetchMediaData(params: string, mediaMode: MediaMode.TV | MediaMode.MOVIE) {
 	try {
 		const [mediaDetails, credits] = await Promise.all([
 			fetchData<Media>("3", `/${mediaMode}/${params}`),
@@ -97,7 +97,7 @@ export default async function MediaOverview({ params, mediaMode }: Props) {
 					</div>
 
 					<div className='flex flex-wrap justify-center font-normal gap-4 text-[1.7rem] mb-8'>
-						{genres.map((genre: Genre) => (
+						{genres?.map((genre: Genre) => (
 							<Link key={genre.id} href={`/genre/${genre.id}`}>
 								<p className='genre-item'>{genre.name}</p>
 							</Link>

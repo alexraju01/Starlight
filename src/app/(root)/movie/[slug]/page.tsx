@@ -14,7 +14,7 @@ export default async function page({ params }: Props) {
 	return (
 		<section className='w-full h-full'>
 			<Suspense fallback={<Spinner />}>
-				<MediaOverview params={slug} mediaMode={MediaMode.Movie} />
+				<MediaOverview params={slug} mediaMode={MediaMode.MOVIE} />
 			</Suspense>
 		</section>
 	);

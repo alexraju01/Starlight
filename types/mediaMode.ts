@@ -1,5 +1,5 @@
 export enum MediaMode {
-	Movie = "movie",
+	MOVIE = "movie",
 	UPCOMING = "upcoming",
 	TV = "tv",
 	PERSON = "person",

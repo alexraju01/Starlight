@@ -12,7 +12,7 @@ interface BaseMedia {
 	vote_count: number;
 	backdrop_path: string | null;
 	poster_path: string | null;
-	genres: Genre[];
+	genres?: Genre[];
 	original_language: string;
 	production_countries: ProductionCountry[];
 	origin_country?: string[];
@@ -42,7 +42,7 @@ export interface GenreMovie extends Omit<Movie, "genres"> {
 }
 
 interface Movie extends BaseMedia {
-	// media_type: MediaMode.Movie; // ✅ Explicitly define for movies
+	media_type: MediaMode.Movie; // ✅ Explicitly define for movies
 	title: string;
 	original_title: string;
 	release_date: string;
@@ -56,7 +56,7 @@ interface Movie extends BaseMedia {
 }
 
 interface TVShow extends BaseMedia {
-	// media_type: MediaMode.TV; // ✅ Explicitly define for TV shows
+	media_type: MediaMode.TV; // ✅ Explicitly define for TV shows
 	name: string;
 	original_name: string;
 	first_air_date: string;

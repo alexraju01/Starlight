@@ -25,6 +25,7 @@ export default function GenreCollectionClient({ genreMovies }: Props) {
 		let newItemsPerScreen = 4;
 
 		if (width <= 500) newItemsPerScreen = 2;
+		else if (width <= 768) newItemsPerScreen = 3;
 		else if (width <= 1000) newItemsPerScreen = 4;
 		else newItemsPerScreen = 5;
 

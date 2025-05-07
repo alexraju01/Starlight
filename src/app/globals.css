@@ -72,4 +72,13 @@
 @theme {
 	--font-Helvetica: "Helvetica", "sans-serif";
 	--breakpoint-3xl: 120rem;
+
+	/* Colour Plalette */
+
+	--color-primary: #e50000;
+	--color-secondary: #100f10;
+
+	--color-card-bg: #1a1a1a;
+	--color-card-stroke: #262626;
+	--color-icons: #999999;
 }
