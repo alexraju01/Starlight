@@ -5,7 +5,7 @@ import { isGenreMovie, isMovie, isTVShow } from "@/utils/typeGuard";
 import { getImageUrl } from "@/utils/getImageUrl";
 import { ROUTES } from "@/constants/route";
 import { MediaMode } from "@/types/mediaMode";
-import { Layers } from "lucide-react";
+import { Layers, Star } from "lucide-react";
 import { HiRectangleStack } from "react-icons/hi2";
 
 interface Props {
@@ -55,18 +55,7 @@ export default function MediaCard2({ item, genreMap, width, marginRight, mediaMo
 						<h3 className='text-2xl text-white font-medium  truncate'>{title}</h3>
 						<div className='flex items-center gap-2'>
 							<i>
-								<svg
-									className='size-7'
-									width='20'
-									height='19'
-									viewBox='0 0 20 19'
-									fill='none'
-									xmlns='http://www.w3.org/2000/svg'>
-									<path
-										d='M18.6233 6.6796L12.9205 5.85078L10.3712 0.682528C10.3016 0.541024 10.187 0.426473 10.0455 0.356844C9.69064 0.181649 9.25939 0.327645 9.08195 0.682528L6.53263 5.85078L0.829801 6.6796C0.672574 6.70206 0.528824 6.77618 0.418765 6.88849C0.280236 7.03087 0.212286 7.20137 0.214917 7.40001C0.217548 7.59866 0.28999 7.7673 0.432241 7.90596L4.55832 11.9287L3.58351 17.609C3.56019 17.7439 3.57427 17.8747 3.62572 18.0013C3.67718 18.1281 3.75824 18.2316 3.86893 18.3121C3.9796 18.3925 4.10315 18.4375 4.2396 18.4473C4.37603 18.457 4.50473 18.4299 4.6257 18.366L9.72658 15.6842L14.8275 18.366C14.9668 18.4402 15.1285 18.4648 15.2834 18.4379C15.6743 18.3705 15.9371 17.9999 15.8696 17.609L14.8949 11.9287L19.0209 7.90596C19.1332 7.79591 19.2074 7.65216 19.2298 7.49493C19.2905 7.10187 19.0165 6.738 18.6233 6.6796Z'
-										fill='#FACC15'
-									/>
-								</svg>
+								<Star fill='#FACC15' color='#FACC15' size={20} />
 							</i>
 							<p className='text-2xl'>{item.vote_average}</p>
 						</div>

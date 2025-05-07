@@ -1,11 +1,14 @@
+// CustomSliderClient.tsx
 "use client";
 
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import CustomSliderButtons from "./CustomSliderButtons";
 import { Media } from "@/types/global";
 import { MediaMode } from "@/types/mediaMode";
-import getGenre from "@/utils/getGenre";
 import MediaCard2 from "../MediaCard2/MediaCard2";
+import { useResponsiveItems } from "@/hooks/useResponsiveItems";
+import { useGenres } from "@/hooks/useGenre";
+// import { useGenres } from "@/hooks/useGenres";
 
 interface Props {
 	media: Media[];
@@ -13,61 +16,19 @@ interface Props {
 	mediaMode: MediaMode;
 }
 
-const BREAKPOINTS = [
-	{ max: 360, value: 2 },
-	{ max: 640, value: 2 },
-	{ max: 768, value: 3 },
-	{ max: 1280, value: 3 },
-	{ max: 1580, value: 5 },
-];
+const GAP = 16;
 
 export default function CustomSliderClient({ media, title, mediaMode }: Props) {
 	const sliderRef = useRef<HTMLDivElement>(null);
-	const [sliderIndex, setSliderIndex] = useState(0);
-	const [itemsPerScreen, setItemsPerScreen] = useState(4);
-	const [genres, setGenres] = useState<Record<number, string>>({});
-	const itemGap = 16;
-
 	const totalItems = media.length;
+	const itemsPerScreen = useResponsiveItems(totalItems);
+	const genres = useGenres(mediaMode);
+	const [sliderIndex, setSliderIndex] = useState(0);
 
 	const maxIndex = useMemo(
 		() => Math.max(0, totalItems - itemsPerScreen),
 		[totalItems, itemsPerScreen]
 	);
-
-	useEffect(() => {
-		const fetchGenres = async () => {
-			try {
-				const { genres } = await getGenre(mediaMode);
-				setGenres(Object.fromEntries(genres.map(({ id, name }) => [id, name])));
-			} catch (error) {
-				console.error("Error fetching genres:", error);
-			}
-		};
-
-		fetchGenres();
-	}, [mediaMode]);
-
-	const updateItemsPerScreen = useCallback(() => {
-		const width = window.innerWidth;
-		const matched = BREAKPOINTS.find((bp) => width <= bp.max);
-		const newItemsPerScreen = matched?.value || 6;
-
-		setItemsPerScreen((prev) => {
-			if (prev !== newItemsPerScreen) {
-				setSliderIndex((prevIndex) =>
-					Math.min(prevIndex, Math.max(0, totalItems - newItemsPerScreen))
-				);
-			}
-			return newItemsPerScreen;
-		});
-	}, [totalItems]);
-
-	useEffect(() => {
-		updateItemsPerScreen();
-		window.addEventListener("resize", updateItemsPerScreen);
-		return () => window.removeEventListener("resize", updateItemsPerScreen);
-	}, [updateItemsPerScreen]);
 
 	const handleClick = (direction: "left" | "right") => {
 		setSliderIndex((prev) =>
@@ -104,8 +65,8 @@ export default function CustomSliderClient({ media, title, mediaMode }: Props) {
 					}}>
 					{media.map((item, i) => {
 						const isLast = i === media.length - 1;
-						const widthStyle = `calc(${100 / itemsPerScreen}% - ${itemGap}px)`;
-						const marginRight = isLast ? "0" : `${itemGap}px`;
+						const widthStyle = `calc(${100 / itemsPerScreen}% - ${GAP}px)`;
+						const marginRight = isLast ? "0" : `${GAP}px`;
 
 						return (
 							<MediaCard2
