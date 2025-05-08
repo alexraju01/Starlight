@@ -8,9 +8,7 @@ import getMedia from "@/utils/serverActions/getMedia";
 import getUpcoming from "@/utils/serverActions/getUpcoming";
 
 import Button from "../Button/Button";
-import MediaCard from "../MediaCard/MediaCard";
 import UpcomingMedia from "../UpcomingMedia/UpcomingMedia";
-import Link from "next/link";
 import MediaCard2 from "../MediaCard2/MediaCard2";
 import { useGenres } from "@/hooks/useGenre";
 
