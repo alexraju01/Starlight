@@ -28,7 +28,6 @@ interface Props {
 
 async function fetchMediaData(params: string, mediaMode: MediaMode.TV | MediaMode.MOVIE) {
 	try {
-		console.log("hllo");
 		const [mediaDetails, credits] = await Promise.all([
 			fetchData<Media>("3", `/${mediaMode}/${params}`),
 			fetchData<{ cast: CastMember[] }>("3", `/${mediaMode}/${params}/credits`),
@@ -38,7 +37,6 @@ async function fetchMediaData(params: string, mediaMode: MediaMode.TV | MediaMod
 		if (mediaDetails) {
 			mediaDetails.media_type = mediaMode;
 		}
-		console.log(mediaDetails, credits);
 		return { mediaDetails, credits };
 	} catch (error) {
 		console.error("Error fetching media data:", error);
