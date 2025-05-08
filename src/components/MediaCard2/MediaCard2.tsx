@@ -2,11 +2,11 @@ import Link from "next/link";
 import { Media } from "@/types/global";
 import { ROUTES } from "@/constants/route";
 import { MediaMode } from "@/types/mediaMode";
-import { formatDate } from "@/utils/formatDate";
 import PosterImage from "./PosterImage";
 import RatingBadge from "./RatingBadge";
 import SeasonBadge from "./SeasonBadge";
-import { formatGenres } from "@/utils/formatGenre";
+import { formatGenres } from "@/utils/genre";
+import { formatDate } from "@/utils/date";
 
 interface Props {
 	item: Media;

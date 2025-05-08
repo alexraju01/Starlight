@@ -1,6 +1,6 @@
 // useGenres.ts
 import { useEffect, useState } from "react";
-import getGenre from "@/utils/getGenre";
+import getGenre from "@/utils/genre/getGenre";
 import { MediaMode } from "@/types/mediaMode";
 
 export const useGenres = (mediaMode: MediaMode) => {

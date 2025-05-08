@@ -1,5 +1,5 @@
+import { getImageUrl } from "@/utils/image/getImageUrl";
 import Image from "next/image";
-import { getImageUrl } from "@/utils/getImageUrl";
 
 interface Props {
 	src: string | null;

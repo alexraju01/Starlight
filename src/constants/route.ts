@@ -1,5 +1,5 @@
 import { MediaMode } from "@/types/mediaMode";
-import { slugify } from "@/utils/slugify";
+import { slugify } from "@/utils/string/slugify";
 
 export const ROUTES = {
 	HOME: "/",

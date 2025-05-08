@@ -1,4 +1,4 @@
-export function displayRuntime({
+export default function displayRuntime({
 	episode_run_time,
 	runtime,
 }: {

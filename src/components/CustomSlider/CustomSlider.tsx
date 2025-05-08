@@ -1,7 +1,7 @@
-import fetchData from "@/utils/fetchData";
 import { APIResponse, Media, Movie, TVShow } from "@/types/global";
 import CustomSliderClient from "./CustomSliderClient";
 import { MediaMode } from "@/types/mediaMode";
+import { fetchData } from "@/utils";
 
 interface Props {
 	endpoint: string;

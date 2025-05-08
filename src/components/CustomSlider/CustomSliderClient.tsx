@@ -5,10 +5,9 @@ import React, { useMemo, useRef, useState } from "react";
 import CustomSliderButtons from "./CustomSliderButtons";
 import { Media } from "@/types/global";
 import { MediaMode } from "@/types/mediaMode";
-import MediaCard2 from "../MediaCard2/MediaCard2";
 import { useResponsiveItems } from "@/hooks/useResponsiveItems";
 import { useGenres } from "@/hooks/useGenre";
-// import { useGenres } from "@/hooks/useGenres";
+import MediaCard2 from "../MediaCard2/MediaCard2";
 
 interface Props {
 	media: Media[];

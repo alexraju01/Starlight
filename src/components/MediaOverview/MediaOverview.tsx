@@ -4,10 +4,8 @@ import Link from "next/link";
 
 import { CastMember } from "@/types/cast";
 import { Genre } from "@/types/genre";
-import { Movie, TVShow, Media } from "@/types/global";
+import { Media } from "@/types/global";
 import { MediaMode } from "@/types/mediaMode";
-import { dateConverter } from "@/utils/dateConverter";
-import { displayRuntime } from "@/utils/displayRuntime";
 import fetchData from "@/utils/fetchData";
 import Icons from "@/utils/icons";
 
@@ -20,6 +18,7 @@ import Seasons from "./Seasons/Seasons";
 import CastContainer from "../CastContainer/CastContainer";
 import SimilarMedia from "./SimilarMedia/SimilarMedia";
 import { isMovie, isTVShow } from "@/utils/typeGuard";
+import { dateConverter, displayRuntime } from "@/utils/date";
 
 interface Props {
 	params: string;

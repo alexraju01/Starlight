@@ -1,9 +1,9 @@
 import CarouselClient from "./CarouselClient";
-import fetchData from "@/utils/fetchData";
-import mapGenres from "@/utils/mapGenre";
 import { MediaMode } from "@/types/mediaMode";
 import { Genre } from "@/types/genre";
 import { MoviesWithLogos } from "@/types/global";
+import { fetchData } from "@/utils";
+import { mapGenres } from "@/utils/genre";
 
 type GenreResponse = { genres: Genre[] };
 type TrendingMediaResponse = { results: MoviesWithLogos[] };

@@ -3,12 +3,12 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import { SearchMedia } from "@/types/searchMedia";
-import { dateConverter } from "../../utils/dateConverter";
+import { dateConverter } from "../../utils/date/dateConverter";
 import getSearch from "../../utils/serverActions/getSearch";
 import Dot from "../Dot/Dot";
 import MediaCard from "../MediaCard/MediaCard";
 import RatingIcon from "../RatingIcon/RatingIcon";
-import { capitalize } from "@/utils/capitalize";
+import { capitalize } from "@/utils/string/capitalize";
 
 interface Props {
 	query: string;
