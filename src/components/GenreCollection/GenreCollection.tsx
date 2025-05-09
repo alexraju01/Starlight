@@ -9,11 +9,14 @@ const getGenreMovies = async (
 	try {
 		const data = await fetchData<APIResponse>(
 			"3",
-			`discover/movie?with_genres=${genre.id}&sort_by=popularity.desc&page=1`
+			`discover/movie?with_genres=${genre.id}&sort_by=popularity.desc`
 		);
+		// Filter out movies with no poster, THEN take the first 4
+		const filteredMovies = data.results.filter((movie) => movie.poster_path).slice(0, 4);
+
 		return {
 			...genre,
-			movies: data.results.slice(0, 4),
+			movies: filteredMovies,
 		};
 	} catch (error) {
 		console.error(`Failed to fetch movies for genre ${genre.name}:`, error);
@@ -27,7 +30,31 @@ const getGenreMovies = async (
 const GenreCollection = async () => {
 	try {
 		const { genres }: { genres: Genre[] } = await fetchData("3", "/genre/movie/list");
-		const genreMovies = await Promise.all(genres.map(getGenreMovies));
+
+		const seenMovieIds = new Set<number>();
+
+		const genreMovies = [];
+
+		for (const genre of genres) {
+			const data = await fetchData<APIResponse>(
+				"3",
+				`discover/movie?with_genres=${genre.id}&sort_by=popularity.desc`
+			);
+
+			// Filter for unique movies with valid posters
+			const uniqueMovies = data.results
+				.filter((movie) => movie.poster_path && !seenMovieIds.has(movie.id))
+				.slice(0, 4); // Only take first 4 unique ones
+
+			// Add movie IDs to seen set
+			uniqueMovies.forEach((movie) => seenMovieIds.add(movie.id));
+
+			// Add to genreMovies
+			genreMovies.push({
+				...genre,
+				movies: uniqueMovies,
+			});
+		}
 
 		return (
 			<section className='relative z-2 mb-[28px]'>
@@ -36,7 +63,7 @@ const GenreCollection = async () => {
 		);
 	} catch (error) {
 		console.error("Failed to fetch genres:", error);
-		return null; // or fallback UI
+		return null;
 	}
 };
 
