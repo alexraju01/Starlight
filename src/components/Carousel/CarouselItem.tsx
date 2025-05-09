@@ -2,6 +2,7 @@ import Image from "next/image";
 import { MoviesWithLogos } from "@/types/global";
 import MediaMeta from "./MediaMeta";
 import ActionButtons from "./ActionButton";
+import { getImageUrl } from "@/utils/image/getImageUrl";
 
 interface Props {
 	movie: MoviesWithLogos;
@@ -16,7 +17,9 @@ export default function CarouselItem({ movie, genres, isActive }: Props) {
 			<div className='custom-bg-gradient absolute bottom-0 w-full h-full z-10'></div>
 
 			<Image
-				src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
+				// src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
+
+				src={getImageUrl(movie.backdrop_path, "backdrop", "original")}
 				fill
 				quality={100}
 				alt={movie.title || movie.name || "Media"}

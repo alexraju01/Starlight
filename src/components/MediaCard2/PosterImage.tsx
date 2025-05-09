@@ -8,14 +8,12 @@ interface Props {
 
 export default function PosterImage({ src, alt }: Props) {
 	return (
-		<div className='relative aspect-[0.7] w-full overflow-hidden'>
-			<Image
-				src={getImageUrl(src, "poster", "w500")}
-				alt={alt}
-				fill
-				quality={90}
-				className='object-cover rounded-[10.93px]'
-			/>
-		</div>
+		<Image
+			src={getImageUrl(src, "poster", "w500")}
+			alt={alt}
+			fill
+			quality={90}
+			className='object-cover rounded-[10.93px]'
+		/>
 	);
 }

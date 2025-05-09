@@ -6,7 +6,7 @@ export default function RatingBadge({ rating }: { rating: number }) {
 			<i>
 				<Star fill='#FACC15' color='#FACC15' size={20} />
 			</i>
-			<p className='text-2xl'>{rating}</p>
+			<p className='text-2xl'>{Math.round(rating * 10) / 10}</p>
 		</div>
 	);
 }

@@ -1,6 +1,7 @@
 import { MoviesWithLogos } from "@/types/global";
 import { dateConverter } from "@/utils/date";
 import { capitalize } from "@/utils/string";
+import Link from "next/link";
 
 interface Props {
 	movie: MoviesWithLogos;
@@ -16,13 +17,18 @@ export default function MediaMeta({ movie, genres }: Props) {
 			<p>{capitalize(movie.media_type)}</p>
 			{/* <span className="h-[25px] w-[1px] bg-white"></span> */}
 			{"•"}
-			<div className='flex gap-3.5 '>
-				{(movie.genre_ids?.map((id) => genres[id] || "Unknown") ?? []).map((genre, index, arr) => (
-					<p key={index} className='hover:text-[#9E221A] hover:cursor-pointer'>
-						{genre}
-						{index < arr.length - 1 && " •"}
-					</p>
-				))}
+			<div className='flex gap-3.5'>
+				{(movie.genre_ids ?? []).map((id, index, arr) => {
+					const genre = genres[id] || "Unknown";
+					return (
+						<Link href={`/genre/${id}`} key={id}>
+							<p className='hover:text-[#9E221A] hover:cursor-pointer'>
+								{genre}
+								{index < arr.length - 1 && " •"}
+							</p>
+						</Link>
+					);
+				})}
 			</div>
 		</div>
 	);
