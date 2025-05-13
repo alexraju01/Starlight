@@ -5,18 +5,18 @@ export default async function fetchData<T>(
 ): Promise<T> {
 	try {
 		const currentPage = page ?? 1;
-		const res = await fetch(
-			`https://api.themoviedb.org/${version}/${endpoint}?page=${currentPage}`,
-			{
-				next: { revalidate: 1 },
-				headers: {
-					accept: "application/json",
-					Authorization: `Bearer ${
-						process.env.NEXT_PUBLIC_TMDB_API_KEY || process.env.TMDB_API_KEY
-					}`,
-				},
-			}
-		);
+
+		// Add `&page` if `?` already exists, else start with `?page`
+		const pageParam = endpoint.includes("?") ? `&page=${currentPage}` : `?page=${currentPage}`;
+		const url = `https://api.themoviedb.org/${version}/${endpoint}${pageParam}`;
+
+		const res = await fetch(url, {
+			next: { revalidate: 1 },
+			headers: {
+				accept: "application/json",
+				Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_API_KEY || process.env.TMDB_API_KEY}`,
+			},
+		});
 
 		if (!res.ok) {
 			throw new Error(`Failed to fetch data: ${res.status} ${res.statusText}`);

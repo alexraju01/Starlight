@@ -31,9 +31,11 @@ export default function DiscoverPage(): JSX.Element {
 	useEffect(() => {
 		const loadMovies = async () => {
 			if (!query) return;
+			console.log("query", query);
 			try {
 				const results = await fetchData<APIResponse>("3", `search/multi?query=${query}`);
 				setMovies(results.results.filter((media) => media.media_type !== "person"));
+				console.log("===========", results);
 			} catch (error) {
 				console.error("Error fetching movies:", error);
 			}
