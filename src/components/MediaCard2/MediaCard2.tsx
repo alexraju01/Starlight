@@ -1,4 +1,9 @@
+"use client";
+
+import { useState, useMemo, useRef } from "react";
 import Link from "next/link";
+import clsx from "clsx";
+
 import { Media } from "@/types/global";
 import { ROUTES } from "@/constants/route";
 import { MediaMode } from "@/types/mediaMode";
@@ -8,53 +13,131 @@ import SeasonBadge from "./SeasonBadge";
 import { formatGenres } from "@/utils/genre";
 import { formatDate } from "@/utils/date";
 import { isMovie, isTVShow } from "@/utils/typeGuard";
+import { fetchData } from "@/utils";
 
 interface Props {
 	item: Media;
 	genreMap: Record<number, string>;
 	mediaMode: MediaMode;
 	style?: React.CSSProperties;
+	isFirst?: boolean;
+	isLast?: boolean;
 }
 
-const MediaCard2 = ({ item, genreMap, mediaMode, style }: Props) => {
+const getMediaDate = (item: Media): string => {
+	if (isMovie(item)) return item.release_date;
+	if (isTVShow(item)) return item.first_air_date;
+	return "";
+};
+
+const MediaCard2 = ({ item, genreMap, mediaMode, style, isFirst, isLast }: Props) => {
 	const title = item.name || item.title;
-	const dateStr = formatDate(item);
-	const genreText = formatGenres(item, genreMap);
-
-	const getMediaDate = (item: Media): string => {
-		if (isMovie(item)) return item.release_date;
-		if (isTVShow(item)) return item.first_air_date;
-		return "";
-	};
-
-	const isUpcoming = (() => {
-		const releaseDate = new Date(getMediaDate(item));
-		return releaseDate > new Date();
-	})();
+	const genreText = useMemo(() => formatGenres(item, genreMap), [item, genreMap]);
+	const dateStr = useMemo(() => formatDate(item), [item]);
+	const mediaDate = useMemo(() => getMediaDate(item), [item]);
 
 	const hasValidRating = typeof item.vote_average === "number" && item.vote_average > 0;
+	const transformOrigin = isFirst ? "left center" : isLast ? "right center" : "center";
+
+	const [hovered, setHovered] = useState(false);
+	const [videoKey, setVideoKey] = useState<string | null>(null);
+	const videoKeyRef = useRef<string | null>(null);
+
+	const isUpcoming = useMemo(() => {
+		const releaseDate = new Date(mediaDate);
+		return releaseDate > new Date();
+	}, [mediaDate]);
+
+	const handleMouseEnter = async () => {
+		setHovered(true);
+
+		if (!videoKeyRef.current) {
+			try {
+				const mediaType = isMovie(item) ? "movie" : "tv";
+
+				// Explicitly type the API response
+				const data = await fetchData<VideoResponse>("3", `${mediaType}/${item.id}/videos`);
+
+				const trailer = data.results.find(
+					(video) => video.type === "Trailer" && video.site === "YouTube"
+				);
+
+				if (trailer) {
+					videoKeyRef.current = trailer.key;
+					setVideoKey(trailer.key);
+				}
+			} catch (err) {
+				console.error("Failed to fetch video:", err);
+			}
+		}
+	};
+
+	const handleMouseLeave = () => {
+		setHovered(false);
+	};
+
+	const cardClasses = clsx(
+		"relative w-full px-[15px] pt-[15px] rounded-[10.92px] bg-card-bg border border-solid border-card-stroke transition-transform duration-300 transform-gpu",
+		"group-hover:scale-[1.7] group-hover:z-10 group-hover:top-1/2 group-hover:-translate-y-1/2 group-hover:px-0 group-hover:pt-0"
+	);
+
+	const figureClasses = clsx(
+		"relative aspect-[0.7] w-full overflow-hidden",
+		"group-hover:aspect-video"
+	);
+
+	const posterClass = clsx({
+		"rounded-[10.92px]": !hovered || (hovered && videoKey),
+		"rounded-t-[10.92px] rounded-b-0": hovered && !videoKey,
+	});
 
 	return (
-		<Link href={ROUTES.MEDIA(mediaMode, item.id, title)} style={{ ...style, flex: "0 0 auto" }}>
-			<div className='w-full px-[15px] pt-[15px] rounded-[10.92px] bg-card-bg border border-solid border-card-stroke'>
-				<figure className='relative aspect-[0.7] w-full overflow-hidden'>
-					<PosterImage src={item.poster_path} alt={title || "Movie Poster"} />
+		<Link
+			href={ROUTES.MEDIA(mediaMode, item.id, title)}
+			style={{ ...style, flex: "0 0 auto" }}
+			className='group'
+			onMouseEnter={handleMouseEnter}
+			onMouseLeave={handleMouseLeave}>
+			<div className={cardClasses} style={{ transformOrigin }}>
+				<figure className={figureClasses}>
+					{hovered && videoKey ? (
+						<iframe
+							className='w-full h-full group-hover:rounded-t-[10.92px] group-hover:rounded-b-0'
+							src={`https://www.youtube.com/embed/${videoKey}?autoplay=1&mute=0&controls=0&modestbranding=1&rel=0&showinfo=0&loop=1&playlist=${videoKey}`}
+							title={`${title} Trailer`}
+							loading='lazy'
+							allow='autoplay; encrypted-media'
+							allowFullScreen
+						/>
+					) : (
+						<PosterImage
+							src={
+								hovered && !videoKey && item.backdrop_path ? item.backdrop_path : item.poster_path
+							}
+							alt={title || "Movie Poster"}
+							className={posterClass}
+						/>
+					)}
+
 					{isUpcoming && (
 						<figcaption className='absolute top-2 right-2 bg-[#9E221A] text-white text-lg font-Helvetica font-semibold px-4 py-2 rounded-[7px]'>
 							Upcoming
 						</figcaption>
 					)}
 				</figure>
-				<div className='flex flex-col gap-3 py-5 truncate'>
+
+				<div className='flex flex-col gap-3 py-5 truncate px-[10px]'>
 					<div className='flex justify-between'>
 						<h3 className='text-2xl text-white font-medium truncate'>{title}</h3>
 						{hasValidRating && <RatingBadge rating={item.vote_average} />}
 					</div>
+
 					<div className='flex gap-3.5 text-gray-400 text-xl'>
-						<time dateTime={getMediaDate(item)}>{dateStr}</time>
+						<time dateTime={mediaDate}>{dateStr}</time>
 						<p>|</p>
 						<p className='truncate'>{genreText}</p>
 					</div>
+
 					<SeasonBadge item={item} />
 				</div>
 			</div>

@@ -63,9 +63,12 @@ export default function CustomSliderClient({ media, title, mediaMode }: Props) {
 						transform: `translateX(-${(sliderIndex * 100) / itemsPerScreen}%)`,
 					}}>
 					{media.map((item, i) => {
-						const isLast = i === media.length - 1;
+						const isFirst = i === sliderIndex;
+						const isVisibleLast = i === sliderIndex + itemsPerScreen - 1; // 👈 check visible last item
+						const isLastInList = i === media.length - 1;
+
 						const width = `calc(${100 / itemsPerScreen}% - ${itemGap}px)`;
-						const marginRight = isLast ? "0px" : `${itemGap}px`;
+						const marginRight = isLastInList ? "0px" : `${itemGap}px`;
 
 						return (
 							<MediaCard2
@@ -73,6 +76,8 @@ export default function CustomSliderClient({ media, title, mediaMode }: Props) {
 								item={item}
 								genreMap={genres}
 								mediaMode={mediaMode}
+								isFirst={isFirst}
+								isLast={isVisibleLast} // 👈 send last visible
 								style={{
 									width,
 									marginRight,

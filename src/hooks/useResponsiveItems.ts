@@ -5,7 +5,7 @@ const BREAKPOINTS = [
 	{ max: 360, value: 2 },
 	{ max: 640, value: 2 },
 	{ max: 768, value: 3 },
-	{ max: 1280, value: 3 },
+	{ max: 1280, value: 4 },
 	{ max: 1580, value: 5 },
 ];
 
@@ -15,7 +15,7 @@ export const useResponsiveItems = (totalItems: number) => {
 	const updateItems = useCallback(() => {
 		const width = window.innerWidth;
 		const matched = BREAKPOINTS.find((bp) => width <= bp.max);
-		const newItems = matched?.value || 6;
+		const newItems = matched?.value || 7;
 		setItemsPerScreen((prev) => (prev !== newItems ? newItems : prev));
 	}, []);
 
