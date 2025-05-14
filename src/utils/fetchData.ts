@@ -1,13 +1,18 @@
 export default async function fetchData<T>(
 	version: string,
 	endpoint: string,
-	page?: number
+	page?: number,
+	disablePage?: boolean
 ): Promise<T> {
 	try {
 		const currentPage = page ?? 1;
+		const pageParam =
+			!disablePage && currentPage
+				? endpoint.includes("?")
+					? `&page=${currentPage}`
+					: `?page=${currentPage}`
+				: "";
 
-		// Add `&page` if `?` already exists, else start with `?page`
-		const pageParam = endpoint.includes("?") ? `&page=${currentPage}` : `?page=${currentPage}`;
 		const url = `https://api.themoviedb.org/${version}/${endpoint}${pageParam}`;
 
 		const res = await fetch(url, {

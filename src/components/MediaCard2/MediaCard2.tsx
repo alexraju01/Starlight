@@ -58,9 +58,16 @@ const MediaCard2 = ({ item, genreMap, mediaMode, style, isFirst, isLast }: Props
 				// Explicitly type the API response
 				const data = await fetchData<VideoResponse>("3", `${mediaType}/${item.id}/videos`);
 
-				const trailer = data.results.find(
+				let trailer = data.results.find(
 					(video) => video.type === "Trailer" && video.site === "YouTube"
 				);
+
+				// Fallback to teaser if trailer is not available
+				if (!trailer) {
+					trailer = data.results.find(
+						(video) => video.type === "Teaser" && video.site === "YouTube"
+					);
+				}
 
 				if (trailer) {
 					videoKeyRef.current = trailer.key;
@@ -101,14 +108,16 @@ const MediaCard2 = ({ item, genreMap, mediaMode, style, isFirst, isLast }: Props
 			<div className={cardClasses} style={{ transformOrigin }}>
 				<figure className={figureClasses}>
 					{hovered && videoKey ? (
-						<iframe
-							className='w-full h-full group-hover:rounded-t-[10.92px] group-hover:rounded-b-0'
-							src={`https://www.youtube.com/embed/${videoKey}?autoplay=1&mute=0&controls=0&modestbranding=1&rel=0&showinfo=0&loop=1&playlist=${videoKey}`}
-							title={`${title} Trailer`}
-							loading='lazy'
-							allow='autoplay; encrypted-media'
-							allowFullScreen
-						/>
+						<div>
+							<iframe
+								className='w-full h-full group-hover:rounded-t-[10.92px] group-hover:rounded-b-0'
+								src={`https://www.youtube.com/embed/${videoKey}?autoplay=1&mute=0&controls=0&modestbranding=1&rel=0&showinfo=0&loop=1&playlist=${videoKey}`}
+								title={`${title} Trailer`}
+								loading='lazy'
+								allow='autoplay; encrypted-media'
+								allowFullScreen
+							/>
+						</div>
 					) : (
 						<PosterImage
 							src={
