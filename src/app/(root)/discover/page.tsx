@@ -1,3 +1,4 @@
+// app/discover/page.tsx (or appropriate route)
 "use client";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -6,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { MovieGrid } from "@/components";
 import { MultiMedia } from "@/types/global";
 import fetchData from "@/utils/fetchData";
+import { useAllGenres } from "@/hooks/useAllGenres";
 
 interface APIResponse {
 	page: number;
@@ -24,6 +26,8 @@ export default function DiscoverPage(): JSX.Element {
 	const { replace } = useRouter();
 	const search = searchParams.get("search") ?? "";
 
+	const genreMap = useAllGenres();
+
 	useEffect(() => {
 		if (inputRef.current) inputRef.current.focus();
 	}, []);
@@ -31,11 +35,9 @@ export default function DiscoverPage(): JSX.Element {
 	useEffect(() => {
 		const loadMovies = async () => {
 			if (!query) return;
-			console.log("query", query);
 			try {
 				const results = await fetchData<APIResponse>("3", `search/multi?query=${query}`);
 				setMovies(results.results.filter((media) => media.media_type !== "person"));
-				console.log("===========", results);
 			} catch (error) {
 				console.error("Error fetching movies:", error);
 			}
@@ -52,7 +54,7 @@ export default function DiscoverPage(): JSX.Element {
 		if (!query) return;
 		try {
 			const results = await fetchData<APIResponse>("3", `search/multi?query=${query}`);
-			setMovies(results.results.filter((media: MultiMedia) => media.media_type !== "person"));
+			setMovies(results.results.filter((media) => media.media_type !== "person"));
 		} catch (error) {
 			console.error("Error fetching movies:", error);
 		}
@@ -64,6 +66,9 @@ export default function DiscoverPage(): JSX.Element {
 		setQuery(e.target.value);
 		replace(`${pathname}/?${params.toString()}`);
 	};
+
+	const genresLoaded =
+		Object.keys(genreMap.movie).length > 0 && Object.keys(genreMap.tv).length > 0;
 
 	return (
 		<div className='flex min-h-screen w-full flex-col items-center justify-center gap-16 px-4 py-6'>
@@ -87,7 +92,11 @@ export default function DiscoverPage(): JSX.Element {
 				</button>
 			</form>
 
-			<MovieGrid media={movies} />
+			{genresLoaded ? (
+				<MovieGrid media={movies} genreMap={genreMap} />
+			) : (
+				<p className='text-white text-2xl'>Loading genres...</p>
+			)}
 		</div>
 	);
 }

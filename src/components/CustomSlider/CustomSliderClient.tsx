@@ -8,6 +8,7 @@ import { MediaMode } from "@/types/mediaMode";
 import { useResponsiveItems } from "@/hooks/useResponsiveItems";
 import { useGenres } from "@/hooks/useGenre";
 import MediaCard2 from "../MediaCard2/MediaCard2";
+import { CAROUSEL_BREAKPOINTS, DISCOVER_BREAKPOINTS } from "@/constants/breakpoints";
 
 interface Props {
 	media: Media[];
@@ -20,7 +21,7 @@ const itemGap = 16;
 export default function CustomSliderClient({ media, title, mediaMode }: Props) {
 	const sliderRef = useRef<HTMLDivElement>(null);
 	const totalItems = media.length;
-	const itemsPerScreen = useResponsiveItems(totalItems);
+	const itemsPerScreen = useResponsiveItems(CAROUSEL_BREAKPOINTS);
 	const genres = useGenres(mediaMode);
 	const [sliderIndex, setSliderIndex] = useState(0);
 

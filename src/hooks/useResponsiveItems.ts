@@ -1,23 +1,16 @@
-// useResponsiveItems.ts
 import { useEffect, useState, useCallback } from "react";
 
-const BREAKPOINTS = [
-	{ max: 360, value: 2 },
-	{ max: 640, value: 2 },
-	{ max: 768, value: 3 },
-	{ max: 1280, value: 4 },
-	{ max: 1580, value: 5 },
-];
+type Breakpoint = { max: number; value: number };
 
-export const useResponsiveItems = (totalItems: number) => {
-	const [itemsPerScreen, setItemsPerScreen] = useState(4);
+export const useResponsiveItems = (breakpoints: Breakpoint[], defaultValue = 4): number => {
+	const [itemsPerScreen, setItemsPerScreen] = useState(defaultValue);
 
 	const updateItems = useCallback(() => {
 		const width = window.innerWidth;
-		const matched = BREAKPOINTS.find((bp) => width <= bp.max);
-		const newItems = matched?.value || 7;
+		const matched = breakpoints.find((bp) => width <= bp.max);
+		const newItems = matched?.value ?? defaultValue;
 		setItemsPerScreen((prev) => (prev !== newItems ? newItems : prev));
-	}, []);
+	}, [breakpoints, defaultValue]);
 
 	useEffect(() => {
 		updateItems();
