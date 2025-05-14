@@ -4,8 +4,6 @@ import { Media } from "@/types/global";
 import MediaCard2 from "../MediaCard2/MediaCard2";
 import { isMovie, isTVShow } from "@/utils/typeGuard";
 import { MediaMode } from "@/types/mediaMode";
-import { useGridColumns } from "@/hooks/useGridColumns";
-import { isEdgeIndex } from "@/utils/isEdgeIndex";
 import { useResponsiveItems } from "@/hooks/useResponsiveItems";
 import { DISCOVER_BREAKPOINTS } from "@/constants/breakpoints";
 
@@ -18,7 +16,6 @@ interface Props {
 }
 
 export default function MovieGrid({ media, genreMap }: Props) {
-	// const columns = useGridColumns();
 	const columns = useResponsiveItems(DISCOVER_BREAKPOINTS);
 
 	if (!media.length) return null;
