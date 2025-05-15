@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useDebounce } from "use-debounce";
 import fetchData from "@/utils/fetchData";
 import { MultiMedia } from "@/types/global";
 
@@ -14,24 +15,34 @@ export const useSearchMedia = (query: string) => {
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<Error | null>(null);
 
+	// Debounce the query input (300ms delay)
+	const [debouncedQuery] = useDebounce(query, 300);
+
 	useEffect(() => {
-		if (!query) return;
+		// Skip empty or whitespace-only queries
+		if (!debouncedQuery.trim()) {
+			setResults([]);
+			setError(null);
+			return;
+		}
 
 		const fetchResults = async () => {
 			setLoading(true);
+			setError(null); // reset previous errors
 			try {
-				const data = await fetchData<APIResponse>("3", `search/multi?query=${query}`);
+				const data = await fetchData<APIResponse>("3", `search/multi?query=${debouncedQuery}`);
 				const filtered = data.results.filter((media) => media.media_type !== "person");
 				setResults(filtered);
 			} catch (err) {
 				setError(err as Error);
+				setResults([]);
 			} finally {
 				setLoading(false);
 			}
 		};
-
+		console.log(query);
 		fetchResults();
-	}, [query]);
+	}, [debouncedQuery]);
 
 	return { results, loading, error };
 };
