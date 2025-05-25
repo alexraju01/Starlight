@@ -42,50 +42,58 @@ const MediaCard2 = ({ item, genreMap, mediaMode, style, isFirst, isLast }: Props
 	const [hovered, setHovered] = useState(false);
 	const [videoKey, setVideoKey] = useState<string | null>(null);
 	const videoKeyRef = useRef<string | null>(null);
+	const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
 	const isUpcoming = useMemo(() => {
 		const releaseDate = new Date(mediaDate);
 		return releaseDate > new Date();
 	}, [mediaDate]);
 
-	const handleMouseEnter = async () => {
-		setHovered(true);
+	const handlePointerEnter = () => {
+		hoverTimeoutRef.current = setTimeout(async () => {
+			setHovered(true);
 
-		if (!videoKeyRef.current) {
-			try {
-				const mediaType = isMovie(item) ? "movie" : "tv";
+			if (!videoKeyRef.current) {
+				try {
+					const mediaType = isMovie(item) ? "movie" : "tv";
+					const data = await fetchData<VideoResponse>("3", `${mediaType}/${item.id}/videos`);
 
-				// Explicitly type the API response
-				const data = await fetchData<VideoResponse>("3", `${mediaType}/${item.id}/videos`);
-
-				let trailer = data.results.find(
-					(video) => video.type === "Trailer" && video.site === "YouTube"
-				);
-
-				// Fallback to teaser if trailer is not available
-				if (!trailer) {
-					trailer = data.results.find(
-						(video) => video.type === "Teaser" && video.site === "YouTube"
+					let trailer = data.results.find(
+						(video) => video.type === "Trailer" && video.site === "YouTube"
 					);
-				}
 
-				if (trailer) {
-					videoKeyRef.current = trailer.key;
-					setVideoKey(trailer.key);
+					if (!trailer) {
+						trailer = data.results.find(
+							(video) => video.type === "Teaser" && video.site === "YouTube"
+						);
+					}
+
+					if (trailer) {
+						videoKeyRef.current = trailer.key;
+						setVideoKey(trailer.key);
+					}
+				} catch (err) {
+					console.error("Failed to fetch video:", err);
 				}
-			} catch (err) {
-				console.error("Failed to fetch video:", err);
 			}
-		}
+		}, 300); // Add a slight delay like Netflix (300ms)
 	};
 
-	const handleMouseLeave = () => {
+	const handlePointerLeave = () => {
+		if (hoverTimeoutRef.current) {
+			clearTimeout(hoverTimeoutRef.current);
+			hoverTimeoutRef.current = null;
+		}
 		setHovered(false);
 	};
 
 	const cardClasses = clsx(
 		"relative w-full px-[15px] pt-[15px] rounded-[10.92px] bg-card-bg border border-solid border-card-stroke transition-transform duration-300 transform-gpu",
-		"group-hover:scale-[1.7] group-hover:z-10 group-hover:top-1/2 group-hover:-translate-y-1/2 group-hover:px-0 group-hover:pt-0"
+		"group-hover:w-[70vw] sm:group-hover:w-[60vw] md:group-hover:w-[50vw] lg:group-hover:w-[40vw] xl:group-hover:w-[35vw] 2xl:group-hover:w-[30vw] 2xl:group-hover:max-w-[26vw]  group-hover:z-10 group-hover:top-1/2 group-hover:-translate-y-1/2 group-hover:px-0 group-hover:pt-0",
+		{
+			"group-hover:-translate-x-[calc(70vw-64%)] sm:group-hover:-translate-x-[calc(70vw-68%)] md:group-hover:-translate-x-[calc(63vw-72%)] lg:group-hover:-translate-x-[calc(57vw-94%)] xl:group-hover:-translate-x-[calc(50vw-90%)] 2xl:group-hover:-translate-x-[calc(50vw-146%)] ":
+				isLast, // Shift left on hover
+		}
 	);
 
 	const figureClasses = clsx(
@@ -103,21 +111,19 @@ const MediaCard2 = ({ item, genreMap, mediaMode, style, isFirst, isLast }: Props
 			href={ROUTES.MEDIA(mediaMode, item.id, title)}
 			style={{ ...style, flex: "0 0 auto" }}
 			className='group'
-			onMouseEnter={handleMouseEnter}
-			onMouseLeave={handleMouseLeave}>
+			onPointerEnter={handlePointerEnter}
+			onPointerLeave={handlePointerLeave}>
 			<div className={cardClasses} style={{ transformOrigin }}>
 				<figure className={figureClasses}>
 					{hovered && videoKey ? (
-						<div>
-							<iframe
-								className='w-full h-full group-hover:rounded-t-[10.92px] group-hover:rounded-b-0'
-								src={`https://www.youtube.com/embed/${videoKey}?autoplay=1&mute=0&controls=0&modestbranding=1&rel=0&showinfo=0&loop=1&playlist=${videoKey}`}
-								title={`${title} Trailer`}
-								loading='lazy'
-								allow='autoplay; encrypted-media'
-								allowFullScreen
-							/>
-						</div>
+						<iframe
+							className='w-full h-full group-hover:rounded-t-[10.92px] group-hover:rounded-b-0 '
+							src={`https://www.youtube.com/embed/${videoKey}?autoplay=1&mute=0&controls=0&modestbranding=1&rel=0&showinfo=0&loop=1&playlist=${videoKey}`}
+							title={`${title} Trailer`}
+							loading='lazy'
+							allow='autoplay; encrypted-media'
+							allowFullScreen
+						/>
 					) : (
 						<PosterImage
 							src={
@@ -135,7 +141,7 @@ const MediaCard2 = ({ item, genreMap, mediaMode, style, isFirst, isLast }: Props
 					)}
 				</figure>
 
-				<div className='flex flex-col gap-3 py-5 truncate px-[10px]'>
+				<div className='flex  flex-col gap-3 py-5 truncate px-[10px]'>
 					<div className='flex justify-between'>
 						<h3 className='text-2xl text-white font-medium truncate'>{title}</h3>
 						{hasValidRating && <RatingBadge rating={item.vote_average} />}
