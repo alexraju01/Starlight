@@ -10,21 +10,31 @@ interface Props {
 
 export default function MediaMeta({ movie, genres }: Props) {
 	return (
-		<div className='flex  gap-3.5  mb-8 text-white text-[20px] font-normal'>
-			<p>{dateConverter(movie.release_date)}</p>
-			{"•"}
-			{/* <span className="h-[25px] w-[1px] bg-white"></span> */}
-			<p>{capitalize(movie.media_type)}</p>
-			{/* <span className="h-[25px] w-[1px] bg-white"></span> */}
-			{"•"}
-			<div className='flex gap-3.5'>
+		<div className='flex flex-col sm:flex-row sm:flex-wrap gap-y-2 gap-x-4 text-white font-normal mb-8 text-[clamp(1.6rem,2vw,2rem)]'>
+			{/* Release Date */}
+			<p className='whitespace-nowrap'>{dateConverter(movie.release_date)}</p>
+
+			{/* Divider Dot for Desktop */}
+			<span className='hidden sm:inline-block'>•</span>
+
+			{/* Media Type */}
+			<p className='whitespace-nowrap capitalize'>{capitalize(movie.media_type)}</p>
+
+			{/* Divider Dot for Desktop */}
+			<span className='hidden sm:inline-block'>•</span>
+
+			{/* Genres */}
+			<div className='flex flex-wrap gap-x-2 gap-y-1'>
 				{(movie.genre_ids ?? []).map((id, index, arr) => {
 					const genre = genres[id] || "Unknown";
+					const isLast = index === arr.length - 1;
+
 					return (
-						<Link href={`/genre/${id}`} key={id}>
-							<p className='hover:text-[#9E221A] hover:cursor-pointer'>
+						<Link href={`/genre/${id}`} key={id} className='transition-colors duration-200'>
+							<p className='hover:text-[#9E221A] focus:text-[#9E221A] outline-none cursor-pointer'>
 								{genre}
-								{index < arr.length - 1 && " •"}
+								{/* Add dot between genres only on larger screens */}
+								{!isLast && <span className='hidden sm:inline'> •</span>}
 							</p>
 						</Link>
 					);

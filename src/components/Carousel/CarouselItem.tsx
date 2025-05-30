@@ -27,9 +27,9 @@ export default function CarouselItem({ movie, genres, isActive }: Props) {
 				priority={isActive}
 			/>
 
-			<div className='absolute z-20 w-[854px] bottom-0 md:left-[25px] lg:left-[102px]'>
+			<div className='absolute z-20 max-w-screen lg:w-[854px] bottom-0 left-[25px] right-[25px] lg:left-[102px]'>
 				{movie.logoImage ? (
-					<div className='relative h-[clamp(1rem,14vw,13rem)] w-[clamp(14rem,17vw,33rem)] mb-5'>
+					<div className='relative h-[clamp(1rem,14vw,13rem)] w-[clamp(19rem,17vw,33rem)] mb-5'>
 						<Image
 							src={movie.logoImage}
 							fill
@@ -43,7 +43,9 @@ export default function CarouselItem({ movie, genres, isActive }: Props) {
 				)}
 
 				<MediaMeta movie={movie} genres={genres} />
-				<p className='text-[20px] mb-9 leading-[175%] text-white'>{movie.overview}</p>
+				<p className='text-[clamp(1.6rem,2vw,2rem)] max-w-screen mb-9 leading-[175%] text-white'>
+					{movie.overview}
+				</p>
 				<ActionButtons />
 			</div>
 		</li>
