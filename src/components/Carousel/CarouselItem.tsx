@@ -8,9 +8,11 @@ interface Props {
 	movie: MoviesWithLogos;
 	genres: Record<number, string>;
 	isActive: boolean;
+	isMobile: boolean;
 }
 
-export default function CarouselItem({ movie, genres, isActive }: Props) {
+export default function CarouselItem({ movie, genres, isActive, isMobile }: Props) {
+	console.log();
 	return (
 		<li className='flex-shrink-0 flex w-full h-full items-center justify-evenly flex-row relative'>
 			{/* dark backdrop  */}
@@ -42,10 +44,12 @@ export default function CarouselItem({ movie, genres, isActive }: Props) {
 					<p className='text-[90px] font-bold'>{movie.title}</p>
 				)}
 
-				<MediaMeta movie={movie} genres={genres} />
-				<p className='text-[clamp(1.6rem,2vw,2rem)] max-w-screen mb-9 leading-[175%] text-white'>
-					{movie.overview}
-				</p>
+				<MediaMeta movie={movie} genres={genres} isMobile={isMobile} />
+				{!isMobile && (
+					<p className='text-[clamp(1.6rem,2vw,2rem)] max-w-screen mb-9 leading-[175%] text-white'>
+						{movie.overview}
+					</p>
+				)}
 				<ActionButtons />
 			</div>
 		</li>

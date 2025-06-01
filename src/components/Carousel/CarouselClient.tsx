@@ -4,6 +4,8 @@ import { useState } from "react";
 import { MoviesWithLogos } from "@/types/global";
 import CarouselItem from "./CarouselItem";
 import CarouselControls from "./CarouselControls";
+import { useResponsiveItems } from "@/hooks/useResponsiveItems";
+import useWindowWidth from "@/hooks/useWindowWidth";
 
 interface Props {
 	movies: MoviesWithLogos[];
@@ -16,6 +18,9 @@ export default function CarouselClient({ movies, genres }: Props) {
 	const handlePrev = () => setCurrentIndex((prev) => (prev === 0 ? movies.length - 1 : prev - 1));
 	const handleNext = () => setCurrentIndex((prev) => (prev === movies.length - 1 ? 0 : prev + 1));
 
+	const width = useWindowWidth();
+	const isMobile = width !== undefined && width <= 640;
+
 	return (
 		<div className='relative h-screen w-full overflow-hidden flex justify-center items-center'>
 			<ul
@@ -27,6 +32,7 @@ export default function CarouselClient({ movies, genres }: Props) {
 						movie={movie}
 						genres={genres}
 						isActive={index === currentIndex}
+						isMobile={isMobile}
 					/>
 				))}
 			</ul>

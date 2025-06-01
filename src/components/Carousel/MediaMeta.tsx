@@ -1,16 +1,23 @@
 import { MoviesWithLogos } from "@/types/global";
 import { dateConverter } from "@/utils/date";
 import { capitalize } from "@/utils/string";
+import clsx from "clsx";
 import Link from "next/link";
 
 interface Props {
 	movie: MoviesWithLogos;
 	genres: Record<string, string>;
+	isMobile: Boolean;
 }
 
-export default function MediaMeta({ movie, genres }: Props) {
+export default function MediaMeta({ movie, genres, isMobile }: Props) {
+	console.log(isMobile);
 	return (
-		<div className='flex flex-col sm:flex-row sm:flex-wrap gap-y-2 gap-x-4 text-white font-normal mb-8 text-[clamp(1.6rem,2vw,2rem)]'>
+		<div
+			className={clsx(
+				"flex gap-y-2 gap-x-4 text-white font-normal mb-8 text-[clamp(1.6rem,2vw,2rem)]",
+				isMobile ? "flex-row  flex-wrap" : ""
+			)}>
 			{/* Release Date */}
 			<p className='whitespace-nowrap'>{dateConverter(movie.release_date)}</p>
 
