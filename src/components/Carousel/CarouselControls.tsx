@@ -1,13 +1,25 @@
+import clsx from "clsx";
+
 interface Props {
 	onPrev: () => void;
 	onNext: () => void;
+	isMobile: boolean;
 }
 
-export default function CarouselControls({ onPrev, onNext }: Props) {
+export default function CarouselControls({ onPrev, onNext, isMobile }: Props) {
 	return (
-		<div className='absolute flex justify-between gap-2.5 p-4 z-30 bottom-5 w-full px-6 md:px-12 md:bottom-[47px] md:w-auto md:right-[25px] lg:right-[101px] md:flex-row md:justify-end'>
+		<div
+			className={clsx(
+				"absolute flex gap-2.5 p-4 z-2 w-full px-6 justify-end",
+				// Mobile styles
+				"top-5 right-5",
+
+				// Override on medium and larger screens
+				"sm:bottom-[47px] sm:right-[25px] sm:top-auto sm:w-auto sm:flex-row sm:px-12",
+				"lg:right-[101px]"
+			)}>
 			<button
-				className='border-2 flex justify-center items-center size-[48px] sm:size-[56px] hover:cursor-pointer border-solid rounded-lg border-white p-3'
+				className='border-2 flex justify-center items-center size-[33px] sm:size-[56px] hover:cursor-pointer border-solid rounded-lg border-white p-3'
 				onClick={onPrev}>
 				<svg
 					width='20'
@@ -25,7 +37,7 @@ export default function CarouselControls({ onPrev, onNext }: Props) {
 				</svg>
 			</button>
 			<button
-				className='bg-white border-2 p-3 flex justify-center items-center size-[48px] sm:size-[56px] hover:cursor-pointer rounded-lg border-white'
+				className='bg-white border-2 p-3 flex justify-center items-center size-[33px] sm:size-[56px] hover:cursor-pointer rounded-lg border-white'
 				onClick={onNext}>
 				<svg
 					width='20'

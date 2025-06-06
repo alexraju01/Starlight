@@ -22,7 +22,7 @@ export default function CarouselClient({ movies, genres }: Props) {
 	const isMobile = width !== undefined && width <= 640;
 
 	return (
-		<div className='relative h-screen w-full overflow-hidden flex justify-center items-center'>
+		<div className='relative overflow-hidden flex justify-center items-center sm:h-screen sm:rounded-none sm:m-0 h-[500px] rounded-[32px] m-[24px]'>
 			<ul
 				className='flex w-full h-full transition-transform duration-500 ease-in-out'
 				style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
@@ -32,12 +32,12 @@ export default function CarouselClient({ movies, genres }: Props) {
 						movie={movie}
 						genres={genres}
 						isActive={index === currentIndex}
-						isMobile={isMobile}
+						// isMobile={isMobile}
 					/>
 				))}
 			</ul>
 
-			<CarouselControls onPrev={handlePrev} onNext={handleNext} />
+			<CarouselControls onPrev={handlePrev} onNext={handleNext} isMobile={isMobile} />
 		</div>
 	);
 }

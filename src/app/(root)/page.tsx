@@ -7,9 +7,9 @@ export default function Home() {
 	return (
 		<main className='w-full h-full'>
 			<Carousel mediaMode={MediaMode.MOVIE} />
-			<section className='relative h-full bg-[#100F10] w-full pt-20 overflow-hidden'>
-				<div className='absolute z-1 w-[407px] h-[407px] left-[-334px] top-[-54px] bg-[#9E221A70] blur-[255px]'></div>
-				<div className='absolute z-1 w-[407px] h-[407px] right-[-334px] top-1/2 bg-[#9E221A70] blur-[255px]'></div>
+			<section className='relative h-full bg-[#100F10] w-full pt-20 overflow-hidden '>
+				<div className='absolute z-1 w-[407px] h-[407px] left-[-334px] top-[-54px] md:bg-[#9E221A70] blur-[255px]'></div>
+				<div className='absolute z-1 w-[407px] h-[407px] right-[-334px] top-1/2 md:bg-[#9E221A70] blur-[255px]'></div>
 
 				<div className='mx-6 lg:mx-[68px] 2xl:mx-[101px]'>
 					<GenreCollection />

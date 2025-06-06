@@ -7,28 +7,25 @@ import Link from "next/link";
 interface Props {
 	movie: MoviesWithLogos;
 	genres: Record<string, string>;
-	isMobile: Boolean;
 }
 
-export default function MediaMeta({ movie, genres, isMobile }: Props) {
-	console.log(isMobile);
+export default function MediaMeta({ movie, genres }: Props) {
 	return (
 		<div
 			className={clsx(
-				"flex gap-y-2 gap-x-4 text-white font-normal mb-8 text-[clamp(1.6rem,2vw,2rem)]",
-				isMobile ? "flex-row  flex-wrap" : ""
+				"flex gap-y-2 gap-x-4 md:mb-8 text-white font-normal  text-[clamp(1.6rem,2vw,2rem)] flex-row  flex-wrap"
 			)}>
 			{/* Release Date */}
 			<p className='whitespace-nowrap'>{dateConverter(movie.release_date)}</p>
 
 			{/* Divider Dot for Desktop */}
-			<span className='hidden sm:inline-block'>•</span>
+			<span>|</span>
 
 			{/* Media Type */}
 			<p className='whitespace-nowrap capitalize'>{capitalize(movie.media_type)}</p>
 
 			{/* Divider Dot for Desktop */}
-			<span className='hidden sm:inline-block'>•</span>
+			<span>|</span>
 
 			{/* Genres */}
 			<div className='flex flex-wrap gap-x-2 gap-y-1'>
@@ -41,7 +38,7 @@ export default function MediaMeta({ movie, genres, isMobile }: Props) {
 							<p className='hover:text-[#9E221A] focus:text-[#9E221A] outline-none cursor-pointer'>
 								{genre}
 								{/* Add dot between genres only on larger screens */}
-								{!isLast && <span className='hidden sm:inline'> •</span>}
+								{!isLast && <span>,</span>}
 							</p>
 						</Link>
 					);
