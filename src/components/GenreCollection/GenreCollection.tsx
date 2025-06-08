@@ -57,7 +57,7 @@ const GenreCollection = async () => {
 		}
 
 		return (
-			<section className='relative z-2 mb-[28px]'>
+			<section className='relative z-1 mb-[28px]'>
 				<GenreCollectionClient genreMovies={genreMovies} />
 			</section>
 		);

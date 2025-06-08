@@ -89,7 +89,7 @@ const MediaCard2 = ({ item, genreMap, mediaMode, style, isFirst, isLast }: Props
 
 	const cardClasses = clsx(
 		"relative w-full px-[15px] pt-[15px] rounded-[10.92px] bg-card-bg border border-solid border-card-stroke transition-transform duration-300 transform-gpu",
-		"group-hover:w-[70vw] sm:group-hover:w-[60vw] md:group-hover:w-[47vw] lg:group-hover:w-[40vw] xl:group-hover:w-[35vw] 2xl:group-hover:w-[30vw] 2xl:group-hover:max-w-[26vw]  group-hover:z-10 group-hover:top-1/2 group-hover:-translate-y-1/2 group-hover:px-0 group-hover:pt-0",
+		"group-hover:w-[70vw] sm:group-hover:w-[60vw] md:group-hover:w-[47vw] lg:group-hover:w-[40vw] xl:group-hover:w-[35vw] 2xl:group-hover:w-[30vw] 2xl:group-hover:max-w-[26vw]  group-hover:z-3 group-hover:top-1/2 group-hover:-translate-y-1/2 group-hover:px-0 group-hover:pt-0",
 		{
 			"absolute transform  group-hover:right-[calc(70vw-103%)] sm:group-hover:right-[calc(70vw-140%)] md:group-hover:right-[calc(70vw-210%)] lg:group-hover:right-[calc(70vw-250%)] xl:group-hover:right-[calc(70vw-310%)] 2xl:group-hover:right-[calc(70vw-425%)] 3xl:group-hover:right-[calc(70vw-420%)]":
 				// "group-hover:-translate-x-[calc(70vw-64%)] sm:group-hover:-translate-x-[calc(70vw-68%)] md:group-hover:-translate-x-[calc(63vw-72%)] lg:group-hover:-translate-x-[calc(57vw-94%)] xl:group-hover:-translate-x-[calc(50vw-90%)] 2xl:group-hover:-translate-x-[calc(50vw-146%)] ":

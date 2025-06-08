@@ -42,7 +42,7 @@ export default function CustomSliderClient({ media, title, mediaMode }: Props) {
 		<div className='flex flex-col w-full mb-10 text-white gap-[18px]'>
 			<div className='flex justify-between items-center'>
 				<h2 className='slider-title'>{title}</h2>
-				<div className='flex z-20 gap-2.5 px-4 py-2'>
+				<div className='flex z-2 gap-2.5 px-4 py-2'>
 					<CustomSliderButtons
 						direction='left'
 						onClick={() => handleClick("left")}
