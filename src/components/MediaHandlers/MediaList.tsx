@@ -11,6 +11,8 @@ import Button from "../Button/Button";
 import UpcomingMedia from "../UpcomingMedia/UpcomingMedia";
 import MediaCard2 from "../MediaCard2/MediaCard2";
 import { useGenres } from "@/hooks/useGenre";
+import { useResponsiveItems } from "@/hooks/useResponsiveItems";
+import { DISCOVER_BREAKPOINTS } from "@/constants/breakpoints";
 
 interface Props {
 	initialMedia: (Movie | TVShow)[];
@@ -23,6 +25,7 @@ export default function MediaList({ initialMedia, mediaMode }: Props) {
 	const [buttonHidden, setButtonHidden] = useState<boolean>(initialMedia.length === 0);
 	const [loading, setLoading] = useState<boolean>(false);
 	const genres = useGenres(mediaMode);
+	const itemsPerRow = useResponsiveItems(DISCOVER_BREAKPOINTS);
 
 	const loadMoreMedia = async () => {
 		setLoading(true);
@@ -51,7 +54,8 @@ export default function MediaList({ initialMedia, mediaMode }: Props) {
 		<div className='animate-fadeIn'>
 			<div
 				className={`
-					grid gap-8 w-full transition-all
+						grid gap-8 w-full transition-all relative
+		overflow-hidden
 					${
 						mediaMode === MediaMode.UPCOMING
 							? `
@@ -59,29 +63,34 @@ export default function MediaList({ initialMedia, mediaMode }: Props) {
 							sm:grid-cols-[repeat(auto-fill,minmax(45rem,1fr))]
 						`
 							: `
-							grid-cols-2 p-6 mb-8
+							grid-cols-2 px-6 mb-8
 							sm:grid-cols-3
 							md:grid-cols-4
                             lg:grid-cols-5 
-							xl:grid-cols-6 xl:p-16
+							xl:grid-cols-6 
 							2xl:grid-cols-7
 						`
 					}
 				`}>
-				{media.map((item) =>
-					item.poster_path ? (
-						<div key={item.id}>
-							{mediaMode === MediaMode.UPCOMING ? (
-								<UpcomingMedia media={item} mediaMode={MediaMode.TV} />
-							) : (
-								// <Link href={`/${mediaMode}/${item.id}`}>
+				{media.map((item, index) => {
+					const isLastInRow = (index + 1) % itemsPerRow === 0 ? true : false;
 
-								<MediaCard2 key={item.id} item={item} genreMap={genres} mediaMode={mediaMode} />
-								// </Link>
-							)}
-						</div>
-					) : null
-				)}
+					if (!item.poster_path) return null;
+
+					if (mediaMode === MediaMode.UPCOMING) {
+						return <UpcomingMedia key={item.id} media={item} mediaMode={MediaMode.TV} />;
+					}
+
+					return (
+						<MediaCard2
+							key={item.id}
+							item={item}
+							genreMap={genres}
+							mediaMode={mediaMode}
+							isLast={isLastInRow}
+						/>
+					);
+				})}
 			</div>
 
 			{!buttonHidden && (
