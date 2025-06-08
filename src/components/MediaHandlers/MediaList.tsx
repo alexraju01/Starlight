@@ -27,13 +27,15 @@ export default function MediaList({ initialMedia, mediaMode }: Props) {
 	const genres = useGenres(mediaMode);
 	const itemsPerRow = useResponsiveItems(DISCOVER_BREAKPOINTS);
 
+	const isUpcoming = mediaMode === MediaMode.UPCOMING;
 	const loadMoreMedia = async () => {
 		setLoading(true);
 
-		const mediaList: (Movie | TVShow)[] =
-			mediaMode === MediaMode.UPCOMING
-				? await getUpcoming(MediaMode.TV, page + 1)
-				: await getMedia(mediaMode, page + 1);
+		const nextPage = page + 1;
+
+		const mediaList = isUpcoming
+			? await getUpcoming(MediaMode.TV, nextPage)
+			: await getMedia(mediaMode, nextPage);
 
 		const mediaWithType = mediaList.map((item) => ({
 			...item,
@@ -54,24 +56,12 @@ export default function MediaList({ initialMedia, mediaMode }: Props) {
 		<div className='animate-fadeIn'>
 			<div
 				className={`
-						grid gap-8 w-full transition-all relative
-		overflow-hidden
+						grid gap-8 w-full px-6 mb-8 transition-all relative overflow-hidden
 					${
-						mediaMode === MediaMode.UPCOMING
-							? `
-							grid-cols-1 auto-rows-auto p-6
-							sm:grid-cols-[repeat(auto-fill,minmax(45rem,1fr))]
-						`
-							: `
-							grid-cols-2 px-6 mb-8
-							sm:grid-cols-3
-							md:grid-cols-4
-                            lg:grid-cols-5 
-							xl:grid-cols-6 
-							2xl:grid-cols-7
-						`
-					}
-				`}>
+						isUpcoming
+							? "grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(45rem,1fr))] auto-rows-auto p-6"
+							: "grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7"
+					}`}>
 				{media.map((item, index) => {
 					const isLastInRow = (index + 1) % itemsPerRow === 0 ? true : false;
 
@@ -94,7 +84,7 @@ export default function MediaList({ initialMedia, mediaMode }: Props) {
 			</div>
 
 			{!buttonHidden && (
-				<div className='flex justify-center col-span-full'>
+				<div className='flex justify-center '>
 					<Button
 						icon={loading && <Loader className='animate-spin' />}
 						onClick={loadMoreMedia}
