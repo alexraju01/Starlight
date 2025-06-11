@@ -3,15 +3,7 @@
 import { useEffect, useState } from "react";
 import Icons from "@/utils/icons";
 import NavLinks from "./NavLinks/NavLinks";
-
-const links = [
-	{ name: "Home", href: "/", icon: Icons.home },
-	{ name: "Discover", href: "/discover", icon: Icons.compass },
-	{ name: "Movies", href: "/movie", icon: Icons.Film },
-	{ name: "TV Shows", href: "/tv", icon: Icons.tv },
-	{ name: "Genre", href: "/genre", icon: Icons.catergory },
-	{ name: "Upcoming", href: "/upcoming", icon: Icons.calendar },
-];
+import { links } from "@/constants";
 
 export default function Sidebar() {
 	const [isOpen, setIsOpen] = useState(false);
