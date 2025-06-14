@@ -18,5 +18,6 @@ export { default as SectionHeading } from "./SectionHeading/SectionHeading";
 export { default as Slider } from "./Slider/Slider";
 export { default as UpcomingMedia } from "./UpcomingMedia/UpcomingMedia";
 export { default as MediaCard2 } from "./MediaCard2/MediaCard2";
+export { default as Footer } from "./Footer/Footer";
 
 // import paths imporved

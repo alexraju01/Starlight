@@ -8,3 +8,9 @@ export const links = [
 	{ name: "Genre", href: "/genre", icon: Icons.catergory },
 	{ name: "Upcoming", href: "/upcoming", icon: Icons.calendar },
 ];
+
+export const ENDPOINTS = {
+	TRENDING_MOVIES: "trending/movie/day",
+	POPULAR_MOVIES: "movie/popular",
+	TRENDING_TV: "trending/tv/day",
+};

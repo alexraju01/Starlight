@@ -1,18 +1,22 @@
-import { Carousel } from "@/components";
+import { Carousel, Footer } from "@/components";
 import { MediaMode } from "@/types/mediaMode";
 import GenreCollection from "@/components/GenreCollection/GenreCollection";
 import CustomSlider from "@/components/CustomSlider/CustomSlider";
+import BlurBackground from "@/components/Blurs/BackgroundBlur";
 
-export default function Home() {
+const Home = () => {
 	return (
 		<main className='relative w-full h-full'>
+			{/* Carousel Section */}
 			<div className='relative'>
 				<Carousel mediaMode={MediaMode.MOVIE} />
 			</div>
-			<section className='relative h-full bg-[#100F10] w-full pt-20 overflow-hidden '>
-				<div className='absolute z-0 size-[400px] left-[-334px] top-[334px] md:bg-[#9E221A70] blur-[225px]'></div>
-				<div className='absolute z-0 size-[400px] right-[-334px] top-1/2 md:bg-[#9E221A70] blur-[255px]'></div>
 
+			{/* Background Gradient Blur Effects */}
+			<section className='relative h-full bg-[#100F10] w-full pt-20 overflow-hidden '>
+				<BlurBackground />
+
+				{/* Content Wrapper with Padding */}
 				<div className='mx-6 lg:mx-[68px] 2xl:mx-[101px]'>
 					<GenreCollection />
 					<CustomSlider
@@ -32,8 +36,11 @@ export default function Home() {
 						mediaMode={MediaMode.TV}
 					/>
 				</div>
-				<footer>Footer</footer>
+
+				<Footer />
 			</section>
 		</main>
 	);
-}
+};
+
+export default Home;
