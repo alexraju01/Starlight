@@ -8,9 +8,6 @@ export default function Home() {
 		<main className='relative w-full h-full'>
 			<div className='relative'>
 				<Carousel mediaMode={MediaMode.MOVIE} />
-
-				{/* Fade transition from Carousel to section */}
-				<div className='hidden sm:block absolute bottom-0 left-0 w-full h-25 bg-gradient-to-b from-transparent to-[#100F10] pointer-events-none z-10' />
 			</div>
 			<section className='relative h-full bg-[#100F10] w-full pt-20 overflow-hidden '>
 				<div className='absolute z-0 size-[400px] left-[-334px] top-[334px] md:bg-[#9E221A70] blur-[225px]'></div>

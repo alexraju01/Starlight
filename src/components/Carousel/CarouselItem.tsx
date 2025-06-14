@@ -15,18 +15,19 @@ interface Props {
 export default function CarouselItem({ movie, genres, isActive }: Props) {
 	return (
 		<li className='flex-shrink-0 flex w-full h-full items-center justify-evenly flex-row relative'>
-			{/* dark backdrop  */}
-			<div className='custom-bg-gradient absolute bottom-0 w-full h-full z-10'></div>
-
 			<Image
-				// src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
-
 				src={getImageUrl(movie.backdrop_path, "backdrop", "original")}
 				fill
 				quality={100}
 				alt={movie.title || movie.name || "Media"}
 				className='object-cover object-center brightness-[80%]'
 				priority={isActive}
+				style={{
+					maskImage:
+						"linear-gradient(to top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.8) 50%, rgba(0, 0, 0, 0.8) 100%)",
+					WebkitMaskImage:
+						"linear-gradient(to top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.8) 50%, rgba(0, 0, 0, 0.8) 100%)",
+				}}
 			/>
 
 			<div className='absolute space-y-4 z-10 max-w-screen lg:w-[854px] bottom-0 left-[25px] right-[25px] lg:left-[102px]'>
