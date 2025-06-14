@@ -40,7 +40,7 @@
 
 	.genre-item {
 		@apply border-[2px] border-solid border-gray-100 px-[0.7rem] py-[0.4rem] rounded-[0.8rem] backdrop-blur-lg 
-        transition-all duration-300 hover:cursor-pointer hover:border-[#9e221a] hover:bg-[#9e221a1a] hover:scale-108
+        transition-all duration-300 hover:cursor-pointer hover:border-primary hover:bg-[#9e221a1a] hover:scale-108
         xl:border xl:border-white/0 xl:bg-white/25  xl:hover:border-white xl:hover:bg-white/10;
 	}
 
@@ -75,8 +75,10 @@
 
 	/* Colour Plalette */
 
-	--color-primary: #e50000;
+	--color-primary: #9e221a;
 	--color-secondary: #100f10;
+
+	/* --color-primary: #e50000; */
 
 	--color-card-bg: #1a1a1a;
 	--color-card-stroke: #262626;

@@ -136,7 +136,7 @@ const MediaCard2 = ({ item, genreMap, mediaMode, style, isFirst, isLast }: Props
 					)}
 
 					{isUpcoming && (
-						<figcaption className='absolute top-2 right-2 bg-[#9E221A] text-white text-lg font-Helvetica font-semibold px-4 py-2 rounded-[7px]'>
+						<figcaption className='absolute top-2 right-2 bg-primary text-white text-lg font-Helvetica font-semibold px-4 py-2 rounded-[7px]'>
 							Upcoming
 						</figcaption>
 					)}

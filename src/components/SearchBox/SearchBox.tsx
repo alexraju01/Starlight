@@ -2,34 +2,39 @@
 
 import { useState, useEffect } from "react";
 import SearchCard from "../SearchCard/SearchCard";
+import { Search } from "lucide-react";
 
 export default function SearchBox() {
-  const [search, setSearch] = useState<string>("");
-  const [debouncedSearch, setDebouncedSearch] = useState<string>("");
+	const [search, setSearch] = useState<string>("");
+	const [debouncedSearch, setDebouncedSearch] = useState<string>("");
 
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
-  };
+	const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setSearch(e.target.value);
+	};
 
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedSearch(search);
-    }, 300); // 300ms debounce delay
+	useEffect(() => {
+		const handler = setTimeout(() => {
+			setDebouncedSearch(search);
+		}, 300);
+		return () => clearTimeout(handler);
+	}, [search]);
 
-    // Cleanup to cancel previous timeout on new keystroke
-    return () => clearTimeout(handler);
-  }, [search]);
+	return (
+		<div className='relative hidden md:block max-w-[346px] w-full h-[50px] rounded-[13px] border border-[#1D1D1D] border-solid'>
+			{/* Search icon */}
+			<Search className='absolute left-4 top-1/2 -translate-y-1/2 text-[#BFBFBF] size-[20px] pointer-events-none' />
 
-  return (
-    <div className="w-full relative max-w-[40rem] min-w-[25rem] md:w-1/2">
-      <input
-        type="text"
-        placeholder="Search..."
-        value={search}
-        onChange={handleSearch}
-        className="w-full h-16 border-solid border-1 border-white/20 rounded-full bg-[#100f10] text-white px-4 text-[1.4rem] focus:outline-none"
-      />
-      <SearchCard query={debouncedSearch} />
-    </div>
-  );
+			{/* Input with padding to avoid overlapping the icon */}
+			<input
+				type='text'
+				placeholder='Search for movies, shows etc'
+				value={search}
+				onChange={handleSearch}
+				className='w-full h-full truncate overflow-hidden whitespace-nowrap
+ text-xl pl-14 bg-transparent text-[#BFBFBF] rounded-[13px] focus:outline-none'
+			/>
+
+			<SearchCard query={debouncedSearch} />
+		</div>
+	);
 }

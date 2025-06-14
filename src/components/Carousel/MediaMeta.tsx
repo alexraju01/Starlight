@@ -35,7 +35,7 @@ export default function MediaMeta({ movie, genres }: Props) {
 
 					return (
 						<Link href={`/genre/${id}`} key={id} className='transition-colors duration-200'>
-							<p className='hover:text-[#9E221A] focus:text-[#9E221A] outline-none cursor-pointer'>
+							<p className='hover:text-primary focus:text-primary outline-none cursor-pointer'>
 								{genre}
 								{/* Add dot between genres only on larger screens */}
 								{!isLast && <span>,</span>}

@@ -3,22 +3,25 @@
 import { links } from "@/constants";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 const NavLinks = () => {
-	const path = usePathname();
+	const pathname = usePathname();
 
 	return (
-		<ul className='flex  gap-[16px] py-[6px] px-[6px] rounded-[12px] items-center xl:gap-[30px] xl:py-[10px] xl:px-[9px]'>
+		<ul className='flex items-center gap-3 px-2 py-1.5 rounded-2xl xl:gap-5 xl:px-2.5 xl:py-2.5'>
 			{links.map((link) => {
-				const isActive = path === link.href;
+				const isActive = pathname === link.href;
 
 				return (
-					<li key={link.href} className='w-full min-w-fit xl:w-auto'>
+					<li key={link.href}>
 						<Link
 							href={link.href}
-							className={`text-[16px] py-[10px] px-[16px] font-Helvetica leading-[150%] w-full xl:text-[18px] xl:py-[14px] xl:px-[24px] hover:text-white ${
-								isActive ? "bg-[#9E221A] text-white rounded-[8px]" : "text-[#BFBFBF]"
-							}`}>
+							aria-current={isActive ? "page" : undefined}
+							className={cn(
+								"inline-block whitespace-nowrap text-[16px] xl:text-[18px] font-Helvetica leading-[150%] px-4 py-2.5 xl:px-6 xl:py-[14px] rounded-md transition-colors duration-200",
+								isActive ? "bg-primary text-white" : "text-[#BFBFBF] hover:text-white"
+							)}>
 							{link.name}
 						</Link>
 					</li>

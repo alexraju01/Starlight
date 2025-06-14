@@ -38,8 +38,8 @@ export default function Sidebar() {
 					isOpen ? "translate-x-0 w-full" : "-translate-x-80 w-0"
 				}`}>
 				<p>
-					<span className='text-[#9e221a] font-bold'>S</span>tar{" "}
-					<span className='text-[#9e221a] font-bold'>L</span>ight
+					<span className='text-primary font-bold'>S</span>tar{" "}
+					<span className='text-primary font-bold'>L</span>ight
 				</p>
 			</div>
 
