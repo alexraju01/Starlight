@@ -1,14 +1,14 @@
-// CustomSliderClient.tsx
 "use client";
 
-import React, { useMemo, useRef, useState } from "react";
+import React, { useMemo, useRef, useState, useCallback, CSSProperties } from "react";
 import CustomSliderButtons from "./CustomSliderButtons";
 import { Media } from "@/types/global";
 import { MediaMode } from "@/types/mediaMode";
 import { useResponsiveItems } from "@/hooks/useResponsiveItems";
 import { useGenres } from "@/hooks/useGenre";
-import { CAROUSEL_BREAKPOINTS, DISCOVER_BREAKPOINTS } from "@/constants/breakpoints";
+import { CAROUSEL_BREAKPOINTS } from "@/constants/breakpoints";
 import MediaCard2 from "@/components/Cards/MediaCard2";
+import CustomSliderSkeleton from "@/components/Feedback/LoadingSkeletons/CustomSliderLoading";
 
 interface Props {
 	media: Media[];
@@ -16,33 +16,48 @@ interface Props {
 	mediaMode: MediaMode;
 }
 
-const itemGap = 16;
+const ITEM_GAP = 16;
 
 export default function CustomSliderClient({ media, title, mediaMode }: Props) {
 	const sliderRef = useRef<HTMLDivElement>(null);
-	const totalItems = media.length;
-	const itemsPerScreen = useResponsiveItems(CAROUSEL_BREAKPOINTS);
 	const genres = useGenres(mediaMode);
+	const itemsPerScreen = useResponsiveItems(CAROUSEL_BREAKPOINTS); // ⛔ undefined on SSR
 	const [sliderIndex, setSliderIndex] = useState(0);
+	const totalItems = media.length;
 
-	const maxIndex = useMemo(
-		() => Math.max(0, totalItems - itemsPerScreen),
-		[totalItems, itemsPerScreen]
+	// 🛡️ Safe maxIndex logic even if itemsPerScreen is null
+	const maxIndex = useMemo(() => {
+		return itemsPerScreen ? Math.max(0, totalItems - itemsPerScreen) : 0;
+	}, [totalItems, itemsPerScreen]);
+
+	const handleClick = useCallback(
+		(direction: "left" | "right") => {
+			if (!itemsPerScreen) return;
+			setSliderIndex((prev) =>
+				direction === "left"
+					? Math.max(prev - itemsPerScreen, 0)
+					: Math.min(prev + itemsPerScreen, maxIndex)
+			);
+		},
+		[itemsPerScreen, maxIndex]
 	);
 
-	const handleClick = (direction: "left" | "right") => {
-		setSliderIndex((prev) =>
-			direction === "left"
-				? Math.max(prev - itemsPerScreen, 0)
-				: Math.min(prev + itemsPerScreen, maxIndex)
-		);
-	};
+	const transformStyle = useMemo<CSSProperties>(() => {
+		return itemsPerScreen
+			? { transform: `translateX(-${(sliderIndex * 100) / itemsPerScreen}%)` }
+			: {};
+	}, [sliderIndex, itemsPerScreen]);
+
+	// ✅ Render fallback if responsive items not ready yet
+	if (!itemsPerScreen) {
+		return <CustomSliderSkeleton />;
+	}
 
 	return (
-		<div className='flex flex-col w-full mb-10 text-white gap-[18px]'>
-			<div className='flex justify-between items-center'>
+		<section className='flex flex-col w-full mb-10 text-white gap-4'>
+			<header className='flex justify-between items-center px-2'>
 				<h2 className='slider-title'>{title}</h2>
-				<div className='flex z-2 gap-2.5 px-4 py-2'>
+				<nav className='flex gap-2 px-4 py-2 z-10'>
 					<CustomSliderButtons
 						direction='left'
 						onClick={() => handleClick("left")}
@@ -53,23 +68,20 @@ export default function CustomSliderClient({ media, title, mediaMode }: Props) {
 						onClick={() => handleClick("right")}
 						disabled={sliderIndex >= maxIndex}
 					/>
-				</div>
-			</div>
+				</nav>
+			</header>
 
 			<div className='relative w-full overflow-hidden'>
 				<div
 					ref={sliderRef}
 					className='flex transition-transform duration-300 ease-in-out'
-					style={{
-						transform: `translateX(-${(sliderIndex * 100) / itemsPerScreen}%)`,
-					}}>
+					style={transformStyle}>
 					{media.map((item, i) => {
 						const isFirst = i === sliderIndex;
-						const isVisibleLast = i === sliderIndex + itemsPerScreen - 1; // 👈 check visible last item
-						const isLastInList = i === media.length - 1;
-
-						const width = `calc(${100 / itemsPerScreen}% - ${itemGap}px)`;
-						const marginRight = isLastInList ? "0px" : `${itemGap}px`;
+						const isLastVisible = i === sliderIndex + itemsPerScreen - 1;
+						const isLastInList = i === totalItems - 1;
+						const width = `calc(${100 / itemsPerScreen}% - ${ITEM_GAP}px)`;
+						const marginRight = isLastInList ? "0px" : `${ITEM_GAP}px`;
 
 						return (
 							<MediaCard2
@@ -78,16 +90,13 @@ export default function CustomSliderClient({ media, title, mediaMode }: Props) {
 								genreMap={genres}
 								mediaMode={mediaMode}
 								isFirst={isFirst}
-								isLast={isVisibleLast} // 👈 send last visible
-								style={{
-									width,
-									marginRight,
-								}}
+								isLast={isLastVisible}
+								style={{ width, marginRight }}
 							/>
 						);
 					})}
 				</div>
 			</div>
-		</div>
+		</section>
 	);
 }

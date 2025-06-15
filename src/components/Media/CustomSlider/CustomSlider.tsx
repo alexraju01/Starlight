@@ -2,6 +2,7 @@ import { APIResponse, Media, Movie, TVShow } from "@/types/global";
 import CustomSliderClient from "./CustomSliderClient";
 import { MediaMode } from "@/types/mediaMode";
 import { fetchData } from "@/utils";
+import { sleep } from "@/utils/sleep";
 
 interface Props {
 	endpoint: string;
