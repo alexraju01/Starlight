@@ -1,23 +1,56 @@
-export { default as BrokenImage } from "./BrokenImage/BrokenImage";
-export { default as Button } from "./Button/Button";
-export { default as Carousel } from "./Carousel/Carousel";
-export { default as CastContainer } from "./CastContainer/CastContainer";
-export { default as Dot } from "./Dot/Dot";
-export { default as Sidebar } from "./Sidebar/Sidebar";
-export { default as GoBack } from "./GoBack/GoBack";
-export { default as LoadingSkeletons } from "./LoadingSkeletons/LoadingSkeletons";
-export { default as MediaCard } from "./MediaCard/MediaCard";
-// export { default as MediaHandlers } from "./MediaHandlers/MediaHandlers";
-export { default as MediaOverview } from "./MediaOverview/MediaOverview";
-export { default as MovieGrid } from "./MovieGrid/MovieGrid";
-// export { default as Range } from "./Range/Range";
-export { default as RatingIcon } from "./RatingIcon/RatingIcon";
-export { default as SearchBox } from "./SearchBox/SearchBox";
-export { default as SearchCard } from "./SearchCard/SearchCard";
-export { default as SectionHeading } from "./SectionHeading/SectionHeading";
-export { default as Slider } from "./Slider/Slider";
-export { default as UpcomingMedia } from "./UpcomingMedia/UpcomingMedia";
-export { default as MediaCard2 } from "./MediaCard2/MediaCard2";
-export { default as Footer } from "./Footer/Footer";
+// export { default as BrokenImage } from "./Feedback/BrokenImage/BrokenImage";
+// export { default as Carousel } from "./media/Carousel/Carousel";
+// export { default as CastContainer } from "./CastContainer/CastContainer";
+// export { default as Sidebar } from "./layout/Sidebar/Sidebar";
+// export { default as GoBack } from "./GoBack/GoBack";
+// export { default as LoadingSkeletons } from "./Feedback/LoadingSkeletons/LoadingSkeletons";
+// export { default as MediaCard } from "./cards/MediaCard/MediaCard";
+// export { default as MediaOverview } from "./MediaOverview/MediaOverview";
+// export { default as MovieGrid } from "./MovieGrid/MovieGrid";
+// export { default as RatingIcon } from "./RatingIcon/RatingIcon";
+// export { default as SearchCard } from "./SearchCard/SearchCard";
+// export { default as SectionHeading } from "./SectionHeading/SectionHeading";
+// export { default as Slider } from "./Slider/Slider";
+// export { default as UpcomingMedia } from "./UpcomingMedia/UpcomingMedia";
+// export { default as MediaCard2 } from "./cards/MediaCard2/MediaCard2";
+// export { default as Footer } from "./layout/Footer/Footer";
 
-// import paths imporved
+// // Re-exporting UI primitives
+// export { default as Button } from "./ui/Button/Button";
+// export { default as SearchBox } from "./ui/SearchBox/SearchBox";
+// export { default as Dot } from "./ui/Dot/Dot";
+
+// Re-exporting UI primitives
+export { default as Button } from "./ui/Button/Button";
+export { default as SearchBox } from "./ui/SearchBox/SearchBox";
+export { default as Dot } from "./ui/Dot/Dot";
+
+// Layout
+export { default as NavBar } from "./Layout/NavBar/NavBar";
+export { default as Sidebar } from "./Layout/Sidebar/Sidebar";
+export { default as Footer } from "./Layout/Footer/Footer";
+
+// Media components
+export { default as Carousel } from "./Media/Carousel/Carousel";
+export { default as CustomSlider } from "./Media/CustomSlider/CustomSlider";
+export { default as MovieGrid } from "./Media/MovieGrid/MovieGrid";
+export { default as MediaOverview } from "./Media/MediaOverview/MediaOverview";
+export { default as UpcomingMedia } from "./Media/UpcomingMedia/UpcomingMedia";
+
+// Cards
+export { default as MediaCard } from "./Cards/MediaCard";
+export { default as MediaCard2 } from "./Cards/MediaCard2/MediaCard2";
+export { default as SearchCard } from "./Cards/SearchCard/SearchCard";
+
+// Genre
+export { default as GenreCollection } from "./Genre/GenreCollection/GenreCollection";
+
+// Forms
+export { SearchForm } from "./Forms/SearchForm";
+
+// Feedback
+export { default as LoadingSkeleton } from "./Feedback/LoadingSkeletons/LoadingSkeletons";
+
+// Navigation
+export { default as GoBack } from "./Navigation/GoBack";
+export { default as SectionHeading } from "./Navigation/SectionHeading";

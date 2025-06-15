@@ -1,7 +1,5 @@
-import { Carousel, Footer } from "@/components";
+import { Carousel, CustomSlider, Footer, GenreCollection } from "@/components";
 import { MediaMode } from "@/types/mediaMode";
-import GenreCollection from "@/components/GenreCollection/GenreCollection";
-import CustomSlider from "@/components/CustomSlider/CustomSlider";
 import BlurBackground from "@/components/Blurs/BackgroundBlur";
 
 const Home = () => {

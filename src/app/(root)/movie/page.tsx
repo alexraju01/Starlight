@@ -1,4 +1,4 @@
-import MediaWrapper from "@/components/MediaHandlers/MediaWrapper";
+import MediaWrapper from "@/components/Media/MediaHandlers/MediaWrapper";
 import { MediaMode } from "@/types/mediaMode";
 
 export default function MoviesPage() {
