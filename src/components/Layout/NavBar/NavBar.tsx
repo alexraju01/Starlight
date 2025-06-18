@@ -7,7 +7,7 @@ import SearchBox from "@/components/ui/SearchBox/SearchBox";
 
 const NavBar = () => {
 	return (
-		<header className='fixed  top-0 left-0 w-full z-10 bg-[#100F10] h-[90px] flex items-center px-6 lg:px-10'>
+		<header className='fixed  top-0 left-0 w-full z-11 bg-[#100F10] h-[90px] flex items-center px-6 lg:px-10'>
 			<nav className='flex gap-10 justify-between items-center w-full' aria-label='Main Navigation'>
 				{/* Logo & Nav */}
 				<div className='flex items-center gap-6 xl:gap-10'>

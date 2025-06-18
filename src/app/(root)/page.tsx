@@ -1,8 +1,6 @@
 import { Carousel, CustomSlider, Footer, GenreCollection } from "@/components";
 import BlurBackground from "@/components/Blurs/BackgroundBlur";
-import CustomSliderSkeleton from "@/components/Feedback/LoadingSkeletons/CustomSliderLoading";
 import { MediaMode } from "@/types/mediaMode";
-import { Suspense } from "react";
 
 const Home = () => {
 	return (

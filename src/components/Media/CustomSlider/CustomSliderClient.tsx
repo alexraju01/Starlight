@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useRef, useState, useCallback, CSSProperties } from "react";
+import React, { useMemo, useState, useCallback, CSSProperties } from "react";
 import CustomSliderButtons from "./CustomSliderButtons";
 import { Media } from "@/types/global";
 import { MediaMode } from "@/types/mediaMode";
@@ -19,7 +19,6 @@ interface Props {
 const ITEM_GAP = 16;
 
 export default function CustomSliderClient({ media, title, mediaMode }: Props) {
-	const sliderRef = useRef<HTMLDivElement>(null);
 	const genres = useGenres(mediaMode);
 	const itemsPerScreen = useResponsiveItems(CAROUSEL_BREAKPOINTS); // ⛔ undefined on SSR
 	const [sliderIndex, setSliderIndex] = useState(0);
@@ -72,10 +71,7 @@ export default function CustomSliderClient({ media, title, mediaMode }: Props) {
 			</header>
 
 			<div className='relative w-full overflow-hidden'>
-				<div
-					ref={sliderRef}
-					className='flex transition-transform duration-300 ease-in-out'
-					style={transformStyle}>
+				<div className='flex transition-transform duration-300 ease-in-out' style={transformStyle}>
 					{media.map((item, i) => {
 						const isFirst = i === sliderIndex;
 						const isLastVisible = i === sliderIndex + itemsPerScreen - 1;
