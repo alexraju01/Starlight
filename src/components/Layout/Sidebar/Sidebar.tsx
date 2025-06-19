@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Icons from "@/utils/icons";
 import NavLinks from "./NavLinks/NavLinks";
 import { links } from "@/constants";
+import LayoutToggleButton from "../LayoutToggleButton";
 
 export default function Sidebar() {
 	const [isOpen, setIsOpen] = useState(false);
@@ -29,10 +30,11 @@ export default function Sidebar() {
 
 	return (
 		<nav
-			className={`fixed top-0 left-0 z-10 h-screen bg-[#100f10] text-white border-r border-[#252525] transition-all duration-300 ${
+			className={`fixed  top-0 left-0 z-15 h-screen bg-[#100f10] text-white border-r border-[#252525] transition-all duration-300 ${
 				isOpen ? "min-w-70 translate-x-0" : "w-0"
 			} xl:sticky xl:w-70`}
 			style={{ borderRight: "0.1rem solid #252525" }}>
+			{/* Logo Section */}
 			<div
 				className={`flex justify-center items-center pt-12 pb-4 text-3xl font-semibold whitespace-nowrap transition-all duration-300 ${
 					isOpen ? "translate-x-0 w-full" : "-translate-x-80 w-0"
@@ -43,14 +45,23 @@ export default function Sidebar() {
 				</p>
 			</div>
 
-			<ul
-				className={`flex flex-col gap-4 pt-4 transition-all duration-300 ${
+			{/* Sidebar with height minus logo */}
+			<div
+				className={`flex flex-col justify-between transition-all duration- w-64 transform z-50 ${
 					isOpen ? "translate-x-0" : "-translate-x-80 w-0"
-				}`}>
-				{links.map((link) => (
-					<NavLinks key={link.href} linkData={link} closeSidebar={closeSidebarOnMobile} />
-				))}
-			</ul>
+				}`}
+				style={{ height: "calc(100vh - 5rem)" }} // 👈 adjust based on logo height
+			>
+				<ul className='flex flex-col gap-4 pt-4 px-4'>
+					{links.map((link) => (
+						<NavLinks key={link.href} linkData={link} closeSidebar={closeSidebarOnMobile} />
+					))}
+				</ul>
+
+				<div className='p-4'>
+					<LayoutToggleButton />
+				</div>
+			</div>
 
 			{/* Toggle Button */}
 			<button
