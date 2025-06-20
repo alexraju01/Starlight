@@ -32,7 +32,6 @@ export default function CarouselClient({ movies, genres }: Props) {
 						movie={movie}
 						genres={genres}
 						isActive={index === currentIndex}
-						// isMobile={isMobile}
 					/>
 				))}
 			</ul>

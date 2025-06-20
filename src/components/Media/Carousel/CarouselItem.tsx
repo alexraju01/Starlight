@@ -18,7 +18,7 @@ export default function CarouselItem({ movie, genres, isActive }: Props) {
 			<Image
 				src={getImageUrl(movie.backdrop_path, "backdrop", "original")}
 				fill
-				quality={100}
+				quality={75}
 				alt={movie.title || movie.name || "Media"}
 				className='object-cover object-center brightness-[80%]'
 				priority={isActive}
