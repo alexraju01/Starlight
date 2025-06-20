@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import Icons from "@/utils/icons";
 import NavLinks from "./NavLinks/NavLinks";

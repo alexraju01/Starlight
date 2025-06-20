@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import { ROUTES } from "@/constants/route";
 import NavLinks from "./NavLinks";

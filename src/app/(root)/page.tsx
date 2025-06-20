@@ -4,7 +4,7 @@ import { MediaMode } from "@/types/mediaMode";
 
 const Home = () => {
 	return (
-		<main className='relative w-full h-full'>
+		<main className='relative '>
 			{/* Carousel Section */}
 			<section className='relative'>
 				<Carousel mediaMode={MediaMode.MOVIE} />
