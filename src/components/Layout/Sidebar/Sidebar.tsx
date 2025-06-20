@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import Icons from "@/utils/icons";
 import NavLinks from "./NavLinks/NavLinks";
 import { links } from "@/constants";
-import LayoutToggleButton from "../LayoutToggleButton";
 
 export default function Sidebar() {
 	const [isOpen, setIsOpen] = useState(false);
@@ -56,10 +55,6 @@ export default function Sidebar() {
 						<NavLinks key={link.href} linkData={link} closeSidebar={closeSidebarOnMobile} />
 					))}
 				</ul>
-
-				<div className='p-4'>
-					<LayoutToggleButton />
-				</div>
 			</div>
 
 			{/* Toggle Button */}

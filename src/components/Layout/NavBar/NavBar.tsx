@@ -2,7 +2,6 @@ import Link from "next/link";
 import { ROUTES } from "@/constants/route";
 import NavLinks from "./NavLinks";
 import SearchBox from "@/components/ui/SearchBox/SearchBox";
-import LayoutToggleButton from "../LayoutToggleButton";
 
 const NavBar = () => {
 	return (
@@ -22,7 +21,6 @@ const NavBar = () => {
 				{/* Right Side (Search, Auth, etc.) */}
 				<div className='w-full flex justify-end items-center gap-3 xl:gap-5'>
 					<SearchBox />
-					<LayoutToggleButton />
 					<Link
 						href='#'
 						className='text-xl xl:text-2xl px-[18px] py-[10px] font-medium text-[#BFBFBF] hover:text-white transition-colors w-[110px] h-[50px] rounded-[12px] border border-[#1D1D1D] border-solid flex items-center justify-center'>
