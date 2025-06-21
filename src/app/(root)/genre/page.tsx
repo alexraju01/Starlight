@@ -20,7 +20,7 @@ async function FetchGenres() {
 	).sort((a, b) => a.name.localeCompare(b.name));
 
 	return (
-		<div className='grid w-full gap-6 p-6 sm:grid-cols-[repeat(auto-fill,minmax(10rem,1fr))] grid-cols-[repeat(auto-fill,minmax(9rem,1fr))] md:grid-cols-[repeat(auto-fill,minmax(11rem,1fr))] xl:grid-cols-[repeat(auto-fill,minmax(12rem,1fr))] xl:p-16'>
+		<div className='relative grid w-full  gap-6 p-6 sm:grid-cols-[repeat(auto-fill,minmax(10rem,1fr))] grid-cols-[repeat(auto-fill,minmax(9rem,1fr))] md:grid-cols-[repeat(auto-fill,minmax(11rem,1fr))] xl:grid-cols-[repeat(auto-fill,minmax(12rem,1fr))] xl:p-16'>
 			{uniqueGenres.map(({ id, name }) => {
 				const icon = Icons.genreIcons[name as GenreKey] ?? <FaQuestionCircle />;
 				return (

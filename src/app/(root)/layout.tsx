@@ -4,7 +4,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
 	return (
 		<>
 			<NavBar />
-			<main className='overflow-auto'>{children}</main>
+			<main className='overflow-auto w-full h-full'>{children}</main>
 			{/* {children} */}
 		</>
 	);
