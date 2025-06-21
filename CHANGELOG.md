@@ -1,3 +1,60 @@
+## [2.2.0](https://github.com/alexraju01/Starlight/compare/v2.1.3...v2.2.0) (2025-06-21)
+
+### ✨ Features
+
+* Added a simple navbar ([d81b179](https://github.com/alexraju01/Starlight/commit/d81b179ce89a719d51095cf416c68f4e87d36830))
+* Added a slider for top 20 movies today ([25a20cf](https://github.com/alexraju01/Starlight/commit/25a20cfd2e0bf412cbf7d1624a532b2d2024e290))
+* Added feature where handles uncaught routes and gives suggestions ([9a03321](https://github.com/alexraju01/Starlight/commit/9a03321b184cd1eb320cbe2369dbeea379469427))
+* Added Layout shift feature, navbar to sidebar ([aa06269](https://github.com/alexraju01/Starlight/commit/aa0626925e7b162a29a3e623525fea12526e90ae))
+* Added search box, sample auth buttons into NavBar  and used global color variable ([d90fefc](https://github.com/alexraju01/Starlight/commit/d90fefc341629cc6c183fe5e2b5f56a0b298e2d0))
+* Added Top 20 movies as a reusable  slider component ([1d62e22](https://github.com/alexraju01/Starlight/commit/1d62e22dd3e7781b81b3e4b14f0081cf0f54183f))
+* Added upcoming tag to  movies and handled movies without rating, improve SEO using semantic tags ([f64f1bb](https://github.com/alexraju01/Starlight/commit/f64f1bb2b8dc275bb79465f258e93c57eef06aff))
+* Applied the new mediaCard on the movies page ([b24ba02](https://github.com/alexraju01/Starlight/commit/b24ba02d07b059b3de0949e770e8d8c3abe1f933))
+* Discover page now supports MediaCard component with trailors and fully responsive ([81e37e8](https://github.com/alexraju01/Starlight/commit/81e37e8ebc4dbd3b4c5f82b230d45a5eaa6a9601))
+* Implemented an error handler for CustomSlider ([7c6cae7](https://github.com/alexraju01/Starlight/commit/7c6cae7d57564157a07b008fa3a10c2a089952ec))
+* Implemented trailers for each movie card on hover ([6724ad0](https://github.com/alexraju01/Starlight/commit/6724ad07c0cae9dd7785ddbb8687627ae5a47c92))
+* Loading skeleton placeholder  feature implemented ([d2dff42](https://github.com/alexraju01/Starlight/commit/d2dff42aab0d8f01cbfa7759e8d34cbdc74df074))
+* Media poster has rating, release date and genres ([fa3c37d](https://github.com/alexraju01/Starlight/commit/fa3c37df59d9207ea70fff00cf440375d8a632da))
+* New feature genre collection for the new design ([65f1771](https://github.com/alexraju01/Starlight/commit/65f1771ebfd9b713fe5602824eb52510831880b0))
+
+### 🐛 Bug Fixes
+
+* Fixed carousel control box size ([fb95f26](https://github.com/alexraju01/Starlight/commit/fb95f269f4f1193187796f5dbdda7a32af5cb81c))
+* Fixed fetchData to handle query '?' sign and '&' to fetch discover ([4b35fbd](https://github.com/alexraju01/Starlight/commit/4b35fbdfdf863076e27734861c66d0ed5756f5c2))
+* Fixed flickering in movie page when hovered over card ([d8b3679](https://github.com/alexraju01/Starlight/commit/d8b36797ded306199e40bbcf806ae71eeb6ee460))
+* Fixed GenreCollection component's style so that the container doesn't lose its shape on larger screen ([26151f0](https://github.com/alexraju01/Starlight/commit/26151f0d92b9ddb146a1baf987f0e0e43a0efbce))
+* Fixed getMedia fetch, by passing in correct page parameter ([d75a278](https://github.com/alexraju01/Starlight/commit/d75a27851b2b1d24952296adf06b0b2338eb05a8))
+* Fixed overflow on the hovered item in CustomSider component ([f355cf4](https://github.com/alexraju01/Starlight/commit/f355cf416b88971f088e04d0af7e63670ef29dec))
+* Fixed overflow scroll ([99726b2](https://github.com/alexraju01/Starlight/commit/99726b2a76ab65d3846dcf1f97a79ccca3aea4e0))
+* Fixed responsive issue with caurosel on smaller screens ([f1098ee](https://github.com/alexraju01/Starlight/commit/f1098eeff59c58fc6c2dd24d58731681654f6e81))
+* Fixed so that if trailer doesn't exist it looks for teaser on hover ([996841d](https://github.com/alexraju01/Starlight/commit/996841da318313e48e61f79010ab278f4905da46))
+* Fixed the flicker effect caused when hovering over the last item in CustomSlider component ([9b8d5c9](https://github.com/alexraju01/Starlight/commit/9b8d5c94ba051665a50a054aa7900365558861d8))
+* Fixed the flicker on hover in movies page ([c7b588e](https://github.com/alexraju01/Starlight/commit/c7b588ecb6ca6f6b23892af981df52b9f9503f7c))
+* Fixed the missing genres and increased the carousel slides ([5f54669](https://github.com/alexraju01/Starlight/commit/5f546692daac3e0c1bcb4440be71816bf7bbf02e))
+* Fixed the position of last item when hover  enlarges the image for all screen size ([8375ed8](https://github.com/alexraju01/Starlight/commit/8375ed8991222629eb389bf3a63dd63629fae096))
+* Fixed typescript errors caused when building the app ([4811951](https://github.com/alexraju01/Starlight/commit/4811951c520b8075d0ec063cddd01ee468de69a6))
+* Fixed typescript errors on build time ([d71e869](https://github.com/alexraju01/Starlight/commit/d71e8697d85ecac99ef90c6175bf39ace8267f06))
+* Fixed where genre collection doesn't take you to the desired link page ([91f8032](https://github.com/alexraju01/Starlight/commit/91f8032966ee689a758d0180e7fe20202b6f00a3))
+* Fixing broken images in GenreCollection and removing duplicate movies shown in other genres ([6cefde3](https://github.com/alexraju01/Starlight/commit/6cefde35af366cec7f737d8181fea3384b8fc67b))
+* Fixing overflow bug ([bd23036](https://github.com/alexraju01/Starlight/commit/bd23036770ab58b7ea45b0f7dcc162ad77077e89))
+* Implementing genreCollection responsiveness ([d129e49](https://github.com/alexraju01/Starlight/commit/d129e4939ba1dc8417398c4e3fa9a4a538663c66))
+* Improve responsiveness on smaller screens ([a38b8d6](https://github.com/alexraju01/Starlight/commit/a38b8d682431961c4de6a1f1af23eeb7e21b1bb9))
+* Prevented overfetching from search endpoint by implementing debounce ([8495e8a](https://github.com/alexraju01/Starlight/commit/8495e8aef649527a134f50f1bdb87fdf90fea3c8))
+* Removed console.logs ([1145378](https://github.com/alexraju01/Starlight/commit/11453786794b933db532cd52fcd44335b9ed0df5))
+
+### 🛠 Refactors
+
+* Centralised the routes and improved SEO by making user friendly URL ([ae5b6de](https://github.com/alexraju01/Starlight/commit/ae5b6de02e15c66bb0caf43979ba6fc1fb1f9b45))
+* Changed the the style of the carousel. It takes the whole page ([3df3a52](https://github.com/alexraju01/Starlight/commit/3df3a52d0c52d9b04df1f50fea535a2f97dcbff6))
+* Improved MediaCard component ([ef814a9](https://github.com/alexraju01/Starlight/commit/ef814a9f3e59630ba52d60ddf1b23b352f86ad56))
+* Improved the Carousel components genre style on hover ([b5b5e5f](https://github.com/alexraju01/Starlight/commit/b5b5e5f38b44c7198b2f7ff0ede82036a0158eca))
+* Improved the carousel home page ([f8e4df5](https://github.com/alexraju01/Starlight/commit/f8e4df5848ffab9bb91ae3cfa0d56a9ead410ec5))
+* Made the CustomSlider component resuable so that titles can be added to match what it shows ([9d1e607](https://github.com/alexraju01/Starlight/commit/9d1e607108e998f40385e55ff8e89dfe2ddd5d3a))
+* refactor: Extracted TMDB image URL with typed categories and sizes ([809431b](https://github.com/alexraju01/Starlight/commit/809431bdf7c1c6461f5c9c24f1d0f86ac99042ac))
+* Refactored CustomSliderClient component to follow SOLID principle ([00069fa](https://github.com/alexraju01/Starlight/commit/00069fa5fb1469a7d5c371a4b5a663730f07a85c))
+* Refactored discover page and it's search logic using SOLID principle ([2febd03](https://github.com/alexraju01/Starlight/commit/2febd039182bcb807c4a47fa4bf201bd6170e173))
+* Refactored mediaCard following SOLID principles ([eb72031](https://github.com/alexraju01/Starlight/commit/eb7203103fb4c6a3028fef9e983800078f30914d))
+
 ## [2.1.3](https://github.com/alexraju01/Starlight/compare/v2.1.2...v2.1.3) (2025-04-07)
 
 
