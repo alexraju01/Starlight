@@ -18,7 +18,7 @@ interface Props {
 export default function MovieGrid({ media, genreMap }: Props) {
 	const columns = useResponsiveItems(DISCOVER_BREAKPOINTS);
 
-	if (!media.length) return null;
+	if (!media.length || columns === null) return null;
 
 	return (
 		<div className='relative overflow-visible grid p-6 w-full transition-all duration-300 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 xl:p-16 gap-8 2xl:grid-cols-7'>

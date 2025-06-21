@@ -27,6 +27,10 @@ export default function MediaList({ initialMedia, mediaMode }: Props) {
 	const genres = useGenres(mediaMode);
 	const itemsPerRow = useResponsiveItems(DISCOVER_BREAKPOINTS);
 
+	if (itemsPerRow === null) {
+		return <div className='p-6 text-center'>Loading layout...</div>;
+	}
+
 	const isUpcoming = mediaMode === MediaMode.UPCOMING;
 	const loadMoreMedia = async () => {
 		setLoading(true);
