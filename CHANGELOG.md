@@ -1,3 +1,9 @@
+## [2.2.1](https://github.com/alexraju01/Starlight/compare/v2.2.0...v2.2.1) (2025-06-21)
+
+### 🐛 Bug Fixes
+
+* Fixed overflow bug in genre page ([53fb1c3](https://github.com/alexraju01/Starlight/commit/53fb1c3a3fa8b69c21186e4402a6740b6d2b3b0a))
+
 ## [2.2.0](https://github.com/alexraju01/Starlight/compare/v2.1.3...v2.2.0) (2025-06-21)
 
 ### ✨ Features
