@@ -1,10 +1,10 @@
 import { Suspense } from "react";
 
-import { Spinner } from "@/components/LoadingSkeletons";
-import MediaWrapper from "@/components/MediaHandlers/MediaWrapper";
+import { Spinner } from "@/components/Feedback/LoadingSkeletons";
 import { MediaMode } from "@/types/mediaMode";
 
 import styles from "./Upcoming.module.css";
+import MediaWrapper from "@/components/Media/MediaHandlers/MediaWrapper";
 
 export default async function UpcomingPage() {
 	return (

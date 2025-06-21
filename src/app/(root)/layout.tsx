@@ -1,10 +1,11 @@
-import { Sidebar } from "@/components";
+import { NavBar } from "@/components";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
 	return (
 		<>
-			<Sidebar />
-			{children}
+			<NavBar />
+			<main className='overflow-auto'>{children}</main>
+			{/* {children} */}
 		</>
 	);
 };

@@ -12,7 +12,7 @@ interface BaseMedia {
 	vote_count: number;
 	backdrop_path: string | null;
 	poster_path: string | null;
-	genres: Genre[];
+	genres?: Genre[];
 	original_language: string;
 	production_countries: ProductionCountry[];
 	origin_country?: string[];
@@ -20,8 +20,29 @@ interface BaseMedia {
 	production_companies?: ProductionCompany[];
 }
 
+// export interface GenreMovie {
+// 	adult: boolean;
+// 	backdrop_path: string;
+// 	genre_ids: number[];
+// 	id: number;
+// 	original_language: string;
+// 	original_title: string;
+// 	overview: string;
+// 	popularity: number;
+// 	poster_path: string;
+// 	release_date: string;
+// 	title: string;
+// 	video: boolean;
+// 	vote_average: number;
+// 	vote_count: number;
+// }
+
+export interface GenreMovie extends Omit<Movie, "genres"> {
+	genre_ids: number[];
+}
+
 interface Movie extends BaseMedia {
-	// media_type: MediaMode.Movie; // ✅ Explicitly define for movies
+	media_type: MediaMode.Movie; // ✅ Explicitly define for movies
 	title: string;
 	original_title: string;
 	release_date: string;
@@ -35,7 +56,7 @@ interface Movie extends BaseMedia {
 }
 
 interface TVShow extends BaseMedia {
-	// media_type: MediaMode.TV; // ✅ Explicitly define for TV shows
+	media_type: MediaMode.TV; // ✅ Explicitly define for TV shows
 	name: string;
 	original_name: string;
 	first_air_date: string;
@@ -54,12 +75,10 @@ interface TVShow extends BaseMedia {
 	languages?: string[];
 }
 
-type Media = Movie | TVShow;
-
 // Unified media type for API responses
 type Media = Movie | TVShow;
 
-interface MoviesWithLogos extends BaseMedia {
+interface MoviesWithLogos extends Movie {
 	logoImage?: string; // Optional because some movies may not have a logo
 	genre_ids: number[];
 }

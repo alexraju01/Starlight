@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { FaQuestionCircle } from "react-icons/fa";
 
-import GenreSkeleton from "@/components/LoadingSkeletons/GenreSkeleton";
+import GenreSkeleton from "@/components/Feedback/LoadingSkeletons/GenreSkeleton";
 import { Genre } from "@/types/genre";
 import fetchData from "@/utils/fetchData";
 import Icons, { GenreKey } from "@/utils/icons";

@@ -1,8 +1,8 @@
 import { Suspense } from "react";
 
 import { MediaOverview } from "@/components";
-import { Spinner } from "@/components/LoadingSkeletons";
 import { MediaMode } from "@/types/mediaMode";
+import { Spinner } from "@/components/Feedback/LoadingSkeletons";
 
 interface Props {
 	params: Promise<{ slug: string }>;
@@ -14,7 +14,7 @@ export default async function page({ params }: Props) {
 	return (
 		<section className='w-full h-full'>
 			<Suspense fallback={<Spinner />}>
-				<MediaOverview params={slug} mediaMode={MediaMode.Movie} />
+				<MediaOverview params={slug} mediaMode={MediaMode.MOVIE} />
 			</Suspense>
 		</section>
 	);

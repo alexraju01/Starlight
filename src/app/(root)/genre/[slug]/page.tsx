@@ -24,7 +24,7 @@ interface MediaResponse {
 const getMediaMode = (type: string): MediaMode => {
 	switch (type) {
 		case "movie":
-			return MediaMode.Movie;
+			return MediaMode.MOVIE;
 		case "tv":
 			return MediaMode.TV;
 		default:
