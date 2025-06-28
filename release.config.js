@@ -4,6 +4,7 @@ module.exports = {
 		"main",
 		{
 			name: "7-fix-image-errors",
+
 			
 		},
 	],
@@ -34,7 +35,7 @@ module.exports = {
   branches: [
     "main",
     {
-      name: "9-update-homepage-uiux",
+      name: "10-mobile-responsive-home-page",
     },
   ],
   plugins: [
