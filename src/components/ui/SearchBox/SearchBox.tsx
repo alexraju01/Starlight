@@ -20,7 +20,7 @@ export default function SearchBox() {
 	}, [search]);
 
 	return (
-		<div className='relative hidden md:block max-w-[346px] w-full h-[50px] rounded-[13px] border border-[#1D1D1D] border-solid'>
+		<div className='relative  md:block md:max-w-[346px] w-full h-[50px] rounded-[13px] border border-[#1D1D1D] border-solid'>
 			{/* Search icon */}
 			<Search className='absolute left-4 top-1/2 -translate-y-1/2 text-[#BFBFBF] size-[20px] pointer-events-none' />
 

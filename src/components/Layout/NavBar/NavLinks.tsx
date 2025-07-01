@@ -5,11 +5,15 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
-const NavLinks = () => {
+const NavLinks = ({ className = "" }: { className?: string }) => {
 	const pathname = usePathname();
 
 	return (
-		<ul className='flex items-center gap-3 px-2 py-1.5 rounded-2xl xl:gap-5 xl:px-2.5 xl:py-2.5'>
+		<ul
+			className={cn(
+				"flex flex-col md:flex-row md:items-center md:gap-3 md:px-2 md:py-1.5 md:rounded-2xl xl:gap-5 xl:px-2.5 xl:py-2.5",
+				className
+			)}>
 			{links.map((link) => {
 				const isActive = pathname === link.href;
 

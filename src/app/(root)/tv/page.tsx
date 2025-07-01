@@ -6,7 +6,7 @@ import { LoadingSkeletons } from "@/components/Feedback/LoadingSkeletons";
 
 export default function Tv() {
 	return (
-		<div className='flex flex-col mt-16 w-full'>
+		<div className='flex flex-col mt-50 md:mt-40 w-full'>
 			<h2 className='text-3xl text-center'>TV Shows List</h2>
 			<Suspense fallback={<LoadingSkeletons />}>
 				<MediaWrapper mediaMode={MediaMode.TV} />

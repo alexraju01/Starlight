@@ -3,7 +3,7 @@ import clsx from "clsx";
 
 export default function ActionButtons() {
 	return (
-		<div className='relative w-full flex  flex-row justify-start items-center gap-[13px] mb-9 sm:mb-[47px]'>
+		<div className='relative w-full flex  flex-row justify-start items-center gap-[13px] mb-9 sm:mb-[7px] md:mb-[47px]'>
 			{/* Watch Trailer Button */}
 			<div className='flex w-full sm:w-fit justify-center items-center '>
 				<button className='flex w-full bg-white text-black text-[17.14px] sm:text-[20px] items-center gap-2 sm:bg-primary h-[50px] sm:h-[59px] px-4 sm:px-[14px] rounded-[8px] sm:text-white sm:w-auto justify-center'>

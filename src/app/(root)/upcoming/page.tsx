@@ -8,7 +8,7 @@ import MediaWrapper from "@/components/Media/MediaHandlers/MediaWrapper";
 
 export default async function UpcomingPage() {
 	return (
-		<div className={styles.container}>
+		<div className='flex flex-col justify-center items-center mt-60 md:mt-30'>
 			<h2>Upcoming shows</h2>
 			<div className={styles.upcomingContainer}>
 				<Suspense fallback={<Spinner />}>
