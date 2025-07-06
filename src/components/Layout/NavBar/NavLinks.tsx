@@ -5,7 +5,13 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
-const NavLinks = ({ className = "" }: { className?: string }) => {
+const NavLinks = ({
+	className = "",
+	onLinkClick,
+}: {
+	className?: string;
+	onLinkClick?: () => void;
+}) => {
 	const pathname = usePathname();
 
 	return (
@@ -22,6 +28,7 @@ const NavLinks = ({ className = "" }: { className?: string }) => {
 						<Link
 							href={link.href}
 							aria-current={isActive ? "page" : undefined}
+							onClick={onLinkClick}
 							className={cn(
 								"inline-block whitespace-nowrap text-[16px] xl:text-[18px] font-Helvetica leading-[150%] px-4 py-2.5 xl:px-6 xl:py-[14px] rounded-md transition-colors duration-200",
 								isActive ? "bg-primary text-white" : "text-[#BFBFBF] hover:text-white"

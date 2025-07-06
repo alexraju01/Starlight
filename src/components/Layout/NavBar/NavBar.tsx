@@ -15,67 +15,77 @@ const NavBar = () => {
 	};
 
 	return (
-		<header className='fixed top-0 left-0 w-full z-50 bg-[#100F10] h-auto px-6 lg:px-10 py-4'>
+		<header className='fixed top-0 left-0 w-full z-50 bg-[#100F10] px-6 lg:px-10 py-4'>
 			<nav
 				className='flex flex-col md:flex-row gap-4 md:gap-10 justify-between items-start md:items-center w-full'
 				aria-label='Main Navigation'>
 				{/* Logo & Mobile Toggle */}
-				<div className='flex items-center w-full justify-between md:w-auto gap-4'>
+				<div className='flex items-center w-full  md:w-auto'>
 					<button
 						onClick={toggleMobileNav}
 						className='md:hidden text-white'
-						aria-label={isMobileNavOpen ? "Close Menu" : "Open Menu"}>
+						aria-label={isMobileNavOpen ? "Close Menu" : "Open Menu"}
+						aria-expanded={isMobileNavOpen}
+						aria-controls='mobile-menu'>
 						{isMobileNavOpen ? <X size={35} /> : <AlignJustify size={35} />}
 					</button>
-					<Link href={ROUTES.HOME} aria-label='Go to homepage'>
-						<p className='text-[26px] lg:text-[29px] xl:text-[44.87px] font-bold leading-[101%]'>
+
+					<Link href={ROUTES.HOME} aria-label='Go to homepage' className='mx-auto'>
+						<span className='text-[26px] lg:text-[29px] xl:text-[44.87px] font-bold leading-[101%]'>
 							<span className='text-primary'>S</span>tar
 							<span className='text-primary'>L</span>ight
-						</p>
+						</span>
 					</Link>
 
-					<div className='text-white'>
+					{/* <div className='text-white hiden'>
 						<Sun />
-					</div>
+					</div> */}
 				</div>
 
 				{/* Mobile SearchBox under logo */}
 				<div className='md:hidden w-full mt-4'>
-					<div className=' p-4 rounded-lg'>
+					<div className='p-4 rounded-lg'>
 						<SearchBox />
 					</div>
 				</div>
 
-				{/* Desktop NavLinks */}
+				{/* Desktop Nav Links */}
 				<div className='hidden md:flex items-center gap-6 xl:gap-10'>
 					<NavLinks />
 				</div>
 
-				{/* Right Side (Search, Auth, etc.) */}
+				{/* Desktop Right Side */}
 				<div className='hidden md:flex justify-end items-center gap-3 xl:gap-5 flex-1'>
 					<SearchBox />
 
 					<Link
-						href='#'
-						className='text-xl xl:text-2xl px-[18px] py-[10px] font-medium text-[#BFBFBF] hover:text-white transition-colors w-[110px] h-[50px] rounded-[12px] border border-[#1D1D1D] border-solid flex items-center justify-center'>
+						href='/login'
+						className='text-xl xl:text-2xl px-[18px] py-[10px] font-medium text-[#BFBFBF] hover:text-white transition-colors w-[110px] h-[50px] rounded-[12px] border border-[#1D1D1D] flex items-center justify-center'>
 						Login
 					</Link>
 				</div>
 			</nav>
 
 			{/* Mobile Nav Links */}
-			{isMobileNavOpen && (
-				<div className='md:hidden h-auto absolute top-[90px] left-0 w-full bg-[#100F10] p-6 z-40'>
-					<NavLinks className='flex flex-col gap-4' />
+			<div
+				id='mobile-menu'
+				className={`md:hidden transition-all duration-300 ease-in-out ${
+					isMobileNavOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0 overflow-hidden"
+				}`}
+				role='region'
+				aria-hidden={!isMobileNavOpen}>
+				<div className='w-full bg-[#100F10] p-6'>
+					<NavLinks className='flex flex-col gap-4' onLinkClick={() => setIsMobileNavOpen(false)} />
+
 					<div className='mt-4 flex flex-col gap-4'>
 						<Link
-							href='#'
-							className='text-lg px-[18px] py-[10px] font-medium text-[#BFBFBF] hover:text-white transition-colors w-full rounded-[12px] border border-[#1D1D1D] border-solid text-center'>
+							href='/login'
+							className='text-lg px-[18px] py-[10px] font-medium text-[#BFBFBF] hover:text-white transition-colors w-full rounded-[12px] border border-[#1D1D1D] text-center'>
 							Login
 						</Link>
 					</div>
 				</div>
-			)}
+			</div>
 		</header>
 	);
 };
