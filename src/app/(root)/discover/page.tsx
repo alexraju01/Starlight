@@ -31,7 +31,7 @@ export default function DiscoverPage(): JSX.Element {
 	};
 
 	return (
-		<div className='flex min-h-screen w-full flex-col items-center justify-center gap-16 px-4 py-6'>
+		<div className='flex min-h-screen w-full flex-col items-center mt-50 md:mt-40 justify-center gap-16 px-4 py-6'>
 			<h2 className='text-center text-4xl font-bold text-white animate-fadeIn drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]'>
 				Discover More Movies...
 			</h2>

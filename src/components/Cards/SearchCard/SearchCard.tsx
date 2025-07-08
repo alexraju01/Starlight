@@ -35,7 +35,7 @@ export default function SearchCard({ query }: Props) {
 	return (
 		<>
 			{query.length > 1 && (
-				<div className='absolute left-0 z-[99999] flex flex-col bg-[#171717] h-fit w-[clamp(25rem,50vw,45rem)] text-[1.3rem]'>
+				<div className='absolute left-0 md:left-[clamp(-250px,-90vw,1000px)] lg:-left-40 xl:left-0 z-[99999] flex flex-col bg-[#171717] h-fit w-full md:w-[clamp(25rem,50vw,45rem)] text-[1.3rem]'>
 					{result.length > 0 ? (
 						result
 							.filter(({ media_type }) => media_type !== "person")

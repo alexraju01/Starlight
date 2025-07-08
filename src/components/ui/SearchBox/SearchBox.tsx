@@ -3,13 +3,23 @@
 import { useState, useEffect } from "react";
 import { Search } from "lucide-react";
 import SearchCard from "@/components/Cards/SearchCard/SearchCard";
+import { useRouter } from "next/navigation";
+import { ROUTES } from "@/constants/route";
 
 export default function SearchBox() {
 	const [search, setSearch] = useState<string>("");
 	const [debouncedSearch, setDebouncedSearch] = useState<string>("");
+	const router = useRouter();
 
 	const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSearch(e.target.value);
+	};
+
+	const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+		if (e.key === "Enter") {
+			// navigate to /discover with search param
+			router.push(ROUTES.DISCOVER(search));
+		}
 	};
 
 	useEffect(() => {
@@ -30,8 +40,9 @@ export default function SearchBox() {
 				placeholder='Search for movies, shows etc'
 				value={search}
 				onChange={handleSearch}
+				onKeyDown={handleKeyDown}
 				className='w-full h-full truncate overflow-hidden whitespace-nowrap
- text-xl pl-14 bg-transparent text-[#BFBFBF] rounded-[13px] focus:outline-none'
+				text-xl pl-14 bg-transparent text-[#BFBFBF] rounded-[13px] focus:outline-none'
 			/>
 
 			<SearchCard query={debouncedSearch} />
