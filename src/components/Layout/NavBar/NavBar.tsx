@@ -17,7 +17,7 @@ const NavBar = () => {
 	return (
 		<header className='fixed top-0 left-0 w-full z-50 bg-[#100F10] px-6 lg:px-10 py-4'>
 			<nav
-				className='flex flex-col md:flex-row gap-4 md:gap-10 justify-between items-start md:items-center w-full'
+				className=' flex relative flex-col md:flex-row gap-4 md:gap-10 justify-between items-start md:items-center w-full'
 				aria-label='Main Navigation'>
 				{/* Logo & Mobile Toggle */}
 				<div className='flex items-center w-full  md:w-auto'>
@@ -36,14 +36,10 @@ const NavBar = () => {
 							<span className='text-primary'>L</span>ight
 						</span>
 					</Link>
-
-					{/* <div className='text-white hiden'>
-						<Sun />
-					</div> */}
 				</div>
 
 				{/* Mobile SearchBox under logo */}
-				<div className='md:hidden w-full mt-4'>
+				<div className='md:hidden absolute z-0 w-full mt-22'>
 					<div className='p-4 rounded-lg'>
 						<SearchBox />
 					</div>
@@ -69,12 +65,12 @@ const NavBar = () => {
 			{/* Mobile Nav Links */}
 			<div
 				id='mobile-menu'
-				className={`md:hidden transition-all duration-300 ease-in-out ${
+				className={`md:hidden relative transition-all duration-300 ease-in-out ${
 					isMobileNavOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0 overflow-hidden"
 				}`}
 				role='region'
 				aria-hidden={!isMobileNavOpen}>
-				<div className='w-full bg-[#100F10] p-6'>
+				<div className='w-full  bg-[#100F10] p-6 z-[10] absolute'>
 					<NavLinks className='flex flex-col gap-4' onLinkClick={() => setIsMobileNavOpen(false)} />
 
 					<div className='mt-4 flex flex-col gap-4'>
