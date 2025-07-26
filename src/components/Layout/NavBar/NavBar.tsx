@@ -39,7 +39,7 @@ const NavBar = () => {
 				</div>
 
 				{/* Mobile SearchBox under logo */}
-				<div className='md:hidden absolute z-0 w-full mt-22'>
+				<div className='md:hidden bg-[#100F10] absolute z-0 w-full mt-18'>
 					<div className='p-4 rounded-lg'>
 						<SearchBox />
 					</div>
