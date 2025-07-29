@@ -54,11 +54,16 @@ const NavBar = () => {
 				<div className='hidden md:flex justify-end items-center gap-3 xl:gap-5 flex-1'>
 					<SearchBox />
 
-					<Link
-						href='/login'
-						className='text-xl xl:text-2xl px-[18px] py-[10px] font-medium text-[#BFBFBF] hover:text-white transition-colors w-[110px] h-[50px] rounded-[12px] border border-[#1D1D1D] flex items-center justify-center'>
-						Login
-					</Link>
+					<div className='relative group'>
+						<Link
+							href='/login'
+							className='text-xl xl:text-2xl px-[18px] py-[10px] font-medium text-[#BFBFBF] hover:text-white transition-colors w-[110px] h-[50px] rounded-[12px] border border-[#1D1D1D] flex items-center justify-center'>
+							Login
+						</Link>
+						<div className='absolute -bottom-10 left-1/2 -translate-x-1/2 px-3 py-1 text-xs bg-black text-white rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none'>
+							Future Feature
+						</div>
+					</div>
 				</div>
 			</nav>
 
