@@ -1,0 +1,48 @@
+name: CodeQL
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: "0 3 * * 1" # Mondays at 03:00 UTC
+
+permissions:
+  contents: read
+  security-events: write
+  actions: read
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Use Node
+        uses: actions/setup-node@v4
+        with:
+          # Use your .nvmrc if you have one; otherwise pick a supported LTS for Next 15
+          node-version-file: ".nvmrc"
+          cache: "npm"
+
+      - name: Install deps (for better TS type info)
+        run: npm ci
+        # If you use pnpm or yarn, swap this command accordingly
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript # covers JavaScript AND TypeScript
+          # Optional: uncomment one of these for broader coverage
+          # queries: security-extended
+          # queries: security-and-quality
+
+      # No autobuild needed for JS/TS projects
+
+      - name: Analyze
+        uses: github/codeql-action/analyze@v3
