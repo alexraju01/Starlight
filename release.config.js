@@ -1,11 +1,6 @@
 module.exports = {
 	repositoryUrl: "https://github.com/alexraju01/Starlight.git",
-	branches: [
-		"main",
-		{
-			name: "10-mobile-responsive-home-page",
-		},
-	],
+	branches: ["main"],
 	plugins: [
 		[
 			"@semantic-release/commit-analyzer",
