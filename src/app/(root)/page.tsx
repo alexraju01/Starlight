@@ -21,7 +21,7 @@ const Home = () => {
 						title='Top 20 Movies'
 						mediaMode={MediaMode.MOVIE}
 					/>
-
+					{/* Checking changes on ci */}
 					<CustomSlider
 						endpoint='movie/popular'
 						title='Popular Movies'
