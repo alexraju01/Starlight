@@ -15,7 +15,7 @@ export default function CarouselControls({ onPrev, onNext, isMobile }: Props) {
 				"top-5 right-5",
 
 				// Override on medium and larger screens
-				"sm:bottom-[47px] sm:right-[25px] sm:top-auto sm:w-auto sm:flex-row sm:px-12",
+				" bottom-0 pb-[200px] md:bottom-[49px] md:pb-0 sm:right-[25px] sm:top-auto sm:w-auto sm:flex-row sm:px-12",
 				"lg:right-[101px]"
 			)}>
 			<button

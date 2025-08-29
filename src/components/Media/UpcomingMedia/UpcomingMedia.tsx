@@ -18,7 +18,7 @@ function isTVShow(media: Media): media is TVShow {
 
 export default function UpcomingMedia({ media, mediaMode }: Props) {
 	return (
-		<div className='flex gap-4 w-full h-full rounded-[0.8rem] bg-[rgba(255,255,255,0.08)]'>
+		<div className=' flex gap-4 w-full h-full rounded-[0.8rem] bg-[rgba(255,255,255,0.08)]'>
 			<div className='relative h-full w-[14rem] sm:w-[18rem]'>
 				<Link href={`/${mediaMode}/${media.id}`}>
 					<MediaCard
@@ -29,12 +29,12 @@ export default function UpcomingMedia({ media, mediaMode }: Props) {
 				</Link>
 			</div>
 
-			<div className='flex flex-col justify-between h-full w-full'>
+			<div className='flex  flex-col justify-between h-full w-full'>
 				<div className='flex items-center justify-between relative'>
 					<h2 className='w-[calc(100%-4rem)] font-semibold'>
 						{mediaMode === "movie" ? media.title : media.name}
 					</h2>
-					<span className='absolute top-0 right-0 flex justify-center items-center bg-orange-500 w-[4rem] text-[1.6rem] rounded-br-[0.8rem] leading-8'>
+					<span className='absolute top-0 right-0 flex justify-center items-center bg-primary w-[4rem] text-[1.6rem] rounded-bl-[0.8rem]  rounded-tr-[0.8rem] leading-8'>
 						{mediaMode.toUpperCase()}
 					</span>
 				</div>

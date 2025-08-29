@@ -14,7 +14,7 @@ interface Props {
 
 export default function CarouselItem({ movie, genres, isActive }: Props) {
 	return (
-		<li className='flex-shrink-0 flex w-full h-full items-center justify-evenly flex-row relative'>
+		<li className=' flex-shrink-0 flex w-full h-full sm:h-[80%] md:h-full items-center justify-evenly flex-row relative'>
 			<Image
 				src={getImageUrl(movie.backdrop_path, "backdrop", "original")}
 				fill
@@ -30,7 +30,7 @@ export default function CarouselItem({ movie, genres, isActive }: Props) {
 				}}
 			/>
 
-			<div className='absolute space-y-4 z-10 max-w-screen lg:w-[854px] bottom-0 left-[25px] right-[25px] lg:left-[102px]'>
+			<div className='absolute space-y-4 z-10 max-w-screen lg:w-[854px] bottom-0 sm:pb-0 md:pb-0 left-[25px] right-[25px] lg:left-[102px]'>
 				{movie.logoImage ? (
 					<div className='relative h-[clamp(1rem,14vw,13rem)] w-[clamp(19rem,17vw,33rem)] mb-5'>
 						<Image

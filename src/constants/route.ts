@@ -16,4 +16,6 @@ export const ROUTES = {
 
 	// Genre route
 	GENRE: (id: number) => `/genre/${id}`,
+
+	DISCOVER: (slug: string) => `discover?search=${slugify(slug)}`,
 };
