@@ -1,0 +1,74 @@
+name: Auto-populate PR title/body from Issue
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, ready_for_review]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  decorate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update PR title/body
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const branch = pr.head.ref;
+
+            // 1) Try to extract an issue number from branch names like:
+            //    feature/123-awesome-thing, fix/123, chore/123_any, or just 123-something
+            let m = branch.match(/(?:^|\/)(?:feat|feature|fix|bug|chore|refactor|hotfix)\/?(\d+)(?:[-_]|$)/i)
+                  || branch.match(/(?:^|\/)(\d+)(?:[-_]|$)/);
+
+            let issueNumber = m ? Number(m[1]) : null;
+
+            // 2) Fallback: first #123 found in the existing PR title/body
+            if (!issueNumber) {
+              const text = `${pr.title}\n\n${pr.body || ""}`;
+              const mm = text.match(/#(\d+)/);
+              issueNumber = mm ? Number(mm[1]) : null;
+            }
+
+            if (!issueNumber) {
+              core.notice("No issue number found in branch name or PR text. Skipping.");
+              return;
+            }
+
+            // Fetch the issue to get its title
+            const { data: issue } = await github.rest.issues.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+            });
+
+            const closesLine = `Closes #${issue.number}`;
+            const desiredTitle = `${issue.title} (#${issue.number})`;
+
+            // Title: include issue title & number if not already present
+            let newTitle = pr.title;
+            if (!newTitle.includes(`#${issue.number}`)) {
+              newTitle = desiredTitle;
+            }
+
+            // Body: ensure it contains "Closes #123" (so the issue auto-closes on merge)
+            let newBody = pr.body || "";
+            const closesRegex = new RegExp(`(?:close|closes|closed|fix|fixes|fixed|resolve|resolves|resolved)\\s+#${issue.number}\\b`, "i");
+            if (!closesRegex.test(newBody)) {
+              newBody = `${closesLine}\n\n${newBody}`.trim();
+            }
+
+            await github.rest.pulls.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pr.number,
+              title: newTitle,
+              body: newBody,
+            });
+
+            core.summary
+              .addHeading("PR auto-populated")
+              .addRaw(`Linked to #${issue.number}: ${issue.title}`)
+              .write();
