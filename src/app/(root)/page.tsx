@@ -15,7 +15,7 @@ const Home = () => {
 
 				<div className='mx-6 lg:mx-[68px] 2xl:mx-[101px]'>
 					<GenreCollection />
-
+					{/* Testchnages on ci  */}
 					<CustomSlider
 						endpoint='trending/movie/day'
 						title='Top 20 Movies'
