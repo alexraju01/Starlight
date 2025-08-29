@@ -1,3 +1,18 @@
+## [2.2.2](https://github.com/alexraju01/Starlight/compare/v2.2.1...v2.2.2) (2025-08-29)
+
+### 🐛 Bug Fixes
+
+* Fixed Navbar responsiveness and pages layout making space for navbar ([d640b08](https://github.com/alexraju01/Starlight/commit/d640b081460d73427a743e4c3f25a2af2197b566))
+* Fixed navbar searchbox  not directing to discover page ([64f660d](https://github.com/alexraju01/Starlight/commit/64f660dba650ccc5262e6ae23ec9249d3ebdb85c))
+* Fixed Upcoming title spacing and the media mode badge ([7e06828](https://github.com/alexraju01/Starlight/commit/7e0682882c05fd517faa389d3cbb1c78f028e21f))
+* Fixed where the search box results toggle nav links ([bcd8d3a](https://github.com/alexraju01/Starlight/commit/bcd8d3a09fd53a5249b865253d2fb9098f5f68c2))
+* Fixed where when clicked the navbar closes ([c5546b4](https://github.com/alexraju01/Starlight/commit/c5546b431d533cd414ea6d031393f0ef1ec9e6e4))
+* Fixing navbar scroll with colorrect bg colour ([c7701e5](https://github.com/alexraju01/Starlight/commit/c7701e560fe020fab5d38fb48490f5d425417548))
+
+### 🚀 Improvements
+
+* Improved UI that doesn't work as  disabled with tooltip ([0c8d87f](https://github.com/alexraju01/Starlight/commit/0c8d87f44c8eda9513927c4459711ef0187601bf))
+
 ## [2.2.1](https://github.com/alexraju01/Starlight/compare/v2.2.0...v2.2.1) (2025-06-21)
 
 ### 🐛 Bug Fixes
