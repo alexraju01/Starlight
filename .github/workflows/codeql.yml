@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [main]
   schedule:
-    - cron: "0 3 * * 1" # Mondays at 03:00 UTC
+    - cron: "0 3 * * 1"
 
 permissions:
   contents: read
@@ -16,33 +16,29 @@ permissions:
 jobs:
   analyze:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Use Node
+      - name: Use Node 22
         uses: actions/setup-node@v4
         with:
-          # Use your .nvmrc if you have one; otherwise pick a supported LTS for Next 15
-          node-version-file: ".nvmrc"
-          cache: "npm"
+          node-version: 22
+          cache: npm
+          # If package-lock.json isn't at the repo root, set:
+          # cache-dependency-path: path/to/package-lock.json
 
       - name: Install deps (for better TS type info)
         run: npm ci
-        # If you use pnpm or yarn, swap this command accordingly
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
-          languages: javascript # covers JavaScript AND TypeScript
-          # Optional: uncomment one of these for broader coverage
+          languages: javascript
           # queries: security-extended
           # queries: security-and-quality
-
-      # No autobuild needed for JS/TS projects
 
       - name: Analyze
         uses: github/codeql-action/analyze@v3
