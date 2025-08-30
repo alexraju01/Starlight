@@ -1,4 +1,4 @@
-import { GenreMovie, Media, Movie, TVShow } from "@/types/global";
+import { GenreMovie, Media, Movie, TVShow } from '@/types/global';
 
 // Utility type guards
 // export function isMovie(media: Media): media is Movie {
@@ -11,16 +11,16 @@ import { GenreMovie, Media, Movie, TVShow } from "@/types/global";
 
 // utils/typeGuards.ts
 
-import { MediaMode } from "@/types/mediaMode";
+import { MediaMode } from '@/types/mediaMode';
 
 export function isMovie(item: Media): item is Movie {
-	return item.media_type === MediaMode.MOVIE;
+  return item.media_type === MediaMode.MOVIE;
 }
 
 export function isTVShow(item: Media): item is TVShow {
-	return item.media_type === MediaMode.TV;
+  return item.media_type === MediaMode.TV;
 }
 
 export function isGenreMovie(item: Media): item is GenreMovie {
-	return "genre_ids" in item;
+  return 'genre_ids' in item;
 }

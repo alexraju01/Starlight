@@ -1,86 +1,86 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @plugin 'tailwindcss-animate';
 
 @layer base {
-	* {
-		@apply m-0 p-0 box-border list-none no-underline outline-none border-none;
-	}
+  * {
+    @apply m-0 p-0 box-border list-none no-underline outline-none border-none;
+  }
 
-	html {
-		font-size: 62.5%;
-	}
+  html {
+    font-size: 62.5%;
+  }
 }
 
 @layer utilities {
-	@keyframes fadeIn {
-		0% {
-			opacity: 0;
-		}
-		100% {
-			opacity: 1;
-		}
-	}
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
 
-	.animate-fadeIn {
-		animation: fadeIn 1s forwards;
-	}
+  .animate-fadeIn {
+    animation: fadeIn 1s forwards;
+  }
 
-	.image-pixelated {
-		image-rendering: pixelated;
-	}
+  .image-pixelated {
+    image-rendering: pixelated;
+  }
 
-	.custom-bg-gradient {
-		background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.8) 100%);
-	}
+  .custom-bg-gradient {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.8) 100%);
+  }
 
-	.genre-gradient {
-		background: linear-gradient(180deg, rgba(26, 26, 26, 0) 0%, #1a1a1a 105.79%);
-	}
+  .genre-gradient {
+    background: linear-gradient(180deg, rgba(26, 26, 26, 0) 0%, #1a1a1a 105.79%);
+  }
 
-	.genre-item {
-		@apply border-[2px] border-solid border-gray-100 px-[0.7rem] py-[0.4rem] rounded-[0.8rem] backdrop-blur-lg 
+  .genre-item {
+    @apply border-[2px] border-solid border-gray-100 px-[0.7rem] py-[0.4rem] rounded-[0.8rem] backdrop-blur-lg 
         transition-all duration-300 hover:cursor-pointer hover:border-primary hover:bg-[#9e221a1a] hover:scale-108
         xl:border xl:border-white/0 xl:bg-white/25  xl:hover:border-white xl:hover:bg-white/10;
-	}
+  }
 
-	.mask-gradient-default {
-		mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0.5) 100%);
-		-webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0.5) 100%);
-	}
+  .mask-gradient-default {
+    mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0.5) 100%);
+    -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0.5) 100%);
+  }
 
-	@media (min-width: 1280px) {
-		.mask-gradient-default {
-			mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.7) 30%);
-			-webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.7) 30%);
-		}
-	}
+  @media (min-width: 1280px) {
+    .mask-gradient-default {
+      mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.7) 30%);
+      -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.7) 30%);
+    }
+  }
 
-	.slider-control-btn {
-		@apply bg-[#1A1A1A] flex items-center justify-center rounded-[4.72px] lg:rounded-[6.1px] 2xl:rounded-[9px] hover:cursor-pointer border-[1.15px] border-solid border-[#262626];
+  .slider-control-btn {
+    @apply bg-[#1A1A1A] flex items-center justify-center rounded-[4.72px] lg:rounded-[6.1px] 2xl:rounded-[9px] hover:cursor-pointer border-[1.15px] border-solid border-[#262626];
 
-		width: clamp(33px, 5vw, 64px);
-		height: clamp(33px, 5vw, 64px);
-	}
+    width: clamp(33px, 5vw, 64px);
+    height: clamp(33px, 5vw, 64px);
+  }
 
-	.slider-title {
-		@apply leading-[150%] text-[22.63px] lg:text-[29.28px] 2xl:text-[44px] font-normal font-Helvetica;
-		font-size: clamp(22.63px, 2.5vw, 44px);
-	}
+  .slider-title {
+    @apply leading-[150%] text-[22.63px] lg:text-[29.28px] 2xl:text-[44px] font-normal font-Helvetica;
+    font-size: clamp(22.63px, 2.5vw, 44px);
+  }
 }
 
 @theme {
-	--font-Helvetica: "Helvetica", "sans-serif";
-	--breakpoint-3xl: 112rem;
+  --font-Helvetica: 'Helvetica', 'sans-serif';
+  --breakpoint-3xl: 112rem;
 
-	/* Colour Plalette */
+  /* Colour Plalette */
 
-	--color-primary: #9e221a;
-	--color-secondary: #100f10;
+  --color-primary: #9e221a;
+  --color-secondary: #100f10;
 
-	/* --color-primary: #e50000; */
+  /* --color-primary: #e50000; */
 
-	--color-card-bg: #1a1a1a;
-	--color-card-stroke: #262626;
-	--color-icons: #999999;
+  --color-card-bg: #1a1a1a;
+  --color-card-stroke: #262626;
+  --color-icons: #999999;
 }

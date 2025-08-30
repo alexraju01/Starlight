@@ -1,1 +1,1 @@
-export const validRoutes = ["movie", "tv", "genre", "upcoming", "discover"];
+export const validRoutes = ['movie', 'tv', 'genre', 'upcoming', 'discover'];

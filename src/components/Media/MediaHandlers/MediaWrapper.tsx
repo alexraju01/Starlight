@@ -1,25 +1,25 @@
-import { MediaMode } from "@/types/mediaMode";
-import getMedia from "@/utils/serverActions/getMedia";
-import getUpcoming from "@/utils/serverActions/getUpcoming";
+import { MediaMode } from '@/types/mediaMode';
+import getMedia from '@/utils/serverActions/getMedia';
+import getUpcoming from '@/utils/serverActions/getUpcoming';
 
-import MediaList from "./MediaList";
-import { Media } from "@/types/global";
+import MediaList from './MediaList';
+import { Media } from '@/types/global';
 
 interface Props {
-	mediaMode: MediaMode;
+  mediaMode: MediaMode;
 }
 
 export default async function MediaWrapper({ mediaMode }: Props) {
-	// let media;
+  // let media;
 
-	const rawMedia =
-		mediaMode === MediaMode.UPCOMING ? await getUpcoming(MediaMode.TV) : await getMedia(mediaMode);
+  const rawMedia =
+    mediaMode === MediaMode.UPCOMING ? await getUpcoming(MediaMode.TV) : await getMedia(mediaMode);
 
-	// Add `media_type` and cast only after shaping
-	const mediaWithType = rawMedia.map((item) => ({
-		...item,
-		media_type: mediaMode === MediaMode.TV ? "tv" : "movie",
-	})) as Media[];
+  // Add `media_type` and cast only after shaping
+  const mediaWithType = rawMedia.map((item) => ({
+    ...item,
+    media_type: mediaMode === MediaMode.TV ? 'tv' : 'movie',
+  })) as Media[];
 
-	return <MediaList initialMedia={mediaWithType} mediaMode={mediaMode} />;
+  return <MediaList initialMedia={mediaWithType} mediaMode={mediaMode} />;
 }

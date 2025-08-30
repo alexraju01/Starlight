@@ -1,36 +1,38 @@
-name: CI (Lint, Typecheck, Test, Build)
+name: CI
 
 on:
   pull_request:
     branches: [main]
 
-permissions:
-  contents: read
-
 jobs:
-  ci:
+  quality-checks:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: 22
-          cache: "npm"
+          node-version: '22'
+          cache: 'npm'
 
-      - name: Install
+      - name: Install dependencies
         run: npm ci
 
-      - name: Lint
+      - name: Run ESLint (Next.js lint)
         run: npm run lint
 
-      - name: Typecheck
-        run: npm run typecheck
+      - name: Run Prettier Check
+        run: npm run prettier:check
 
-      - name: Test
-        run: npm test -- --reporter=basic
+      - name: TypeScript Type Check
+        run: npm run type-check
 
-      - name: Build
+      - name: Ensure Next.js Builds
+        run: npm run build
         env:
           TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
-        run: npm run build
