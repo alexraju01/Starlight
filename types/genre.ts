@@ -1,15 +1,15 @@
-import { GenreMovie, Media } from "./global";
+import { GenreMovie, Media } from './global';
 
 export interface Genre {
-	id: number;
-	name: string;
+  id: number;
+  name: string;
 }
 export interface GenreResponse {
-	genres: Genre[];
+  genres: Genre[];
 }
 
 export interface GenreWithMovies {
-	id: number;
-	name: string;
-	movies: Media[]; // or MoviesWithLogos[] if logos are included
+  id: number;
+  name: string;
+  movies: Media[]; // or MoviesWithLogos[] if logos are included
 }

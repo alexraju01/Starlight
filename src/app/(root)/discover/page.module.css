@@ -1,77 +1,77 @@
 .container {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	width: 100%;
-	min-height: 100vh;
-	gap: 4rem;
-	padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+  gap: 4rem;
+  padding: 1rem;
 }
 
 .container h2 {
-	text-align: center;
-	font-size: 3rem;
-	animation: fadeIn 0.5s forwards;
-	text-shadow: 0 0 0.5rem rgba(255, 255, 255, 0.8);
+  text-align: center;
+  font-size: 3rem;
+  animation: fadeIn 0.5s forwards;
+  text-shadow: 0 0 0.5rem rgba(255, 255, 255, 0.8);
 }
 
 .form {
-	animation: fadeIn 0.5s forwards;
-	width: clamp(20rem, 50vw, 60rem);
+  animation: fadeIn 0.5s forwards;
+  width: clamp(20rem, 50vw, 60rem);
 }
 
 .searchBox {
-	display: flex;
-	height: 6rem;
-	width: 100%;
-	border: 0.1rem solid rgba(255, 255, 255, 0.2);
-	border-radius: 3rem;
-	background-color: #100f10;
-	color: white;
-	font-size: 1.8rem;
-	padding: 0 2rem 0 2rem;
-	transition: all 0.3s ease;
+  display: flex;
+  height: 6rem;
+  width: 100%;
+  border: 0.1rem solid rgba(255, 255, 255, 0.2);
+  border-radius: 3rem;
+  background-color: #100f10;
+  color: white;
+  font-size: 1.8rem;
+  padding: 0 2rem 0 2rem;
+  transition: all 0.3s ease;
 }
 
 .searchBox:hover,
 .searchBox:focus {
-	box-shadow: 0 0 0.8rem rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 0.8rem rgba(255, 255, 255, 0.8);
 }
 
 .searchBox:hover + .button,
 .searchBox:focus + .button {
-	box-shadow: inset 0 0 1rem rgba(255, 255, 255, 0.8);
+  box-shadow: inset 0 0 1rem rgba(255, 255, 255, 0.8);
 }
 
 .button {
-	position: absolute;
-	font-size: 1.8rem;
-	color: #878d98;
-	border-left: 1px solid rgba(255, 255, 255, 0.2);
-	padding-left: 1.2rem;
-	padding-right: 2rem;
-	height: 100%;
-	width: fit-content;
-	border-top-right-radius: 3rem;
-	border-bottom-right-radius: 3rem;
-	top: 50%;
-	right: 0;
-	transform: translate(0, -50%);
-	transition: all 0.3s ease;
+  position: absolute;
+  font-size: 1.8rem;
+  color: #878d98;
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  padding-left: 1.2rem;
+  padding-right: 2rem;
+  height: 100%;
+  width: fit-content;
+  border-top-right-radius: 3rem;
+  border-bottom-right-radius: 3rem;
+  top: 50%;
+  right: 0;
+  transform: translate(0, -50%);
+  transition: all 0.3s ease;
 }
 
 .button:hover {
-	box-shadow: inset 0 0 1rem rgba(255, 255, 255, 0.8);
+  box-shadow: inset 0 0 1rem rgba(255, 255, 255, 0.8);
 }
 
 @keyframes fadeIn {
-	0% {
-		opacity: 0;
-		scale: 0.7;
-	}
-	100% {
-		opacity: 1;
-		scale: 1;
-	}
+  0% {
+    opacity: 0;
+    scale: 0.7;
+  }
+  100% {
+    opacity: 1;
+    scale: 1;
+  }
 }

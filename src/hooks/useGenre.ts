@@ -1,23 +1,23 @@
 // useGenres.ts
-import { useEffect, useState } from "react";
-import getGenre from "@/utils/genre/getGenre";
-import { MediaMode } from "@/types/mediaMode";
+import { useEffect, useState } from 'react';
+import getGenre from '@/utils/genre/getGenre';
+import { MediaMode } from '@/types/mediaMode';
 
 export const useGenres = (mediaMode: MediaMode) => {
-	const [genres, setGenres] = useState<Record<number, string>>({});
+  const [genres, setGenres] = useState<Record<number, string>>({});
 
-	useEffect(() => {
-		const fetchGenres = async () => {
-			try {
-				const { genres } = await getGenre(mediaMode);
-				setGenres(Object.fromEntries(genres.map(({ id, name }) => [id, name])));
-			} catch (error) {
-				console.error("Error fetching genres:", error);
-			}
-		};
+  useEffect(() => {
+    const fetchGenres = async () => {
+      try {
+        const { genres } = await getGenre(mediaMode);
+        setGenres(Object.fromEntries(genres.map(({ id, name }) => [id, name])));
+      } catch (error) {
+        console.error('Error fetching genres:', error);
+      }
+    };
 
-		fetchGenres();
-	}, [mediaMode]);
+    fetchGenres();
+  }, [mediaMode]);
 
-	return genres;
+  return genres;
 };
