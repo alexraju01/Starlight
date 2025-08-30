@@ -1,4 +1,5 @@
 import { NextConfig } from 'next';
+import path from 'path';
 
 /** @type {import('next').NextConfig} */
 const nextConfig: NextConfig = {
@@ -8,8 +9,14 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true, // 👈 This disables ESLint during builds
   },
+
+  turbopack: {
+    root: path.join(__dirname, '..'),
+  },
+
   // output: "export",
   images: {
+    qualities: [60, 75],
     imageSizes: [185, 342],
     unoptimized: true,
     remotePatterns: [
