@@ -19,7 +19,7 @@ The app is designed with performance and user experience in mind, making it fast
 - **Next.js** – Server-side rendering and static site generation.
 - **React** – Component-based UI development.
 - **Tailwind CSS** – Styling for a modern and responsive UI.
-- **Movie API** – Fetches movie and TV series data.
+- **TMDB API** – Fetches movie and TV series data.
 
 ## 📸 Screenshots
 
@@ -89,7 +89,7 @@ Visit **[http://localhost:3000](http://localhost:3000)** to view the app.
 
 - [x] Upgrade to Next.js 15.
 - [x] Transition from JavaScript to TypeScript.
-- [ ] Transition from CSS Module to Tailwind
+- [x] Transition from CSS Module to Tailwind.
 - [ ] Improve pagination for all the pages that require it.
 - [ ] Add user authentication.
 - [ ] Implement watchlist and favorites.
