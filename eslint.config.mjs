@@ -1,12 +1,20 @@
 // eslint.config.mjs
-import js from '@eslint/js';
 import tsPlugin from '@typescript-eslint/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
 import importPlugin from 'eslint-plugin-import';
 import eslintConfigPrettier from 'eslint-config-prettier';
+import nextPlugin from '@next/eslint-plugin-next';
 
 export default [
   { ignores: ['node_modules/**', '.next/**', 'out/**', 'build/**', 'next-env.d.ts'] },
+
+  // Next.js plugin + "core-web-vitals" rules (applies to all files)
+  {
+    plugins: { '@next/next': nextPlugin },
+    rules: {
+      ...nextPlugin.configs['core-web-vitals'].rules,
+    },
+  },
 
   // JS files (no TS project needed)
   { files: ['**/*.{js,mjs,cjs,jsx}'], rules: {} },
@@ -19,15 +27,12 @@ export default [
       parserOptions: { project: ['./tsconfig.json'], tsconfigRootDir: import.meta.dirname },
     },
     plugins: { '@typescript-eslint': tsPlugin, import: importPlugin },
-    
     rules: {
       'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': [
         'warn',
         { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
       ],
-
-      // import order: ESLint will auto-fix
       'import/order': [
         'warn',
         {
@@ -45,6 +50,6 @@ export default [
     },
   },
 
-  // disable ESLint rules that clash with Prettier formatting
+  // Turn off rules that conflict with Prettier formatting
   eslintConfigPrettier,
 ];
