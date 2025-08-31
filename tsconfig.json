@@ -18,6 +18,7 @@
         "name": "next"
       }
     ],
+    "types": ["vitest/globals", "vitest/importMeta", "@testing-library/jest-dom"],
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],

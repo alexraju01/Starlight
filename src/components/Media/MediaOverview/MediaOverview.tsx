@@ -4,7 +4,7 @@ import Link from 'next/link';
 import MediaCard from '@/components/Cards/MediaCard';
 import GoBack from '@/components/Navigation/GoBack';
 import Button from '@/components/ui/Button/Button';
-import RatingIcon from '@/components/ui/RatingIcon';
+import RatingIcon from '@/components/ui/RatingIcon/RatingIcon';
 import { ROUTES } from '@/constants/route';
 import { CastMember } from '@/types/cast';
 import { Genre } from '@/types/genre';

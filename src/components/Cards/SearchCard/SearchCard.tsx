@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 import Dot from '@/components/ui/Dot/Dot';
-import RatingIcon from '@/components/ui/RatingIcon';
+import RatingIcon from '@/components/ui/RatingIcon/RatingIcon';
 import { ROUTES } from '@/constants/route';
 import { SearchMedia } from '@/types/searchMedia';
 // import { dateConverter } from "../../utils/date/dateConverter";
