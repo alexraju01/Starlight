@@ -38,7 +38,7 @@ export default function NotFound() {
           <p className="text-gray-400 text-xl">
             Did you mean{' '}
             <Link
-              href={`/${suggestion}`}
+              href={`/${suggestion}` as any}
               className="text-lime-400 font-semibold underline hover:text-white transition-colors duration-200 ease-in-out"
             >
               /{suggestion}

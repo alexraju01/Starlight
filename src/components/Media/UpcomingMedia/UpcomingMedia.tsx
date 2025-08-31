@@ -2,6 +2,7 @@ import Link from 'next/link';
 import React from 'react';
 
 import MediaCard from '@/components/Cards/MediaCard';
+import { ROUTES } from '@/constants/route';
 import { Media, TVShow } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
 import Icons from '@/utils/icons';
@@ -19,7 +20,7 @@ export default function UpcomingMedia({ media, mediaMode }: Props) {
   return (
     <div className=" flex gap-4 w-full h-full rounded-[0.8rem] bg-[rgba(255,255,255,0.08)]">
       <div className="relative h-full w-[14rem] sm:w-[18rem]">
-        <Link href={`/${mediaMode}/${media.id}`}>
+        <Link href={ROUTES.MEDIA(mediaMode, media.id, media.title || media.name)}>
           <MediaCard
             className="!h-[17rem] !rounded-l-[0.8rem] !scale-100 hover:!scale-100 transition-none"
             media={media}

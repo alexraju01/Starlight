@@ -60,7 +60,7 @@ const NavBar = () => {
 
           <div className="relative group">
             <Link
-              href="/login"
+              href={ROUTES.LOGIN}
               className="text-xl xl:text-2xl px-[18px] py-[10px] font-medium text-[#BFBFBF] hover:text-white transition-colors w-[110px] h-[50px] rounded-[12px] border border-[#1D1D1D] flex items-center justify-center"
             >
               Login
@@ -86,7 +86,7 @@ const NavBar = () => {
 
           <div className="mt-4 flex flex-col gap-4">
             <Link
-              href="/login"
+              href={ROUTES.LOGIN}
               className="text-lg px-[18px] py-[10px] font-medium text-[#BFBFBF] hover:text-white transition-colors w-full rounded-[12px] border border-[#1D1D1D] text-center"
             >
               Login

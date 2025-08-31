@@ -3,6 +3,7 @@ import { Suspense } from 'react';
 import { FaQuestionCircle } from 'react-icons/fa';
 
 import GenreSkeleton from '@/components/Feedback/LoadingSkeletons/GenreSkeleton';
+import { ROUTES } from '@/constants/route';
 import { Genre } from '@/types/genre';
 import fetchData from '@/utils/fetchData';
 import Icons, { GenreKey } from '@/utils/icons';
@@ -24,7 +25,7 @@ async function FetchGenres() {
       {uniqueGenres.map(({ id, name }) => {
         const icon = Icons.genreIcons[name as GenreKey] ?? <FaQuestionCircle />;
         return (
-          <Link key={id} href={`/genre/${id}`}>
+          <Link key={id} href={ROUTES.GENRE(id)}>
             <div className="flex flex-col items-center justify-center gap-4 rounded-xl bg-[#11223b] p-4 text-center text-lg  outline-white/20 transition-transform duration-300 ease-in-out hover:scale-110 h-36 sm:h-40 md:h-44 xl:h-48">
               <i className="text-4xl">{icon}</i>
               <p>{name}</p>

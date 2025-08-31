@@ -19,8 +19,8 @@ export default [
       parserOptions: { project: ['./tsconfig.json'], tsconfigRootDir: import.meta.dirname },
     },
     plugins: { '@typescript-eslint': tsPlugin, import: importPlugin },
+    
     rules: {
-      // unused vars: manual fix or prefix with "_"
       'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': [
         'warn',

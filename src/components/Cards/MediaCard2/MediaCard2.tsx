@@ -7,6 +7,7 @@ import { useState, useMemo, useRef } from 'react';
 import { ROUTES } from '@/constants/route';
 import { Media } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
+import { VideoResponse } from '@/types/video';
 import { fetchData } from '@/utils';
 import { formatDate } from '@/utils/date';
 import { formatGenres } from '@/utils/genre';

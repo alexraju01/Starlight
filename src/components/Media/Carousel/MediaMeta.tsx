@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import Link from 'next/link';
 
+import { ROUTES } from '@/constants/route';
 import { MoviesWithLogos } from '@/types/global';
 import { dateConverter } from '@/utils/date';
 import { capitalize } from '@/utils/string';
@@ -36,7 +37,7 @@ export default function MediaMeta({ movie, genres }: Props) {
           const isLast = index === arr.length - 1;
 
           return (
-            <Link href={`/genre/${id}`} key={id} className="transition-colors duration-200">
+            <Link href={ROUTES.GENRE(id)} key={id} className="transition-colors duration-200">
               <p className="hover:text-primary focus:text-primary outline-none cursor-pointer">
                 {genre}
                 {/* Add dot between genres only on larger screens */}

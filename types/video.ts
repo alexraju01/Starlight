@@ -10,3 +10,8 @@ export interface Video {
   official: boolean;
   published_at: string;
 }
+
+export interface VideoResponse {
+  id: number;
+  results: Video[];
+}

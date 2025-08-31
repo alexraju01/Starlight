@@ -19,4 +19,6 @@ export const ROUTES = {
   GENRE: (id: number): Route => `/genre/${id}` as Route,
 
   DISCOVER: (text: string): Route => `/discover?search=${slugify(text)}` as Route,
+
+  LOGIN: '/login' as Route,
 } as const;

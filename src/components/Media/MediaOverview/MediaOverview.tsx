@@ -5,6 +5,7 @@ import MediaCard from '@/components/Cards/MediaCard';
 import GoBack from '@/components/Navigation/GoBack';
 import Button from '@/components/ui/Button/Button';
 import RatingIcon from '@/components/ui/RatingIcon';
+import { ROUTES } from '@/constants/route';
 import { CastMember } from '@/types/cast';
 import { Genre } from '@/types/genre';
 import { Media } from '@/types/global';
@@ -96,7 +97,7 @@ export default async function MediaOverview({ params, mediaMode }: Props) {
 
           <div className="flex flex-wrap justify-center font-normal gap-4 text-[1.7rem] mb-8">
             {genres?.map((genre: Genre) => (
-              <Link key={genre.id} href={`/genre/${genre.id}`}>
+              <Link key={genre.id} href={ROUTES.GENRE(genre.id)}>
                 <p className="genre-item">{genre.name}</p>
               </Link>
             ))}

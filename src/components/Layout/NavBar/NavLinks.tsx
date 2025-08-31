@@ -28,7 +28,7 @@ const NavLinks = ({
         return (
           <li key={link.href}>
             <Link
-              href={link.href}
+              href={link.href as any}
               aria-current={isActive ? 'page' : undefined}
               onClick={onLinkClick}
               className={cn(

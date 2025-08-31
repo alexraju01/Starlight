@@ -24,7 +24,6 @@ const MediaCard = ({ media, className }: Props) => {
   }, [poster_path]);
 
   return (
-    // <Link href={`/${mediaMode}/${id}`}>
     <div
       className={`
 					relative w-full h-full overflow-hidden 

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 
 import Dot from '@/components/ui/Dot/Dot';
 import RatingIcon from '@/components/ui/RatingIcon';
+import { ROUTES } from '@/constants/route';
 import { SearchMedia } from '@/types/searchMedia';
 // import { dateConverter } from "../../utils/date/dateConverter";
 // import getSearch from "../../utils/serverActions/getSearch";
@@ -43,7 +44,7 @@ export default function SearchCard({ query }: Props) {
               .map((media, idx) => (
                 <Link
                   key={media.id}
-                  href={`/${media.media_type}/${media.id}`}
+                  href={ROUTES.MEDIA(media.media_type as any, media.id, media.title || media.name)}
                   className={`flex gap-[1.5rem] px-[1.5rem] py-[1rem] transition-all duration-300 ease-in-out ${
                     idx % 2 === 0 ? 'bg-[#1c1c1e] hover:bg-[#123]' : 'hover:bg-[#123]'
                   }`}
