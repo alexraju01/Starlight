@@ -1,9 +1,10 @@
-import CarouselClient from './CarouselClient';
-import { MediaMode } from '@/types/mediaMode';
 import { Genre } from '@/types/genre';
 import { MoviesWithLogos } from '@/types/global';
+import { MediaMode } from '@/types/mediaMode';
 import { fetchData } from '@/utils';
 import { mapGenres } from '@/utils/genre';
+
+import CarouselClient from './CarouselClient';
 
 type GenreResponse = { genres: Genre[] };
 type TrendingMediaResponse = { results: MoviesWithLogos[] };

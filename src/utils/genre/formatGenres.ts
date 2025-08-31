@@ -1,5 +1,5 @@
-import { isGenreMovie } from '@/utils/typeGuard';
 import { Media } from '@/types/global';
+import { isGenreMovie } from '@/utils/typeGuard';
 
 export default function formatGenres(item: Media, genreMap: Record<number, string>): string {
   if (!isGenreMovie(item) || !item.genre_ids) return 'Unknown genre';

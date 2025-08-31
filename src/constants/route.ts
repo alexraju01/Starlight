@@ -1,21 +1,24 @@
-import { MediaMode } from '@/types/mediaMode';
+// routes.ts
 import { slugify } from '@/utils/string/slugify';
 
+import type { MediaMode } from '@/types/mediaMode';
+import type { Route } from 'next';
+
 export const ROUTES = {
-  HOME: '/',
+  HOME: '/' as Route,
 
-  // Movie route: ID + optional slug
-  MOVIE: (id: number, slug?: string) => (slug ? `/movie/${id}-${slugify(slug)}` : `/movie/${id}`),
+  MOVIE: (id: number, slug?: string): Route =>
+    (slug ? `/movie/${id}-${slugify(slug)}` : `/movie/${id}`) as Route,
 
-  // TV route: ID + optional slug
-  TV: (id: number, slug?: string) => (slug ? `/tv/${id}-${slugify(slug)}` : `/tv/${id}`),
+  TV: (id: number, slug?: string): Route =>
+    (slug ? `/tv/${id}-${slugify(slug)}` : `/tv/${id}`) as Route,
 
-  // Unified route based on mediaMode
-  MEDIA: (mediaMode: MediaMode, id: number, slug?: string) =>
-    mediaMode === 'movie' ? ROUTES.MOVIE(id, slug) : ROUTES.TV(id, slug),
+  MEDIA: (mode: MediaMode, id: number, slug?: string): Route =>
+    (mode === 'movie' ? ROUTES.MOVIE(id, slug) : ROUTES.TV(id, slug)) as Route,
 
-  // Genre route
-  GENRE: (id: number) => `/genre/${id}`,
+  GENRE: (id: number): Route => `/genre/${id}` as Route,
 
-  DISCOVER: (slug: string) => `discover?search=${slugify(slug)}`,
-};
+  DISCOVER: (text: string): Route => `/discover?search=${slugify(text)}` as Route,
+
+  LOGIN: '/login' as Route,
+} as const;

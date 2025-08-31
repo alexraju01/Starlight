@@ -1,11 +1,11 @@
 'use client';
 
-import { Media } from '@/types/global';
-import { isMovie, isTVShow } from '@/utils/typeGuard';
-import { MediaMode } from '@/types/mediaMode';
-import { useResponsiveItems } from '@/hooks/useResponsiveItems';
-import { DISCOVER_BREAKPOINTS } from '@/constants/breakpoints';
 import MediaCard2 from '@/components/Cards/MediaCard2/MediaCard2';
+import { DISCOVER_BREAKPOINTS } from '@/constants/breakpoints';
+import { useResponsiveItems } from '@/hooks/useResponsiveItems';
+import { Media } from '@/types/global';
+import { MediaMode } from '@/types/mediaMode';
+import { isMovie } from '@/utils/typeGuard';
 
 interface Props {
   media: Media[];

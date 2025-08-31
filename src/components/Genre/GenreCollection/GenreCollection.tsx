@@ -1,31 +1,32 @@
-import fetchData from '@/utils/fetchData';
-import { APIResponse } from '@/types/global';
 import { Genre } from '@/types/genre';
+import { APIResponse } from '@/types/global';
+import fetchData from '@/utils/fetchData';
+
 import GenreCollectionClient from './GenreCollectionClient';
 
-const getGenreMovies = async (
-  genre: Genre,
-): Promise<Genre & { movies: APIResponse['results'] }> => {
-  try {
-    const data = await fetchData<APIResponse>(
-      '3',
-      `discover/movie?with_genres=${genre.id}&sort_by=popularity.desc`,
-    );
-    // Filter out movies with no poster, THEN take the first 4
-    const filteredMovies = data.results.filter((movie) => movie.poster_path).slice(0, 4);
+// const getGenreMovies = async (
+//   genre: Genre,
+// ): Promise<Genre & { movies: APIResponse['results'] }> => {
+//   try {
+//     const data = await fetchData<APIResponse>(
+//       '3',
+//       `discover/movie?with_genres=${genre.id}&sort_by=popularity.desc`,
+//     );
+//     // Filter out movies with no poster, THEN take the first 4
+//     const filteredMovies = data.results.filter((movie) => movie.poster_path).slice(0, 4);
 
-    return {
-      ...genre,
-      movies: filteredMovies,
-    };
-  } catch (error) {
-    console.error(`Failed to fetch movies for genre ${genre.name}:`, error);
-    return {
-      ...genre,
-      movies: [],
-    };
-  }
-};
+//     return {
+//       ...genre,
+//       movies: filteredMovies,
+//     };
+//   } catch (error) {
+//     console.error(`Failed to fetch movies for genre ${genre.name}:`, error);
+//     return {
+//       ...genre,
+//       movies: [],
+//     };
+//   }
+// };
 
 const GenreCollection = async () => {
   try {

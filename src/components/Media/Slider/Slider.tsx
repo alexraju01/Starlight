@@ -1,3 +1,13 @@
+import Link from 'next/link';
+
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '@/components/ui/carousel';
+import { ROUTES } from '@/constants/route';
 import { APIResponse, Media } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
 
@@ -10,14 +20,6 @@ import MediaCard from '../../Cards/MediaCard';
 // 	CarouselNext,
 // 	CarouselPrevious,
 // } from "../carousel";
-import Link from 'next/link';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from '@/components/ui/carousel';
 
 interface Props {
   mediaMode: MediaMode;
@@ -54,7 +56,7 @@ export default async function Slider({ mediaMode, endpoint }: Props) {
 								xl:pr-[0.8rem]
 							`}
             >
-              <Link href={`/${mediaMode}/${topRated.id}`}>
+              <Link href={ROUTES.MEDIA(mediaMode, topRated.id, topRated.title || topRated.name)}>
                 <MediaCard className="rounded-2xl" media={topRated} mediaMode={mediaMode} />
               </Link>
             </CarouselItem>

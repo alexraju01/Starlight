@@ -3,11 +3,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
-// import SliderButton from "../CustomSlider/CustomSliderButtons";
-import { Movie } from '@/types/global';
-import { GenreWithMovies } from '@/types/genre';
-import { ROUTES } from '@/constants/route';
+
 import CustomSliderButtons from '@/components/Media/CustomSlider/CustomSliderButtons';
+import { ROUTES } from '@/constants/route';
+import { GenreWithMovies } from '@/types/genre';
 
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w185';
 
@@ -43,7 +42,7 @@ export default function GenreCollectionClient({ genreMovies }: Props) {
     updateItemsPerScreen();
     window.addEventListener('resize', updateItemsPerScreen);
     return () => window.removeEventListener('resize', updateItemsPerScreen);
-  }, []);
+  });
 
   const totalItems = genreMovies?.length;
   const maxIndex = Math.max(0, totalItems - itemsPerScreen);
@@ -89,7 +88,7 @@ export default function GenreCollectionClient({ genreMovies }: Props) {
             transform: `translateX(-${translatePercent}%)`,
           }}
         >
-          {genreMovies?.map((genre, i) => (
+          {genreMovies?.map((genre) => (
             <Link
               href={ROUTES.GENRE(genre.id)}
               key={genre.id}

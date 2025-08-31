@@ -1,24 +1,24 @@
-/* eslint-disable camelcase */
 import Image from 'next/image';
 import Link from 'next/link';
 
+import MediaCard from '@/components/Cards/MediaCard';
+import GoBack from '@/components/Navigation/GoBack';
+import Button from '@/components/ui/Button/Button';
+import RatingIcon from '@/components/ui/RatingIcon';
+import { ROUTES } from '@/constants/route';
 import { CastMember } from '@/types/cast';
 import { Genre } from '@/types/genre';
 import { Media } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
+import { dateConverter, displayRuntime } from '@/utils/date';
 import fetchData from '@/utils/fetchData';
 import Icons from '@/utils/icons';
-
 import { isMovie, isTVShow } from '@/utils/typeGuard';
-import { dateConverter, displayRuntime } from '@/utils/date';
-import GoBack from '@/components/Navigation/GoBack';
-import MediaCard from '@/components/Cards/MediaCard';
-import RatingIcon from '@/components/ui/RatingIcon';
+
 import SeasonEpisodeInfo from './SeasonEpisodeInfo';
-import Button from '@/components/ui/Button/Button';
-import CastContainer from '../Cast/CastContainer';
-import SimilarMedia from './SimilarMedia';
 import Seasons from './Seasons';
+import SimilarMedia from './SimilarMedia';
+import CastContainer from '../Cast/CastContainer';
 
 interface Props {
   params: string;
@@ -97,7 +97,7 @@ export default async function MediaOverview({ params, mediaMode }: Props) {
 
           <div className="flex flex-wrap justify-center font-normal gap-4 text-[1.7rem] mb-8">
             {genres?.map((genre: Genre) => (
-              <Link key={genre.id} href={`/genre/${genre.id}`}>
+              <Link key={genre.id} href={ROUTES.GENRE(genre.id)}>
                 <p className="genre-item">{genre.name}</p>
               </Link>
             ))}

@@ -1,6 +1,7 @@
 import { HiRectangleStack } from 'react-icons/hi2';
-import { isTVShow } from '@/utils/typeGuard';
+
 import { Media } from '@/types/global';
+import { isTVShow } from '@/utils/typeGuard';
 
 const SeasonBadge = ({ item }: { item: Media }) => {
   if (!isTVShow(item) || !item.number_of_seasons) return null;

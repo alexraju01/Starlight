@@ -1,8 +1,9 @@
 'use client';
 
-import { links } from '@/constants';
-import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+
+import { links } from '@/constants';
 import { cn } from '@/lib/utils';
 
 const NavLinks = ({
@@ -27,7 +28,7 @@ const NavLinks = ({
         return (
           <li key={link.href}>
             <Link
-              href={link.href}
+              href={link.href as any}
               aria-current={isActive ? 'page' : undefined}
               onClick={onLinkClick}
               className={cn(

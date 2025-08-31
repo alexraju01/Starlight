@@ -1,9 +1,10 @@
 import Image from 'next/image';
+
 import { MoviesWithLogos } from '@/types/global';
-import MediaMeta from './MediaMeta';
-import ActionButtons from './ActionButton';
 import { getImageUrl } from '@/utils/image/getImageUrl';
-import useWindowWidth from '@/hooks/useWindowWidth';
+
+import ActionButtons from './ActionButton';
+import MediaMeta from './MediaMeta';
 
 interface Props {
   movie: MoviesWithLogos;

@@ -1,7 +1,8 @@
 // hooks/useAllGenres.ts
 import { useEffect, useState } from 'react';
-import getGenre from '@/utils/genre/getGenre';
+
 import { MediaMode } from '@/types/mediaMode';
+import getGenre from '@/utils/genre/getGenre';
 
 type GenreMap = Record<number, string>;
 

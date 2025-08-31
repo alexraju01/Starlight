@@ -1,4 +1,4 @@
-import { GenreMovie, Media } from './global';
+import { Media } from './global';
 
 export interface Genre {
   id: number;

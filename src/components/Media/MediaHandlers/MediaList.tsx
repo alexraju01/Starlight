@@ -2,16 +2,16 @@
 import { Loader } from 'lucide-react';
 import { useState } from 'react';
 
+import MediaCard2 from '@/components/Cards/MediaCard2';
+import Button from '@/components/ui/Button/Button';
+import { DISCOVER_BREAKPOINTS } from '@/constants/breakpoints';
+import { useGenres } from '@/hooks/useGenre';
+import { useResponsiveItems } from '@/hooks/useResponsiveItems';
 import { Media, Movie, TVShow } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
 import getMedia from '@/utils/serverActions/getMedia';
 import getUpcoming from '@/utils/serverActions/getUpcoming';
 
-import { useGenres } from '@/hooks/useGenre';
-import { useResponsiveItems } from '@/hooks/useResponsiveItems';
-import { DISCOVER_BREAKPOINTS } from '@/constants/breakpoints';
-import Button from '@/components/ui/Button/Button';
-import MediaCard2 from '@/components/Cards/MediaCard2';
 import UpcomingMedia from '../UpcomingMedia/UpcomingMedia';
 
 interface Props {

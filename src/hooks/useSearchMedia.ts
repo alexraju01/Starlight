@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useDebounce } from 'use-debounce';
-import fetchData from '@/utils/fetchData';
+
 import { MultiMedia } from '@/types/global';
+import fetchData from '@/utils/fetchData';
 
 interface APIResponse {
   page: number;
@@ -40,7 +41,6 @@ export const useSearchMedia = (query: string) => {
         setLoading(false);
       }
     };
-    console.log(query);
     fetchResults();
   }, [debouncedQuery]);
 

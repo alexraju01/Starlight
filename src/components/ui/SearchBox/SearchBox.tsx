@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, useRef, useEffect, useCallback } from 'react';
 import { Search } from 'lucide-react';
-import SearchCard from '@/components/Cards/SearchCard/SearchCard';
 import { useRouter } from 'next/navigation';
+import { useState, useRef, useEffect, useCallback } from 'react';
+
+import SearchCard from '@/components/Cards/SearchCard/SearchCard';
 import { ROUTES } from '@/constants/route';
 import { useDebounce } from '@/hooks/useDebounce';
 
@@ -62,7 +63,6 @@ export default function SearchBox() {
         value={search}
         onChange={handleSearchChange}
         onKeyDown={handleKeyDown}
-        aria-expanded={shouldShowDropdown}
         className="w-full h-full truncate overflow-hidden whitespace-nowrap
 				text-xl pl-14 bg-transparent text-[#BFBFBF] rounded-[13px] focus:outline-none"
       />

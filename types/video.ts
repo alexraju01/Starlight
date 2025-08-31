@@ -1,4 +1,4 @@
-interface Video {
+export interface Video {
   id: string;
   iso_639_1: string;
   iso_3166_1: string;
@@ -11,7 +11,7 @@ interface Video {
   published_at: string;
 }
 
-interface VideoResponse {
+export interface VideoResponse {
   id: number;
   results: Video[];
 }

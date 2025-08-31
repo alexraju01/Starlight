@@ -1,7 +1,8 @@
 'use client';
 
-import Icons from '@/utils/icons';
 import { useRouter } from 'next/navigation';
+
+import Icons from '@/utils/icons';
 
 export default function GoBack() {
   const router = useRouter();
