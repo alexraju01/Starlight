@@ -1,17 +1,16 @@
 'use client';
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useState } from 'react';
 
 import { MovieGrid } from '@/components';
-import { useSearchMedia } from '@/hooks/useSearchMedia';
-import { useAllGenres } from '@/hooks/useAllGenres';
 import { SearchForm } from '@/components/Forms/SearchForm';
+import { useAllGenres } from '@/hooks/useAllGenres';
+import { useSearchMedia } from '@/hooks/useSearchMedia';
 // import { SearchForm } from "@/components/SearchForm";
 
 export default function DiscoverPage(): JSX.Element {
   const searchParams = useSearchParams();
-  const pathname = usePathname();
   const { replace } = useRouter();
 
   const initialQuery = searchParams.get('search') ?? '';
@@ -27,7 +26,7 @@ export default function DiscoverPage(): JSX.Element {
     const params = new URLSearchParams();
     params.set('search', value);
     setQuery(value);
-    replace(`${pathname}/?${params.toString()}`);
+    replace(`?${params.toString()}`);
   };
 
   return (

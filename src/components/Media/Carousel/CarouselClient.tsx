@@ -1,11 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { MoviesWithLogos } from '@/types/global';
-import CarouselItem from './CarouselItem';
-import CarouselControls from './CarouselControls';
-import { useResponsiveItems } from '@/hooks/useResponsiveItems';
+
 import useWindowWidth from '@/hooks/useWindowWidth';
+import { MoviesWithLogos } from '@/types/global';
+
+import CarouselControls from './CarouselControls';
+import CarouselItem from './CarouselItem';
 
 interface Props {
   movies: MoviesWithLogos[];

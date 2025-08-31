@@ -1,24 +1,23 @@
-/* eslint-disable camelcase */
 import Image from 'next/image';
 import Link from 'next/link';
 
+import MediaCard from '@/components/Cards/MediaCard';
+import GoBack from '@/components/Navigation/GoBack';
+import Button from '@/components/ui/Button/Button';
+import RatingIcon from '@/components/ui/RatingIcon';
 import { CastMember } from '@/types/cast';
 import { Genre } from '@/types/genre';
 import { Media } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
+import { dateConverter, displayRuntime } from '@/utils/date';
 import fetchData from '@/utils/fetchData';
 import Icons from '@/utils/icons';
-
 import { isMovie, isTVShow } from '@/utils/typeGuard';
-import { dateConverter, displayRuntime } from '@/utils/date';
-import GoBack from '@/components/Navigation/GoBack';
-import MediaCard from '@/components/Cards/MediaCard';
-import RatingIcon from '@/components/ui/RatingIcon';
+
 import SeasonEpisodeInfo from './SeasonEpisodeInfo';
-import Button from '@/components/ui/Button/Button';
-import CastContainer from '../Cast/CastContainer';
-import SimilarMedia from './SimilarMedia';
 import Seasons from './Seasons';
+import SimilarMedia from './SimilarMedia';
+import CastContainer from '../Cast/CastContainer';
 
 interface Props {
   params: string;

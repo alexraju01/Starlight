@@ -2,18 +2,19 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
+import Dot from '@/components/ui/Dot/Dot';
+import RatingIcon from '@/components/ui/RatingIcon';
 import { SearchMedia } from '@/types/searchMedia';
 // import { dateConverter } from "../../utils/date/dateConverter";
 // import getSearch from "../../utils/serverActions/getSearch";
 // import Dot from "../ui/Dot/Dot";
 // import MediaCard from "../cards/MediaCard/MediaCard";
 // import RatingIcon from "../RatingIcon/RatingIcon";
-import { capitalize } from '@/utils/string/capitalize';
-import getSearch from '@/utils/serverActions/getSearch';
-import MediaCard from '../MediaCard';
-import RatingIcon from '@/components/ui/RatingIcon';
-import Dot from '@/components/ui/Dot/Dot';
 import { dateConverter } from '@/utils/date';
+import getSearch from '@/utils/serverActions/getSearch';
+import { capitalize } from '@/utils/string/capitalize';
+
+import MediaCard from '../MediaCard';
 
 interface Props {
   query: string;

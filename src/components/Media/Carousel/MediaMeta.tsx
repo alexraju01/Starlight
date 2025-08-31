@@ -1,8 +1,9 @@
+import clsx from 'clsx';
+import Link from 'next/link';
+
 import { MoviesWithLogos } from '@/types/global';
 import { dateConverter } from '@/utils/date';
 import { capitalize } from '@/utils/string';
-import clsx from 'clsx';
-import Link from 'next/link';
 
 interface Props {
   movie: MoviesWithLogos;

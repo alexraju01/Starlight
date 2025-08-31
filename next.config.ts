@@ -1,24 +1,19 @@
-import { NextConfig } from 'next';
 import path from 'path';
 
-/** @type {import('next').NextConfig} */
+import type { NextConfig } from 'next';
+
 const nextConfig: NextConfig = {
-  env: {
-    TMDB_API_KEY: process.env.TMDB_API_KEY,
-  },
-  eslint: {
-    ignoreDuringBuilds: true, // 👈 This disables ESLint during builds
-  },
+  env: { TMDB_API_KEY: process.env.TMDB_API_KEY },
 
-  turbopack: {
-    root: path.join(__dirname, '..'),
-  },
+  typedRoutes: true,
 
-  // output: "export",
+  turbopack: { root: path.join(__dirname, '..') },
+
   images: {
     qualities: [60, 75],
     imageSizes: [185, 342],
     unoptimized: true,
+
     remotePatterns: [
       {
         protocol: 'https',

@@ -1,11 +1,13 @@
 'use client';
 
+import { AlignJustify, X } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
-import { ROUTES } from '@/constants/route';
-import NavLinks from './NavLinks';
+
 import SearchBox from '@/components/ui/SearchBox/SearchBox';
-import { AlignJustify, Sun, X } from 'lucide-react';
+import { ROUTES } from '@/constants/route';
+
+import NavLinks from './NavLinks';
 
 const NavBar = () => {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);

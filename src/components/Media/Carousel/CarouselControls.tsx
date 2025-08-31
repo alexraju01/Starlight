@@ -6,7 +6,7 @@ interface Props {
   isMobile: boolean;
 }
 
-export default function CarouselControls({ onPrev, onNext, isMobile }: Props) {
+export default function CarouselControls({ onPrev, onNext }: Props) {
   return (
     <div
       className={clsx(

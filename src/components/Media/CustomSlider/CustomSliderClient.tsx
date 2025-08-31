@@ -1,14 +1,16 @@
 'use client';
 
 import React, { useMemo, useState, useCallback, CSSProperties } from 'react';
-import CustomSliderButtons from './CustomSliderButtons';
-import { Media } from '@/types/global';
-import { MediaMode } from '@/types/mediaMode';
-import { useResponsiveItems } from '@/hooks/useResponsiveItems';
-import { useGenres } from '@/hooks/useGenre';
-import { CAROUSEL_BREAKPOINTS } from '@/constants/breakpoints';
+
 import MediaCard2 from '@/components/Cards/MediaCard2';
 import CustomSliderSkeleton from '@/components/Feedback/LoadingSkeletons/CustomSliderLoading';
+import { CAROUSEL_BREAKPOINTS } from '@/constants/breakpoints';
+import { useGenres } from '@/hooks/useGenre';
+import { useResponsiveItems } from '@/hooks/useResponsiveItems';
+import { Media } from '@/types/global';
+import { MediaMode } from '@/types/mediaMode';
+
+import CustomSliderButtons from './CustomSliderButtons';
 
 interface Props {
   media: Media[];

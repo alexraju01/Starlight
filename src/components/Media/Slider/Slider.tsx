@@ -1,3 +1,12 @@
+import Link from 'next/link';
+
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '@/components/ui/carousel';
 import { APIResponse, Media } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
 
@@ -10,14 +19,6 @@ import MediaCard from '../../Cards/MediaCard';
 // 	CarouselNext,
 // 	CarouselPrevious,
 // } from "../carousel";
-import Link from 'next/link';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from '@/components/ui/carousel';
 
 interface Props {
   mediaMode: MediaMode;

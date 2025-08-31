@@ -1,4 +1,5 @@
 import { CastMember } from '@/types/cast';
+
 import Icons from '../../../utils/icons';
 import ImageWithFallback from '../../Feedback/BrokenImage/ImageWithFallback';
 import SectionHeading from '../../Navigation/SectionHeading';

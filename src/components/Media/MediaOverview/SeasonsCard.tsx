@@ -7,10 +7,10 @@ interface Props {
   season: Season;
 }
 
-const tmdbLoader = ({ src, width }: { src: string; width: number }) => {
-  const size = width <= 185 ? 'w185' : 'w342';
-  return `https://image.tmdb.org/t/p/${size}${src}`;
-};
+// const tmdbLoader = ({ src, width }: { src: string; width: number }) => {
+//   const size = width <= 185 ? 'w185' : 'w342';
+//   return `https://image.tmdb.org/t/p/${size}${src}`;
+// };
 
 export default function SeasonsCard({ season }: Props) {
   return (

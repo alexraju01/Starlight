@@ -1,10 +1,11 @@
 'use client';
 
-import { stripLeadingSlash } from '@/utils/stripLeadingSlash';
+import Fuse from 'fuse.js';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import Fuse from 'fuse.js';
+
 import { validRoutes } from '@/utils/routes';
+import { stripLeadingSlash } from '@/utils/stripLeadingSlash';
 
 export default function NotFound() {
   const pathname = usePathname();

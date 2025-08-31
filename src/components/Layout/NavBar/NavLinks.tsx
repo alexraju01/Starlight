@@ -1,8 +1,9 @@
 'use client';
 
-import { links } from '@/constants';
-import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+
+import { links } from '@/constants';
 import { cn } from '@/lib/utils';
 
 const NavLinks = ({

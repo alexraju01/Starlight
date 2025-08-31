@@ -2,9 +2,9 @@
 import SectionHeading from '@/components/Navigation/SectionHeading';
 import { APIResponse } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
-
 import fetchData from '@/utils/fetchData';
 import Icons from '@/utils/icons';
+
 import Slider from '../Slider/Slider';
 
 interface Props {

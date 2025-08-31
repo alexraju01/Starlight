@@ -1,9 +1,9 @@
+import { Media } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
 import getMedia from '@/utils/serverActions/getMedia';
 import getUpcoming from '@/utils/serverActions/getUpcoming';
 
 import MediaList from './MediaList';
-import { Media } from '@/types/global';
 
 interface Props {
   mediaMode: MediaMode;

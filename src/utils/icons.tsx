@@ -33,7 +33,6 @@ import { GoBell } from 'react-icons/go';
 import { IoPlay } from 'react-icons/io5';
 import { LuMenu, LuClapperboard, LuLogOut } from 'react-icons/lu';
 import { MdCategory } from 'react-icons/md';
-import { Search } from 'lucide-react';
 
 const genreIcons = {
   Action: <LuClapperboard />,

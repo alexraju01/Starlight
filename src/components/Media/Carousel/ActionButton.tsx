@@ -1,5 +1,6 @@
-import Icons from '@/utils/icons';
 import clsx from 'clsx';
+
+import Icons from '@/utils/icons';
 
 export default function ActionButtons() {
   return (

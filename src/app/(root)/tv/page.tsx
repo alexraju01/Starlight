@@ -1,8 +1,8 @@
 import { Suspense } from 'react';
 
-import { MediaMode } from '@/types/mediaMode';
-import MediaWrapper from '@/components/Media/MediaHandlers/MediaWrapper';
 import { LoadingSkeletons } from '@/components/Feedback/LoadingSkeletons';
+import MediaWrapper from '@/components/Media/MediaHandlers/MediaWrapper';
+import { MediaMode } from '@/types/mediaMode';
 
 export default function Tv() {
   return (

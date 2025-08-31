@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
 import { useState, useEffect } from 'react';
 
 import { Movie, TVShow } from '@/types/global';
@@ -14,10 +13,10 @@ interface Props {
   className?: string;
 }
 
-const MediaCard = ({ media, mediaMode, className }: Props) => {
+const MediaCard = ({ media, className }: Props) => {
   const [isLoaded, setIsLoaded] = useState(false);
 
-  const { id, name, title, poster_path } = media;
+  const { name, title, poster_path } = media;
   const displayName = title || name;
 
   useEffect(() => {

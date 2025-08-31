@@ -3,6 +3,7 @@ import { Suspense } from 'react';
 import SectionHeading from '@/components/Navigation/SectionHeading';
 import { Season } from '@/types/seasons';
 import Icons from '@/utils/icons';
+
 import SeasonsCard from './SeasonsCard';
 
 interface Props {

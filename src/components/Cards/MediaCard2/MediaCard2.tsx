@@ -1,19 +1,20 @@
 'use client';
 
-import { useState, useMemo, useRef } from 'react';
-import Link from 'next/link';
 import clsx from 'clsx';
+import Link from 'next/link';
+import { useState, useMemo, useRef } from 'react';
 
-import { Media } from '@/types/global';
 import { ROUTES } from '@/constants/route';
+import { Media } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
+import { fetchData } from '@/utils';
+import { formatDate } from '@/utils/date';
+import { formatGenres } from '@/utils/genre';
+import { isMovie, isTVShow } from '@/utils/typeGuard';
+
 import PosterImage from './PosterImage';
 import RatingBadge from './RatingBadge';
 import SeasonBadge from './SeasonBadge';
-import { formatGenres } from '@/utils/genre';
-import { formatDate } from '@/utils/date';
-import { isMovie, isTVShow } from '@/utils/typeGuard';
-import { fetchData } from '@/utils';
 
 interface Props {
   item: Media;

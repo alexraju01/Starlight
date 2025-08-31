@@ -1,8 +1,10 @@
 'use client';
 import { useEffect, useState } from 'react';
-import Icons from '@/utils/icons';
-import NavLinks from './NavLinks/NavLinks';
+
 import { links } from '@/constants';
+import Icons from '@/utils/icons';
+
+import NavLinks from './NavLinks/NavLinks';
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);

@@ -1,8 +1,8 @@
 import { Suspense } from 'react';
 
 import { MediaOverview } from '@/components';
-import { MediaMode } from '@/types/mediaMode';
 import { Spinner } from '@/components/Feedback/LoadingSkeletons';
+import { MediaMode } from '@/types/mediaMode';
 
 interface Props {
   params: Promise<{ slug: string }>;

@@ -1,11 +1,10 @@
+import Link from 'next/link';
 import React from 'react';
 
+import MediaCard from '@/components/Cards/MediaCard';
 import { Media, TVShow } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
 import Icons from '@/utils/icons';
-
-import Link from 'next/link';
-import MediaCard from '@/components/Cards/MediaCard';
 
 interface Props {
   media: Media;
