@@ -21,13 +21,24 @@ The app is designed with performance and user experience in mind, making it fast
 - **Tailwind CSS** – Styling for a modern and responsive UI.
 - **TMDB API** – Fetches movie and TV series data.
 
-## 📸 Screenshots
+## 🎬 Movie Website Redesign
 
-Home Page - Desktop View
-![starlight-desktop](https://github.com/user-attachments/assets/5e21ca4b-31ac-43c9-976b-b4ba2fa5b5de)
+### Home Page - Desktop View
+| Old Design v1 | New Design v2 |
+|---------------|---------------|
+| ![starlight-desktop](https://github.com/user-attachments/assets/5e21ca4b-31ac-43c9-976b-b4ba2fa5b5de) | <img width="1886" height="914" alt="Desktop New" src="https://github.com/user-attachments/assets/7279e908-dbe1-40df-8150-c1c03078a65d" /> |
 
-Movie List Page - Desktop View
-![Screenshot 2025-04-01 161409](https://github.com/user-attachments/assets/49f6b137-4da0-40a0-b0be-b7c224d1fcd2)
+---
+
+### Movie List Page - Desktop View
+| Old Design v1 | New Design v2 |
+|---------------|---------------|
+| ![Screenshot 2025-04-01 161409](https://github.com/user-attachments/assets/49f6b137-4da0-40a0-b0be-b7c224d1fcd2) | <img width="1886" height="914" alt="image" src="https://github.com/user-attachments/assets/f9c2e3c6-2d43-4438-be9c-903c19dc2801" />|
+
+
+
+
+
 
 Movie Detail Page - Desktop View
 ![Screenshot 2025-04-01 161750](https://github.com/user-attachments/assets/d86518a1-8f22-4566-85fc-767a946cb737)
