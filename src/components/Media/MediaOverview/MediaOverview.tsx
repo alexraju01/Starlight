@@ -1,24 +1,16 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import MediaCard from '@/components/Cards/MediaCard';
+import { MediaCard } from '@/components/Cards';
 import GoBack from '@/components/Navigation/GoBack';
-import Button from '@/components/ui/Button/Button';
-import RatingIcon from '@/components/ui/RatingIcon/RatingIcon';
+import { Button, RatingIcon } from '@/components/ui';
 import { ROUTES } from '@/constants/route';
-import { CastMember } from '@/types/cast';
-import { Genre } from '@/types/genre';
-import { Media } from '@/types/global';
-import { MediaMode } from '@/types/mediaMode';
-import { dateConverter, displayRuntime } from '@/utils/date';
-import fetchData from '@/utils/fetchData';
-import Icons from '@/utils/icons';
-import { isMovie, isTVShow } from '@/utils/typeGuard';
+import { dateConverter, displayRuntime, fetchData, Icons, isMovie, isTVShow } from '@/utils';
 
-import SeasonEpisodeInfo from './SeasonEpisodeInfo';
-import Seasons from './Seasons';
-import SimilarMedia from './SimilarMedia';
-import CastContainer from '../Cast/CastContainer';
+import { SeasonEpisodeInfo, Seasons, SimilarMedia } from '.';
+import CastContainer from '../CastContainer/CastContainer';
+
+import { CastMember, Genre, Media, MediaMode } from '@/types';
 
 interface Props {
   params: string;

@@ -1,8 +1,5 @@
-import { Genre } from '@/types/genre';
-import { MoviesWithLogos } from '@/types/global';
-import { MediaMode } from '@/types/mediaMode';
-import { fetchData } from '@/utils';
-import { mapGenres } from '@/utils/genre';
+import { Genre, MediaMode, MoviesWithLogos } from '@/types';
+import { fetchData, mapGenres } from '@/utils';
 
 import CarouselClient from './CarouselClient';
 

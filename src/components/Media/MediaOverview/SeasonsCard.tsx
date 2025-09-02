@@ -12,7 +12,7 @@ interface Props {
 //   return `https://image.tmdb.org/t/p/${size}${src}`;
 // };
 
-export default function SeasonsCard({ season }: Props) {
+const SeasonsCard = ({ season }: Props) => {
   return (
     <div key={season.id} className="transition-all duration-300 ease-in-out  md:hover:scale-108">
       <div className="flex flex-col gap-[0.6rem] w-full aspect-[1/1] h-[clamp(10rem,14vw,12rem)] text-[1.3rem] text-center relative">
@@ -29,4 +29,6 @@ export default function SeasonsCard({ season }: Props) {
       <h2 className="text-[1.2rem] text-center">{season.name}</h2>
     </div>
   );
-}
+};
+
+export default SeasonsCard;

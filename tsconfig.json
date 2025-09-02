@@ -21,8 +21,26 @@
     "types": ["vitest/globals", "vitest/importMeta", "@testing-library/jest-dom"],
     "baseUrl": ".",
     "paths": {
+      "@": ["./src"],
       "@/*": ["./src/*"],
-      "@/types/*": ["./types/*"]
+
+      "@/types": ["./types/index.ts"],
+      "@/types/*": ["./types/*"],
+
+      // Components barrels
+      "@/components": ["./src/components/index.ts"],
+      "@/components/*": ["./src/components/*"],
+
+      // sub-barrel for UI
+      "@/components/ui": ["./src/components/ui/index.ts"],
+      "@/components/ui/*": ["./src/components/ui/*"],
+
+      "@/utils": ["./src/utils/index.ts"],
+      "@/utils/*": ["./src/utils/*"]
+
+      //   // sub-barrel for UI
+      //   "@/components/media": ["./components/Media/index.ts"],
+      //   "@/components/media/*": ["./components/Media/*"]
     },
     "forceConsistentCasingInFileNames": true
   },
