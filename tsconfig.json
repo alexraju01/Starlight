@@ -37,10 +37,6 @@
 
       "@/utils": ["./src/utils/index.ts"],
       "@/utils/*": ["./src/utils/*"]
-
-      //   // sub-barrel for UI
-      //   "@/components/media": ["./components/Media/index.ts"],
-      //   "@/components/media/*": ["./components/Media/*"]
     },
     "forceConsistentCasingInFileNames": true
   },

@@ -5,12 +5,11 @@ import { MediaCard } from '@/components/Cards';
 import GoBack from '@/components/Navigation/GoBack';
 import { Button, RatingIcon } from '@/components/ui';
 import { ROUTES } from '@/constants/route';
+import { CastMember, Genre, Media, MediaMode } from '@/types';
 import { dateConverter, displayRuntime, fetchData, Icons, isMovie, isTVShow } from '@/utils';
 
 import { SeasonEpisodeInfo, Seasons, SimilarMedia } from '.';
 import CastContainer from '../CastContainer/CastContainer';
-
-import { CastMember, Genre, Media, MediaMode } from '@/types';
 
 interface Props {
   params: string;
