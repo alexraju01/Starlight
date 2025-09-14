@@ -43,7 +43,7 @@ export default function CarouselItem({ movie, genres, isActive }: Props) {
             />
           </div>
         ) : (
-          <p className="text-[90px] font-bold">{movie.title}</p>
+          <p className="text-[clamp(2rem,5vw,50px)] font-bold">{movie.title}</p>
         )}
 
         <MediaMeta movie={movie} genres={genres} />
