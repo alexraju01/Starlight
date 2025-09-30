@@ -7,7 +7,7 @@ const SeasonBadge = ({ item }: { item: Media }) => {
   if (!isTVShow(item) || !item.number_of_seasons) return null;
 
   return (
-    <div className="flex truncate text-lg ">
+    <div className="flex truncate md:text-lg ">
       <div className="flex gap-[4px] items-center text-gray-400 text-xl bg-[#141414] py-[6px] pl-[6px] pr-[10px] rounded-[51px] border border-[#262626]">
         <i>
           <HiRectangleStack size={18} />

@@ -67,8 +67,22 @@
     @apply leading-[150%] text-[22.63px] lg:text-[29.28px] 2xl:text-[44px] font-normal font-Helvetica;
     font-size: clamp(22.63px, 2.5vw, 44px);
   }
-}
 
+  .carousel-mask-gradiant {
+    -webkit-mask-image: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.8) 50%,
+      rgba(0, 0, 0, 0.8) 100%
+    );
+    mask-image: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.8) 50%,
+      rgba(0, 0, 0, 0.8) 100%
+    );
+  }
+}
 @theme {
   --font-Helvetica: 'Helvetica', 'sans-serif';
   --breakpoint-3xl: 112rem;

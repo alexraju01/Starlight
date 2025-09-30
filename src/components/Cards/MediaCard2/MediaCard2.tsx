@@ -90,7 +90,7 @@ const MediaCard2 = ({ item, genreMap, mediaMode, style, isFirst, isLast }: Props
   };
 
   const cardClasses = clsx(
-    'relative w-full px-[15px] pt-[15px] rounded-[10.92px] bg-card-bg border border-solid border-card-stroke transition-transform duration-300 transform-gpu',
+    'relative w-full px-[12px] pt-[12px] rounded-[10.92px] bg-card-bg border border-solid border-card-stroke transition-transform duration-300 transform-gpu',
     'group-hover:w-[70vw] sm:group-hover:w-[60vw] md:group-hover:w-[47vw] lg:group-hover:w-[40vw] xl:group-hover:w-[35vw] 2xl:group-hover:w-[30vw] 2xl:group-hover:max-w-[26vw]  group-hover:z-3 group-hover:top-1/2 group-hover:-translate-y-1/2 group-hover:px-0 group-hover:pt-0',
     {
       'absolute transform  group-hover:right-[calc(70vw-103%)] sm:group-hover:right-[calc(70vw-140%)] md:group-hover:right-[calc(70vw-210%)] lg:group-hover:right-[calc(70vw-250%)] xl:group-hover:right-[calc(70vw-310%)] 2xl:group-hover:right-[calc(70vw-425%)] 3xl:group-hover:right-[calc(70vw-420%)]':
@@ -145,7 +145,7 @@ const MediaCard2 = ({ item, genreMap, mediaMode, style, isFirst, isLast }: Props
           )}
         </figure>
 
-        <div className="flex  flex-col gap-3 py-5 truncate px-[10px]">
+        <div className="flex  flex-col  gap-3 py-5 truncate md:px-[10px]">
           <div className="flex justify-between">
             <h3 className="text-2xl text-white font-medium truncate">{title}</h3>
             {hasValidRating && <RatingBadge rating={item.vote_average} />}
