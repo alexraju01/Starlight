@@ -42,7 +42,7 @@ export interface GenreMovie extends Omit<Movie, 'genres'> {
 }
 
 interface Movie extends BaseMedia {
-  media_type: MediaMode.Movie; // ✅ Explicitly define for movies
+  media_type: MediaMode.MOVIE; // ✅ Explicitly define for movies
   title: string;
   original_title: string;
   release_date: string;

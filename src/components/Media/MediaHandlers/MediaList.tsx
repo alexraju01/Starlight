@@ -75,7 +75,7 @@ export default function MediaList({ initialMedia, mediaMode }: Props) {
           if (mediaMode === MediaMode.UPCOMING) {
             return <UpcomingMedia key={item.id} media={item} mediaMode={MediaMode.TV} />;
           }
-
+          console.log(genres);
           return (
             <MediaCard2
               key={item.id}

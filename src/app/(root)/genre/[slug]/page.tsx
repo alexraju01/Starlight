@@ -1,9 +1,9 @@
+// app/genre/[slug]/page.tsx
 import { Suspense } from 'react';
 
-import { MediaCard } from '@/components';
+import GenreMediaGrid from '@/components/Media/GenreMediaGrid';
 import { Genre } from '@/types/genre';
 import { Movie, TVShow } from '@/types/global';
-import { MediaMode } from '@/types/mediaMode';
 import fetchData from '@/utils/fetchData';
 
 interface Props {
@@ -21,17 +21,6 @@ interface MediaResponse {
   total_results: number;
 }
 
-const getMediaMode = (type: string): MediaMode => {
-  switch (type) {
-    case 'movie':
-      return MediaMode.MOVIE;
-    case 'tv':
-      return MediaMode.TV;
-    default:
-      throw new Error(`Unknown media type: ${type}`);
-  }
-};
-
 export default async function Page({ params }: Props) {
   const { slug } = await params;
 
@@ -43,8 +32,8 @@ export default async function Page({ params }: Props) {
   ]);
 
   const combineRelatedMedia = [
-    ...genreRelatedMovies.results.map((media) => ({ ...media, type: 'movie' })),
-    ...genreRelatedTv.results.map((media) => ({ ...media, type: 'tv' })),
+    ...(genreRelatedMovies.results.map((media) => ({ ...media, media_type: 'movie' })) as Movie[]),
+    ...(genreRelatedTv.results.map((media) => ({ ...media, media_type: 'tv' })) as TVShow[]),
   ];
 
   const combineRelatedGenre = [...movieGenre.genres, ...tvGenre.genres];
@@ -54,12 +43,10 @@ export default async function Page({ params }: Props) {
   return (
     <Suspense fallback={<div className="text-center mt-10">Loading...</div>}>
       <section className="flex flex-col w-full mt-20">
-        <h2 className="w-full mt-14 text-[clamp(2rem,5.5vw,4rem)] px-4 font-semibold">{`Shows related to ${genreName} ...`}</h2>
-        <div className="grid w-full gap-8 p-6 grid-cols-[repeat(auto-fill,minmax(13rem,1fr))] xl:grid-cols-[repeat(auto-fill,minmax(18rem,1fr))] transition-all duration-300">
-          {combineRelatedMedia.map((media) => (
-            <MediaCard key={media.id} media={media} mediaMode={getMediaMode(media.type)} />
-          ))}
-        </div>
+        <h2 className="w-full mt-14 text-[clamp(2rem,5.5vw,4rem)] px-4 font-semibold">
+          {`Shows related to ${genreName} ...`}
+        </h2>
+        <GenreMediaGrid media={combineRelatedMedia} />
       </section>
     </Suspense>
   );
