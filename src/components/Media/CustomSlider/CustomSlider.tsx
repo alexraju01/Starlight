@@ -1,6 +1,7 @@
 import { Media, Movie, TVShow } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
 import { fetchData } from '@/utils';
+import { getGenre } from '@/utils/genre';
 
 import CustomSliderClient from './CustomSliderClient';
 
@@ -13,6 +14,8 @@ interface Props {
 const CustomSlider = async ({ endpoint, title, mediaMode }: Props) => {
   try {
     const { results } = await fetchData<{ results: Movie[] }>('3', endpoint);
+    const { genres } = await getGenre(mediaMode); // ✅ Server-side fetch
+    const genreMap = Object.fromEntries(genres.map(({ id, name }) => [id, name]));
 
     const mediaWithDetails: Media[] = await Promise.all(
       results.map(async (item) => {
@@ -29,7 +32,15 @@ const CustomSlider = async ({ endpoint, title, mediaMode }: Props) => {
       }),
     );
 
-    return <CustomSliderClient media={mediaWithDetails} title={title} mediaMode={mediaMode} />;
+    // ✅ Pass genres to the client component
+    return (
+      <CustomSliderClient
+        media={mediaWithDetails}
+        title={title}
+        mediaMode={mediaMode}
+        genres={genreMap}
+      />
+    );
   } catch (err) {
     console.error(`CustomSlider failed for endpoint "${endpoint}":`, err);
     return (

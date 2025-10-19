@@ -54,7 +54,7 @@ export default async function Page({ params }: Props) {
   return (
     <Suspense fallback={<div className="text-center mt-10">Loading...</div>}>
       <section className="flex flex-col w-full mt-20">
-        <h2 className="w-full text-[clamp(2rem,5.5vw,4rem)] px-4 font-semibold">{`Shows related to ${genreName} ...`}</h2>
+        <h2 className="w-full mt-14 text-[clamp(2rem,5.5vw,4rem)] px-4 font-semibold">{`Shows related to ${genreName} ...`}</h2>
         <div className="grid w-full gap-8 p-6 grid-cols-[repeat(auto-fill,minmax(13rem,1fr))] xl:grid-cols-[repeat(auto-fill,minmax(18rem,1fr))] transition-all duration-300">
           {combineRelatedMedia.map((media) => (
             <MediaCard key={media.id} media={media} mediaMode={getMediaMode(media.type)} />

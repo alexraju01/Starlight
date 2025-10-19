@@ -11,6 +11,7 @@ import { VideoResponse } from '@/types/video';
 import { fetchData } from '@/utils';
 import { formatDate } from '@/utils/date';
 import { formatGenres } from '@/utils/genre';
+import { getVideoKey } from '@/utils/serverActions/getVideoKey';
 import { isMovie, isTVShow } from '@/utils/typeGuard';
 
 import PosterImage from './PosterImage';
@@ -51,34 +52,19 @@ const MediaCard2 = ({ item, genreMap, mediaMode, style, isFirst, isLast }: Props
     return releaseDate > new Date();
   }, [mediaDate]);
 
-  const handlePointerEnter = () => {
+  const handlePointerEnter = async () => {
     hoverTimeoutRef.current = setTimeout(async () => {
       setHovered(true);
 
       if (!videoKeyRef.current) {
-        try {
-          const mediaType = isMovie(item) ? 'movie' : 'tv';
-          const data = await fetchData<VideoResponse>('3', `${mediaType}/${item.id}/videos`);
-
-          let trailer = data.results.find(
-            (video) => video.type === 'Trailer' && video.site === 'YouTube',
-          );
-
-          if (!trailer) {
-            trailer = data.results.find(
-              (video) => video.type === 'Teaser' && video.site === 'YouTube',
-            );
-          }
-
-          if (trailer) {
-            videoKeyRef.current = trailer.key;
-            setVideoKey(trailer.key);
-          }
-        } catch (err) {
-          console.error('Failed to fetch video:', err);
+        // Call the server action
+        const key = await getVideoKey(isMovie(item) ? 'movie' : 'tv', item.id);
+        if (key) {
+          videoKeyRef.current = key;
+          setVideoKey(key);
         }
       }
-    }, 300); // Add a slight delay like Netflix (300ms)
+    }, 300);
   };
 
   const handlePointerLeave = () => {

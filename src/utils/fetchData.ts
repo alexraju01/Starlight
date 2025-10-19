@@ -19,7 +19,7 @@ export default async function fetchData<T>(
       next: { revalidate: 1 },
       headers: {
         accept: 'application/json',
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_API_KEY || process.env.TMDB_API_KEY}`,
+        Authorization: `Bearer ${process.env.TMDB_API_KEY! || process.env.TMDB_API_KEY}`,
       },
     });
 
