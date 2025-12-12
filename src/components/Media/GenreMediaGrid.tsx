@@ -24,7 +24,6 @@ export default function GenreMediaGrid({ media }: Props) {
     <div className="grid w-full gap-6 p-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 transition-all duration-300">
       {media.map((item, index) => {
         const isLastInRow = (index + 1) % itemsPerRow === 0 ? true : false;
-        console.log('======', item);
         return (
           <MediaCard2
             key={item.id}

@@ -36,9 +36,6 @@ const getMediaDate = (item: Media): string => {
 const MediaCard2 = ({ item, genreMap, mediaMode, style, isFirst, isLast }: Props) => {
   const title = item.name || item.title;
   const genreText = useMemo(() => formatGenres(item, genreMap), [item, genreMap]);
-  console.log('Genremap in mediacrd2', genreMap);
-  console.log('Item in mediacrd2', item);
-  console.log('GenreText in mediacrd2', genreText);
 
   const dateStr = useMemo(() => formatDate(item), [item]);
   const mediaDate = useMemo(() => getMediaDate(item), [item]);
