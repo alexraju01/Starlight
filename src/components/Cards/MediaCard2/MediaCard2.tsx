@@ -5,10 +5,8 @@ import Link from 'next/link';
 import { useState, useMemo, useRef } from 'react';
 
 import { ROUTES } from '@/constants/route';
-import { Media } from '@/types/global';
+import { Media, MediaListItem, MediaWithDetails } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
-import { VideoResponse } from '@/types/video';
-import { fetchData } from '@/utils';
 import { formatDate } from '@/utils/date';
 import { formatGenres } from '@/utils/genre';
 import { getVideoKey } from '@/utils/serverActions/getVideoKey';
@@ -19,7 +17,7 @@ import RatingBadge from './RatingBadge';
 import SeasonBadge from './SeasonBadge';
 
 interface Props {
-  item: Media;
+  item: MediaWithDetails;
   genreMap: Record<number, string>;
   mediaMode: MediaMode;
   style?: React.CSSProperties;
@@ -27,7 +25,7 @@ interface Props {
   isLast?: boolean;
 }
 
-const getMediaDate = (item: Media): string => {
+const getMediaDate = (item: MediaListItem): string => {
   if (isMovie(item)) return item.release_date;
   if (isTVShow(item)) return item.first_air_date;
   return '';

@@ -16,7 +16,7 @@ export default async function fetchData<T>(
     const url = `https://api.themoviedb.org/${version}/${endpoint}${pageParam}`;
 
     const res = await fetch(url, {
-      next: { revalidate: 1 },
+      //   next: { revalidate: 1 },
       headers: {
         accept: 'application/json',
         Authorization: `Bearer ${process.env.TMDB_API_KEY! || process.env.TMDB_API_KEY}`,

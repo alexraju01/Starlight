@@ -6,13 +6,13 @@ import MediaCard2 from '@/components/Cards/MediaCard2';
 import CustomSliderSkeleton from '@/components/Feedback/LoadingSkeletons/CustomSliderLoading';
 import { CAROUSEL_BREAKPOINTS } from '@/constants/breakpoints';
 import { useResponsiveItems } from '@/hooks/useResponsiveItems';
-import { Media } from '@/types/global';
+import { MediaListItem } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
 
 import CustomSliderButtons from './CustomSliderButtons';
 
 interface Props {
-  media: Media[];
+  media: MediaListItem[];
   title: string;
   mediaMode: MediaMode;
   genres: Record<number, string>;

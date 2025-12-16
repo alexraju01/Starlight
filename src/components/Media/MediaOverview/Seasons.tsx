@@ -7,7 +7,7 @@ import Icons from '@/utils/icons';
 import SeasonsCard from './SeasonsCard';
 
 interface Props {
-  seasons: Season[];
+  seasons?: Season[];
 }
 
 const Seasons = async ({ seasons }: Props) => {

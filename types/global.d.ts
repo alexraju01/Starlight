@@ -74,11 +74,16 @@ interface TVShowListItem extends BaseMedia {
   first_air_date: string;
   genre_ids: number[];
   origin_country: string[];
+  number_of_seasons?: number;
+  number_of_episodes?: number;
+  seasons?: Season[];
 }
 
 // Unified media type for API responses
 type MediaListItem = MovieListItem | TVShowListItem;
 type Media = Movie | TVShow;
+
+type MediaWithDetails = (MovieListItem & { number_of_seasons?: number }) | TVListItem;
 
 interface MoviesWithLogos extends Movie {
   logoImage?: string; // Optional because some movies may not have a logo

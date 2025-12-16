@@ -6,6 +6,7 @@ import GoBack from '@/components/Navigation/GoBack';
 import { Button, RatingIcon } from '@/components/ui';
 import { ROUTES } from '@/constants/route';
 import { CastMember, Genre, Media, MediaMode } from '@/types';
+import { MediaWithDetails } from '@/types/global';
 import { dateConverter, displayRuntime, fetchData, Icons, isMovie, isTVShow } from '@/utils';
 
 import { SeasonEpisodeInfo, Seasons, SimilarMedia } from '.';
@@ -19,11 +20,10 @@ interface Props {
 async function fetchMediaData(params: string, mediaMode: MediaMode.TV | MediaMode.MOVIE) {
   try {
     const [mediaDetails, credits] = await Promise.all([
-      fetchData<Media>('3', `/${mediaMode}/${params}`),
+      fetchData<MediaWithDetails>('3', `/${mediaMode}/${params}`),
       fetchData<{ cast: CastMember[] }>('3', `/${mediaMode}/${params}/credits`),
     ]);
 
-    // ✅ Dynamically add media_type based on mediaMode
     if (mediaDetails) {
       mediaDetails.media_type = mediaMode;
     }
@@ -52,6 +52,10 @@ export default async function MediaOverview({ params, mediaMode }: Props) {
     : poster_path
       ? `https://image.tmdb.org/t/p/original${poster_path}`
       : '/placeholder.jpg';
+
+  if (mediaDetails.number_of_seasons == null || mediaDetails.number_of_episodes == null) {
+    return null;
+  }
 
   return (
     <div className=" w-full h-full">

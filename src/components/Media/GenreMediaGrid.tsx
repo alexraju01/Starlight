@@ -5,10 +5,10 @@ import { DISCOVER_BREAKPOINTS } from '@/constants/breakpoints';
 import { useGenres } from '@/hooks/useGenre';
 import { useResponsiveItems } from '@/hooks/useResponsiveItems';
 import { MediaMode } from '@/types';
-import { Movie, TVShow } from '@/types/global';
+import { MediaWithDetails } from '@/types/global';
 
 interface Props {
-  media: (Movie | TVShow)[];
+  media: MediaWithDetails[];
 }
 
 export default function GenreMediaGrid({ media }: Props) {

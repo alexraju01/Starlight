@@ -1,4 +1,4 @@
-import { Movie, MovieListItem, TVShow, TVShowListItem } from '@/types/global';
+import { MediaWithDetails, Movie, MovieListItem, TVShow, TVShowListItem } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
 import { fetchData } from '@/utils';
 import { getGenre } from '@/utils/genre';
@@ -10,10 +10,6 @@ interface Props {
   title: string;
   mediaMode: MediaMode;
 }
-
-type MediaWithDetails = (MovieListItem | TVShowListItem) & {
-  number_of_seasons?: number;
-};
 
 const CustomSlider = async ({ endpoint, title, mediaMode }: Props) => {
   try {
@@ -38,9 +34,6 @@ const CustomSlider = async ({ endpoint, title, mediaMode }: Props) => {
       }),
     );
 
-    console.log('======== ', mediaWithDetails);
-
-    // ✅ Pass genres to the client component
     return (
       <CustomSliderClient
         media={mediaWithDetails}
