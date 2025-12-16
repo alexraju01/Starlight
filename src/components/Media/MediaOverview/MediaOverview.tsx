@@ -37,7 +37,7 @@ async function fetchMediaData(params: string, mediaMode: MediaMode.TV | MediaMod
 export default async function MediaOverview({ params, mediaMode }: Props) {
   const { mediaDetails, credits } = await fetchMediaData(params, mediaMode);
   if (!mediaDetails) return <div>Error loading media details.</div>;
-
+  console.log(mediaDetails);
   // Destructure shared properties
   const { backdrop_path, poster_path, overview, vote_average, genres } = mediaDetails;
 
@@ -52,10 +52,6 @@ export default async function MediaOverview({ params, mediaMode }: Props) {
     : poster_path
       ? `https://image.tmdb.org/t/p/original${poster_path}`
       : '/placeholder.jpg';
-
-  if (mediaDetails.number_of_seasons == null || mediaDetails.number_of_episodes == null) {
-    return null;
-  }
 
   return (
     <div className=" w-full h-full">
@@ -98,14 +94,16 @@ export default async function MediaOverview({ params, mediaMode }: Props) {
             ))}
           </div>
 
-          {isTVShow(mediaDetails) && (
-            <SeasonEpisodeInfo
-              metaData={{
-                number_of_seasons: mediaDetails.number_of_seasons,
-                number_of_episodes: mediaDetails.number_of_episodes,
-              }}
-            />
-          )}
+          {isTVShow(mediaDetails) &&
+            mediaDetails.number_of_seasons != null &&
+            mediaDetails.number_of_episodes != null && (
+              <SeasonEpisodeInfo
+                metaData={{
+                  number_of_seasons: mediaDetails.number_of_seasons,
+                  number_of_episodes: mediaDetails.number_of_episodes,
+                }}
+              />
+            )}
 
           <p className="font-normal text-[1.8rem] mb-8 text-white/80 xl:line-clamp-7">{overview}</p>
 
