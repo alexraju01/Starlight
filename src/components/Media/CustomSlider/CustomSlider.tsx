@@ -1,4 +1,4 @@
-import { Media, Movie, TVShow } from '@/types/global';
+import { Movie, MovieListItem, TVShow, TVShowListItem } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
 import { fetchData } from '@/utils';
 import { getGenre } from '@/utils/genre';
@@ -11,26 +11,34 @@ interface Props {
   mediaMode: MediaMode;
 }
 
+type MediaWithDetails = (MovieListItem | TVShowListItem) & {
+  number_of_seasons?: number;
+};
+
 const CustomSlider = async ({ endpoint, title, mediaMode }: Props) => {
   try {
     const { results } = await fetchData<{ results: Movie[] }>('3', endpoint);
-    const { genres } = await getGenre(mediaMode); // ✅ Server-side fetch
+    const { genres } = await getGenre(mediaMode);
     const genreMap = Object.fromEntries(genres.map(({ id, name }) => [id, name]));
 
-    const mediaWithDetails: Media[] = await Promise.all(
+    const mediaWithDetails: MediaWithDetails[] = await Promise.all(
       results.map(async (item) => {
         try {
           if (mediaMode === MediaMode.TV) {
             const { number_of_seasons } = await fetchData<TVShow>('3', `tv/${item.id}`);
-            return { ...item, media_type: 'tv', number_of_seasons };
+            const tvItem = item as unknown as TVShowListItem;
+            return { ...tvItem, media_type: MediaMode.TV, number_of_seasons } as MediaWithDetails;
           }
-          return { ...item, media_type: 'movie' };
+          const movieItem = item as unknown as MovieListItem;
+          return { ...movieItem, media_type: MediaMode.MOVIE } as MediaWithDetails;
         } catch (innerErr) {
           console.error(`Failed to fetch extra data for ID ${item.id}:`, innerErr);
-          return { ...item, media_type: mediaMode }; // fallback without extra data
+          return { ...item, media_type: mediaMode } as unknown as MediaWithDetails;
         }
       }),
     );
+
+    console.log('======== ', mediaWithDetails);
 
     // ✅ Pass genres to the client component
     return (

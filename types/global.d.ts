@@ -3,7 +3,7 @@ import { MediaMode } from './mediaMode';
 interface BaseMedia {
   id: number;
   adult: boolean;
-  media_type: MediaMode; // ✅ Dynamically added when processing API data
+  media_type: MediaMode;
   title?: string;
   name?: string;
   overview: string;
@@ -19,23 +19,6 @@ interface BaseMedia {
   spoken_languages?: SpokenLanguage[];
   production_companies?: ProductionCompany[];
 }
-
-// export interface GenreMovie {
-// 	adult: boolean;
-// 	backdrop_path: string;
-// 	genre_ids: number[];
-// 	id: number;
-// 	original_language: string;
-// 	original_title: string;
-// 	overview: string;
-// 	popularity: number;
-// 	poster_path: string;
-// 	release_date: string;
-// 	title: string;
-// 	video: boolean;
-// 	vote_average: number;
-// 	vote_count: number;
-// }
 
 export interface GenreMovie extends Omit<Movie, 'genres'> {
   genre_ids: number[];
@@ -56,18 +39,18 @@ interface Movie extends BaseMedia {
 }
 
 interface TVShow extends BaseMedia {
-  media_type: MediaMode.TV; // ✅ Explicitly define for TV shows
+  media_type: MediaMode.TV;
   name: string;
   original_name: string;
   first_air_date: string;
   last_air_date: string;
   in_production: boolean;
-  number_of_seasons: number;
-  number_of_episodes: number;
+  number_of_seasons?: number;
+  number_of_episodes?: number;
   episode_run_time?: number[];
-  seasons: Season[];
-  networks: Network[];
-  created_by: Creator[];
+  seasons?: Season[];
+  networks?: Network[];
+  created_by?: Creator[];
   last_episode_to_air?: Episode | null;
   next_episode_to_air?: Episode | null;
   origin_country: string[];
@@ -75,7 +58,26 @@ interface TVShow extends BaseMedia {
   languages?: string[];
 }
 
+interface MovieListItem extends BaseMedia {
+  media_type: MediaMode.MOVIE;
+  title: string;
+  original_title: string;
+  release_date: string;
+  genre_ids: number[];
+  video: boolean;
+}
+
+interface TVShowListItem extends BaseMedia {
+  media_type: MediaMode.TV;
+  name: string;
+  original_name: string;
+  first_air_date: string;
+  genre_ids: number[];
+  origin_country: string[];
+}
+
 // Unified media type for API responses
+type MediaListItem = MovieListItem | TVShowListItem;
 type Media = Movie | TVShow;
 
 interface MoviesWithLogos extends Movie {
