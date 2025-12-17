@@ -7,7 +7,6 @@ interface Props {
   season: Season;
 }
 
-
 const SeasonsCard = ({ season }: Props) => {
   return (
     <div key={season.id} className="transition-all duration-300 ease-in-out  md:hover:scale-108">

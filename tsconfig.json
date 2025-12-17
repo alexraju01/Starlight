@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2017",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -24,38 +20,18 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@": [
-        "./src"
-      ],
-      "@/*": [
-        "./src/*"
-      ],
-      "@/types": [
-        "./types/index.ts"
-      ],
-      "@/types/*": [
-        "./types/*"
-      ],
+      "@": ["./src"],
+      "@/*": ["./src/*"],
+      "@/types": ["./types/index.ts"],
+      "@/types/*": ["./types/*"],
       // Components barrels
-      "@/components": [
-        "./src/components/index.ts"
-      ],
-      "@/components/*": [
-        "./src/components/*"
-      ],
+      "@/components": ["./src/components/index.ts"],
+      "@/components/*": ["./src/components/*"],
       // sub-barrel for UI
-      "@/components/ui": [
-        "./src/components/ui/index.ts"
-      ],
-      "@/components/ui/*": [
-        "./src/components/ui/*"
-      ],
-      "@/utils": [
-        "./src/utils/index.ts"
-      ],
-      "@/utils/*": [
-        "./src/utils/*"
-      ]
+      "@/components/ui": ["./src/components/ui/index.ts"],
+      "@/components/ui/*": ["./src/components/ui/*"],
+      "@/utils": ["./src/utils/index.ts"],
+      "@/utils/*": ["./src/utils/*"]
     },
     "forceConsistentCasingInFileNames": true
   },
@@ -68,7 +44,5 @@
     "src/utils/getMoviesLogo.js",
     ".next/dev/types/**/*.ts"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }
