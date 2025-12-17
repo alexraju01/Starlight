@@ -10,15 +10,14 @@ interface Props {
 }
 
 export default async function MediaWrapper({ mediaMode }: Props) {
-  // let media;
-
   const rawMedia =
     mediaMode === MediaMode.UPCOMING ? await getUpcoming(MediaMode.TV) : await getMedia(mediaMode);
+  const mediaType = mediaMode === MediaMode.TV ? MediaMode.TV : MediaMode.MOVIE;
 
   // Add `media_type` and cast only after shaping
   const mediaWithType = rawMedia.map((item) => ({
     ...item,
-    media_type: mediaMode === MediaMode.TV ? 'tv' : 'movie',
+    media_type: mediaType,
   })) as Media[];
 
   return <MediaList initialMedia={mediaWithType} mediaMode={mediaMode} />;

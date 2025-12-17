@@ -7,9 +7,8 @@ import { MovieGrid } from '@/components';
 import { SearchForm } from '@/components/Forms/SearchForm';
 import { useAllGenres } from '@/hooks/useAllGenres';
 import { useSearchMedia } from '@/hooks/useSearchMedia';
-// import { SearchForm } from "@/components/SearchForm";
 
-export default function DiscoverPage(): JSX.Element {
+export default function DiscoverPage() {
   const searchParams = useSearchParams();
   const { replace } = useRouter();
 

@@ -1,24 +1,16 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import MediaCard from '@/components/Cards/MediaCard';
+import { MediaCard } from '@/components/Cards';
 import GoBack from '@/components/Navigation/GoBack';
-import Button from '@/components/ui/Button/Button';
-import RatingIcon from '@/components/ui/RatingIcon';
+import { Button, RatingIcon } from '@/components/ui';
 import { ROUTES } from '@/constants/route';
-import { CastMember } from '@/types/cast';
-import { Genre } from '@/types/genre';
-import { Media } from '@/types/global';
-import { MediaMode } from '@/types/mediaMode';
-import { dateConverter, displayRuntime } from '@/utils/date';
-import fetchData from '@/utils/fetchData';
-import Icons from '@/utils/icons';
-import { isMovie, isTVShow } from '@/utils/typeGuard';
+import { CastMember, Genre, Media, MediaMode } from '@/types';
+import { MediaWithDetails } from '@/types/global';
+import { dateConverter, displayRuntime, fetchData, Icons, isMovie, isTVShow } from '@/utils';
 
-import SeasonEpisodeInfo from './SeasonEpisodeInfo';
-import Seasons from './Seasons';
-import SimilarMedia from './SimilarMedia';
-import CastContainer from '../Cast/CastContainer';
+import { SeasonEpisodeInfo, Seasons, SimilarMedia } from '.';
+import CastContainer from '../CastContainer/CastContainer';
 
 interface Props {
   params: string;
@@ -28,11 +20,10 @@ interface Props {
 async function fetchMediaData(params: string, mediaMode: MediaMode.TV | MediaMode.MOVIE) {
   try {
     const [mediaDetails, credits] = await Promise.all([
-      fetchData<Media>('3', `/${mediaMode}/${params}`),
+      fetchData<MediaWithDetails>('3', `/${mediaMode}/${params}`),
       fetchData<{ cast: CastMember[] }>('3', `/${mediaMode}/${params}/credits`),
     ]);
 
-    // ✅ Dynamically add media_type based on mediaMode
     if (mediaDetails) {
       mediaDetails.media_type = mediaMode;
     }
@@ -46,7 +37,7 @@ async function fetchMediaData(params: string, mediaMode: MediaMode.TV | MediaMod
 export default async function MediaOverview({ params, mediaMode }: Props) {
   const { mediaDetails, credits } = await fetchMediaData(params, mediaMode);
   if (!mediaDetails) return <div>Error loading media details.</div>;
-
+  console.log(mediaDetails);
   // Destructure shared properties
   const { backdrop_path, poster_path, overview, vote_average, genres } = mediaDetails;
 
@@ -103,14 +94,16 @@ export default async function MediaOverview({ params, mediaMode }: Props) {
             ))}
           </div>
 
-          {isTVShow(mediaDetails) && (
-            <SeasonEpisodeInfo
-              metaData={{
-                number_of_seasons: mediaDetails.number_of_seasons,
-                number_of_episodes: mediaDetails.number_of_episodes,
-              }}
-            />
-          )}
+          {isTVShow(mediaDetails) &&
+            mediaDetails.number_of_seasons != null &&
+            mediaDetails.number_of_episodes != null && (
+              <SeasonEpisodeInfo
+                metaData={{
+                  number_of_seasons: mediaDetails.number_of_seasons,
+                  number_of_episodes: mediaDetails.number_of_episodes,
+                }}
+              />
+            )}
 
           <p className="font-normal text-[1.8rem] mb-8 text-white/80 xl:line-clamp-7">{overview}</p>
 

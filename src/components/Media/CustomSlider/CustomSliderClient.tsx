@@ -5,28 +5,26 @@ import React, { useMemo, useState, useCallback, CSSProperties } from 'react';
 import MediaCard2 from '@/components/Cards/MediaCard2';
 import CustomSliderSkeleton from '@/components/Feedback/LoadingSkeletons/CustomSliderLoading';
 import { CAROUSEL_BREAKPOINTS } from '@/constants/breakpoints';
-import { useGenres } from '@/hooks/useGenre';
 import { useResponsiveItems } from '@/hooks/useResponsiveItems';
-import { Media } from '@/types/global';
+import { MediaListItem } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
 
 import CustomSliderButtons from './CustomSliderButtons';
 
 interface Props {
-  media: Media[];
+  media: MediaListItem[];
   title: string;
   mediaMode: MediaMode;
+  genres: Record<number, string>;
 }
 
 const ITEM_GAP = 16;
 
-export default function CustomSliderClient({ media, title, mediaMode }: Props) {
-  const genres = useGenres(mediaMode);
-  const itemsPerScreen = useResponsiveItems(CAROUSEL_BREAKPOINTS); // ⛔ undefined on SSR
+export default function CustomSliderClient({ media, title, mediaMode, genres }: Props) {
+  const itemsPerScreen = useResponsiveItems(CAROUSEL_BREAKPOINTS);
   const [sliderIndex, setSliderIndex] = useState(0);
   const totalItems = media.length;
 
-  // 🛡️ Safe maxIndex logic even if itemsPerScreen is null
   const maxIndex = useMemo(() => {
     return itemsPerScreen ? Math.max(0, totalItems - itemsPerScreen) : 0;
   }, [totalItems, itemsPerScreen]);
@@ -49,7 +47,6 @@ export default function CustomSliderClient({ media, title, mediaMode }: Props) {
       : {};
   }, [sliderIndex, itemsPerScreen]);
 
-  // ✅ Render fallback if responsive items not ready yet
   if (!itemsPerScreen) {
     return <CustomSliderSkeleton />;
   }

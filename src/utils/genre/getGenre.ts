@@ -1,3 +1,4 @@
+'server';
 import { GenreResponse } from '@/types/genre';
 
 import fetchData from '../fetchData';

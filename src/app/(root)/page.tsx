@@ -34,7 +34,6 @@ const Home = () => {
             mediaMode={MediaMode.TV}
           />
         </div>
-
         <Footer />
       </section>
     </main>

@@ -5,7 +5,7 @@ interface Props {
   };
 }
 
-export default function SeasonEpisodeInfo({ metaData }: Props) {
+const SeasonEpisodeInfo = ({ metaData }: Props) => {
   const { number_of_seasons, number_of_episodes } = metaData;
   const plural = number_of_seasons === 1 || !number_of_seasons ? 'Season' : 'Seasons';
 
@@ -19,4 +19,6 @@ export default function SeasonEpisodeInfo({ metaData }: Props) {
       )}
     </section>
   );
-}
+};
+
+export default SeasonEpisodeInfo;

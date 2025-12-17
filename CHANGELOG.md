@@ -2,7 +2,7 @@
 
 ### 📦 Upgrades
 
-* Updated next,js version from v15.2 to v15.5 ([c61a4a1](https://github.com/alexraju01/Starlight/commit/c61a4a1947b460a01b58f8e36a52dd202aaa20b8))
+- Updated next,js version from v15.2 to v15.5 ([c61a4a1](https://github.com/alexraju01/Starlight/commit/c61a4a1947b460a01b58f8e36a52dd202aaa20b8))
 
 ## [2.2.2](https://github.com/alexraju01/Starlight/compare/v2.2.1...v2.2.2) (2025-08-29)
 

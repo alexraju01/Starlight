@@ -7,13 +7,12 @@ import Icons from '@/utils/icons';
 import SeasonsCard from './SeasonsCard';
 
 interface Props {
-  seasons: Season[];
+  seasons?: Season[];
 }
 
-export default async function Seasons({ seasons }: Props) {
-  const plural = seasons.length === 1 || 0 ? 'Season' : 'Seasons';
-
+const Seasons = async ({ seasons }: Props) => {
   if (!seasons || seasons.length === 0) return null;
+  const plural = seasons.length === 1 ? 'Season' : 'Seasons';
 
   return (
     <section className="flex flex-col gap-4 px-12 w-full">
@@ -35,4 +34,6 @@ export default async function Seasons({ seasons }: Props) {
       </Suspense>
     </section>
   );
-}
+};
+
+export default Seasons;

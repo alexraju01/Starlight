@@ -11,8 +11,7 @@ interface Props {
   mediaMode: MediaMode;
   params: string;
 }
-
-export default async function SimilarMedia({ mediaMode, params }: Props) {
+const SimilarMedia = async ({ mediaMode, params }: Props) => {
   const similarMedia = await fetchData<APIResponse>('3', `${mediaMode}/${params}/similar`);
   const textChanger = mediaMode === 'tv' ? 'TV Shows' : 'Movies';
 
@@ -26,4 +25,6 @@ export default async function SimilarMedia({ mediaMode, params }: Props) {
       )}
     </>
   );
-}
+};
+
+export default SimilarMedia;

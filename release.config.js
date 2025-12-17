@@ -9,6 +9,7 @@ module.exports = {
         releaseRules: [
           { type: 'refactor', release: 'patch' },
           { type: 'upgrade', release: 'minor' },
+          { type: 'test', release: false },
         ],
         defaultRelease: false,
       },
@@ -24,6 +25,7 @@ module.exports = {
             { type: 'refactor', section: '🛠 Refactors' },
             { type: 'upgrade', section: '📦 Upgrades' },
             { type: 'improve', section: '🚀 Improvements' },
+            { type: 'test', section: '🧪 Tests' },
             { type: 'chore', hidden: true },
           ],
         },

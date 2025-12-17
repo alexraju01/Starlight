@@ -32,7 +32,10 @@ export const useSearchMedia = (query: string) => {
       setError(null); // reset previous errors
       try {
         const data = await fetchData<APIResponse>('3', `search/multi?query=${debouncedQuery}`);
-        const filtered = data.results.filter((media) => media.media_type !== 'person');
+        const filtered = data.results.filter(
+          (media) => media.media_type === 'movie' || media.media_type === 'tv',
+        );
+
         setResults(filtered);
       } catch (err) {
         setError(err as Error);

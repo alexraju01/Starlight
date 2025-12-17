@@ -21,14 +21,8 @@ export default function CarouselItem({ movie, genres, isActive }: Props) {
         fill
         quality={75}
         alt={movie.title || movie.name || 'Media'}
-        className="object-cover object-center brightness-[80%]"
+        className="object-cover object-center brightness-[80%] carousel-mask-gradiant"
         priority={isActive}
-        style={{
-          maskImage:
-            'linear-gradient(to top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.8) 50%, rgba(0, 0, 0, 0.8) 100%)',
-          WebkitMaskImage:
-            'linear-gradient(to top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.8) 50%, rgba(0, 0, 0, 0.8) 100%)',
-        }}
       />
 
       <div className="absolute space-y-4 z-10 max-w-screen lg:w-[854px] bottom-0 sm:pb-0 md:pb-0 left-[25px] right-[25px] lg:left-[102px]">
@@ -43,7 +37,7 @@ export default function CarouselItem({ movie, genres, isActive }: Props) {
             />
           </div>
         ) : (
-          <p className="text-[90px] font-bold">{movie.title}</p>
+          <p className="text-[clamp(2rem,5vw,50px)] font-bold">{movie.title}</p>
         )}
 
         <MediaMeta movie={movie} genres={genres} />
