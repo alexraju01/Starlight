@@ -1,15 +1,29 @@
 import { Suspense } from 'react';
 
 import { LoadingSkeletons } from '@/components/Feedback/LoadingSkeletons';
-import MediaWrapper from '@/components/Media/MediaHandlers/MediaWrapper';
+import MediaList from '@/components/Media/MediaHandlers/MediaList';
+import { Media } from '@/types';
 import { MediaMode } from '@/types/mediaMode';
+import getMedia from '@/utils/serverActions/getMedia';
 
-export default function Tv() {
+async function TvContent() {
+  const rawMedia = await getMedia(MediaMode.TV);
+
+  const mediaWithType = rawMedia.map((item) => ({
+    ...item,
+    media_type: 'tv',
+  })) as Media[];
+
+  return <MediaList initialMedia={mediaWithType} mediaMode={MediaMode.TV} />;
+}
+
+export default function TVPage() {
   return (
     <div className="flex flex-col mt-54 md:mt-40 w-full">
       <h2 className="text-3xl mb-10 text-center">TV Shows List</h2>
+
       <Suspense fallback={<LoadingSkeletons />}>
-        <MediaWrapper mediaMode={MediaMode.TV} />
+        <TvContent />
       </Suspense>
     </div>
   );

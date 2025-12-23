@@ -41,7 +41,7 @@ export default function CarouselItem({ movie, genres, isActive }: Props) {
         )}
 
         <MediaMeta movie={movie} genres={genres} />
-        <p className="hidden sm:block text-[clamp(1.6rem,2vw,2rem)] max-w-screen mb-9 leading-[175%] text-white">
+        <p className="hidden sm:block text-[clamp(1.6rem,2vw,2rem)] max-w-screen mb-9 leading-[175%] text-white line-clamp-2-custom">
           {movie.overview}
         </p>
 
