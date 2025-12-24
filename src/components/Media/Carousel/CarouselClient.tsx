@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 
-import useWindowWidth from '@/hooks/useWindowWidth';
 import { MoviesWithLogos } from '@/types/global';
 
 import CarouselControls from './CarouselControls';
@@ -19,13 +18,10 @@ export default function CarouselClient({ movies, genres }: Props) {
   const handlePrev = () => setCurrentIndex((prev) => (prev === 0 ? movies.length - 1 : prev - 1));
   const handleNext = () => setCurrentIndex((prev) => (prev === movies.length - 1 ? 0 : prev + 1));
 
-  const width = useWindowWidth();
-  const isMobile = width !== undefined && width <= 640;
-
   return (
-    <div className="relative overflow-hidden flex justify-center items-center sm:h-screen sm:rounded-none sm:m-0 h-[500px] rounded-[32px] m-[24px]">
+    <div className="relative overflow-hidden flex justify-center items-center  sm:h-[700px] sm:rounded-none sm:m-0 h-[500px] md:h-screen rounded-[32px] m-[24px]">
       <ul
-        className="flex w-full h-full transition-transform duration-500 ease-in-out"
+        className=" flex w-full h-full transition-transform duration-500 ease-in-out"
         style={{ transform: `translateX(-${currentIndex * 100}%)` }}
       >
         {movies.map((movie, index) => (
@@ -37,8 +33,7 @@ export default function CarouselClient({ movies, genres }: Props) {
           />
         ))}
       </ul>
-
-      <CarouselControls onPrev={handlePrev} onNext={handleNext} isMobile={isMobile} />
+      <CarouselControls onPrev={handlePrev} onNext={handleNext} />
     </div>
   );
 }

@@ -1,5 +1,5 @@
-import clsx from 'clsx';
 import Link from 'next/link';
+import { useMemo } from 'react';
 
 import { ROUTES } from '@/constants/route';
 import { MoviesWithLogos } from '@/types/global';
@@ -12,41 +12,47 @@ interface Props {
 }
 
 export default function MediaMeta({ movie, genres }: Props) {
+  const releaseDate = useMemo(() => dateConverter(movie.release_date), [movie.release_date]);
+
+  const mediaType = useMemo(() => capitalize(movie.media_type), [movie.media_type]);
+
+  const genreLinks = useMemo(
+    () =>
+      (movie.genre_ids ?? []).map((id) => ({
+        id,
+        label: genres[id] ?? 'Unknown',
+      })),
+    [movie.genre_ids, genres],
+  );
+
   return (
-    <div
-      className={clsx(
-        'flex gap-y-2 gap-x-4 md:mb-8 text-white font-normal  text-[clamp(1.6rem,2vw,2rem)] flex-row  flex-wrap',
-      )}
-    >
-      {/* Release Date */}
-      <p className="whitespace-nowrap">{dateConverter(movie.release_date)}</p>
+    <div className="flex flex-wrap items-center gap-x-4 gap-y-2 md:mb-8 text-white text-[clamp(1.6rem,2vw,2rem)]">
+      <span className="whitespace-nowrap">{releaseDate}</span>
 
-      {/* Divider Dot for Desktop */}
-      <span>|</span>
+      <Separator />
 
-      {/* Media Type */}
-      <p className="whitespace-nowrap capitalize">{capitalize(movie.media_type)}</p>
+      <span className="whitespace-nowrap capitalize">{mediaType}</span>
 
-      {/* Divider Dot for Desktop */}
-      <span>|</span>
+      <Separator />
 
-      {/* Genres */}
-      <div className="flex flex-wrap gap-x-2 gap-y-1">
-        {(movie.genre_ids ?? []).map((id, index, arr) => {
-          const genre = genres[id] || 'Unknown';
-          const isLast = index === arr.length - 1;
-
-          return (
-            <Link href={ROUTES.GENRE(id)} key={id} className="transition-colors duration-200">
-              <p className="hover:text-primary focus:text-primary outline-none cursor-pointer">
-                {genre}
-                {/* Add dot between genres only on larger screens */}
-                {!isLast && <span>,</span>}
-              </p>
-            </Link>
-          );
-        })}
+      <div className="flex flex-wrap gap-x-1 gap-y-1">
+        {genreLinks.map(({ id, label }, index) => (
+          <Link
+            key={id}
+            href={ROUTES.GENRE(id)}
+            className="hover:text-primary focus-visible:text-primary outline-none transition-colors"
+          >
+            {label}
+            {index < genreLinks.length - 1 && <span>, </span>}
+          </Link>
+        ))}
       </div>
     </div>
   );
 }
+
+const Separator = () => (
+  <span aria-hidden className="opacity-70">
+    |
+  </span>
+);
