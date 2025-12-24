@@ -7,10 +7,9 @@ import Button from '@/components/ui/Button/Button';
 import { DISCOVER_BREAKPOINTS } from '@/constants/breakpoints';
 import { useGenres } from '@/hooks/useGenre';
 import { useResponsiveItems } from '@/hooks/useResponsiveItems';
-import { Media, Movie, TVShow } from '@/types/global';
+import { Movie, TVShow } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
 import getMedia from '@/utils/serverActions/getMedia';
-import getUpcoming from '@/utils/serverActions/getUpcoming';
 
 import UpcomingMedia from '../UpcomingMedia/UpcomingMedia';
 
@@ -21,9 +20,10 @@ interface Props {
 
 export default function MediaList({ initialMedia, mediaMode }: Props) {
   const [media, setMedia] = useState<(Movie | TVShow)[]>(initialMedia);
-  const [page, setPage] = useState<number>(1);
-  const [buttonHidden, setButtonHidden] = useState<boolean>(initialMedia.length === 0);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [page, setPage] = useState(1);
+  const [buttonHidden, setButtonHidden] = useState(initialMedia.length === 0);
+  const [loading, setLoading] = useState(false);
+
   const genres = useGenres(mediaMode);
   const itemsPerRow = useResponsiveItems(DISCOVER_BREAKPOINTS);
 
@@ -31,41 +31,27 @@ export default function MediaList({ initialMedia, mediaMode }: Props) {
     return <div className="p-6 text-center">Loading layout...</div>;
   }
 
-  const isUpcoming = mediaMode === MediaMode.UPCOMING;
   const loadMoreMedia = async () => {
     setLoading(true);
 
     const nextPage = page + 1;
+    const mediaList = await getMedia(mediaMode, nextPage);
 
-    const mediaList = isUpcoming
-      ? await getUpcoming(MediaMode.TV, nextPage)
-      : await getMedia(mediaMode, nextPage);
-
-    const mediaWithType = mediaList.map((item) => ({
-      ...item,
-      media_type: mediaMode === MediaMode.TV ? 'tv' : 'movie',
-    })) as Media[];
-
-    const newMedia = mediaWithType.filter(
-      (newItem) => !media.some((existingMedia) => existingMedia.id === newItem.id),
+    const newMedia = mediaList.filter(
+      (newItem) => !media.some((existing) => existing.id === newItem.id),
     );
 
-    setButtonHidden(mediaWithType.length === 0);
-    setMedia((prevMedia) => [...prevMedia, ...newMedia]);
-    setPage((prevPage) => prevPage + 1);
+    setButtonHidden(mediaList.length === 0);
+    setMedia((prev) => [...prev, ...newMedia]);
+    setPage(nextPage);
     setLoading(false);
   };
 
   return (
     <div className="animate-fadeIn">
       <div
-        className={`
-						grid gap-8 w-full px-6 mb-8 transition-all relative overflow-hidden
-					${
-            isUpcoming
-              ? 'grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(45rem,1fr))] auto-rows-auto p-6'
-              : 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7'
-          }`}
+        className="grid gap-8 w-full px-6 mb-8 transition-all relative overflow-hidden
+				grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7"
       >
         {media.map((item, index) => {
           const isLastInRow = (index + 1) % itemsPerRow === 0 ? true : false;

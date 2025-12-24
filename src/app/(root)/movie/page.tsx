@@ -14,7 +14,7 @@ async function MovieContent() {
     media_type: 'movie',
   })) as Media[];
 
-  return <MediaList initialMedia={mediaWithType} mediaMode={MediaMode.TV} />;
+  return <MediaList initialMedia={mediaWithType} mediaMode={MediaMode.MOVIE} />;
 }
 
 export default async function MoviesPage() {
