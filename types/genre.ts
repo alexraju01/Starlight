@@ -11,5 +11,5 @@ export interface GenreResponse {
 export interface GenreWithMovies {
   id: number;
   name: string;
-  movies: Media[]; // or MoviesWithLogos[] if logos are included
+  movies: Media[];
 }

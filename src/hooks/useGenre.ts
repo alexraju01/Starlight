@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 
 import { MediaMode } from '@/types/mediaMode';
-import getGenre from '@/utils/genre/getGenre';
+import { api } from '@/utils/api';
 
 export const useGenres = (mediaMode: MediaMode) => {
   const [genres, setGenres] = useState<Record<number, string>>({});
@@ -10,7 +10,8 @@ export const useGenres = (mediaMode: MediaMode) => {
   useEffect(() => {
     const fetchGenres = async () => {
       try {
-        const { genres } = await getGenre(mediaMode);
+        const { genres } = await api.getGenres(mediaMode);
+
         setGenres(Object.fromEntries(genres.map(({ id, name }) => [id, name])));
       } catch (error) {
         console.error('Error fetching genres:', error);

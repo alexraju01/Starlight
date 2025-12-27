@@ -4,10 +4,10 @@ import { LoadingSkeletons } from '@/components/Feedback/LoadingSkeletons';
 import MediaList from '@/components/Media/MediaHandlers/MediaList';
 import { Media } from '@/types';
 import { MediaMode } from '@/types/mediaMode';
-import getMedia from '@/utils/serverActions/getMedia';
+import { api } from '@/utils/api';
 
 async function TvContent() {
-  const rawMedia = await getMedia(MediaMode.TV);
+  const rawMedia = await api.media.getMedia(MediaMode.TV);
 
   const mediaWithType = rawMedia.map((item) => ({
     ...item,

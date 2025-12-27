@@ -9,7 +9,7 @@ import { useGenres } from '@/hooks/useGenre';
 import { useResponsiveItems } from '@/hooks/useResponsiveItems';
 import { Movie, TVShow } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
-import getMedia from '@/utils/serverActions/getMedia';
+import { api } from '@/utils/api';
 
 import UpcomingMedia from '../UpcomingMedia/UpcomingMedia';
 
@@ -35,7 +35,7 @@ export default function MediaList({ initialMedia, mediaMode }: Props) {
     setLoading(true);
 
     const nextPage = page + 1;
-    const mediaList = await getMedia(mediaMode, nextPage);
+    const mediaList = await api.media.getMedia(mediaMode, nextPage);
 
     const newMedia = mediaList.filter(
       (newItem) => !media.some((existing) => existing.id === newItem.id),

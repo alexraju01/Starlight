@@ -1,7 +1,7 @@
 import { MediaWithDetails, Movie, MovieListItem, TVShow, TVShowListItem } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
 import { fetchData } from '@/utils';
-import { getGenre } from '@/utils/genre';
+import { api } from '@/utils/api';
 
 import CustomSliderClient from './CustomSliderClient';
 
@@ -14,7 +14,8 @@ interface Props {
 const CustomSlider = async ({ endpoint, title, mediaMode }: Props) => {
   try {
     const { results } = await fetchData<{ results: Movie[] }>('3', endpoint);
-    const { genres } = await getGenre(mediaMode);
+
+    const { genres } = await api.getGenres(mediaMode);
     const genreMap = Object.fromEntries(genres.map(({ id, name }) => [id, name]));
 
     const mediaWithDetails: MediaWithDetails[] = await Promise.all(
