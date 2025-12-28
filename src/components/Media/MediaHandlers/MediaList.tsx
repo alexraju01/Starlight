@@ -3,6 +3,7 @@ import { Loader } from 'lucide-react';
 import { useState } from 'react';
 
 import MediaCard2 from '@/components/Cards/MediaCard2';
+import { LoadingSkeletons } from '@/components/Feedback/LoadingSkeletons/LoadingSkeletons';
 import Button from '@/components/ui/Button/Button';
 import { DISCOVER_BREAKPOINTS } from '@/constants/breakpoints';
 import { useGenres } from '@/hooks/useGenre';
@@ -10,8 +11,6 @@ import { useResponsiveItems } from '@/hooks/useResponsiveItems';
 import { Movie, TVShow } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
 import { api } from '@/utils/api';
-
-import UpcomingMedia from '../UpcomingMedia/UpcomingMedia';
 
 interface Props {
   initialMedia: (Movie | TVShow)[];
@@ -27,9 +26,7 @@ export default function MediaList({ initialMedia, mediaMode }: Props) {
   const genres = useGenres(mediaMode);
   const itemsPerRow = useResponsiveItems(DISCOVER_BREAKPOINTS);
 
-  if (itemsPerRow === null) {
-    return <div className="p-6 text-center">Loading layout...</div>;
-  }
+  if (itemsPerRow === null) return <LoadingSkeletons />;
 
   const loadMoreMedia = async () => {
     setLoading(true);
@@ -54,13 +51,11 @@ export default function MediaList({ initialMedia, mediaMode }: Props) {
 				grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7"
       >
         {media.map((item, index) => {
+          if (itemsPerRow === null) return null;
           const isLastInRow = (index + 1) % itemsPerRow === 0 ? true : false;
 
           if (!item.poster_path) return null;
 
-          if (mediaMode === MediaMode.UPCOMING) {
-            return <UpcomingMedia key={item.id} media={item} mediaMode={MediaMode.TV} />;
-          }
           return (
             <MediaCard2
               key={item.id}
