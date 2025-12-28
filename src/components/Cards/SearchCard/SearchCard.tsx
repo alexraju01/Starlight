@@ -13,7 +13,7 @@ import { SearchMedia } from '@/types/searchMedia';
 // import RatingIcon from "../RatingIcon/RatingIcon";
 import { dateConverter } from '@/utils/date';
 import getSearch from '@/utils/serverActions/getSearch';
-import { capitalize } from '@/utils/string/capitalize';
+import { capitalize } from '@/utils/stringUtils';
 
 import MediaCard from '../MediaCard';
 

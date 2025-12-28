@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import { ROUTES } from '@/constants/route';
 import { MoviesWithLogos } from '@/types/global';
 import { dateConverter } from '@/utils/date';
-import { capitalize } from '@/utils/string';
+import { capitalize } from '@/utils/stringUtils';
 
 interface Props {
   movie: MoviesWithLogos;

@@ -1,5 +1,6 @@
 // routes.ts
-import { slugify } from '@/utils/string/slugify';
+
+import { slugify } from '@/utils';
 
 import type { MediaMode } from '@/types/mediaMode';
 import type { Route } from 'next';

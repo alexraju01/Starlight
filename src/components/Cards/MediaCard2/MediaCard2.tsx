@@ -5,10 +5,10 @@ import Link from 'next/link';
 import { useState, useMemo, useRef } from 'react';
 
 import { ROUTES } from '@/constants/route';
-import { Media, MediaListItem, MediaWithDetails } from '@/types/global';
+import { MediaListItem, MediaWithDetails } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
+import { formatGenres } from '@/utils';
 import { formatDate } from '@/utils/date';
-import { formatGenres } from '@/utils/genre';
 import { getVideoKey } from '@/utils/serverActions/getVideoKey';
 import { isMovie, isTVShow } from '@/utils/typeGuard';
 
