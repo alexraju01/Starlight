@@ -18,7 +18,7 @@ const NavLinks = ({
   return (
     <ul
       className={cn(
-        'flex flex-col md:flex-row md:items-center md:gap-3 md:px-2 md:py-1.5 md:rounded-2xl xl:gap-5 xl:px-2.5 xl:py-2.5',
+        'flex flex-col lg:flex-row lg:items-center md:gap-3 md:px-2 md:py-1.5 md:rounded-2xl xl:gap-5 xl:px-2.5 xl:py-2.5',
         className,
       )}
     >

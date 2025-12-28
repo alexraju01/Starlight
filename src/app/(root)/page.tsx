@@ -6,7 +6,7 @@ const Home = () => {
   return (
     <main className="relative ">
       {/* Carousel Section */}
-      <section className="relative mt-[158px] md:mt-0">
+      <section className="relative mt-[80px] md:mt-0">
         <Carousel mediaMode={MediaMode.MOVIE} />
       </section>
 

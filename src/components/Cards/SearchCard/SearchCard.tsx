@@ -37,7 +37,10 @@ export default function SearchCard({ query }: Props) {
   return (
     <>
       {query.length > 1 && (
-        <div className="absolute left-0 md:left-[clamp(-250px,-90vw,1000px)] lg:-left-40 xl:left-0 z-[99999] flex flex-col bg-[#171717] h-fit w-full md:w-[clamp(25rem,50vw,45rem)] text-[1.3rem]">
+        <div
+          className=" absolute top-full left-0 mt-2 z-50 flex flex-col w-full overflow-y-auto rounded-[13px] bg-[#171717] border border-[#1D1D1D] shadow-xl
+  "
+        >
           {result.length > 0 ? (
             result
               .filter(({ media_type }) => media_type !== 'person')
@@ -45,8 +48,8 @@ export default function SearchCard({ query }: Props) {
                 <Link
                   key={media.id}
                   href={ROUTES.MEDIA(media.media_type as any, media.id, media.title || media.name)}
-                  className={`flex gap-[1.5rem] px-[1.5rem] py-[1rem] transition-all duration-300 ease-in-out ${
-                    idx % 2 === 0 ? 'bg-[#1c1c1e] hover:bg-[#123]' : 'hover:bg-[#123]'
+                  className={`relative z-[10] max-h-[200px] flex gap-[1.5rem] px-[1.5rem] py-[1rem] transition-all duration-300 ease-in-out ${
+                    idx % 2 === 0 ? 'bg-[#1c1c1e] hover:bg-[#123]' : 'bg-[#171717] hover:bg-[#123]'
                   }`}
                 >
                   <div className="w-[6rem]">

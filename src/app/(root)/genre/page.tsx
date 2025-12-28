@@ -1,52 +1,57 @@
-import Link from 'next/link';
+import { Search } from 'lucide-react';
 import { Suspense } from 'react';
-import { FaQuestionCircle } from 'react-icons/fa';
 
 import GenreSkeleton from '@/components/Feedback/LoadingSkeletons/GenreSkeleton';
-import { ROUTES } from '@/constants/route';
+import GenreCard from '@/components/Genre/GenreCollection/GenreCard';
 import { Genre } from '@/types/genre';
 import fetchData from '@/utils/fetchData';
 import Icons, { GenreKey } from '@/utils/icons';
 
-// Server Component
-async function FetchGenres() {
+// import GenreCard from '@/components/Genre/GenreCard'; // Import your client card
+
+async function GenreGrid() {
   const [{ genres: movieGenres }, { genres: tvGenres }] = await Promise.all([
     fetchData<{ genres: Genre[] }>('3', 'genre/movie/list'),
     fetchData<{ genres: Genre[] }>('3', 'genre/tv/list'),
   ]);
 
-  const combinedGenres = [...movieGenres, ...tvGenres];
   const uniqueGenres = Array.from(
-    new Map(combinedGenres.map((genre) => [genre.id, genre])).values(),
+    new Map([...movieGenres, ...tvGenres].map((g) => [g.id, g])).values(),
   ).sort((a, b) => a.name.localeCompare(b.name));
 
   return (
-    <section className="w-full">
-      <h2 className="text-center w-full text-3xl lg:text-5xl mb-10">List of all the genres</h2>
-      <div className="relative grid w-full mt-10 md:mt-0  gap-6 p-6 sm:grid-cols-[repeat(auto-fill,minmax(10rem,1fr))] grid-cols-[repeat(auto-fill,minmax(9rem,1fr))] md:grid-cols-[repeat(auto-fill,minmax(11rem,1fr))] xl:grid-cols-[repeat(auto-fill,minmax(12rem,1fr))] xl:p-16">
-        {uniqueGenres.map(({ id, name }) => {
-          const icon = Icons.genreIcons[name as GenreKey] ?? <FaQuestionCircle />;
-          return (
-            <Link key={id} href={ROUTES.GENRE(id)}>
-              <div className="flex flex-col items-center justify-center gap-4 rounded-xl bg-[#11223b] p-4 text-center text-lg  outline-white/20 transition-transform duration-300 ease-in-out hover:scale-110 h-36 sm:h-40 md:h-44 xl:h-48">
-                <i className="text-4xl">{icon}</i>
-                <p>{name}</p>
-              </div>
-            </Link>
-          );
-        })}
-      </div>
-    </section>
+    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+      {uniqueGenres.map((genre, i) => (
+        <GenreCard
+          key={genre.id}
+          {...genre}
+          index={i}
+          icon={Icons.genreIcons[genre.name as GenreKey]}
+        />
+      ))}
+    </div>
   );
 }
 
 export default function GenrePage() {
   return (
-    <section className="flex h-full w-full flex-col items-center justify-center mt-20">
-      <h2 className="mb-20 text-center text-2xl font-semibold">List of all genres</h2>
-      <Suspense fallback={<GenreSkeleton />}>
-        <FetchGenres />
-      </Suspense>
-    </section>
+    <main className="min-h-screen bg-[#050505] text-white">
+      <div className="relative border-b border-white/5 bg-gradient-to-b from-red-900/10 to-transparent px-6 py-16">
+        <div className="mx-auto max-w-[1500px] px-6 md:px-10 md:mt-20 lg:mt-30">
+          <h1 className="text-4xl font-black uppercase tracking-tight md:text-6xl">
+            Browse by <span className="text-primary">Genre</span>
+          </h1>
+          <p className="mt-4 max-w-xl text-lg text-slate-400">
+            From pulse-pounding action to heart-wrenching dramas, find your next favorite story.
+          </p>
+        </div>
+      </div>
+
+      <section className="mx-auto max-w-[1500px] px-6 md:px-10 py-12">
+        <Suspense fallback={<GenreSkeleton />}>
+          <GenreGrid />
+        </Suspense>
+      </section>
+    </main>
   );
 }
