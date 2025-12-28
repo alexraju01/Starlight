@@ -1,4 +1,3 @@
-import { Search } from 'lucide-react';
 import { Suspense } from 'react';
 
 import GenreSkeleton from '@/components/Feedback/LoadingSkeletons/GenreSkeleton';
@@ -6,8 +5,6 @@ import GenreCard from '@/components/Genre/GenreCollection/GenreCard';
 import { Genre } from '@/types/genre';
 import fetchData from '@/utils/fetchData';
 import Icons, { GenreKey } from '@/utils/icons';
-
-// import GenreCard from '@/components/Genre/GenreCard'; // Import your client card
 
 async function GenreGrid() {
   const [{ genres: movieGenres }, { genres: tvGenres }] = await Promise.all([
