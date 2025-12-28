@@ -37,9 +37,12 @@ const NavBar = () => {
   }, []);
 
   // Close search on outside click
+  const searchContainerRef = useRef<HTMLDivElement | null>(null);
+
+  // Outside click
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent | TouchEvent) => {
-      if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
+      if (searchContainerRef.current && !searchContainerRef.current.contains(e.target as Node)) {
         setIsSearchOpen(false);
       }
     };
@@ -83,7 +86,10 @@ const NavBar = () => {
 
           {/* 🔍 Mobile / Tablet Search Icon */}
           <button
-            onClick={toggleSearch}
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleSearch();
+            }}
             className="lg:hidden text-white ml-auto"
             aria-label="Open search"
             aria-expanded={isSearchOpen}
@@ -109,7 +115,7 @@ const NavBar = () => {
         </div>
       </nav>
 
-      {/* 🔽 MOBILE / TABLET SLIDE-DOWN SEARCH */}
+      {/*  MOBILE / TABLET SLIDE-DOWN SEARCH */}
       <div
         ref={searchRef}
         className={`relative lg:hidden transition-all duration-300 ease-in-out bg-[#0E0E0E] ${
