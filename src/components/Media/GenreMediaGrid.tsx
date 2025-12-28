@@ -22,7 +22,7 @@ export default function GenreMediaGrid({ media }: Props) {
 
   return (
     <div
-      className="grid gap-8 w-full px-6 mb-8 transition-all relative overflow-hidden
+      className="grid gap-8 w-full  mb-8 transition-all relative overflow-hidden
 				grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7"
     >
       {media.map((item, index) => {

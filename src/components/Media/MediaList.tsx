@@ -48,7 +48,7 @@ export default function MediaList({ initialMedia, mediaMode }: Props) {
     <div className="animate-fadeIn">
       <div
         className="grid gap-8 w-full px-6 mb-8 transition-all relative overflow-hidden
-				grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7"
+				grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-6"
       >
         {media.map((item, index) => {
           if (itemsPerRow === null) return null;
