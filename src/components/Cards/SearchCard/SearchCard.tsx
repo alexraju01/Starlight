@@ -23,12 +23,17 @@ interface Props {
 
 export default function SearchCard({ query }: Props) {
   const [result, setResult] = useState<SearchMedia[]>([]);
+  const [hasSearched, setHasSearched] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       if (query.trim().length > 1) {
         const info: SearchMedia[] = await getSearch(query);
         setResult(info.slice(0, 4));
+        setHasSearched(true);
+      } else {
+        setResult([]);
+        setHasSearched(false);
       }
     };
     fetchData();
@@ -37,11 +42,10 @@ export default function SearchCard({ query }: Props) {
   return (
     <>
       {query.length > 1 && (
-        <div
-          className=" absolute top-full left-0 mt-2 z-50 flex flex-col w-full overflow-y-auto rounded-[13px] bg-[#171717] border border-[#1D1D1D] shadow-xl
-  "
-        >
-          {result.length > 0 ? (
+        <div className="absolute top-full left-0 mt-2 z-50 flex flex-col w-full overflow-y-auto rounded-[13px] bg-[#171717] border border-[#1D1D1D] shadow-xl">
+          {hasSearched && result.length === 0 ? (
+            <p className="px-4 py-4">No results found</p>
+          ) : (
             result
               .filter(({ media_type }) => media_type !== 'person')
               .map((media, idx) => (
@@ -80,8 +84,6 @@ export default function SearchCard({ query }: Props) {
                   </div>
                 </Link>
               ))
-          ) : (
-            <p className="px-4 py-2">No results found</p>
           )}
         </div>
       )}
