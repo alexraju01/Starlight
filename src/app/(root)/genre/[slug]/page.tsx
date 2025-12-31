@@ -72,7 +72,7 @@ export default async function Page({ params }: Props) {
 
         {/* Header */}
         <div className="border-b border-white/5 px-6 py-16">
-          <div className="mx-6 lg:mx-[68px] 2xl:mx-[101px] md:mt-20 lg:mt-30">
+          <div className="mx-6 lg:mx-[68px] 2xl:mx-[101px] mt-20 lg:mt-30">
             <h1 className="text-4xl font-black uppercase tracking-tight md:text-6xl">
               {genreName}
             </h1>

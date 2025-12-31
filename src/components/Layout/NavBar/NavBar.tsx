@@ -13,7 +13,9 @@ const NavBar = () => {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
-  const searchRef = useRef<HTMLDivElement | null>(null);
+  // 🔹 refs
+  const searchWrapperRef = useRef<HTMLDivElement | null>(null);
+  const searchButtonRef = useRef<HTMLButtonElement | null>(null);
 
   const toggleMobileNav = () => {
     setIsMobileNavOpen((prev) => !prev);
@@ -25,7 +27,7 @@ const NavBar = () => {
     setIsMobileNavOpen(false);
   };
 
-  // Close search on ESC
+  // 🔹 Close search on ESC
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -36,21 +38,24 @@ const NavBar = () => {
     return () => window.removeEventListener('keydown', handler);
   }, []);
 
-  // Close search on outside click
-  const searchContainerRef = useRef<HTMLDivElement | null>(null);
-
-  // Outside click
+  // 🔹 Close search on outside click (NO flicker)
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent | TouchEvent) => {
-      if (searchContainerRef.current && !searchContainerRef.current.contains(e.target as Node)) {
+      const target = e.target as Node;
+
+      if (
+        isSearchOpen &&
+        searchWrapperRef.current &&
+        !searchWrapperRef.current.contains(target) &&
+        searchButtonRef.current &&
+        !searchButtonRef.current.contains(target)
+      ) {
         setIsSearchOpen(false);
       }
     };
 
-    if (isSearchOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-      document.addEventListener('touchstart', handleClickOutside);
-    }
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside);
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
@@ -84,14 +89,15 @@ const NavBar = () => {
             </Link>
           </div>
 
-          {/* 🔍 Mobile / Tablet Search Icon */}
+          {/* 🔍 Mobile / Tablet Search Button */}
           <button
+            ref={searchButtonRef}
             onClick={(e) => {
               e.stopPropagation();
               toggleSearch();
             }}
             className="lg:hidden text-white ml-auto"
-            aria-label="Open search"
+            aria-label="Toggle search"
             aria-expanded={isSearchOpen}
           >
             <Search size={26} />
@@ -115,11 +121,11 @@ const NavBar = () => {
         </div>
       </nav>
 
-      {/*  MOBILE / TABLET SLIDE-DOWN SEARCH */}
+      {/* 📱 MOBILE / TABLET SEARCH DROPDOWN */}
       <div
-        ref={searchRef}
+        ref={searchWrapperRef}
         className={`relative lg:hidden transition-all duration-300 ease-in-out bg-[#0E0E0E] ${
-          isSearchOpen ? 'max-h-[100vh] opacity-100' : 'max-h-0 opacity-0'
+          isSearchOpen ? 'max-h-[100vh] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
         }`}
       >
         <div className="px-6 py-4">

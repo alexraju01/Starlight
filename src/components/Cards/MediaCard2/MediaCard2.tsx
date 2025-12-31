@@ -93,6 +93,8 @@ const MediaCard2 = ({ item, genreMap, mediaMode, style, isFirst, isLast }: Props
     'rounded-[10.92px]': !hovered || (hovered && videoKey),
     'rounded-t-[10.92px] rounded-b-0': hovered && !videoKey,
   });
+  const posterSrc =
+    hovered && !videoKey && item.backdrop_path ? item.backdrop_path : item.poster_path;
 
   return (
     <Link
@@ -115,9 +117,7 @@ const MediaCard2 = ({ item, genreMap, mediaMode, style, isFirst, isLast }: Props
             />
           ) : (
             <PosterImage
-              src={
-                hovered && !videoKey && item.backdrop_path ? item.backdrop_path : item.poster_path
-              }
+              src={posterSrc || 'Media Poster'}
               alt={title || 'Movie Poster'}
               className={posterClass}
             />
