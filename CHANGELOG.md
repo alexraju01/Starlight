@@ -1,3 +1,28 @@
+## [2.3.2](https://github.com/alexraju01/Starlight/compare/v2.3.1...v2.3.2) (2026-01-01)
+
+### 🐛 Bug Fixes
+
+* Fixed bug where when clicked on search icon it won't close ([0792323](https://github.com/alexraju01/Starlight/commit/07923237ca69375473d6d4b1b6516c0aa512cb25))
+* Updated changelog formatting for consistency using eslint and prettier ([a3efda0](https://github.com/alexraju01/Starlight/commit/a3efda0156c897bfef1638f4d38c84046341ef24))
+
+### 🛠 Refactors
+
+* Improved api fetch calls in centerlised file ([17cb6ae](https://github.com/alexraju01/Starlight/commit/17cb6aee42cc78bf85d7383e420094d63310b8c2))
+* Improved Carousel, GenreCollection, MediaMeta and their child components ([0c5f746](https://github.com/alexraju01/Starlight/commit/0c5f746b59a9b4dd6eb0e8feaad0a943f1e188d5))
+* Rem,oved MediaWrapper component and added ellipsis ([d9a8a6f](https://github.com/alexraju01/Starlight/commit/d9a8a6f213438dc8b9ecc0abc616026a89aa4ae0))
+* Removed files to have cleaner file structure ([5631b05](https://github.com/alexraju01/Starlight/commit/5631b05633c5d40181dccbb42ecbbb70dc287137))
+* Removed the upcoming medias from MediaList component ([1cfc1a0](https://github.com/alexraju01/Starlight/commit/1cfc1a09887f0818eb4305724810233b95910191))
+* Removed unwanted folders ([0891ee8](https://github.com/alexraju01/Starlight/commit/0891ee8fdc26e3a41696b198aca822f89db5527e))
+
+### 🚀 Improvements
+
+* Improved loading genre skeleton cards ([45f0db4](https://github.com/alexraju01/Starlight/commit/45f0db423649865dae6520c52b17bddf3846fff0))
+* Improved loading skeleton for tv/movies ([299a8ed](https://github.com/alexraju01/Starlight/commit/299a8ed20b1ffd2c386ece2637b858316db69670))
+* Improved search box where initial state says no results found ([26992a3](https://github.com/alexraju01/Starlight/commit/26992a3815395aeefa45349133f6cb29cc10ff07))
+* Improved Styling for movies/tv/genre pages and search box toggle on ([74d80eb](https://github.com/alexraju01/Starlight/commit/74d80eb522e07707ea19c57954eaf79b3944d205))
+* Improved the genre page and the nav search box ([27153b2](https://github.com/alexraju01/Starlight/commit/27153b2843174a7ff86755de28f5f01e10c2d695))
+* Improved the tv shows/ mocies and dynamic genre page ([0ace5fa](https://github.com/alexraju01/Starlight/commit/0ace5fa173e8d43cc0983a3d926cca13cbe89ae0))
+
 ## [2.3.1](https://github.com/alexraju01/Starlight/compare/v2.3.0...v2.3.1) (2025-12-17)
 
 ### 🐛 Bug Fixes
