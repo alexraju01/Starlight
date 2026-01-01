@@ -5,7 +5,7 @@ import { MediaCard } from '@/components/Cards';
 import GoBack from '@/components/Navigation/GoBack';
 import { Button, RatingIcon } from '@/components/ui';
 import { ROUTES } from '@/constants/route';
-import { CastMember, Genre, Media, MediaMode } from '@/types';
+import { CastMember, Genre, MediaMode } from '@/types';
 import { MediaWithDetails } from '@/types/global';
 import { dateConverter, displayRuntime, fetchData, Icons, isMovie, isTVShow } from '@/utils';
 

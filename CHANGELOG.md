@@ -2,22 +2,22 @@
 
 ### 🐛 Bug Fixes
 
-* build typescript errors ([bc9385e](https://github.com/alexraju01/Starlight/commit/bc9385eb15b73d727227bb37f3b575f0df734b28))
-* Fixed individual page not rendering ([f6674a2](https://github.com/alexraju01/Starlight/commit/f6674a22fa7a364531f473ec6b459a71f05209d5))
-* Fixed prettier issues ([e135c1d](https://github.com/alexraju01/Starlight/commit/e135c1de53742a50df4d901f24f3bd66cc015418))
-* Fixed styling for headings and fixed api key leaks ([7d32bb3](https://github.com/alexraju01/Starlight/commit/7d32bb34b80d41724f3f8684ca0cc0598f896cbe))
+- build typescript errors ([bc9385e](https://github.com/alexraju01/Starlight/commit/bc9385eb15b73d727227bb37f3b575f0df734b28))
+- Fixed individual page not rendering ([f6674a2](https://github.com/alexraju01/Starlight/commit/f6674a22fa7a364531f473ec6b459a71f05209d5))
+- Fixed prettier issues ([e135c1d](https://github.com/alexraju01/Starlight/commit/e135c1de53742a50df4d901f24f3bd66cc015418))
+- Fixed styling for headings and fixed api key leaks ([7d32bb3](https://github.com/alexraju01/Starlight/commit/7d32bb34b80d41724f3f8684ca0cc0598f896cbe))
 
 ### 🛠 Refactors
 
-* Changed the mediaCard to mediaCard2 in genre section ([3b03e3b](https://github.com/alexraju01/Starlight/commit/3b03e3b686649b0631162f3bd778fe58b8020654))
-* Refactored Carousel component for better code readability ([cf74bc2](https://github.com/alexraju01/Starlight/commit/cf74bc2705283db820a8d96c7dc8d5fb8f79c8cf))
-* Refactoring Import paths for better import readability ([a6613a9](https://github.com/alexraju01/Starlight/commit/a6613a9bcbce422ca9f91996f4826cfda3c487fa))
+- Changed the mediaCard to mediaCard2 in genre section ([3b03e3b](https://github.com/alexraju01/Starlight/commit/3b03e3b686649b0631162f3bd778fe58b8020654))
+- Refactored Carousel component for better code readability ([cf74bc2](https://github.com/alexraju01/Starlight/commit/cf74bc2705283db820a8d96c7dc8d5fb8f79c8cf))
+- Refactoring Import paths for better import readability ([a6613a9](https://github.com/alexraju01/Starlight/commit/a6613a9bcbce422ca9f91996f4826cfda3c487fa))
 
 ### 🧪 Tests
 
-* Added Test for posterImage and Navigation links ([457c1c1](https://github.com/alexraju01/Starlight/commit/457c1c19079e1363458f12b3b145cbe28c5211ca))
-* initial setup for vitest and created 2 test ([aa7970a](https://github.com/alexraju01/Starlight/commit/aa7970a6c3b7e77e598c0d3682a6a9f383cc652d))
-* testing if sitemap works ([7a67eb1](https://github.com/alexraju01/Starlight/commit/7a67eb16e519ce885c1780af53388432ceaa7054))
+- Added Test for posterImage and Navigation links ([457c1c1](https://github.com/alexraju01/Starlight/commit/457c1c19079e1363458f12b3b145cbe28c5211ca))
+- initial setup for vitest and created 2 test ([aa7970a](https://github.com/alexraju01/Starlight/commit/aa7970a6c3b7e77e598c0d3682a6a9f383cc652d))
+- testing if sitemap works ([7a67eb1](https://github.com/alexraju01/Starlight/commit/7a67eb16e519ce885c1780af53388432ceaa7054))
 
 ## [2.3.0](https://github.com/alexraju01/Starlight/compare/v2.2.2...v2.3.0) (2025-08-31)
 
