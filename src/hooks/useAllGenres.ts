@@ -1,8 +1,6 @@
-// hooks/useAllGenres.ts
 import { useEffect, useState } from 'react';
 
-import { MediaMode } from '@/types/mediaMode';
-import getGenre from '@/utils/genre/getGenre';
+import { api } from '@/utils/api';
 
 type GenreMap = Record<number, string>;
 
@@ -18,8 +16,8 @@ export const useAllGenres = (): AllGenres => {
     const fetchAll = async () => {
       try {
         const [movieData, tvData] = await Promise.all([
-          getGenre('movie' as MediaMode),
-          getGenre('tv' as MediaMode),
+          api.getGenres('movie'),
+          api.getGenres('tv'),
         ]);
 
         setGenreMap({

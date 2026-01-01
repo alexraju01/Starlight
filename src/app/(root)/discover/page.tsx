@@ -12,7 +12,8 @@ export default function DiscoverPage() {
   const searchParams = useSearchParams();
   const { replace } = useRouter();
 
-  const initialQuery = searchParams.get('search') ?? '';
+  const rawQuery = searchParams.get('search') ?? '';
+  const initialQuery = rawQuery.replace(/-/g, ' ');
   const [query, setQuery] = useState(initialQuery);
 
   const { results: movies } = useSearchMedia(query);

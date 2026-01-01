@@ -5,10 +5,10 @@ import Link from 'next/link';
 import { useState, useMemo, useRef } from 'react';
 
 import { ROUTES } from '@/constants/route';
-import { Media, MediaListItem, MediaWithDetails } from '@/types/global';
+import { MediaListItem, MediaWithDetails } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
+import { formatGenres } from '@/utils';
 import { formatDate } from '@/utils/date';
-import { formatGenres } from '@/utils/genre';
 import { getVideoKey } from '@/utils/serverActions/getVideoKey';
 import { isMovie, isTVShow } from '@/utils/typeGuard';
 
@@ -93,6 +93,8 @@ const MediaCard2 = ({ item, genreMap, mediaMode, style, isFirst, isLast }: Props
     'rounded-[10.92px]': !hovered || (hovered && videoKey),
     'rounded-t-[10.92px] rounded-b-0': hovered && !videoKey,
   });
+  const posterSrc =
+    hovered && !videoKey && item.backdrop_path ? item.backdrop_path : item.poster_path;
 
   return (
     <Link
@@ -115,9 +117,7 @@ const MediaCard2 = ({ item, genreMap, mediaMode, style, isFirst, isLast }: Props
             />
           ) : (
             <PosterImage
-              src={
-                hovered && !videoKey && item.backdrop_path ? item.backdrop_path : item.poster_path
-              }
+              src={posterSrc || 'Media Poster'}
               alt={title || 'Movie Poster'}
               className={posterClass}
             />

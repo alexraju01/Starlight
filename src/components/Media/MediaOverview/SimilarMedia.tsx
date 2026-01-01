@@ -5,7 +5,7 @@ import { MediaMode } from '@/types/mediaMode';
 import fetchData from '@/utils/fetchData';
 import Icons from '@/utils/icons';
 
-import Slider from '../Slider/Slider';
+import Slider from '../Slider';
 
 interface Props {
   mediaMode: MediaMode;

@@ -1,6 +1,6 @@
 module.exports = {
   repositoryUrl: 'https://github.com/alexraju01/Starlight.git',
-  branches: ['main'],
+  branches: ['main', 'code-refactor'],
   plugins: [
     [
       '@semantic-release/commit-analyzer',

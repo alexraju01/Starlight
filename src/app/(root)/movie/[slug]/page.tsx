@@ -10,7 +10,6 @@ interface Props {
 
 export default async function page({ params }: Props) {
   const { slug } = await params;
-  console.log('Slug:', slug);
   return (
     <section className="w-full h-full">
       jshgdjhksdgkjh

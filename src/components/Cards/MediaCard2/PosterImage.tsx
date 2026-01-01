@@ -10,7 +10,7 @@ interface Props {
 
 const PosterImage = ({ src, alt, className }: Props) => (
   <Image
-    src={getImageUrl(src, 'poster', 'w500')}
+    src={getImageUrl(src, 'poster', 'w342')}
     alt={alt}
     fill
     quality={90}

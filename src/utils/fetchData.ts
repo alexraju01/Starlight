@@ -1,36 +1,60 @@
+type FetchDataOptions = {
+  page?: number;
+  disablePage?: boolean;
+  signal?: AbortSignal;
+};
+
+const TMDB_BASE_URL = 'https://api.themoviedb.org';
+const TMDB_API_KEY = process.env.TMDB_API_KEY;
+
+if (!TMDB_API_KEY) {
+  throw new Error('TMDB_API_KEY is not defined in environment variables');
+}
+
 export default async function fetchData<T>(
   version: string,
   endpoint: string,
-  page?: number,
-  disablePage?: boolean,
+  options: FetchDataOptions = {},
 ): Promise<T> {
+  const { page = 1, disablePage = false, signal } = options;
+
+  const url = new URL(`/${version}/${endpoint}`, TMDB_BASE_URL);
+
+  if (!disablePage) {
+    url.searchParams.set('page', String(page));
+  }
+
+  const res = await fetch(url.toString(), {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${TMDB_API_KEY}`,
+    },
+    signal,
+  });
+
+  if (!res.ok) {
+    const errorBody = await safeParseJson(res);
+    throw new FetchError(res.status, res.statusText, errorBody);
+  }
+
+  return res.json() as Promise<T>;
+}
+
+async function safeParseJson(response: Response): Promise<unknown> {
   try {
-    const currentPage = page ?? 1;
-    const pageParam =
-      !disablePage && currentPage
-        ? endpoint.includes('?')
-          ? `&page=${currentPage}`
-          : `?page=${currentPage}`
-        : '';
+    return await response.json();
+  } catch {
+    return null;
+  }
+}
 
-    const url = `https://api.themoviedb.org/${version}/${endpoint}${pageParam}`;
-
-    const res = await fetch(url, {
-      //   next: { revalidate: 1 },
-      headers: {
-        accept: 'application/json',
-        Authorization: `Bearer ${process.env.TMDB_API_KEY! || process.env.TMDB_API_KEY}`,
-      },
-    });
-
-    if (!res.ok) {
-      throw new Error(`Failed to fetch data: ${res.status} ${res.statusText}`);
-    }
-
-    const data: T = await res.json();
-    return data;
-  } catch (err) {
-    console.error(`fetchData Error: ${err instanceof Error ? err.message : err}`);
-    throw err;
+class FetchError extends Error {
+  constructor(
+    public status: number,
+    public statusText: string,
+    public body: unknown,
+  ) {
+    super(`Request failed: ${status} ${statusText}`);
   }
 }

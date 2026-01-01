@@ -1,8 +1,8 @@
 'use client';
 
-import { AlignJustify, X } from 'lucide-react';
+import { AlignJustify, X, Search } from 'lucide-react';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import SearchBox from '@/components/ui/SearchBox/SearchBox';
 import { ROUTES } from '@/constants/route';
@@ -11,87 +11,142 @@ import NavLinks from './NavLinks';
 
 const NavBar = () => {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+
+  // 🔹 refs
+  const searchWrapperRef = useRef<HTMLDivElement | null>(null);
+  const searchButtonRef = useRef<HTMLButtonElement | null>(null);
 
   const toggleMobileNav = () => {
     setIsMobileNavOpen((prev) => !prev);
+    setIsSearchOpen(false);
   };
 
+  const toggleSearch = () => {
+    setIsSearchOpen((prev) => !prev);
+    setIsMobileNavOpen(false);
+  };
+
+  // 🔹 Close search on ESC
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsSearchOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, []);
+
+  // 🔹 Close search on outside click (NO flicker)
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent | TouchEvent) => {
+      const target = e.target as Node;
+
+      if (
+        isSearchOpen &&
+        searchWrapperRef.current &&
+        !searchWrapperRef.current.contains(target) &&
+        searchButtonRef.current &&
+        !searchButtonRef.current.contains(target)
+      ) {
+        setIsSearchOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+    };
+  }, [isSearchOpen]);
+
   return (
-    <header className="fixed top-0 left-0 w-full z-50 bg-[#100F10] px-6 lg:px-10 py-4">
+    <header className="fixed top-0 left-0 w-full z-50 bg-[#100F10]">
+      {/* NAV BAR */}
       <nav
-        className=" flex relative flex-col md:flex-row gap-4 md:gap-10 justify-between items-start md:items-center w-full"
+        className="flex relative flex-col md:flex-row gap-4 md:gap-10 justify-between items-start md:items-center w-full px-6 lg:px-10 py-4"
         aria-label="Main Navigation"
       >
-        {/* Logo & Mobile Toggle */}
-        <div className="flex items-center w-full  md:w-auto">
-          <button
-            onClick={toggleMobileNav}
-            className="md:hidden text-white"
-            aria-label={isMobileNavOpen ? 'Close Menu' : 'Open Menu'}
-            aria-expanded={isMobileNavOpen}
-            aria-controls="mobile-menu"
-          >
-            {isMobileNavOpen ? <X size={35} /> : <AlignJustify size={35} />}
-          </button>
+        {/* Logo + Mobile Menu */}
+        <div className="flex items-center w-full lg:w-auto">
+          <div className="flex gap-5">
+            <button
+              onClick={toggleMobileNav}
+              className="lg:hidden text-white"
+              aria-label={isMobileNavOpen ? 'Close Menu' : 'Open Menu'}
+            >
+              {isMobileNavOpen ? <X size={32} /> : <AlignJustify size={32} />}
+            </button>
 
-          <Link href={ROUTES.HOME} aria-label="Go to homepage" className="mx-auto">
-            <span className="text-[26px] lg:text-[29px] xl:text-[44.87px] font-bold leading-[101%]">
-              <span className="text-primary">S</span>tar
-              <span className="text-primary">L</span>ight
-            </span>
-          </Link>
-        </div>
-
-        {/* Mobile SearchBox under logo */}
-        <div className="md:hidden bg-[#100F10] absolute z-0 w-full mt-18">
-          <div className="p-4 rounded-lg">
-            <SearchBox />
+            <Link href={ROUTES.HOME} className="mx-auto">
+              <span className="text-[26px] lg:text-[29px] xl:text-[44.87px] font-bold">
+                <span className="text-primary">S</span>tar
+                <span className="text-primary">L</span>ight
+              </span>
+            </Link>
           </div>
+
+          {/* 🔍 Mobile / Tablet Search Button */}
+          <button
+            ref={searchButtonRef}
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleSearch();
+            }}
+            className="lg:hidden text-white ml-auto"
+            aria-label="Toggle search"
+            aria-expanded={isSearchOpen}
+          >
+            <Search size={26} />
+          </button>
         </div>
 
         {/* Desktop Nav Links */}
-        <div className="hidden md:flex items-center gap-6 xl:gap-10">
+        <div className="hidden lg:flex items-center gap-6 xl:gap-10">
           <NavLinks />
         </div>
 
         {/* Desktop Right Side */}
-        <div className="hidden md:flex justify-end items-center gap-3 xl:gap-5 flex-1">
+        <div className="hidden lg:flex items-center gap-5 flex-1 justify-end">
           <SearchBox />
-
-          <div className="relative group">
-            <Link
-              href={ROUTES.LOGIN}
-              className="text-xl xl:text-2xl px-[18px] py-[10px] font-medium text-[#BFBFBF] hover:text-white transition-colors w-[110px] h-[50px] rounded-[12px] border border-[#1D1D1D] flex items-center justify-center"
-            >
-              Login
-            </Link>
-            <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 px-3 py-1 text-xs bg-black text-white rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
-              Future Feature
-            </div>
-          </div>
+          <Link
+            href={ROUTES.LOGIN}
+            className="text-xl px-4 py-2 border border-[#1D1D1D] rounded-xl text-[#BFBFBF] hover:text-white"
+          >
+            Login
+          </Link>
         </div>
       </nav>
 
-      {/* Mobile Nav Links */}
+      {/* 📱 MOBILE / TABLET SEARCH DROPDOWN */}
       <div
-        id="mobile-menu"
-        className={`md:hidden relative transition-all duration-300 ease-in-out ${
+        ref={searchWrapperRef}
+        className={`relative lg:hidden transition-all duration-300 ease-in-out bg-[#0E0E0E] ${
+          isSearchOpen ? 'max-h-[100vh] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
+        }`}
+      >
+        <div className="px-6 py-4">
+          <SearchBox />
+        </div>
+      </div>
+
+      {/* 📱 MOBILE NAV */}
+      <div
+        className={`lg:hidden relative transition-all duration-300 ease-in-out ${
           isMobileNavOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
         }`}
-        role="region"
-        aria-hidden={!isMobileNavOpen}
       >
-        <div className="w-full  bg-[#100F10] p-6 z-[10] absolute">
+        <div className="absolute w-full bg-[#100F10] p-6">
           <NavLinks className="flex flex-col gap-4" onLinkClick={() => setIsMobileNavOpen(false)} />
-
-          <div className="mt-4 flex flex-col gap-4">
-            <Link
-              href={ROUTES.LOGIN}
-              className="text-lg px-[18px] py-[10px] font-medium text-[#BFBFBF] hover:text-white transition-colors w-full rounded-[12px] border border-[#1D1D1D] text-center"
-            >
-              Login
-            </Link>
-          </div>
+          <Link
+            href={ROUTES.LOGIN}
+            className="block mt-4 text-center px-4 py-2 border border-[#1D1D1D] rounded-xl text-[#BFBFBF]"
+          >
+            Login
+          </Link>
         </div>
       </div>
     </header>

@@ -1,16 +1,44 @@
 import { Suspense } from 'react';
 
-import { LoadingSkeletons } from '@/components/Feedback/LoadingSkeletons';
-import MediaWrapper from '@/components/Media/MediaHandlers/MediaWrapper';
+// import { LoadingSkeletons } from '@/components/Feedback/LoadingSkeletons';
+import { LoadingSkeletons } from '@/components/Feedback/LoadingSkeletons/LoadingSkeletons';
+import MediaList from '@/components/Media/MediaList';
+import { Media } from '@/types';
 import { MediaMode } from '@/types/mediaMode';
+import { api } from '@/utils/api';
 
-export default function Tv() {
+async function TvContent() {
+  const rawMedia = await api.media.getMedia(MediaMode.TV);
+  //   await sleep(5000);
+  const mediaWithType = rawMedia.map((item) => ({
+    ...item,
+    media_type: 'tv',
+  })) as Media[];
+
+  return <MediaList initialMedia={mediaWithType} mediaMode={MediaMode.TV} />;
+}
+
+export default function TVPage() {
   return (
-    <div className="flex flex-col mt-54 md:mt-40 w-full">
-      <h2 className="text-3xl mb-10 text-center">TV Shows List</h2>
-      <Suspense fallback={<LoadingSkeletons />}>
-        <MediaWrapper mediaMode={MediaMode.TV} />
-      </Suspense>
-    </div>
+    <section className="min-h-screen  text-white animate-fadeIn">
+      {/* Hero / Header */}
+      <div className="relative border-b border-white/5 bg-gradient-to-b from-red-900/10 to-transparent px-6 py-16">
+        <div className="lg:mx-[68px] 2xl:mx-[101px] mt-20 lg:mt-30">
+          <h1 className="text-4xl font-black uppercase tracking-tight md:text-6xl">
+            Browse <span className="text-primary">TV Shows</span>
+          </h1>
+          <p className="mt-4 max-w-xl text-lg text-slate-400">
+            Binge-worthy series, critically acclaimed dramas, and fan-favorite shows.
+          </p>
+        </div>
+      </div>
+
+      {/* Content */}
+      <section className=" lg:mx-[68px] 2xl:mx-[101px] py-12">
+        <Suspense fallback={<LoadingSkeletons />}>
+          <TvContent />
+        </Suspense>
+      </section>
+    </section>
   );
 }

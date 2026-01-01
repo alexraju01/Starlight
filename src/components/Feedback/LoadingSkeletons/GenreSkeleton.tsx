@@ -1,20 +1,24 @@
-export default function GenreSkeleton() {
-  const placeholderCards = Array.from({ length: 35 }).map((_, index) => (
-    <div key={index} className="h-48 w-full rounded-lg animate-pulse bg-slate-700" />
-  ));
-
+export default function GenreSkeleton({ count = 27 }: { count?: number }) {
   return (
-    <div className="flex flex-col justify-center items-center mt-20 w-full h-full">
-      <div
-        className="grid gap-6 p-6 w-full
-        [grid-template-columns:repeat(auto-fill,minmax(9rem,1fr))]
-        sm:[grid-template-columns:repeat(auto-fill,minmax(10rem,1fr))]
-        md:[grid-template-columns:repeat(auto-fill,minmax(11rem,1fr))]
-        [@media(min-width:1200px)]:[grid-template-columns:repeat(auto-fill,minmax(12rem,1fr))]
-        [@media(min-width:1200px)]:p-16"
-      >
-        {placeholderCards}
-      </div>
+    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+      {Array.from({ length: count }).map((_, i) => (
+        <div
+          key={i}
+          className="relative flex h-40 flex-col items-center justify-center gap-3 overflow-hidden rounded-xl border border-white/5 bg-[#111] p-6 text-center"
+        >
+          {/* Icon placeholder */}
+          <div className="relative z-10 h-12 w-12 rounded-full bg-slate-700 animate-pulse" />
+
+          {/* Title placeholder */}
+          <div className="relative z-10 space-y-2">
+            <div className="h-4 w-24 rounded bg-slate-700 animate-pulse" />
+            <div className="h-2 w-16 rounded bg-slate-600 animate-pulse" />
+          </div>
+
+          {/* Bottom hover bar placeholder */}
+          <div className="absolute bottom-0 left-0 h-[2px] w-full bg-slate-700/50 animate-pulse" />
+        </div>
+      ))}
     </div>
   );
 }

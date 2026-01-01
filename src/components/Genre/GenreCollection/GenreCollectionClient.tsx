@@ -17,32 +17,29 @@ interface Props {
 export default function GenreCollectionClient({ genreMovies }: Props) {
   const sliderRef = useRef<HTMLDivElement>(null);
   const [sliderIndex, setSliderIndex] = useState(0);
-  const [itemsPerScreen, setItemsPerScreen] = useState(4);
-
-  // Adjust itemsPerScreen based on screen width
-  const updateItemsPerScreen = () => {
-    const width = window.innerWidth;
-    let newItemsPerScreen = 4;
-
-    if (width <= 500) newItemsPerScreen = 2;
-    else if (width <= 768) newItemsPerScreen = 3;
-    else if (width <= 1000) newItemsPerScreen = 4;
-    else newItemsPerScreen = 5;
-
-    setItemsPerScreen((prev) => {
-      if (prev !== newItemsPerScreen) {
-        const maxIndex = Math.max(0, totalItems - newItemsPerScreen);
-        setSliderIndex((prevIndex) => Math.min(prevIndex, maxIndex));
-      }
-      return newItemsPerScreen;
-    });
-  };
+  const [itemsPerScreen, setItemsPerScreen] = useState<number | null>(null);
 
   useEffect(() => {
+    const updateItemsPerScreen = () => {
+      const width = window.innerWidth;
+      let newItemsPerScreen = 4;
+
+      if (width <= 500) newItemsPerScreen = 2;
+      else if (width <= 768) newItemsPerScreen = 3;
+      else if (width <= 1000) newItemsPerScreen = 4;
+      else newItemsPerScreen = 5;
+
+      setItemsPerScreen(newItemsPerScreen);
+    };
+
+    // calculate initially
     updateItemsPerScreen();
+
     window.addEventListener('resize', updateItemsPerScreen);
     return () => window.removeEventListener('resize', updateItemsPerScreen);
-  });
+  }, []);
+
+  if (!itemsPerScreen) return null; // prevents layout shift
 
   const totalItems = genreMovies?.length;
   const maxIndex = Math.max(0, totalItems - itemsPerScreen);
@@ -98,7 +95,7 @@ export default function GenreCollectionClient({ genreMovies }: Props) {
               }}
             >
               <div className="relative grid grid-cols-2 gap-[7px]">
-                <div className="absolute bottom-0 left-0 w-full h-full rounded-[9px] bg-amber-500 z-[1000000] genre-gradient"></div>
+                <div className="absolute bottom-0 left-0 w-full h-full rounded-[9px]  z-[1000000] genre-gradient"></div>
 
                 {genre?.movies?.map((movie) => (
                   <div key={movie.id} className="relative w-full aspect-[0.8] z-10">

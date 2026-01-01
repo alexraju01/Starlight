@@ -12,9 +12,8 @@ export { default as Footer } from './Layout/Footer/Footer';
 // Media components
 export { default as Carousel } from './Media/Carousel/Carousel';
 export { default as CustomSlider } from './Media/CustomSlider/CustomSlider';
-export { default as MovieGrid } from './Media/MovieGrid/MovieGrid';
+export { default as MovieGrid } from './Media/MovieGrid';
 export { default as MediaOverview } from './Media/MediaOverview/MediaOverview';
-export { default as UpcomingMedia } from './Media/UpcomingMedia/UpcomingMedia';
 
 // Cards
 export * from './Cards';
@@ -24,9 +23,6 @@ export { default as GenreCollection } from './Genre/GenreCollection/GenreCollect
 
 // Forms
 export { SearchForm } from './Forms/SearchForm';
-
-// Feedback
-export { default as LoadingSkeleton } from './Feedback/LoadingSkeletons/LoadingSkeletons';
 
 // Navigation
 export { default as GoBack } from './Navigation/GoBack';

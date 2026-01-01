@@ -5,7 +5,7 @@ import { MediaCard } from '@/components/Cards';
 import GoBack from '@/components/Navigation/GoBack';
 import { Button, RatingIcon } from '@/components/ui';
 import { ROUTES } from '@/constants/route';
-import { CastMember, Genre, Media, MediaMode } from '@/types';
+import { CastMember, Genre, MediaMode } from '@/types';
 import { MediaWithDetails } from '@/types/global';
 import { dateConverter, displayRuntime, fetchData, Icons, isMovie, isTVShow } from '@/utils';
 
@@ -37,7 +37,6 @@ async function fetchMediaData(params: string, mediaMode: MediaMode.TV | MediaMod
 export default async function MediaOverview({ params, mediaMode }: Props) {
   const { mediaDetails, credits } = await fetchMediaData(params, mediaMode);
   if (!mediaDetails) return <div>Error loading media details.</div>;
-  console.log(mediaDetails);
   // Destructure shared properties
   const { backdrop_path, poster_path, overview, vote_average, genres } = mediaDetails;
 

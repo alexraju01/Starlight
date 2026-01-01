@@ -11,15 +11,8 @@ import { ROUTES } from '@/constants/route';
 import { APIResponse, Media } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
 
-import fetchData from '../../../utils/fetchData';
-import MediaCard from '../../Cards/MediaCard';
-// import {
-// 	Carousel,
-// 	CarouselContent,
-// 	CarouselItem,
-// 	CarouselNext,
-// 	CarouselPrevious,
-// } from "../carousel";
+import fetchData from '../../utils/fetchData';
+import MediaCard from '../Cards/MediaCard';
 
 interface Props {
   mediaMode: MediaMode;

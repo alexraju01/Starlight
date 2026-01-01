@@ -3,7 +3,6 @@ import clsx from 'clsx';
 interface Props {
   onPrev: () => void;
   onNext: () => void;
-  isMobile: boolean;
 }
 
 export default function CarouselControls({ onPrev, onNext }: Props) {
@@ -15,12 +14,12 @@ export default function CarouselControls({ onPrev, onNext }: Props) {
         'top-5 right-5',
 
         // Override on medium and larger screens
-        ' bottom-0 pb-[200px] md:bottom-[49px] md:pb-0 sm:right-[25px] sm:top-auto sm:w-auto sm:flex-row sm:px-12',
+        'bottom-[137px] md:bottom-[49px] md:pb-0 sm:right-[25px] sm:top-auto sm:w-auto sm:flex-row sm:px-12',
         'lg:right-[101px]',
       )}
     >
       <button
-        className="border-2 flex justify-center items-center size-[33px] sm:size-[56px] hover:cursor-pointer border-solid rounded-lg border-white p-3"
+        className="border-2 flex justify-center items-center size-[33px] sm:size-[59px] hover:cursor-pointer border-solid rounded-lg border-white p-1"
         onClick={onPrev}
       >
         <svg
@@ -40,7 +39,7 @@ export default function CarouselControls({ onPrev, onNext }: Props) {
         </svg>
       </button>
       <button
-        className="bg-white border-2 p-3 flex justify-center items-center size-[33px] sm:size-[56px] hover:cursor-pointer rounded-lg border-white"
+        className="bg-white border-1 p-3 flex justify-center items-center size-[33px] sm:size-[59px] hover:cursor-pointer rounded-lg border-white"
         onClick={onNext}
       >
         <svg

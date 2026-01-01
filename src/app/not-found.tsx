@@ -4,8 +4,7 @@ import Fuse from 'fuse.js';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-import { validRoutes } from '@/utils/routes';
-import { stripLeadingSlash } from '@/utils/stripLeadingSlash';
+import { stripLeadingSlash, validRoutes } from '@/utils';
 
 export default function NotFound() {
   const pathname = usePathname();
@@ -21,8 +20,6 @@ export default function NotFound() {
 
   return (
     <div className="min-h-screen w-full bg-[#100F10] text-white flex items-center justify-center px-6">
-      {/* Ghost 404 in background */}
-
       {/* Card */}
       <div className="  relative z-10 w-auto  rounded-2xl bg-card-bg border border-white/10 shadow-2xl px-16 py-14 text-center space-y-6  ">
         <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight drop-shadow">
