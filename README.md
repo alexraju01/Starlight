@@ -1,6 +1,6 @@
 # Starlight 
 
-Starlight is a modern, elegant movie and TV series discovery app built using the latest **Next.js 15 App Router**.
+Starlight is a modern, elegant movie and TV series discovery app built using the latest **Next.js App Router**.
 It offers a clean, responsive interface that allows users to browse, search, and explore detailed information about their favorite films and shows — all powered by a robust movie API.
 
 The app is designed with performance and user experience in mind, making it fast, intuitive, and mobile-friendly.
