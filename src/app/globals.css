@@ -90,6 +90,25 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+
+  .card-scale {
+    height: 100%;
+    transition: transform 300ms cubic-bezier(0.2, 0, 0, 1);
+    transform-origin: center center;
+  }
+
+  .group:hover .card-scale {
+    transform: scale(1.05);
+  }
+
+  .media-frame {
+    aspect-ratio: 0.7;
+    transition: aspect-ratio 500ms ease;
+  }
+
+  .group:hover .media-frame {
+    aspect-ratio: 16 / 9;
+  }
 }
 @theme {
   --font-Helvetica: 'Helvetica', 'sans-serif';

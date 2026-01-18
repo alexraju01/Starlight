@@ -75,22 +75,23 @@ const MediaCard2 = ({ item, genreMap, mediaMode, style, isFirst, isLast }: Props
   };
 
   const cardClasses = clsx(
-    'relative w-full px-[12px] pt-[12px] rounded-[10.92px] bg-card-bg border border-solid border-card-stroke transition-transform duration-300 transform-gpu',
-    'group-hover:w-[70vw] sm:group-hover:w-[60vw] md:group-hover:w-[47vw] lg:group-hover:w-[40vw] xl:group-hover:w-[35vw] 2xl:group-hover:w-[30vw] 2xl:group-hover:max-w-[26vw]  group-hover:z-3 group-hover:top-1/2 group-hover:-translate-y-1/2 group-hover:px-0 group-hover:pt-0',
+    'relative w-full px-[12px] pt-[12px] rounded-[10.92px] bg-card-bg border border-solid border-card-stroke transition-[width,top,left,right,z-index] duration-300',
+    'group-hover:z-50',
+    'group-hover:w-[70vw] sm:group-hover:w-[60vw] md:group-hover:w-[47vw] lg:group-hover:w-[37vw] xl:group-hover:w-[35vw] 2xl:group-hover:w-[30vw] 2xl:group-hover:max-w-[26vw] group-hover:top-1/2 group-hover:-translate-y-1/2 group-hover:px-0 group-hover:pt-0',
     {
-      'absolute transform  group-hover:right-[calc(70vw-103%)] sm:group-hover:right-[calc(70vw-140%)] md:group-hover:right-[calc(70vw-210%)] lg:group-hover:right-[calc(70vw-250%)] xl:group-hover:right-[calc(70vw-310%)] 2xl:group-hover:right-[calc(70vw-425%)] 3xl:group-hover:right-[calc(70vw-420%)]':
-        // "group-hover:-translate-x-[calc(70vw-64%)] sm:group-hover:-translate-x-[calc(70vw-68%)] md:group-hover:-translate-x-[calc(63vw-72%)] lg:group-hover:-translate-x-[calc(57vw-94%)] xl:group-hover:-translate-x-[calc(50vw-90%)] 2xl:group-hover:-translate-x-[calc(50vw-146%)] ":
-        isLast, // Shift left on hover
+      'absolute transform group-hover:right-[calc(70vw-103%)] sm:group-hover:right-[calc(70vw-140%)] md:group-hover:right-[calc(70vw-210%)] lg:group-hover:right-[calc(70vw-250%)] xl:group-hover:right-[calc(70vw-310%)] 2xl:group-hover:right-[calc(70vw-425%)]':
+        isLast,
     },
   );
 
   const figureClasses = clsx(
-    'relative aspect-[0.7] w-full overflow-hidden',
-    'group-hover:aspect-video',
+    'relative overflow-hidden w-full',
+    'h-[clamp(250px,60vw,370px)] sm:h-[clamp(250px,40vw,300px)] md:h-[clamp(200px,30vw,300px)] lg:h-[clamp(280px,27vw,340px)] group-hover:h-[240px] sm:group-hover:h-[260px]',
+    'transition-[height] duration-300',
   );
 
   const posterClass = clsx({
-    'rounded-[10.92px]': !hovered || (hovered && videoKey),
+    'rounded-[10.92px] ': !hovered || (hovered && videoKey),
     'rounded-t-[10.92px] rounded-b-0': hovered && !videoKey,
   });
   const posterSrc =
@@ -99,8 +100,8 @@ const MediaCard2 = ({ item, genreMap, mediaMode, style, isFirst, isLast }: Props
   return (
     <Link
       href={ROUTES.MEDIA(mediaMode, item.id, title)}
-      style={{ ...style, flex: '0 0 auto' }}
-      className="group"
+      className="group relative w-full flex-shrink-0"
+      style={{ ...style, display: 'block' }}
       onPointerEnter={handlePointerEnter}
       onPointerLeave={handlePointerLeave}
     >
@@ -108,7 +109,7 @@ const MediaCard2 = ({ item, genreMap, mediaMode, style, isFirst, isLast }: Props
         <figure className={figureClasses}>
           {hovered && videoKey ? (
             <iframe
-              className="w-full h-full group-hover:rounded-t-[10.92px] group-hover:rounded-b-0 "
+              className="w-full h-full group-hover:rounded-t-[10.92px] group-hover:rounded-b-0"
               src={`https://www.youtube.com/embed/${videoKey}?autoplay=1&mute=0&controls=0&modestbranding=1&rel=0&showinfo=0&loop=1&playlist=${videoKey}`}
               title={`${title} Trailer`}
               loading="lazy"
@@ -130,7 +131,7 @@ const MediaCard2 = ({ item, genreMap, mediaMode, style, isFirst, isLast }: Props
           )}
         </figure>
 
-        <div className="flex  flex-col  gap-3 py-5 truncate md:px-[10px]">
+        <div className="flex flex-col px-6 sm:px-0 gap-3 py-5 truncate md:px-[10px]">
           <div className="flex justify-between">
             <h3 className="text-2xl text-white font-medium truncate">{title}</h3>
             {hasValidRating && <RatingBadge rating={item.vote_average} />}

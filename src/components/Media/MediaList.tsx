@@ -5,7 +5,7 @@ import { useState } from 'react';
 import MediaCard2 from '@/components/Cards/MediaCard2';
 import { LoadingSkeletons } from '@/components/Feedback/LoadingSkeletons/LoadingSkeletons';
 import Button from '@/components/ui/Button/Button';
-import { DISCOVER_BREAKPOINTS } from '@/constants/breakpoints';
+import { CAROUSEL_BREAKPOINTS, DISCOVER_BREAKPOINTS } from '@/constants/breakpoints';
 import { useGenres } from '@/hooks/useGenre';
 import { useResponsiveItems } from '@/hooks/useResponsiveItems';
 import { Movie, TVShow } from '@/types/global';
@@ -24,7 +24,7 @@ export default function MediaList({ initialMedia, mediaMode }: Props) {
   const [loading, setLoading] = useState(false);
 
   const genres = useGenres(mediaMode);
-  const itemsPerRow = useResponsiveItems(DISCOVER_BREAKPOINTS);
+  const itemsPerRow = useResponsiveItems(CAROUSEL_BREAKPOINTS);
 
   if (itemsPerRow === null) return <LoadingSkeletons />;
 
@@ -48,11 +48,14 @@ export default function MediaList({ initialMedia, mediaMode }: Props) {
     <div className="animate-fadeIn">
       <div
         className="grid gap-8 w-full px-6 mb-8 transition-all relative overflow-hidden
-				grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-6"
+				grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6"
       >
         {media.map((item, index) => {
           if (itemsPerRow === null) return null;
           const isLastInRow = (index + 1) % itemsPerRow === 0 ? true : false;
+          console.log(item);
+          console.log('itemsperrow:', itemsPerRow, 'index:', index);
+          console.log('islastrow:', isLastInRow);
 
           if (!item.poster_path) return null;
 
