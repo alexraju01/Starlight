@@ -7,11 +7,12 @@ import CustomSliderClient from './CustomSliderClient';
 
 interface Props {
   endpoint: string;
-  title: string;
+  title: string | React.ReactNode;
   mediaMode: MediaMode;
+  breakpoints?: { max: number; value: number }[];
 }
 
-const CustomSlider = async ({ endpoint, title, mediaMode }: Props) => {
+const CustomSlider = async ({ endpoint, title, mediaMode, breakpoints }: Props) => {
   try {
     const { results } = await fetchData<{ results: Movie[] }>('3', endpoint);
 
@@ -38,6 +39,7 @@ const CustomSlider = async ({ endpoint, title, mediaMode }: Props) => {
     return (
       <CustomSliderClient
         media={mediaWithDetails}
+        breakpoints={breakpoints}
         title={title}
         mediaMode={mediaMode}
         genres={genreMap}

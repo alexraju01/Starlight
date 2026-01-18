@@ -30,9 +30,11 @@ export default function ImageWithFallback({
       src={src}
       alt={alt}
       fill
+      style={{
+        objectFit: 'cover',
+        objectPosition: 'center 20%',
+      }}
       quality={100}
-      objectFit="cover"
-      objectPosition="center 20%"
       onError={() => setImgError(true)}
     />
   );

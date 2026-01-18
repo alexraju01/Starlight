@@ -10,7 +10,7 @@ const nextConfig: NextConfig = {
   turbopack: { root: path.join(__dirname, '..') },
 
   images: {
-    qualities: [60, 75, 90],
+    qualities: [60, 75, 90, 100],
     imageSizes: [185, 342],
     unoptimized: true,
 

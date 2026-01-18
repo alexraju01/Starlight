@@ -11,8 +11,7 @@ interface Props {
 export default async function page({ params }: Props) {
   const { slug } = await params;
   return (
-    <section className="w-full h-full">
-      jshgdjhksdgkjh
+    <section className="w-full h-full ">
       <Suspense fallback={<Spinner />}>
         <MediaOverview params={slug} mediaMode={MediaMode.MOVIE} />
       </Suspense>
