@@ -77,8 +77,11 @@ export default function CustomSliderClient({
         </nav>
       </header>
 
-      <div className="relative w-full overflow-hidden">
-        <div className="flex transition-transform duration-300 ease-in-out" style={transformStyle}>
+      <div className="relative w-full overflow-hidden  ">
+        <div
+          className="flex transition-transform duration-300 ease-in-out ml-3 w-full"
+          style={transformStyle}
+        >
           {media.map((item, i) => {
             const isFirst = i === sliderIndex;
             const isLastVisible = i === sliderIndex + itemsPerScreen - 1;
