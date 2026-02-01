@@ -1,11 +1,12 @@
 import { Genre, MediaMode, MoviesWithLogos } from '@/types';
 import { fetchData, mapGenres } from '@/utils';
+import { api } from '@/utils/api';
 import { getImageUrl } from '@/utils/image/getImageUrl';
 
 import CarouselClient from './CarouselClient';
+type TrendingMediaResponse = { results: MoviesWithLogos[] };
 
 type GenreResponse = { genres: Genre[] };
-type TrendingMediaResponse = { results: MoviesWithLogos[] };
 type ImageResponse = {
   logos: { file_path: string; iso_639_1: string }[];
 };
@@ -30,13 +31,14 @@ const getLogoImageUrl = async (
 };
 
 const loadCarouselData = async (mediaMode: MediaMode) => {
-  const [{ genres }, { results }] = await Promise.all([
+  const [{ genres }, trendingMedia] = await Promise.all([
     fetchData<GenreResponse>('3', `genre/${mediaMode}/list`),
-    fetchData<TrendingMediaResponse>('3', `trending/${mediaMode}/week`),
+    api.getTrending(mediaMode),
+    // fetchData<TrendingMediaResponse>('3', `trending/${mediaMode}/week`),
   ]);
 
   const movies = await Promise.all(
-    results.slice(0, 9).map(async (item) => {
+    trendingMedia.slice(0, 9).map(async (item) => {
       const logoImage = await getLogoImageUrl(mediaMode, item.id);
       return logoImage ? { ...item, logoImage } : item;
     }),

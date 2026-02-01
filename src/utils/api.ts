@@ -19,4 +19,16 @@ export const api = {
   getGenreNames: (movie: MoviesWithLogos, genres: Record<number, string>): string => {
     return movie.genre_ids?.map((id) => genres[id] || 'Unknown').join(' • ') ?? '';
   },
+
+  getTrending: async (mediaMode: MediaMode, page = 1) => {
+    const { results } = await fetchData<APIResponse<MoviesWithLogos>>(
+      '3',
+      `trending/${mediaMode}/week`,
+      {
+        page,
+        cache: { type: 'no-store' },
+      },
+    );
+    return results;
+  },
 };

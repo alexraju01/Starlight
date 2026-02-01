@@ -15,7 +15,6 @@ interface Props {
 const SimilarMedia = async ({ mediaMode, params }: Props) => {
   const similarMedia = await fetchData<APIResponse>('3', `${mediaMode}/${params}/similar`);
   const textChanger = mediaMode === 'tv' ? 'TV Shows' : 'Movies';
-
   return (
     <>
       {similarMedia.results && similarMedia.results.length > 0 && (
@@ -23,7 +22,7 @@ const SimilarMedia = async ({ mediaMode, params }: Props) => {
           <CustomSlider
             endpoint={`${mediaMode}/${params}/similar`}
             title={<SectionHeading icon={Icons.play}>{`Similar ${textChanger}`}</SectionHeading>}
-            mediaMode={MediaMode.MOVIE}
+            mediaMode={mediaMode}
             breakpoints={DISCOVER_BREAKPOINTS}
           />
 

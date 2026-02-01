@@ -53,9 +53,6 @@ export default function MediaList({ initialMedia, mediaMode }: Props) {
         {media.map((item, index) => {
           if (itemsPerRow === null) return null;
           const isLastInRow = (index + 1) % itemsPerRow === 0 ? true : false;
-          console.log(item);
-          console.log('itemsperrow:', itemsPerRow, 'index:', index);
-          console.log('islastrow:', isLastInRow);
 
           if (!item.poster_path) return null;
 

@@ -2,6 +2,18 @@ type FetchDataOptions = {
   page?: number;
   disablePage?: boolean;
   signal?: AbortSignal;
+  cache?: CachePolicy;
+};
+type CachePolicy = { type: 'no-store' } | { type: 'revalidate'; seconds: number };
+const DEFAULT_CACHE: CachePolicy = { type: 'no-store' };
+
+const resolveCacheOptions = (cache?: CachePolicy): RequestInit => {
+  if (!cache || cache.type === 'no-store') {
+    return { cache: 'no-store' };
+  }
+  return {
+    next: { revalidate: cache.seconds },
+  };
 };
 
 const TMDB_BASE_URL = 'https://api.themoviedb.org';
@@ -16,7 +28,7 @@ export default async function fetchData<T>(
   endpoint: string,
   options: FetchDataOptions = {},
 ): Promise<T> {
-  const { page = 1, disablePage = false, signal } = options;
+  const { page = 1, disablePage = false, signal, cache = DEFAULT_CACHE } = options;
 
   const url = new URL(`/${version}/${endpoint}`, TMDB_BASE_URL);
 
@@ -31,6 +43,7 @@ export default async function fetchData<T>(
       Authorization: `Bearer ${TMDB_API_KEY}`,
     },
     signal,
+    ...resolveCacheOptions(cache),
   });
 
   if (!res.ok) {
