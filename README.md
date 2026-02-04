@@ -46,10 +46,17 @@ TV Show Detail Page - Desktop View
 ![starlight-TvShowDeatil-part2](https://github.com/user-attachments/assets/4f404052-2f45-4de0-9555-84640dcbb91a)
 
 Genre List Page - Desktop View
-![starlight-genreList](https://github.com/user-attachments/assets/1e297b80-199c-4f81-b0c8-9b981d374afe)
+| Old Design v1                                                                                                    | New Design v2                                                                                                                       |
+| ---------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| ![starlight-genreList](https://github.com/user-attachments/assets/1e297b80-199c-4f81-b0c8-9b981d374afe) | <img width="1919" height="987" alt="image" src="https://github.com/user-attachments/assets/060c92c5-708c-4386-9107-607645bb2a82" /> |
+
+
+
 
 Genre specified(Animation) Media List - Desktop View
 ![Screenshot 2025-04-01 165924](https://github.com/user-attachments/assets/a98e50f6-57e6-4699-a526-f6a7058f8125)
+
+
 
 Discover Search Page - Desktop View
 ![Screenshot 2025-04-01 170705](https://github.com/user-attachments/assets/547ecc9d-8eb0-4f11-b44a-99314c6e0dfb)
