@@ -35,7 +35,7 @@ const MediaCard2 = ({ item, genreMap, mediaMode, style, isFirst, isLast }: Props
   const title = item.name || item.title;
   const genreText = useMemo(() => formatGenres(item, genreMap), [item, genreMap]);
 
-  const dateStr = useMemo(() => formatDate(item), [item]);
+  //   const dateStr = useMemo(() => formatDate(item), [item]);
   const mediaDate = useMemo(() => getMediaDate(item), [item]);
 
   const hasValidRating = typeof item.vote_average === 'number' && item.vote_average > 0;
@@ -57,7 +57,8 @@ const MediaCard2 = ({ item, genreMap, mediaMode, style, isFirst, isLast }: Props
 
       if (!videoKeyRef.current) {
         // Call the server action
-        const key = await getVideoKey(isMovie(item) ? 'movie' : 'tv', item.id);
+        const key = await getVideoKey(mediaMode as 'movie' | 'tv', item.id);
+
         if (key) {
           videoKeyRef.current = key;
           setVideoKey(key);
@@ -73,6 +74,7 @@ const MediaCard2 = ({ item, genreMap, mediaMode, style, isFirst, isLast }: Props
     }
     setHovered(false);
   };
+  const dateStr = formatDate(item, mediaMode);
 
   const cardClasses = clsx(
     'relative w-full px-[12px] pt-[12px] rounded-[10.92px] bg-card-bg border border-solid border-card-stroke transition-[width,top,left,right,z-index] duration-300',

@@ -83,7 +83,8 @@
     );
   }
 
-  .line-clamp-2-custom {
+  .line-clamp-3-custom {
+    display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
     overflow: hidden;

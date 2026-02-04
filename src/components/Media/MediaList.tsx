@@ -5,7 +5,7 @@ import { useState } from 'react';
 import MediaCard2 from '@/components/Cards/MediaCard2';
 import { LoadingSkeletons } from '@/components/Feedback/LoadingSkeletons/LoadingSkeletons';
 import Button from '@/components/ui/Button/Button';
-import { CAROUSEL_BREAKPOINTS, DISCOVER_BREAKPOINTS } from '@/constants/breakpoints';
+import { CAROUSEL_BREAKPOINTS } from '@/constants/breakpoints';
 import { useGenres } from '@/hooks/useGenre';
 import { useResponsiveItems } from '@/hooks/useResponsiveItems';
 import { Movie, TVShow } from '@/types/global';
