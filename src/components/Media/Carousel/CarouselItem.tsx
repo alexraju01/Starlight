@@ -22,7 +22,7 @@ export default function CarouselItem({ movie, genres, isActive }: Props) {
   );
 
   return (
-    <li className=" flex-shrink-0 flex w-full h-full sm:h-[80%] md:h-full items-center justify-evenly flex-row relative">
+    <li className=" flex-shrink-0   flex w-full h-full sm:h-[100%] md:h-full items-center justify-evenly flex-row relative">
       <Image
         src={backdropSrc}
         fill

@@ -16,6 +16,19 @@ export const api = {
   getGenres: async (mediaMode: string) => {
     return await fetchData<GenreResponse>('3', `genre/${mediaMode}/list`);
   },
+
+  getAllGenres: async () => {
+    const [{ genres: movieGenres }, { genres: tvGenres }] = await Promise.all([
+      api.getGenres('movie'),
+      api.getGenres('tv'),
+    ]);
+
+    return {
+      movieGenres,
+      tvGenres,
+    };
+  },
+
   getGenreNames: (movie: MoviesWithLogos, genres: Record<number, string>): string => {
     return movie.genre_ids?.map((id) => genres[id] || 'Unknown').join(' • ') ?? '';
   },

@@ -2,15 +2,11 @@ import { Suspense } from 'react';
 
 import GenreSkeleton from '@/components/Feedback/LoadingSkeletons/GenreSkeleton';
 import GenreCard from '@/components/Genre/GenreCollection/GenreCard';
-import { Genre } from '@/types/genre';
-import fetchData from '@/utils/fetchData';
+import { api } from '@/utils/api';
 import Icons, { GenreKey } from '@/utils/icons';
 
 async function GenreGrid() {
-  const [{ genres: movieGenres }, { genres: tvGenres }] = await Promise.all([
-    fetchData<{ genres: Genre[] }>('3', 'genre/movie/list'),
-    fetchData<{ genres: Genre[] }>('3', 'genre/tv/list'),
-  ]);
+  const { movieGenres, tvGenres } = await api.getAllGenres();
 
   const uniqueGenres = Array.from(
     new Map([...movieGenres, ...tvGenres].map((g) => [g.id, g])).values(),
