@@ -4,8 +4,9 @@ const layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <NavBar />
-      <main className="overflow-auto w-full h-full lg:mt-[70px] xl:mt-[87px]">{children}</main>
-      {/* {children} */}
+      <main className="overflow-auto w-full h-full mt-20 lg:mt-[70px] xl:mt-[87px]">
+        {children}
+      </main>
     </>
   );
 };

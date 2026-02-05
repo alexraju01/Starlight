@@ -3,6 +3,7 @@ type FetchDataOptions = {
   disablePage?: boolean;
   signal?: AbortSignal;
   cache?: CachePolicy;
+  query?: Record<string, string | number | boolean>;
 };
 type CachePolicy = { type: 'no-store' } | { type: 'revalidate'; seconds: number };
 const DEFAULT_CACHE: CachePolicy = { type: 'no-store' };
@@ -28,12 +29,20 @@ export default async function fetchData<T>(
   endpoint: string,
   options: FetchDataOptions = {},
 ): Promise<T> {
-  const { page = 1, disablePage = false, signal, cache = DEFAULT_CACHE } = options;
+  const { page = 1, disablePage = false, signal, cache = DEFAULT_CACHE, query } = options;
 
   const url = new URL(`/${version}/${endpoint}`, TMDB_BASE_URL);
 
   if (!disablePage) {
     url.searchParams.set('page', String(page));
+  }
+
+  if (query) {
+    Object.entries(query).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        url.searchParams.set(key, String(value));
+      }
+    });
   }
 
   const res = await fetch(url.toString(), {
@@ -50,6 +59,7 @@ export default async function fetchData<T>(
     const errorBody = await safeParseJson(res);
     throw new FetchError(res.status, res.statusText, errorBody);
   }
+  //   console.log(`[${new Date().toISOString()}] Fetching TMDb: ${url.toString()}`);
 
   return res.json() as Promise<T>;
 }
