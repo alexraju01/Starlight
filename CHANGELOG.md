@@ -1,3 +1,20 @@
+## [2.3.3](https://github.com/alexraju01/Starlight/compare/v2.3.2...v2.3.3) (2026-02-06)
+
+### 🐛 Bug Fixes
+
+* Added .gitattributes to fix prettier issues in CI ([4b1cbba](https://github.com/alexraju01/Starlight/commit/4b1cbba16b24ec8894e5b5863d30cdd7dde3f0e1))
+* Corrected grammar for genres in navigation and removed unneccessary test files and cached the customSlider ([90555ff](https://github.com/alexraju01/Starlight/commit/90555ffd2c82e4cf4c2b0b1e9ae8c4923eeb4510))
+* Fixed lint and prettier issue for git merge ([4d6a4f5](https://github.com/alexraju01/Starlight/commit/4d6a4f5faac7eabd75195c64f933d946fdfc662b))
+* Fixed similar tv shows not showing the correct clicked page. ([4dc0519](https://github.com/alexraju01/Starlight/commit/4dc0519da90b686194aa235483b2a3c8de72e58a))
+* Fixed the card flicker ([e940856](https://github.com/alexraju01/Starlight/commit/e940856a9897becb0125ddf3cb5644a47a9703d0))
+* Fixed where overview is still shown in smaller screens when it shouldn't be. ([80afb04](https://github.com/alexraju01/Starlight/commit/80afb047178510400e8dc8cf43e7d813cf6e907b))
+* Updated baseline-browser-mapping to latest ([03a6836](https://github.com/alexraju01/Starlight/commit/03a6836ea03eb96a97b6317d7afac94f4144912b))
+
+### 🛠 Refactors
+
+* Improve getMedia to handle withGenres and handle handle caching on other fetch endpoint ([986b80e](https://github.com/alexraju01/Starlight/commit/986b80e53051611a84a6c38b43b8205a6961b758))
+* Replaced the old mediaCard with MediaCard2 for the similiarMedia component ([a756fe2](https://github.com/alexraju01/Starlight/commit/a756fe2d5cadfa854eb3a855493a85527cabda09))
+
 ## [2.3.2](https://github.com/alexraju01/Starlight/compare/v2.3.1...v2.3.2) (2026-01-01)
 
 ### 🐛 Bug Fixes
