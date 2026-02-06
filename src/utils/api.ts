@@ -1,5 +1,3 @@
-import { time } from 'console';
-
 import { GenreResponse, MediaMode, MoviesWithLogos } from '@/types';
 import { APIResponse } from '@/types/global';
 

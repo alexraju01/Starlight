@@ -3,11 +3,11 @@ import Link from 'next/link';
 
 import { MediaCard } from '@/components/Cards';
 import GoBack from '@/components/Navigation/GoBack';
-import { Button, RatingIcon } from '@/components/ui';
+import { RatingIcon } from '@/components/ui';
 import { ROUTES } from '@/constants/route';
 import { CastMember, Genre, MediaMode } from '@/types';
 import { MediaWithDetails } from '@/types/global';
-import { dateConverter, displayRuntime, fetchData, Icons, isMovie, isTVShow } from '@/utils';
+import { dateConverter, displayRuntime, fetchData, isMovie, isTVShow } from '@/utils';
 
 import { SeasonEpisodeInfo, Seasons, SimilarMedia } from '.';
 import CastContainer from '../CastContainer/CastContainer';

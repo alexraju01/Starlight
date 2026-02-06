@@ -1,4 +1,4 @@
-import { Carousel, CustomSlider, Footer, GenreCollection } from '@/components';
+import { Carousel, CustomSlider, GenreCollection } from '@/components';
 import BlurBackground from '@/components/Blurs/BackgroundBlur';
 import { MediaMode } from '@/types/mediaMode';
 
