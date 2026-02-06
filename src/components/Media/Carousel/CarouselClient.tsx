@@ -19,7 +19,7 @@ export default function CarouselClient({ movies, genres }: Props) {
   const handleNext = () => setCurrentIndex((prev) => (prev === movies.length - 1 ? 0 : prev + 1));
 
   return (
-    <div className="relative overflow-hidden flex justify-center items-center  sm:h-[700px] sm:rounded-none sm:m-0 h-[500px] md:h-screen rounded-[32px] m-[24px]">
+    <div className="relative overflow-hidden flex justify-center items-center  sm:h-[700px] sm:rounded-none sm:m-0 h-[500px] md:md:h-[calc(100vh-87px)] rounded-[32px] m-[24px]">
       <ul
         className=" flex w-full h-full transition-transform duration-500 ease-in-out"
         style={{ transform: `translateX(-${currentIndex * 100}%)` }}

@@ -25,17 +25,11 @@ const MediaCard = ({ media, className }: Props) => {
 
   return (
     <div
-      className={`
-					relative w-full h-full overflow-hidden 
-					transition-all duration-300 ease-in-out 
-					filter brightness-[80%] hover:brightness-[105%] 
-					hover:scale-110 ${className}
-				`}
+      className={`relative w-full h-full overflow-hidden transition-all duration-300 ease-in-out filter brightness-[80%] hover:brightness-[105%] hover:scale-110 ${className}`}
     >
       {!isLoaded && (
         <div className="absolute top-0 left-0 w-full h-full bg-slate-700 animate-[pulse_1.5s_ease-in-out_infinite] rounded-md z-[1]" />
       )}
-      {/* <div className="relative w-full h-[400px]"> */}
 
       <Image
         className={` w-full h-auto
@@ -50,13 +44,10 @@ const MediaCard = ({ media, className }: Props) => {
         }
         width={70}
         height={105}
-        // fill
-        // layout='responsive'
         alt={displayName ?? 'Image poster'}
         priority
         onLoad={() => setIsLoaded(true)}
       />
-      {/* </div> */}
     </div>
   );
 };

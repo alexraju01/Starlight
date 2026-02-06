@@ -1,43 +1,37 @@
 // app/genre/[slug]/page.tsx
+import { console } from 'inspector';
+
 import Image from 'next/image';
 import { Suspense } from 'react';
 
 import GenreMediaGrid from '@/components/Media/GenreMediaGrid';
-import { Genre } from '@/types/genre';
+import { MediaMode } from '@/types';
 import { Movie, TVShow } from '@/types/global';
-import fetchData from '@/utils/fetchData';
+import { api } from '@/utils/api';
 
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
-interface GenreResponse {
-  genres: Genre[];
-}
-
-interface MediaResponse {
-  page: number;
-  results: (Movie | TVShow)[];
-  total_pages: number;
-  total_results: number;
-}
-
 export default async function Page({ params }: Props) {
   const { slug } = await params;
+  const genreId = Number(slug);
+  if (Number.isNaN(genreId)) throw new Error('Invalid genre slug');
 
-  const [movieGenre, tvGenre, genreRelatedMovies, genreRelatedTv] = await Promise.all([
-    fetchData<GenreResponse>('3', 'genre/movie/list'),
-    fetchData<GenreResponse>('3', 'genre/tv/list'),
-    fetchData<MediaResponse>('3', `discover/movie?with_genres=${slug}`),
-    fetchData<MediaResponse>('3', `discover/tv?with_genres=${slug}`),
+  const [{ movieGenres, tvGenres }, genreRelatedMovies, genreRelatedTv] = await Promise.all([
+    api.getAllGenres(),
+    api.media.getMedia(MediaMode.MOVIE, 1, [genreId]),
+    api.media.getMedia(MediaMode.TV, 1, [genreId]),
   ]);
+  console.log(genreRelatedMovies);
 
   const combineRelatedMedia = [
-    ...(genreRelatedMovies.results.map((media) => ({ ...media, media_type: 'movie' })) as Movie[]),
-    ...(genreRelatedTv.results.map((media) => ({ ...media, media_type: 'tv' })) as TVShow[]),
+    ...(genreRelatedMovies.map((media) => ({ ...media, media_type: 'movie' })) as Movie[]),
+    ...(genreRelatedTv.map((media) => ({ ...media, media_type: 'tv' })) as TVShow[]),
   ];
+  console.log(combineRelatedMedia);
 
-  const combineRelatedGenre = [...movieGenre.genres, ...tvGenre.genres];
+  const combineRelatedGenre = [...movieGenres, ...tvGenres];
   const foundGenre = combineRelatedGenre.find((item) => item.id === parseInt(slug));
   const genreName = foundGenre ? foundGenre.name : 'Unknown Genre';
 

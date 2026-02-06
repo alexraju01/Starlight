@@ -13,7 +13,6 @@ interface Props {
 
 export default function MediaMeta({ movie, genres }: Props) {
   const releaseDate = useMemo(() => dateConverter(movie.release_date), [movie.release_date]);
-
   const mediaType = useMemo(() => capitalize(movie.media_type), [movie.media_type]);
 
   const genreLinks = useMemo(
@@ -26,33 +25,50 @@ export default function MediaMeta({ movie, genres }: Props) {
   );
 
   return (
-    <div className="flex flex-wrap items-center gap-x-4 gap-y-2 md:mb-8 text-white text-[clamp(1.6rem,2vw,2rem)]">
-      <span className="whitespace-nowrap">{releaseDate}</span>
+    <div className="flex flex-wrap items-center text-[clamp(1.3rem,1.2vw,1.8rem)] gap-x-3 gap-y-2 md:mb-6">
+      {/* Date - Clean white with slight tracking */}
+      <span className=" font-bold text-white tracking-tight">{releaseDate}</span>
 
-      <Separator />
+      <DotSeparator />
 
-      <span className="whitespace-nowrap capitalize">{mediaType}</span>
+      {/* Media Type - Using your Brand Red for the border/text accent */}
+      <span
+        className="
+        px-2 py-0.5 
+        rounded-sm 
+        bg-red-600/10 
+        border border-red-600/50 
+        text-red-500 
+        text-[10px] md:text-[11px] 
+        font-black uppercase tracking-widest
+      "
+      >
+        {mediaType}
+      </span>
 
-      <Separator />
+      <DotSeparator />
 
-      <div className="flex flex-wrap gap-x-1 gap-y-1">
+      {/* Genres - Using bullet points for a cleaner look than commas */}
+      <div className="flex flex-wrap items-center gap-x-2">
         {genreLinks.map(({ id, label }, index) => (
-          <Link
-            key={id}
-            href={ROUTES.GENRE(id)}
-            className="hover:text-primary focus-visible:text-primary outline-none transition-colors"
-          >
-            {label}
-            {index < genreLinks.length - 1 && <span>, </span>}
-          </Link>
+          <div key={id} className="flex items-center">
+            <Link
+              href={ROUTES.GENRE(id)}
+              className="text-[clamp(1.1rem,1.1vw,1.5rem)] text-gray-300 transition-colors hover:text-white"
+            >
+              {label}
+            </Link>
+            {index < genreLinks.length - 1 && <DotSeparator className="ml-2" />}
+          </div>
         ))}
       </div>
     </div>
   );
 }
 
-const Separator = () => (
-  <span aria-hidden className="opacity-70">
-    |
-  </span>
+const DotSeparator = ({ className }: { className?: string }) => (
+  <span
+    className={`size-1.5 md:size-2 rounded-full bg-white/30  ${className}`}
+    aria-hidden="true"
+  />
 );

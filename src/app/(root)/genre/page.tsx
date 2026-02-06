@@ -2,15 +2,11 @@ import { Suspense } from 'react';
 
 import GenreSkeleton from '@/components/Feedback/LoadingSkeletons/GenreSkeleton';
 import GenreCard from '@/components/Genre/GenreCollection/GenreCard';
-import { Genre } from '@/types/genre';
-import fetchData from '@/utils/fetchData';
+import { api } from '@/utils/api';
 import Icons, { GenreKey } from '@/utils/icons';
 
 async function GenreGrid() {
-  const [{ genres: movieGenres }, { genres: tvGenres }] = await Promise.all([
-    fetchData<{ genres: Genre[] }>('3', 'genre/movie/list'),
-    fetchData<{ genres: Genre[] }>('3', 'genre/tv/list'),
-  ]);
+  const { movieGenres, tvGenres } = await api.getAllGenres();
 
   const uniqueGenres = Array.from(
     new Map([...movieGenres, ...tvGenres].map((g) => [g.id, g])).values(),
@@ -36,7 +32,7 @@ export default function GenrePage() {
       <div className="relative border-b border-white/5 bg-gradient-to-b from-red-900/10 to-transparent px-6 py-16">
         <div className="mx-auto max-w-[1500px] px-6 md:px-10 mt-20 lg:mt-30">
           <h1 className="text-4xl font-black uppercase tracking-tight md:text-6xl">
-            Browse by <span className="text-primary">Genre</span>
+            Browse by <span className="text-primary">Genres</span>
           </h1>
           <p className="mt-4 max-w-xl text-lg text-slate-400">
             From pulse-pounding action to heart-wrenching dramas, find your next favorite story.

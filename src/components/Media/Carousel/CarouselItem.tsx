@@ -22,7 +22,7 @@ export default function CarouselItem({ movie, genres, isActive }: Props) {
   );
 
   return (
-    <li className=" flex-shrink-0 flex w-full h-full sm:h-[80%] md:h-full items-center justify-evenly flex-row relative">
+    <li className=" flex-shrink-0   flex w-full h-full sm:h-[100%] md:h-full items-center justify-evenly flex-row relative">
       <Image
         src={backdropSrc}
         fill
@@ -50,9 +50,11 @@ export default function CarouselItem({ movie, genres, isActive }: Props) {
         <MediaMeta movie={movie} genres={genres} />
 
         {movie.overview && (
-          <p className="hidden sm:block mb-9 max-w-screen text-[clamp(1.6rem,2vw,2rem)] leading-[175%] text-white line-clamp-2-custom">
-            {movie.overview}
-          </p>
+          <div className="hidden md:block">
+            <p className="mb-9 max-w-screen text-[clamp(1.6rem,2vw,2rem)] leading-[175%] text-white line-clamp-3-custom">
+              {movie.overview}
+            </p>
+          </div>
         )}
 
         <ActionButtons />

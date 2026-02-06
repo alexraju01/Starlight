@@ -102,9 +102,16 @@ export interface Logo {
 
 type MultiMedia = Movie | TVShow;
 
-interface APIResponse {
+interface APIResponse<T = Media> {
   page?: number;
-  results: Media[];
+  results: T[];
   total_pages?: number;
   total_results?: number;
 }
+
+type ListResponse<T> = {
+  page: number;
+  results: T[];
+  total_pages: number;
+  total_results: number;
+};

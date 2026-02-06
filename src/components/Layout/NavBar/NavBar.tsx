@@ -112,12 +112,12 @@ const NavBar = () => {
         {/* Desktop Right Side */}
         <div className="hidden lg:flex items-center gap-5 flex-1 justify-end">
           <SearchBox />
-          <Link
+          {/* <Link
             href={ROUTES.LOGIN}
             className="text-xl px-4 py-2 border border-[#1D1D1D] rounded-xl text-[#BFBFBF] hover:text-white"
           >
             Login
-          </Link>
+          </Link> */}
         </div>
       </nav>
 
@@ -141,12 +141,12 @@ const NavBar = () => {
       >
         <div className="absolute w-full bg-[#100F10] p-6">
           <NavLinks className="flex flex-col gap-4" onLinkClick={() => setIsMobileNavOpen(false)} />
-          <Link
+          {/* <Link
             href={ROUTES.LOGIN}
             className="block mt-4 text-center px-4 py-2 border border-[#1D1D1D] rounded-xl text-[#BFBFBF]"
           >
             Login
-          </Link>
+          </Link> */}
         </div>
       </div>
     </header>

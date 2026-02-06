@@ -13,15 +13,23 @@ import CustomSliderButtons from './CustomSliderButtons';
 
 interface Props {
   media: MediaListItem[];
-  title: string;
+  title: string | React.ReactNode;
   mediaMode: MediaMode;
   genres: Record<number, string>;
+  breakpoints?: { max: number; value: number }[];
 }
 
 const ITEM_GAP = 16;
 
-export default function CustomSliderClient({ media, title, mediaMode, genres }: Props) {
-  const itemsPerScreen = useResponsiveItems(CAROUSEL_BREAKPOINTS);
+export default function CustomSliderClient({
+  media,
+  title,
+  mediaMode,
+  genres,
+  breakpoints = CAROUSEL_BREAKPOINTS,
+}: Props) {
+  const itemsPerScreen = useResponsiveItems(breakpoints);
+
   const [sliderIndex, setSliderIndex] = useState(0);
   const totalItems = media.length;
 
@@ -69,8 +77,11 @@ export default function CustomSliderClient({ media, title, mediaMode, genres }: 
         </nav>
       </header>
 
-      <div className="relative w-full overflow-hidden">
-        <div className="flex transition-transform duration-300 ease-in-out" style={transformStyle}>
+      <div className="relative w-full overflow-hidden  ">
+        <div
+          className="flex transition-transform duration-300 ease-in-out ml-3 w-full"
+          style={transformStyle}
+        >
           {media.map((item, i) => {
             const isFirst = i === sliderIndex;
             const isLastVisible = i === sliderIndex + itemsPerScreen - 1;

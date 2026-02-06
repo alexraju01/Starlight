@@ -3,11 +3,11 @@ import Link from 'next/link';
 
 import { MediaCard } from '@/components/Cards';
 import GoBack from '@/components/Navigation/GoBack';
-import { Button, RatingIcon } from '@/components/ui';
+import { RatingIcon } from '@/components/ui';
 import { ROUTES } from '@/constants/route';
 import { CastMember, Genre, MediaMode } from '@/types';
 import { MediaWithDetails } from '@/types/global';
-import { dateConverter, displayRuntime, fetchData, Icons, isMovie, isTVShow } from '@/utils';
+import { dateConverter, displayRuntime, fetchData, isMovie, isTVShow } from '@/utils';
 
 import { SeasonEpisodeInfo, Seasons, SimilarMedia } from '.';
 import CastContainer from '../CastContainer/CastContainer';
@@ -53,17 +53,17 @@ export default async function MediaOverview({ params, mediaMode }: Props) {
       : '/placeholder.jpg';
 
   return (
-    <div className=" w-full h-full">
+    <div className=" w-full h-full ">
       <Image
         alt={mediaTitle}
         src={mediaSrc}
         fill
-        className="absolute left-0 h-full w-full object-cover z-[-1] brightness-[0.9] animate-fadeIn top-[-10rem] 
+        className="absolute  left-0 h-full w-full object-cover z-[-1] brightness-[0.9] animate-fadeIn top-[-10rem] 
                             xl:h-auto xl:brightness-100 mask-gradient-default"
       />
       <GoBack />
 
-      <div className="pt-[30%] px-12 xl:pt-0 xl:pb-[10rem] xl:pl-12 xl:h-screen xl:w-[50rem] xl:box-border xl:flex xl:flex-col xl:justify-end">
+      <div className="pt-[30%] px-12 xl:pt-0 xl:pb-[10rem] xl:pl-12 xl:h-[calc(100vh-100px)] xl:w-[50rem] xl:box-border xl:flex xl:flex-col xl:justify-end">
         <h1 className="text-center text-[3.5rem] mb-8 font-bold drop-shadow-[2px_5px_5px_black]">
           {mediaTitle}
         </h1>
@@ -106,7 +106,7 @@ export default async function MediaOverview({ params, mediaMode }: Props) {
 
           <p className="font-normal text-[1.8rem] mb-8 text-white/80 xl:line-clamp-7">{overview}</p>
 
-          <Button icon={Icons.play}>Watch Now</Button>
+          {/* <Button icon={Icons.play}>Watch Now</Button> */}
         </div>
       </div>
 

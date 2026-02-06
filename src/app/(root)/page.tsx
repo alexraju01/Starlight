@@ -1,4 +1,4 @@
-import { Carousel, CustomSlider, Footer, GenreCollection } from '@/components';
+import { Carousel, CustomSlider, GenreCollection } from '@/components';
 import BlurBackground from '@/components/Blurs/BackgroundBlur';
 import { MediaMode } from '@/types/mediaMode';
 
@@ -6,11 +6,11 @@ const Home = () => {
   return (
     <main className="relative ">
       {/* Carousel Section */}
-      <section className="relative mt-[80px] md:mt-0">
+      <section className="relative mt-[70px] md:mt-0">
         <Carousel mediaMode={MediaMode.MOVIE} />
       </section>
 
-      <section className="relative font- h-full bg-[#100F10] w-full pt-20 overflow-hidden">
+      <section className="relative font- h-full bg-[#100F10] w-full  overflow-hidden">
         <BlurBackground />
 
         <div className="mx-6 lg:mx-[68px] 2xl:mx-[101px]">
@@ -18,7 +18,7 @@ const Home = () => {
 
           <CustomSlider
             endpoint="trending/movie/day"
-            title="Top 20 Movies"
+            title="Trending Movies"
             mediaMode={MediaMode.MOVIE}
           />
           {/* Checking changes on ci */}
@@ -34,7 +34,6 @@ const Home = () => {
             mediaMode={MediaMode.TV}
           />
         </div>
-        <Footer />
       </section>
     </main>
   );

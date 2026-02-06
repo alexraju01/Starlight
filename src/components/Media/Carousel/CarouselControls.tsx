@@ -14,7 +14,7 @@ export default function CarouselControls({ onPrev, onNext }: Props) {
         'top-5 right-5',
 
         // Override on medium and larger screens
-        'bottom-[137px] md:bottom-[49px] md:pb-0 sm:right-[25px] sm:top-auto sm:w-auto sm:flex-row sm:px-12',
+        'bottom-[0px] md:bottom-[50px] md:pb-0 sm:right-[25px] sm:top-auto sm:w-auto sm:flex-row sm:px-12',
         'lg:right-[101px]',
       )}
     >
