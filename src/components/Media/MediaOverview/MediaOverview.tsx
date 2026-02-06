@@ -63,7 +63,7 @@ export default async function MediaOverview({ params, mediaMode }: Props) {
       />
       <GoBack />
 
-      <div className="pt-[30%] px-12 xl:pt-0 xl:pb-[10rem] xl:pl-12 xl:h-screen xl:w-[50rem] xl:box-border xl:flex xl:flex-col xl:justify-end">
+      <div className="pt-[30%] px-12 xl:pt-0 xl:pb-[10rem] xl:pl-12 xl:h-[calc(100vh-100px)] xl:w-[50rem] xl:box-border xl:flex xl:flex-col xl:justify-end">
         <h1 className="text-center text-[3.5rem] mb-8 font-bold drop-shadow-[2px_5px_5px_black]">
           {mediaTitle}
         </h1>
@@ -106,7 +106,7 @@ export default async function MediaOverview({ params, mediaMode }: Props) {
 
           <p className="font-normal text-[1.8rem] mb-8 text-white/80 xl:line-clamp-7">{overview}</p>
 
-          <Button icon={Icons.play}>Watch Now</Button>
+          {/* <Button icon={Icons.play}>Watch Now</Button> */}
         </div>
       </div>
 

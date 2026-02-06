@@ -112,12 +112,12 @@ const NavBar = () => {
         {/* Desktop Right Side */}
         <div className="hidden lg:flex items-center gap-5 flex-1 justify-end">
           <SearchBox />
-          <Link
+          {/* <Link
             href={ROUTES.LOGIN}
             className="text-xl px-4 py-2 border border-[#1D1D1D] rounded-xl text-[#BFBFBF] hover:text-white"
           >
             Login
-          </Link>
+          </Link> */}
         </div>
       </nav>
 
