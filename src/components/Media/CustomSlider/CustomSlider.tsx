@@ -14,7 +14,9 @@ interface Props {
 
 const CustomSlider = async ({ endpoint, title, mediaMode, breakpoints }: Props) => {
   try {
-    const { results } = await fetchData<{ results: Movie[] }>('3', endpoint);
+    const { results } = await fetchData<{ results: Movie[] }>('3', endpoint, {
+      cache: { type: 'revalidate', seconds: 60 * 60 * 24 },
+    });
 
     const { genres } = await api.getGenres(mediaMode);
     const genreMap = Object.fromEntries(genres.map(({ id, name }) => [id, name]));

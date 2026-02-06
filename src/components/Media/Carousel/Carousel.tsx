@@ -33,7 +33,7 @@ const getLogoImageUrl = async (
 const loadCarouselData = async (mediaMode: MediaMode) => {
   const [{ genres }, trendingMedia] = await Promise.all([
     fetchData<GenreResponse>('3', `genre/${mediaMode}/list`),
-    api.getTrending(mediaMode),
+    api.getTrending(mediaMode, 1, 'week'),
     // fetchData<TrendingMediaResponse>('3', `trending/${mediaMode}/week`),
   ]);
 

@@ -1,3 +1,5 @@
+import { time } from 'console';
+
 import { GenreResponse, MediaMode, MoviesWithLogos } from '@/types';
 import { APIResponse } from '@/types/global';
 
@@ -7,7 +9,7 @@ export const api = {
   media: {
     getMedia: async (mediaMode: MediaMode, page = 1, withGenres?: number[]) => {
       const query: Record<string, string | number> = { page };
-    
+
       if (withGenres?.length) {
         query.with_genres = withGenres.join(',');
       }
@@ -43,10 +45,10 @@ export const api = {
     return movie.genre_ids?.map((id) => genres[id] || 'Unknown').join(' • ') ?? '';
   },
 
-  getTrending: async (mediaMode: MediaMode, page = 1) => {
+  getTrending: async (mediaMode: MediaMode, page = 1, time: 'day' | 'week' = 'day') => {
     const { results } = await fetchData<APIResponse<MoviesWithLogos>>(
       '3',
-      `trending/${mediaMode}/week`,
+      `trending/${mediaMode}/${time}`,
       {
         page,
         cache: { type: 'revalidate', seconds: 60 * 10 },
