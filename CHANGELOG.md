@@ -1,3 +1,9 @@
+## [2.4.0](https://github.com/alexraju01/Starlight/compare/v2.3.3...v2.4.0) (2026-03-31)
+
+### ✨ Features
+
+* Enhance media components with loading skeletons and refactor carousel structure ([c227bb1](https://github.com/alexraju01/Starlight/commit/c227bb1d8ebdac28d2192b5f92232d77c3a38e98))
+
 ## [2.3.3](https://github.com/alexraju01/Starlight/compare/v2.3.2...v2.3.3) (2026-02-06)
 
 ### 🐛 Bug Fixes
