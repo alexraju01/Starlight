@@ -4,6 +4,7 @@ import { api } from '@/utils/api';
 import { getImageUrl } from '@/utils/image/getImageUrl';
 
 import CarouselClient from './CarouselClient';
+import CarouselItem from './CarouselItem';
 
 type GenreResponse = { genres: Genre[] };
 type ImageResponse = {
@@ -51,7 +52,13 @@ const loadCarouselData = async (mediaMode: MediaMode) => {
 
 const Carousel = async ({ mediaMode }: Props) => {
   const { genreMap, moviesWithLogos } = await loadCarouselData(mediaMode);
-  return <CarouselClient movies={moviesWithLogos} genres={genreMap} />;
+  return (
+    <CarouselClient itemCount={moviesWithLogos.length}>
+      {moviesWithLogos.map((movie, index) => (
+        <CarouselItem key={movie.id} movie={movie} genres={genreMap} priority={index === 0} />
+      ))}
+    </CarouselClient>
+  );
 };
 
 export default Carousel;

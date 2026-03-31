@@ -7,6 +7,8 @@ import { useResponsiveItems } from '@/hooks/useResponsiveItems';
 import { MediaMode } from '@/types';
 import { MediaWithDetails } from '@/types/global';
 
+import { LoadingSkeletons } from '../Feedback/LoadingSkeletons/LoadingSkeletons';
+
 interface Props {
   media: MediaWithDetails[];
 }
@@ -17,13 +19,13 @@ export default function GenreMediaGrid({ media }: Props) {
 
   const itemsPerRow = useResponsiveItems(CAROUSEL_BREAKPOINTS);
   if (itemsPerRow === null) {
-    return <div className="p-6 text-center">Loading layout...</div>;
+    return <LoadingSkeletons />;
   }
 
   return (
     <div
       className="grid gap-8 w-full  mb-8 transition-all relative overflow-hidden
-				grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-6"
+				grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6"
     >
       {media.map((item, index) => {
         const isLastInRow = (index + 1) % itemsPerRow === 0 ? true : false;

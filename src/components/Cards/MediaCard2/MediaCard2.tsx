@@ -77,24 +77,41 @@ const MediaCard2 = ({ item, genreMap, mediaMode, style, isFirst, isLast }: Props
   const dateStr = formatDate(item, mediaMode);
 
   const cardClasses = clsx(
-    'relative w-full px-[12px] pt-[12px] rounded-[10.92px] bg-card-bg border border-solid border-card-stroke transition-[width,top,left,right,z-index] duration-300',
-    'group-hover:z-50',
-    'group-hover:w-[70vw] sm:group-hover:w-[60vw] md:group-hover:w-[47vw] lg:group-hover:w-[37vw] xl:group-hover:w-[35vw] 2xl:group-hover:w-[30vw] 2xl:group-hover:max-w-[26vw] group-hover:top-1/2 group-hover:-translate-y-1/2 group-hover:px-0 group-hover:pt-0',
+    '  relative w-full px-[12px] pt-[12px] rounded-[10.92px] bg-card-bg border border-solid border-card-stroke transition-[width,top,left,right,z-index] duration-300',
+    'group-hover:z-50 group-hover:w-[70vw] sm:group-hover:w-[54vw] md:group-hover:w-[41vw] lg:group-hover:w-[38vw] xl:group-hover:w-[34vw] 2xl:group-hover:w-[26vw] 2xl:group-hover:max-w-[26vw] group-hover:top-1/2 group-hover:-translate-y-1/2 ',
+    // 'group-hover:z-50 group-hover:w-[70vw] sm:group-hover:w-[60vw] md:group-hover:w-[47vw] lg:group-hover:w-[37vw] xl:group-hover:w-[35vw] 2xl:group-hover:w-[30vw] 2xl:group-hover:max-w-[26vw] group-hover:top-1/2 group-hover:-translate-y-1/2 group-hover:px-0 group-hover:pt-0',
     {
-      'absolute transform group-hover:right-[calc(70vw-103%)] sm:group-hover:right-[calc(70vw-140%)] md:group-hover:right-[calc(70vw-210%)] lg:group-hover:right-[calc(70vw-250%)] xl:group-hover:right-[calc(70vw-310%)] 2xl:group-hover:right-[calc(70vw-425%)]':
+      ' transform group-hover:right-[calc(70vw-103%)] sm:group-hover:right-[calc(70vw-151%)] md:group-hover:right-[calc(70vw-226%)] lg:group-hover:right-[calc(70vw-257%)] xl:group-hover:right-[calc(70vw-312%)] 2xl:group-hover:right-[calc(70vw-418%)]':
         isLast,
     },
   );
 
+  //   const cardClasses = clsx(
+  //     'relative w-full rounded-[10.92px] bg-card-bg border border-solid border-card-stroke',
+  //     // Use a transition that covers transform and layout properties
+  //     'transition-all duration-300 ease-in-out',
+  //     'z-10',
+  //     // On hover, scale it up and ensure it sits on top
+  //     'hover:z-50 hover:scale-125 hover:shadow-2xl',
+  //     {
+  //       'origin-left': isFirst,
+  //       'origin-right': isLast,
+  //     },
+  //   );
+
+  //   const figureClasses = clsx(
+  //     'relative overflow-hidden w-full',
+  //     'h-[clamp(250px,60vw,370px)] sm:h-[clamp(250px,40vw,300px)] md:h-[clamp(200px,30vw,300px)] lg:h-[clamp(280px,27vw,340px)] group-hover:h-[240px] sm:group-hover:h-[260px]',
+  //     'transition-[height] duration-300',
+  //   );
+
   const figureClasses = clsx(
-    'relative overflow-hidden w-full',
-    'h-[clamp(250px,60vw,370px)] sm:h-[clamp(250px,40vw,300px)] md:h-[clamp(200px,30vw,300px)] lg:h-[clamp(280px,27vw,340px)] group-hover:h-[240px] sm:group-hover:h-[260px]',
-    'transition-[height] duration-300',
+    ' relative w-full overflow-hidden transition-all duration-300 ease-in-out aspect-2/3 group-hover:aspect-video',
   );
 
   const posterClass = clsx({
-    'rounded-[10.92px] ': !hovered || (hovered && videoKey),
-    'rounded-t-[10.92px] rounded-b-0': hovered && !videoKey,
+    'rounded-[10.92px]  ': !hovered || (hovered && videoKey),
+    'rounded-[10.92px] rounded-b-0 ': hovered && !videoKey,
   });
   const posterSrc =
     hovered && !videoKey && item.backdrop_path ? item.backdrop_path : item.poster_path;
@@ -102,7 +119,7 @@ const MediaCard2 = ({ item, genreMap, mediaMode, style, isFirst, isLast }: Props
   return (
     <Link
       href={ROUTES.MEDIA(mediaMode, item.id, title)}
-      className="group relative w-full flex-shrink-0"
+      className="group relative  w-full  overflow-visible flex-shrink-0"
       style={{ ...style, display: 'block' }}
       onPointerEnter={handlePointerEnter}
       onPointerLeave={handlePointerLeave}
@@ -111,7 +128,7 @@ const MediaCard2 = ({ item, genreMap, mediaMode, style, isFirst, isLast }: Props
         <figure className={figureClasses}>
           {hovered && videoKey ? (
             <iframe
-              className="w-full h-full group-hover:rounded-t-[10.92px] group-hover:rounded-b-0"
+              className="w-full h-full group-hover:rounded-[10.92px] group-hover:rounded-b-0 "
               src={`https://www.youtube.com/embed/${videoKey}?autoplay=1&mute=0&controls=0&modestbranding=1&rel=0&showinfo=0&loop=1&playlist=${videoKey}`}
               title={`${title} Trailer`}
               loading="lazy"
@@ -133,7 +150,7 @@ const MediaCard2 = ({ item, genreMap, mediaMode, style, isFirst, isLast }: Props
           )}
         </figure>
 
-        <div className="flex flex-col px-6 sm:px-0 gap-3 py-5 truncate md:px-[10px]">
+        <div className="flex flex-col px-6  gap-3 py-5 truncate md:px-[10px]">
           <div className="flex justify-between">
             <h3 className="text-2xl text-white font-medium truncate">{title}</h3>
             {hasValidRating && <RatingBadge rating={item.vote_average} />}

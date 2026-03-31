@@ -4,6 +4,7 @@ import { console } from 'inspector';
 import Image from 'next/image';
 import { Suspense } from 'react';
 
+import { LoadingSkeletons } from '@/components/Feedback/LoadingSkeletons/LoadingSkeletons';
 import GenreMediaGrid from '@/components/Media/GenreMediaGrid';
 import { MediaMode } from '@/types';
 import { Movie, TVShow } from '@/types/global';
@@ -44,43 +45,41 @@ export default async function Page({ params }: Props) {
     : null;
 
   return (
-    <Suspense fallback={<div className="text-center mt-10">Loading...</div>}>
-      <section className="relative overflow-hidden">
-        {/* Background layer (visual only) */}
-        {/* Viewport background */}
-        {backgroundImage && (
-          <div className="pointer-events-none fixed top-0 left-0 w-full h-screen -z-10">
-            <Image
-              src={backgroundImage}
-              alt={genreName}
-              fill
-              priority
-              sizes="100vw"
-              className="object-cover object-center"
-            />
+    // <Suspense fallback={<LoadingSkeletons />}>
+    <section className="relative overflow-hidden">
+      {/* Background layer (visual only) */}
+      {/* Viewport background */}
+      {backgroundImage && (
+        <div className="pointer-events-none fixed top-0 left-0 w-full h-screen -z-10">
+          <Image
+            src={backgroundImage}
+            alt={genreName}
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-center"
+          />
 
-            {/* Fade mask */}
-            <div className="absolute inset-0 bg-gradient-to-b  from-black/80  via-black/70  to-black" />
-          </div>
-        )}
-
-        {/* Header */}
-        <div className="border-b border-white/5 px-6 py-16">
-          <div className="mx-6 lg:mx-[68px] 2xl:mx-[101px] mt-20 lg:mt-30">
-            <h1 className="text-4xl font-black uppercase tracking-tight md:text-6xl">
-              {genreName}
-            </h1>
-            <p className="mt-4 max-w-xl text-lg text-slate-400">
-              Explore {genreName} movies and TV shows curated just for you.
-            </p>
-          </div>
+          {/* Fade mask */}
+          <div className="absolute inset-0 bg-gradient-to-b  from-black/80  via-black/70  to-black" />
         </div>
+      )}
 
-        {/* Media grid (normal flow) */}
-        <div className="mx-6 lg:mx-[68px] 2xl:mx-[101px] py-10">
-          <GenreMediaGrid media={combineRelatedMedia} />
+      {/* Header */}
+      <div className="border-b border-white/5 px-6 py-16">
+        <div className="mx-6 lg:mx-[68px] 2xl:mx-[101px] mt-20 lg:mt-30">
+          <h1 className="text-4xl font-black uppercase tracking-tight md:text-6xl">{genreName}</h1>
+          <p className="mt-4 max-w-xl text-lg text-slate-400">
+            Explore {genreName} movies and TV shows curated just for you.
+          </p>
         </div>
-      </section>
-    </Suspense>
+      </div>
+
+      {/* Media grid (normal flow) */}
+      <div className="mx-6 lg:mx-[68px] 2xl:mx-[101px] py-10">
+        <GenreMediaGrid media={combineRelatedMedia} />
+      </div>
+    </section>
+    // </Suspense>
   );
 }

@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import { useMemo } from 'react';
 
 import { MoviesWithLogos } from '@/types/global';
 import { getImageUrl } from '@/utils/image/getImageUrl';
@@ -7,29 +6,25 @@ import { getImageUrl } from '@/utils/image/getImageUrl';
 import ActionButtons from './ActionButton';
 import MediaMeta from './MediaMeta';
 
-interface Props {
+interface CarouselItemProps {
   movie: MoviesWithLogos;
   genres: Record<number, string>;
-  isActive: boolean;
+  priority?: boolean;
 }
 
-export default function CarouselItem({ movie, genres, isActive }: Props) {
+export default function CarouselItem({ movie, genres, priority }: CarouselItemProps) {
   const title = movie.title ?? movie.name ?? 'Media';
-
-  const backdropSrc = useMemo(
-    () => getImageUrl(movie.backdrop_path, 'backdrop', 'original'),
-    [movie.backdrop_path],
-  );
+  const backdropSrc = getImageUrl(movie.backdrop_path, 'backdrop', 'original');
 
   return (
-    <li className=" flex-shrink-0   flex w-full h-full sm:h-[100%] md:h-full items-center justify-evenly flex-row relative">
+    <li className="flex-shrink-0 flex w-full h-full items-center justify-evenly relative">
       <Image
         src={backdropSrc}
         fill
         quality={75}
         alt={title}
         className="object-cover object-center brightness-[80%] carousel-mask-gradiant"
-        priority={isActive}
+        priority={priority}
       />
 
       <div className="absolute space-y-4 z-10 max-w-screen lg:w-[854px] bottom-0 sm:pb-0 md:pb-0 left-[25px] right-[25px] lg:left-[102px]">
@@ -44,7 +39,7 @@ export default function CarouselItem({ movie, genres, isActive }: Props) {
             />
           </div>
         ) : (
-          <h2 className="text-[clamp(2rem,5vw,50px)] font-bold">{movie.title}</h2>
+          <h2 className="text-[clamp(2rem,5vw,50px)] font-bold text-white">{title}</h2>
         )}
 
         <MediaMeta movie={movie} genres={genres} />

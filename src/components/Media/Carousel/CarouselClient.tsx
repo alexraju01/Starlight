@@ -1,37 +1,28 @@
 'use client';
-
-import { useState } from 'react';
-
-import { MoviesWithLogos } from '@/types/global';
+import { useState, ReactNode } from 'react';
 
 import CarouselControls from './CarouselControls';
-import CarouselItem from './CarouselItem';
 
 interface Props {
-  movies: MoviesWithLogos[];
-  genres: Record<number, string>;
+  children: ReactNode;
+  itemCount: number;
 }
 
-export default function CarouselClient({ movies, genres }: Props) {
+export default function CarouselClient({ children, itemCount }: Props) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const handlePrev = () => setCurrentIndex((prev) => (prev === 0 ? movies.length - 1 : prev - 1));
-  const handleNext = () => setCurrentIndex((prev) => (prev === movies.length - 1 ? 0 : prev + 1));
+  const handlePrev = () => setCurrentIndex((p) => (p === 0 ? itemCount - 1 : p - 1));
+  const handleNext = () => setCurrentIndex((p) => (p === itemCount - 1 ? 0 : p + 1));
 
   return (
-    <div className="relative overflow-hidden flex justify-center items-center  sm:h-[700px] sm:rounded-none sm:m-0 h-[500px] md:md:h-[calc(100vh-87px)] rounded-[32px] m-[24px]">
+    <div className="relative overflow-hidden flex justify-center items-center sm:h-[700px] h-[500px] md:h-[calc(100vh-87px)] rounded-[32px] m-[24px] sm:m-0 sm:rounded-none">
       <ul
-        className=" flex w-full h-full transition-transform duration-500 ease-in-out"
+        className="flex w-full h-full transition-transform duration-500 ease-in-out"
         style={{ transform: `translateX(-${currentIndex * 100}%)` }}
       >
-        {movies.map((movie, index) => (
-          <CarouselItem
-            key={movie.id}
-            movie={movie}
-            genres={genres}
-            isActive={index === currentIndex}
-          />
-        ))}
+        {/* We pass the active state down via a simple prop if needed, 
+            but for images, we can also use CSS or simple prop-logic */}
+        {children}
       </ul>
       <CarouselControls onPrev={handlePrev} onNext={handleNext} />
     </div>
