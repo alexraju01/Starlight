@@ -11,8 +11,8 @@ interface CarouselProps {
 
 export default async function Carousel({ mediaMode }: CarouselProps) {
   const [genresData, trending] = await Promise.all([
-    api.getGenres(mediaMode),
-    api.getTrending(mediaMode, 1, 'week'),
+    api.genre.getGenres(mediaMode),
+    api.media.getTrending(mediaMode, 1, 'week'),
   ]);
 
   const genreMap = mapGenres(genresData.genres);
@@ -20,7 +20,7 @@ export default async function Carousel({ mediaMode }: CarouselProps) {
   const moviesWithLogos = await Promise.all(
     trending.slice(0, 9).map(async (item) => ({
       ...item,
-      logoImage: await api.getLogos(mediaMode, item.id),
+      logoImage: await api.media.getLogos(mediaMode, item.id),
     })),
   );
 

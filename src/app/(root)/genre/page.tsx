@@ -6,7 +6,7 @@ import { api } from '@/utils/api';
 import Icons, { GenreKey } from '@/utils/icons';
 
 async function GenreGrid() {
-  const { movieGenres, tvGenres } = await api.getAllGenres();
+  const { movieGenres, tvGenres } = await api.genre.getAllGenres();
 
   const uniqueGenres = Array.from(
     new Map([...movieGenres, ...tvGenres].map((g) => [g.id, g])).values(),

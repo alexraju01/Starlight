@@ -16,8 +16,8 @@ export const useAllGenres = (): AllGenres => {
     const fetchAll = async () => {
       try {
         const [movieData, tvData] = await Promise.all([
-          api.getGenres('movie'),
-          api.getGenres('tv'),
+          api.genre.getGenres('movie'),
+          api.genre.getGenres('tv'),
         ]);
 
         setGenreMap({

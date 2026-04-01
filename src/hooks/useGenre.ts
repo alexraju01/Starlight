@@ -10,7 +10,7 @@ export const useGenres = (mediaMode: MediaMode) => {
   useEffect(() => {
     const fetchGenres = async () => {
       try {
-        const { genres } = await api.getGenres(mediaMode);
+        const { genres } = await api.genre.getGenres(mediaMode);
 
         setGenres(Object.fromEntries(genres.map(({ id, name }) => [id, name])));
       } catch (error) {

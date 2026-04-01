@@ -1,13 +1,19 @@
-import { GenreResponse, MediaMode, MoviesWithLogos } from '@/types';
+import { Genre, GenreResponse, GenreWithMovies, MediaMode, MoviesWithLogos } from '@/types';
 import { APIResponse } from '@/types/global';
 
 import fetchData from './fetchData';
 import { getImageUrl } from './image/getImageUrl';
 
 export const api = {
+  // ----------------------
+  // Media-related endpoints
+  // ----------------------
   media: {
     getMedia: async (mediaMode: MediaMode, page = 1, withGenres?: number[]) => {
-      const query: Record<string, string | number> = { page };
+      const query: Record<string, string | number> = {
+        page,
+        sort_by: 'popularity.desc',
+      };
 
       if (withGenres?.length) {
         query.with_genres = withGenres.join(',');
@@ -20,59 +26,81 @@ export const api = {
 
       return results;
     },
-  },
 
-  getGenres: async (mediaMode: string) => {
-    return await fetchData<GenreResponse>('3', `genre/${mediaMode}/list`, {
-      cache: { type: 'revalidate', seconds: 60 * 60 * 24 },
-    });
-  },
-
-  getAllGenres: async () => {
-    const [{ genres: movieGenres }, { genres: tvGenres }] = await Promise.all([
-      api.getGenres('movie'),
-      api.getGenres('tv'),
-    ]);
-
-    return {
-      movieGenres,
-      tvGenres,
-    };
-  },
-
-  getGenreNames: (movie: MoviesWithLogos, genres: Record<number, string>): string => {
-    return movie.genre_ids?.map((id) => genres[id] || 'Unknown').join(' • ') ?? '';
-  },
-
-  getTrending: async (mediaMode: MediaMode, page = 1, time: 'day' | 'week' = 'day') => {
-    const { results } = await fetchData<APIResponse<MoviesWithLogos>>(
-      '3',
-      `trending/${mediaMode}/${time}`,
-      {
-        page,
-        cache: { type: 'revalidate', seconds: 60 * 10 },
-      },
-    );
-    return results;
-  },
-  getLogos: async (mediaMode: MediaMode, mediaId: number) => {
-    try {
-      const { logos } = await fetchData<{ logos: { file_path: string; iso_639_1: string }[] }>(
+    getTrending: async (mediaMode: MediaMode, page = 1, time: 'day' | 'week' = 'day') => {
+      const { results } = await fetchData<APIResponse<MoviesWithLogos>>(
         '3',
-        `${mediaMode}/${mediaId}/images`,
+        `trending/${mediaMode}/${time}`,
         {
-          cache: { type: 'revalidate', seconds: 60 * 60 }, // 1 hour cache
+          page,
+          cache: { type: 'revalidate', seconds: 60 * 10 },
         },
       );
+      return results;
+    },
 
-      // Prefer English logos, fallback to the first logo
-      const logo = logos?.find((l) => l.iso_639_1 === 'en') ?? logos?.[0];
+    getLogos: async (mediaMode: MediaMode, mediaId: number) => {
+      try {
+        const { logos } = await fetchData<{ logos: { file_path: string; iso_639_1: string }[] }>(
+          '3',
+          `${mediaMode}/${mediaId}/images`,
+          {
+            cache: { type: 'revalidate', seconds: 60 * 60 },
+          },
+        );
 
-      // Return full image URL using your utility
-      return logo?.file_path ? getImageUrl(logo.file_path, 'logo', 'w300') : undefined;
-    } catch (err) {
-      console.warn(`Failed to fetch logos for ${mediaMode} ${mediaId}:`, err);
-      return undefined;
-    }
+        const logo = logos?.find((l) => l.iso_639_1 === 'en') ?? logos?.[0];
+        return logo?.file_path ? getImageUrl(logo.file_path, 'logo', 'w300') : undefined;
+      } catch (err) {
+        console.warn(`Failed to fetch logos for ${mediaMode} ${mediaId}:`, err);
+        return undefined;
+      }
+    },
+  },
+
+  // ----------------------
+  // Genre-related endpoints
+  // ----------------------
+  genre: {
+    getGenres: async (mediaMode: string) => {
+      return await fetchData<GenreResponse>('3', `genre/${mediaMode}/list`, {
+        cache: { type: 'revalidate', seconds: 60 * 60 * 24 },
+      });
+    },
+
+    getAllGenres: async () => {
+      const [{ genres: movieGenres }, { genres: tvGenres }] = await Promise.all([
+        api.genre.getGenres('movie'),
+        api.genre.getGenres('tv'),
+      ]);
+
+      return { movieGenres, tvGenres };
+    },
+
+    fetchGenreMovies: async (genre: Genre, seenMovieIds: Set<number>): Promise<GenreWithMovies> => {
+      try {
+        const results = await api.media.getMedia(MediaMode.MOVIE, 1, [genre.id]);
+
+        const uniqueMovies = results
+          .filter((movie) => movie.poster_path && !seenMovieIds.has(movie.id))
+          .slice(0, 4);
+
+        uniqueMovies.forEach((movie) => seenMovieIds.add(movie.id));
+
+        return { ...genre, movies: uniqueMovies };
+      } catch (error) {
+        console.error(`Failed to fetch movies for genre ${genre.name}:`, error);
+        return { ...genre, movies: [] };
+      }
+    },
+
+    getGenreCollection: async (): Promise<GenreWithMovies[]> => {
+      const { genres } = await api.genre.getGenres('movie');
+      const seenMovieIds = new Set<number>();
+
+      return await Promise.all(
+        genres.map((genre) => api.genre.fetchGenreMovies(genre, seenMovieIds)),
+      );
+    },
   },
 };

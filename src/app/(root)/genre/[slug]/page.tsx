@@ -20,7 +20,7 @@ export default async function Page({ params }: Props) {
   if (Number.isNaN(genreId)) throw new Error('Invalid genre slug');
 
   const [{ movieGenres, tvGenres }, genreRelatedMovies, genreRelatedTv] = await Promise.all([
-    api.getAllGenres(),
+    api.genre.getAllGenres(),
     api.media.getMedia(MediaMode.MOVIE, 1, [genreId]),
     api.media.getMedia(MediaMode.TV, 1, [genreId]),
   ]);

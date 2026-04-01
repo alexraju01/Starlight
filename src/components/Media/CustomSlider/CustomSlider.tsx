@@ -18,7 +18,7 @@ const CustomSlider = async ({ endpoint, title, mediaMode, breakpoints }: Props) 
       cache: { type: 'revalidate', seconds: 60 * 60 * 24 },
     });
 
-    const { genres } = await api.getGenres(mediaMode);
+    const { genres } = await api.genre.getGenres(mediaMode);
     const genreMap = Object.fromEntries(genres.map(({ id, name }) => [id, name]));
 
     const mediaWithDetails: MediaWithDetails[] = await Promise.all(
