@@ -4,11 +4,9 @@ import { MediaMode } from '@/types/mediaMode';
 
 const Home = () => {
   return (
-    <main className="relative ">
+    <main>
       {/* Carousel Section */}
-      <section className="relative mt-[70px] md:mt-0">
-        <Carousel mediaMode={MediaMode.MOVIE} />
-      </section>
+      <Carousel mediaMode={MediaMode.MOVIE} />
 
       <section className="relative font- h-full bg-[#100F10] w-full  overflow-hidden">
         <BlurBackground />
