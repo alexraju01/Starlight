@@ -1,10 +1,7 @@
-// app/genre/[slug]/page.tsx
 import { console } from 'inspector';
 
 import Image from 'next/image';
-import { Suspense } from 'react';
 
-import { LoadingSkeletons } from '@/components/Feedback/LoadingSkeletons/LoadingSkeletons';
 import GenreMediaGrid from '@/components/Media/GenreMediaGrid';
 import { MediaMode } from '@/types';
 import { Movie, TVShow } from '@/types/global';
@@ -45,10 +42,7 @@ export default async function Page({ params }: Props) {
     : null;
 
   return (
-    // <Suspense fallback={<LoadingSkeletons />}>
     <section className="relative overflow-hidden">
-      {/* Background layer (visual only) */}
-      {/* Viewport background */}
       {backgroundImage && (
         <div className="pointer-events-none fixed top-0 left-0 w-full h-screen -z-10">
           <Image

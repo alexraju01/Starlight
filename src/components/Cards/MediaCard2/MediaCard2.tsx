@@ -5,8 +5,8 @@ import Link from 'next/link';
 import { useState, useMemo, useRef } from 'react';
 
 import { ROUTES } from '@/constants/route';
+import { useMediaContext } from '@/context/MediaContext';
 import { MediaListItem, MediaWithDetails } from '@/types/global';
-import { MediaMode } from '@/types/mediaMode';
 import { formatGenres } from '@/utils';
 import { formatDate } from '@/utils/date';
 import { getVideoKey } from '@/utils/serverActions/getVideoKey';
@@ -18,8 +18,6 @@ import SeasonBadge from './SeasonBadge';
 
 interface Props {
   item: MediaWithDetails;
-  genreMap: Record<number, string>;
-  mediaMode: MediaMode;
   style?: React.CSSProperties;
   isFirst?: boolean;
   isLast?: boolean;
@@ -31,9 +29,11 @@ const getMediaDate = (item: MediaListItem): string => {
   return '';
 };
 
-const MediaCard2 = ({ item, genreMap, mediaMode, style, isFirst, isLast }: Props) => {
+const MediaCard2 = ({ item, style, isFirst, isLast }: Props) => {
+  const { mediaMode, genres } = useMediaContext(); // ✅ No prop drilling needed
+
   const title = item.name || item.title;
-  const genreText = useMemo(() => formatGenres(item, genreMap), [item, genreMap]);
+  const genreText = useMemo(() => formatGenres(item, genres), [item, genres]);
 
   //   const dateStr = useMemo(() => formatDate(item), [item]);
   const mediaDate = useMemo(() => getMediaDate(item), [item]);
@@ -80,7 +80,7 @@ const MediaCard2 = ({ item, genreMap, mediaMode, style, isFirst, isLast }: Props
     '  relative w-full px-[12px] pt-[12px] rounded-[10.92px] bg-card-bg border border-solid border-card-stroke transition-[width,top,left,right,z-index] duration-300',
     'group-hover:z-50 group-hover:w-[70vw] sm:group-hover:w-[54vw] md:group-hover:w-[41vw] lg:group-hover:w-[38vw] xl:group-hover:w-[34vw] 2xl:group-hover:w-[26vw] 2xl:group-hover:max-w-[26vw] group-hover:top-1/2 group-hover:-translate-y-1/2 ',
     {
-      ' transform group-hover:right-[calc(70vw-103%)] sm:group-hover:right-[calc(70vw-151%)] md:group-hover:right-[calc(70vw-226%)] lg:group-hover:right-[calc(70vw-257%)] xl:group-hover:right-[calc(70vw-312%)] 2xl:group-hover:right-[calc(70vw-418%)]':
+      ' transform group-hover:right-[calc(70vw-100%)] sm:group-hover:right-[calc(70vw-151%)] md:group-hover:right-[calc(70vw-226%)] lg:group-hover:right-[calc(70vw-257%)] xl:group-hover:right-[calc(70vw-312%)] 2xl:group-hover:right-[calc(70vw-418%)]':
         isLast,
     },
   );

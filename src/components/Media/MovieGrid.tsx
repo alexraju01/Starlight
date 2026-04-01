@@ -2,39 +2,44 @@
 
 import MediaCard2 from '@/components/Cards/MediaCard2/MediaCard2';
 import { DISCOVER_BREAKPOINTS } from '@/constants/breakpoints';
+import { MediaProvider } from '@/context/MediaContext';
+import { useGenres } from '@/hooks/useGenre';
 import { useResponsiveItems } from '@/hooks/useResponsiveItems';
 import { Media } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
-import { isMovie } from '@/utils/typeGuard';
 
 interface Props {
   media: Media[];
-  genreMap: {
-    movie: Record<number, string>;
-    tv: Record<number, string>;
-  };
 }
 
-export default function MovieGrid({ media, genreMap }: Props) {
+export default function MovieGrid({ media }: Props) {
+  // 1. Fetch genre maps for both types
+  const movieGenres = useGenres(MediaMode.MOVIE);
+  const tvGenres = useGenres(MediaMode.TV);
+
+  // 2. Merge them into a single Record<number, string>
+  const allGenres = { ...movieGenres, ...tvGenres };
+
   const columns = useResponsiveItems(DISCOVER_BREAKPOINTS);
 
   if (!media.length || columns === null) return null;
 
   return (
-    <div className="relative overflow-visible grid p-6 w-full transition-all duration-300 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 xl:p-16 gap-8 2xl:grid-cols-7">
+    <div
+      className="grid gap-8 w-full mb-8 transition-all relative overflow-hidden
+                  grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6"
+    >
       {media.map((item, index) => {
         const isFirst = index % columns === 0;
         const isLast = (index + 1) % columns === 0;
 
+        // 3. Determine the mode for this specific card
+        const currentMode = (item.media_type as MediaMode) || MediaMode.MOVIE;
+
         return (
-          <MediaCard2
-            key={item.id}
-            item={item}
-            genreMap={isMovie(item) ? genreMap.movie : genreMap.tv}
-            mediaMode={isMovie(item) ? MediaMode.MOVIE : item.media_type}
-            isFirst={isFirst}
-            isLast={isLast}
-          />
+          <MediaProvider key={item.id} mediaMode={currentMode} genres={allGenres}>
+            <MediaCard2 item={item} isFirst={isFirst} isLast={isLast} />
+          </MediaProvider>
         );
       })}
     </div>

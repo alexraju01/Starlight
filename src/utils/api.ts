@@ -1,5 +1,5 @@
 import { Genre, GenreResponse, GenreWithMovies, MediaMode, MoviesWithLogos } from '@/types';
-import { APIResponse } from '@/types/global';
+import { APIResponse, MediaWithDetails, MovieListItem, TVShowListItem } from '@/types/global';
 
 import fetchData from './fetchData';
 import { getImageUrl } from './image/getImageUrl';
@@ -102,5 +102,20 @@ export const api = {
         genres.map((genre) => api.genre.fetchGenreMovies(genre, seenMovieIds)),
       );
     },
+  },
+
+  getSliderData: async (mediaMode: MediaMode, endpoint: string): Promise<MediaWithDetails[]> => {
+    const { results } = await fetchData<{ results: MovieListItem[] | TVShowListItem[] }>(
+      '3',
+      endpoint,
+      {
+        cache: { type: 'revalidate', seconds: 60 * 60 * 24 },
+      },
+    );
+
+    return results.map((item) => ({
+      ...item,
+      media_type: mediaMode,
+    })) as MediaWithDetails[];
   },
 };

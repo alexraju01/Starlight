@@ -4,7 +4,7 @@ import { MediaMode } from '@/types/mediaMode';
 
 const Home = () => {
   return (
-    <main>
+    <>
       <Carousel mediaMode={MediaMode.MOVIE} />
 
       <section className="relative font- h-full bg-[#100F10] w-full  overflow-hidden">
@@ -31,7 +31,7 @@ const Home = () => {
           />
         </div>
       </section>
-    </main>
+    </>
   );
 };
 

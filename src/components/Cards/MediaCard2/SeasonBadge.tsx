@@ -1,10 +1,36 @@
+'use client';
+import { useEffect, useState } from 'react';
 import { HiRectangleStack } from 'react-icons/hi2';
 
+import { useMediaContext } from '@/context/MediaContext';
 import { MediaWithDetails } from '@/types/global';
-import { isTVShow } from '@/utils/typeGuard';
+import { fetchData } from '@/utils';
 
-const SeasonBadge = ({ item }: { item: MediaWithDetails }) => {
-  if (!isTVShow(item) || !item.number_of_seasons) return null;
+interface Props {
+  item: MediaWithDetails;
+}
+
+const SeasonBadge = ({ item }: Props) => {
+  const { mediaMode } = useMediaContext();
+  const [seasons, setSeasons] = useState<number | null>(item.number_of_seasons ?? null);
+
+  useEffect(() => {
+    // Only fetch if TV and not already available
+    if (mediaMode !== 'tv' || seasons !== null) return;
+
+    const fetchSeasons = async () => {
+      try {
+        const data = await fetchData<{ number_of_seasons: number }>('3', `tv/${item.id}`);
+        setSeasons(data.number_of_seasons);
+      } catch (err) {
+        console.error('Failed to fetch seasons:', err);
+      }
+    };
+
+    fetchSeasons();
+  }, [item.id, mediaMode, seasons]);
+
+  if (mediaMode !== 'tv' || !seasons) return null;
 
   return (
     <div className="flex truncate md:text-lg ">
@@ -13,8 +39,7 @@ const SeasonBadge = ({ item }: { item: MediaWithDetails }) => {
           <HiRectangleStack size={18} />
         </i>
         <p className="font-md">
-          {item.number_of_seasons} Season
-          {item.number_of_seasons !== 1 ? 's' : ''}
+          {seasons} Season{seasons > 1 ? 's' : ''}
         </p>
       </div>
     </div>

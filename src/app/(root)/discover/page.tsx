@@ -30,7 +30,7 @@ export default function DiscoverPage() {
   };
 
   return (
-    <div className="flex min-h-screen w-full flex-col items-center mt-50 md:mt-40 justify-center gap-16 px-4 py-6">
+    <div className="flex min-h-screen w-full flex-col items-center justify-center gap-16 px-4 py-8">
       <h2 className="text-center text-4xl font-bold text-white animate-fadeIn drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">
         Discover More Movies...
       </h2>
@@ -38,7 +38,7 @@ export default function DiscoverPage() {
       <SearchForm query={query} onChangeAction={handleInputChange} onSubmitAction={() => {}} />
 
       {genresLoaded ? (
-        <MovieGrid media={movies} genreMap={genreMap} />
+        <MovieGrid media={movies} />
       ) : (
         <p className="text-white text-2xl">Loading genres...</p>
       )}

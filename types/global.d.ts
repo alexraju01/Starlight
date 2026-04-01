@@ -115,3 +115,9 @@ type ListResponse<T> = {
   total_pages: number;
   total_results: number;
 };
+
+// types/media.ts
+export interface MediaWithDetails extends MoviesWithLogos {
+  first_air_date?: string;
+  number_of_seasons?: number; // This is what we need for the badge
+}
