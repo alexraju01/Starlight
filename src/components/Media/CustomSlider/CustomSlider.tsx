@@ -12,28 +12,22 @@ interface Props {
 }
 
 const CustomSlider = async ({ endpoint, title, mediaMode, breakpoints }: Props) => {
-  try {
-    const media = await api.getSliderData(mediaMode, endpoint);
-    const { genres } = await api.genre.getGenres(mediaMode);
-    const genreMap = Object.fromEntries(genres.map(({ id, name }) => [id, name]));
+  // Fetch media data
+  const media = await api.getSliderData(mediaMode, endpoint);
 
-    return (
-      <CustomSliderClient
-        media={media}
-        title={title}
-        mediaMode={mediaMode}
-        genres={genreMap}
-        breakpoints={breakpoints}
-      />
-    );
-  } catch (err) {
-    console.error(`CustomSlider failed for endpoint "${endpoint}":`, err);
-    return (
-      <div className="text-red-400 text-center py-6">
-        Failed to load <strong>{title}</strong>.
-      </div>
-    );
-  }
+  // Fetch genres
+  const { genres } = await api.genre.getGenres(mediaMode);
+  const genreMap = Object.fromEntries(genres.map(({ id, name }) => [id, name]));
+
+  return (
+    <CustomSliderClient
+      media={media}
+      title={title}
+      mediaMode={mediaMode}
+      genres={genreMap}
+      breakpoints={breakpoints}
+    />
+  );
 };
 
 export default CustomSlider;
