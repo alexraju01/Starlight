@@ -30,12 +30,11 @@ const getMediaDate = (item: MediaListItem): string => {
 };
 
 const MediaCard2 = ({ item, style, isFirst, isLast }: Props) => {
-  const { mediaMode, genres } = useMediaContext(); // ✅ No prop drilling needed
+  const { mediaMode, genres } = useMediaContext();
 
   const title = item.name || item.title;
   const genreText = useMemo(() => formatGenres(item, genres), [item, genres]);
 
-  //   const dateStr = useMemo(() => formatDate(item), [item]);
   const mediaDate = useMemo(() => getMediaDate(item), [item]);
 
   const hasValidRating = typeof item.vote_average === 'number' && item.vote_average > 0;
@@ -56,7 +55,6 @@ const MediaCard2 = ({ item, style, isFirst, isLast }: Props) => {
       setHovered(true);
 
       if (!videoKeyRef.current) {
-        // Call the server action
         const key = await getVideoKey(mediaMode as 'movie' | 'tv', item.id);
 
         if (key) {
@@ -77,8 +75,8 @@ const MediaCard2 = ({ item, style, isFirst, isLast }: Props) => {
   const dateStr = formatDate(item, mediaMode);
 
   const cardClasses = clsx(
-    '  relative w-full px-[12px] pt-[12px] rounded-[10.92px] bg-card-bg border border-solid border-card-stroke transition-[width,top,left,right,z-index] duration-300',
-    'group-hover:z-50 group-hover:w-[70vw] sm:group-hover:w-[54vw] md:group-hover:w-[41vw] lg:group-hover:w-[38vw] xl:group-hover:w-[34vw] 2xl:group-hover:w-[26vw] 2xl:group-hover:max-w-[26vw] group-hover:top-1/2 group-hover:-translate-y-1/2 ',
+    'relative w-full px-[12px] pt-[12px] rounded-[10.92px] bg-card-bg border border-solid border-card-stroke transition-[width,top,left,right,z-index] duration-300',
+    'group-hover:z-50 group-hover:w-[70vw] sm:group-hover:w-[54vw] md:group-hover:w-[41vw] lg:group-hover:w-[38vw] xl:group-hover:w-[34vw] 2xl:group-hover:w-[26vw] 2xl:group-hover:max-w-[26vw] group-hover:top-[43%] group-hover:-translate-y-1/2 ',
     {
       ' transform group-hover:right-[calc(70vw-100%)] sm:group-hover:right-[calc(70vw-151%)] md:group-hover:right-[calc(70vw-226%)] lg:group-hover:right-[calc(70vw-257%)] xl:group-hover:right-[calc(70vw-312%)] 2xl:group-hover:right-[calc(70vw-418%)]':
         isLast,
@@ -107,14 +105,16 @@ const MediaCard2 = ({ item, style, isFirst, isLast }: Props) => {
       <div className={cardClasses} style={{ transformOrigin }}>
         <figure className={figureClasses}>
           {hovered && videoKey ? (
-            <iframe
-              className="w-full h-full group-hover:rounded-[10.92px] group-hover:rounded-b-0 "
-              src={`https://www.youtube.com/embed/${videoKey}?autoplay=1&mute=0&controls=0&modestbranding=1&rel=0&showinfo=0&loop=1&playlist=${videoKey}`}
-              title={`${title} Trailer`}
-              loading="lazy"
-              allow="autoplay; encrypted-media"
-              allowFullScreen
-            />
+            <div className="absolute inset-0 bg-black animate-fadeIn overflow-hidden rounded-[10.92px]">
+              <iframe
+                className="w-full h-full object-cover"
+                style={{ pointerEvents: 'none' }}
+                src={`https://www.youtube.com/embed/${videoKey}?autoplay=1&mute=0&controls=0&modestbranding=1&rel=0&iv_load_policy=3&loop=1&playlist=${videoKey}`}
+                allow="autoplay; encrypted-media"
+                loading="lazy"
+                title={`${title} Trailer`}
+              />
+            </div>
           ) : (
             <PosterImage
               src={posterSrc || 'Media Poster'}
@@ -142,7 +142,6 @@ const MediaCard2 = ({ item, style, isFirst, isLast }: Props) => {
             <p className="truncate">{genreText}</p>
           </div>
 
-          {/* We wrap this in a div with a min-height to reserve the vertical space */}
           <div className="min-h-[28px] flex items-center">
             <SeasonBadge item={item} />
           </div>
