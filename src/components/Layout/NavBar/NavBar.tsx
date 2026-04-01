@@ -2,7 +2,6 @@
 
 import { AlignJustify, X, Search } from 'lucide-react';
 
-// import { Button } from '@/components/ui';
 import { Button } from '@/components/ui/button';
 import SearchBox from '@/components/ui/SearchBox/SearchBox';
 import { useNavBarLogic } from '@/hooks/useNavBarLogic';
@@ -25,7 +24,7 @@ const NavBar = () => {
             size="default"
             ref={refs.mobileMenuButtonRef}
             onClick={toggleMobileNav}
-            className="lg:hidden text-white py-7 px-5"
+            className="lg:hidden text-white py-7 px-5 cursor-pointer"
           >
             {isMobileNavOpen ? <X size={20} /> : <AlignJustify size={20} />}
           </Button>
@@ -41,14 +40,19 @@ const NavBar = () => {
             }}
             className="lg:hidden text-white ml-auto"
           >
-            <Search size={26} />
+            <Search
+              size={26}
+              className="cursor-pointer text-[#AAAAAA] hover:text-white transition-all duration-300 "
+            />
           </button>
         </MobileControls>
 
         {/* Desktop View */}
-        <div className="hidden lg:flex items-center gap-6 xl:gap-10">
+        {/* Desktop View */}
+        <NavLinks className="hidden lg:flex" />
+        {/* <div className="hidden lg:flex items-center gap-6 xl:gap-10">
           <NavLinks />
-        </div>
+        </div> */}
 
         <div className="hidden lg:flex items-center gap-5 flex-1 justify-end">
           <SearchBox />
