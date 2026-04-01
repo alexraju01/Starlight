@@ -142,7 +142,10 @@ const MediaCard2 = ({ item, style, isFirst, isLast }: Props) => {
             <p className="truncate">{genreText}</p>
           </div>
 
-          <SeasonBadge item={item} />
+          {/* We wrap this in a div with a min-height to reserve the vertical space */}
+          <div className="min-h-[28px] flex items-center">
+            <SeasonBadge item={item} />
+          </div>
         </div>
       </div>
     </Link>

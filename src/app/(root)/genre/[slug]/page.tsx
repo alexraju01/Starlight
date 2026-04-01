@@ -21,13 +21,11 @@ export default async function Page({ params }: Props) {
     api.media.getMedia(MediaMode.MOVIE, 1, [genreId]),
     api.media.getMedia(MediaMode.TV, 1, [genreId]),
   ]);
-  console.log(genreRelatedMovies);
 
   const combineRelatedMedia = [
     ...(genreRelatedMovies.map((media) => ({ ...media, media_type: 'movie' })) as Movie[]),
     ...(genreRelatedTv.map((media) => ({ ...media, media_type: 'tv' })) as TVShow[]),
   ];
-  console.log(combineRelatedMedia);
 
   const combineRelatedGenre = [...movieGenres, ...tvGenres];
   const foundGenre = combineRelatedGenre.find((item) => item.id === parseInt(slug));
@@ -69,11 +67,9 @@ export default async function Page({ params }: Props) {
         </div>
       </div>
 
-      {/* Media grid (normal flow) */}
-      <div className="mx-6 lg:mx-[68px] 2xl:mx-[101px] py-10">
+      <div className="lg:mx-[68px] 2xl:mx-[101px] px-6 py-12">
         <GenreMediaGrid media={combineRelatedMedia} />
       </div>
     </section>
-    // </Suspense>
   );
 }
