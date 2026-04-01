@@ -79,31 +79,11 @@ const MediaCard2 = ({ item, genreMap, mediaMode, style, isFirst, isLast }: Props
   const cardClasses = clsx(
     '  relative w-full px-[12px] pt-[12px] rounded-[10.92px] bg-card-bg border border-solid border-card-stroke transition-[width,top,left,right,z-index] duration-300',
     'group-hover:z-50 group-hover:w-[70vw] sm:group-hover:w-[54vw] md:group-hover:w-[41vw] lg:group-hover:w-[38vw] xl:group-hover:w-[34vw] 2xl:group-hover:w-[26vw] 2xl:group-hover:max-w-[26vw] group-hover:top-1/2 group-hover:-translate-y-1/2 ',
-    // 'group-hover:z-50 group-hover:w-[70vw] sm:group-hover:w-[60vw] md:group-hover:w-[47vw] lg:group-hover:w-[37vw] xl:group-hover:w-[35vw] 2xl:group-hover:w-[30vw] 2xl:group-hover:max-w-[26vw] group-hover:top-1/2 group-hover:-translate-y-1/2 group-hover:px-0 group-hover:pt-0',
     {
       ' transform group-hover:right-[calc(70vw-103%)] sm:group-hover:right-[calc(70vw-151%)] md:group-hover:right-[calc(70vw-226%)] lg:group-hover:right-[calc(70vw-257%)] xl:group-hover:right-[calc(70vw-312%)] 2xl:group-hover:right-[calc(70vw-418%)]':
         isLast,
     },
   );
-
-  //   const cardClasses = clsx(
-  //     'relative w-full rounded-[10.92px] bg-card-bg border border-solid border-card-stroke',
-  //     // Use a transition that covers transform and layout properties
-  //     'transition-all duration-300 ease-in-out',
-  //     'z-10',
-  //     // On hover, scale it up and ensure it sits on top
-  //     'hover:z-50 hover:scale-125 hover:shadow-2xl',
-  //     {
-  //       'origin-left': isFirst,
-  //       'origin-right': isLast,
-  //     },
-  //   );
-
-  //   const figureClasses = clsx(
-  //     'relative overflow-hidden w-full',
-  //     'h-[clamp(250px,60vw,370px)] sm:h-[clamp(250px,40vw,300px)] md:h-[clamp(200px,30vw,300px)] lg:h-[clamp(280px,27vw,340px)] group-hover:h-[240px] sm:group-hover:h-[260px]',
-  //     'transition-[height] duration-300',
-  //   );
 
   const figureClasses = clsx(
     ' relative w-full overflow-hidden transition-all duration-300 ease-in-out aspect-2/3 group-hover:aspect-video',
@@ -119,7 +99,7 @@ const MediaCard2 = ({ item, genreMap, mediaMode, style, isFirst, isLast }: Props
   return (
     <Link
       href={ROUTES.MEDIA(mediaMode, item.id, title)}
-      className="group relative  w-full  overflow-visible flex-shrink-0"
+      className="group relative w-full overflow-visible flex-shrink-0"
       style={{ ...style, display: 'block' }}
       onPointerEnter={handlePointerEnter}
       onPointerLeave={handlePointerLeave}
