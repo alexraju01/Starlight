@@ -1,6 +1,5 @@
 import { Suspense } from 'react';
 
-// import { LoadingSkeletons } from '@/components/Feedback/LoadingSkeletons';
 import { LoadingSkeletons } from '@/components/Feedback/LoadingSkeletons/LoadingSkeletons';
 import MediaList from '@/components/Media/MediaList';
 import { Media } from '@/types';
@@ -9,7 +8,6 @@ import { api } from '@/utils/api';
 
 async function TvContent() {
   const rawMedia = await api.media.getMedia(MediaMode.TV);
-  //   await sleep(5000);
   const mediaWithType = rawMedia.map((item) => ({
     ...item,
     media_type: 'tv',

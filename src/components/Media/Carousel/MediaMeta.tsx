@@ -26,12 +26,10 @@ export default function MediaMeta({ movie, genres }: Props) {
 
   return (
     <div className="flex flex-wrap items-center text-[clamp(1.3rem,1.2vw,1.8rem)] gap-x-3 gap-y-2 md:mb-6">
-      {/* Date - Clean white with slight tracking */}
       <span className=" font-bold text-white tracking-tight">{releaseDate}</span>
 
       <DotSeparator />
 
-      {/* Media Type - Using your Brand Red for the border/text accent */}
       <span
         className="
         px-2 py-0.5 
@@ -48,7 +46,7 @@ export default function MediaMeta({ movie, genres }: Props) {
 
       <DotSeparator />
 
-      {/* Genres - Using bullet points for a cleaner look than commas */}
+      {/* Genres - Using bullet points for a cleaner look*/}
       <div className="flex flex-wrap items-center gap-x-2">
         {genreLinks.map(({ id, label }, index) => (
           <div key={id} className="flex items-center">
