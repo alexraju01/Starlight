@@ -49,7 +49,7 @@ export default function MediaList({ initialMedia, mediaMode }: Props) {
 
   return (
     <MediaProvider mediaMode={mediaMode} genres={genres}>
-      <div className="">
+      <div className="animate-fadeIn">
         <div
           className="grid gap-8 w-full mb-8 transition-all relative overflow-hidden
                   grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6"

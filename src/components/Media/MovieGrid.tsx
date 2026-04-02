@@ -1,7 +1,7 @@
 'use client';
 
 import MediaCard2 from '@/components/Cards/MediaCard2/MediaCard2';
-import { DISCOVER_BREAKPOINTS } from '@/constants/breakpoints';
+import { CAROUSEL_BREAKPOINTS, DISCOVER_BREAKPOINTS } from '@/constants/breakpoints';
 import { MediaProvider } from '@/context/MediaContext';
 import { useGenres } from '@/hooks/useGenre';
 import { useResponsiveItems } from '@/hooks/useResponsiveItems';
@@ -20,7 +20,7 @@ export default function MovieGrid({ media }: Props) {
   // 2. Merge them into a single Record<number, string>
   const allGenres = { ...movieGenres, ...tvGenres };
 
-  const columns = useResponsiveItems(DISCOVER_BREAKPOINTS);
+  const columns = useResponsiveItems(CAROUSEL_BREAKPOINTS);
 
   if (!media.length || columns === null) return null;
 
