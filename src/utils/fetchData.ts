@@ -59,7 +59,6 @@ export default async function fetchData<T>(
     const errorBody = await safeParseJson(res);
     throw new FetchError(res.status, res.statusText, errorBody);
   }
-  //   console.log(`[${new Date().toISOString()}] Fetching TMDb: ${url.toString()}`);
 
   return res.json() as Promise<T>;
 }

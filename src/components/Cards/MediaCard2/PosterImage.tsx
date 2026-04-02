@@ -12,6 +12,7 @@ const PosterImage = ({ src, alt, className }: Props) => (
   <Image
     src={getImageUrl(src, 'poster', 'w342')}
     alt={alt}
+    loading="eager"
     fill
     quality={90}
     className={`object-cover ${className || ''}`}

@@ -18,7 +18,7 @@ const SimilarMedia = async ({ mediaMode, params }: Props) => {
   return (
     <>
       {similarMedia.results && similarMedia.results.length > 0 && (
-        <section className="text-[1.8rem] w-full pl-10 mb-20">
+        <section className="text-[1.8rem] w-full px-10  mb-20">
           <CustomSlider
             endpoint={`${mediaMode}/${params}/similar`}
             title={<SectionHeading icon={Icons.play}>{`Similar ${textChanger}`}</SectionHeading>}

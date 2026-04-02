@@ -1,7 +1,7 @@
 import { CastMember } from '@/types/cast';
 
 import Icons from '../../../utils/icons';
-import ImageWithFallback from '../../Feedback/BrokenImage/ImageWithFallback';
+import ImageWithFallback from '../../Skeletons/BrokenImage/ImageWithFallback';
 import SectionHeading from '../../Navigation/SectionHeading';
 
 interface Props {

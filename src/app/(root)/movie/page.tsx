@@ -1,12 +1,12 @@
 import { Suspense } from 'react';
 
-import { LoadingSkeletons } from '@/components/Feedback/LoadingSkeletons/LoadingSkeletons';
 import MediaList from '@/components/Media/MediaList';
+import { LoadingSkeletons } from '@/components/Skeletons/LoadingSkeletons/LoadingSkeletons';
 import { Media } from '@/types';
 import { MediaMode } from '@/types/mediaMode';
 import { api } from '@/utils/api';
 
-async function MovieGrid() {
+async function MovieContent() {
   const rawMedia = await api.media.getMedia(MediaMode.MOVIE);
 
   const mediaWithType = rawMedia.map((item) => ({
@@ -33,9 +33,9 @@ export default function MoviesPage() {
       </div>
 
       {/* Content */}
-      <section className=" lg:mx-[68px] 2xl:mx-[101px] py-12">
+      <section className="lg:mx-[68px] 2xl:mx-[101px] px-6 py-12">
         <Suspense fallback={<LoadingSkeletons />}>
-          <MovieGrid />
+          <MovieContent />
         </Suspense>
       </section>
     </section>

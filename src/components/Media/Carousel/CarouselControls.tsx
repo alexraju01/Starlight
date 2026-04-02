@@ -1,19 +1,19 @@
+'use client';
+
 import clsx from 'clsx';
+import { memo } from 'react';
 
 interface Props {
   onPrev: () => void;
   onNext: () => void;
 }
 
-export default function CarouselControls({ onPrev, onNext }: Props) {
+const CarouselControls = memo(function CarouselControls({ onPrev, onNext }: Props) {
   return (
     <div
       className={clsx(
         'absolute flex gap-2.5 p-4 z-2 w-full px-6 justify-end',
-        // Mobile styles
         'top-5 right-5',
-
-        // Override on medium and larger screens
         'bottom-[0px] md:bottom-[50px] md:pb-0 sm:right-[25px] sm:top-auto sm:w-auto sm:flex-row sm:px-12',
         'lg:right-[101px]',
       )}
@@ -60,4 +60,6 @@ export default function CarouselControls({ onPrev, onNext }: Props) {
       </button>
     </div>
   );
-}
+});
+
+export default CarouselControls;

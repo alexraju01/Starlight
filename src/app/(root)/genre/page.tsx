@@ -1,12 +1,12 @@
 import { Suspense } from 'react';
 
-import GenreSkeleton from '@/components/Feedback/LoadingSkeletons/GenreSkeleton';
 import GenreCard from '@/components/Genre/GenreCollection/GenreCard';
+import GenreSkeleton from '@/components/Skeletons/LoadingSkeletons/GenreSkeleton';
 import { api } from '@/utils/api';
 import Icons, { GenreKey } from '@/utils/icons';
 
 async function GenreGrid() {
-  const { movieGenres, tvGenres } = await api.getAllGenres();
+  const { movieGenres, tvGenres } = await api.genre.getAllGenres();
 
   const uniqueGenres = Array.from(
     new Map([...movieGenres, ...tvGenres].map((g) => [g.id, g])).values(),
@@ -17,7 +17,7 @@ async function GenreGrid() {
       {uniqueGenres.map((genre, i) => (
         <GenreCard
           key={genre.id}
-          {...genre}
+          name={genre.name}
           index={i}
           icon={Icons.genreIcons[genre.name as GenreKey]}
         />
@@ -30,7 +30,7 @@ export default function GenrePage() {
   return (
     <main className="min-h-screen bg-[#050505] text-white">
       <div className="relative border-b border-white/5 bg-gradient-to-b from-red-900/10 to-transparent px-6 py-16">
-        <div className="mx-auto max-w-[1500px] px-6 md:px-10 mt-20 lg:mt-30">
+        <div className="lg:mx-[68px] 2xl:mx-[101px]">
           <h1 className="text-4xl font-black uppercase tracking-tight md:text-6xl">
             Browse by <span className="text-primary">Genres</span>
           </h1>
@@ -40,7 +40,7 @@ export default function GenrePage() {
         </div>
       </div>
 
-      <section className="mx-auto max-w-[1500px] px-6 md:px-10 py-12">
+      <section className="lg:mx-[68px] 2xl:mx-[101px] px-6 py-12">
         <Suspense fallback={<GenreSkeleton />}>
           <GenreGrid />
         </Suspense>

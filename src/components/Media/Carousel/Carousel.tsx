@@ -1,57 +1,29 @@
-import { Genre, MediaMode } from '@/types';
-import { fetchData, mapGenres } from '@/utils';
+import { MediaMode } from '@/types';
+import { mapGenres } from '@/utils';
 import { api } from '@/utils/api';
-import { getImageUrl } from '@/utils/image/getImageUrl';
 
 import CarouselClient from './CarouselClient';
 import CarouselItem from './CarouselItem';
 
-type GenreResponse = { genres: Genre[] };
-type ImageResponse = {
-  logos: { file_path: string; iso_639_1: string }[];
-};
-
-interface Props {
+interface CarouselProps {
   mediaMode: MediaMode;
 }
 
-const getLogoImageUrl = async (
-  mediaMode: MediaMode,
-  mediaId: number,
-): Promise<string | undefined> => {
-  try {
-    const { logos } = await fetchData<ImageResponse>('3', `${mediaMode}/${mediaId}/images`);
-
-    const logo = logos?.find((l) => l.iso_639_1 === 'en') ?? logos?.[0];
-
-    return logo?.file_path ? getImageUrl(logo.file_path, 'logo', 'w300') : undefined;
-  } catch {
-    return undefined;
-  }
-};
-
-const loadCarouselData = async (mediaMode: MediaMode) => {
-  const [{ genres }, trendingMedia] = await Promise.all([
-    fetchData<GenreResponse>('3', `genre/${mediaMode}/list`),
-    api.getTrending(mediaMode, 1, 'week'),
-    // fetchData<TrendingMediaResponse>('3', `trending/${mediaMode}/week`),
+export default async function Carousel({ mediaMode }: CarouselProps) {
+  const [genresData, trending] = await Promise.all([
+    api.genre.getGenres(mediaMode),
+    api.media.getTrending(mediaMode, 1, 'week'),
   ]);
 
-  const movies = await Promise.all(
-    trendingMedia.slice(0, 9).map(async (item) => {
-      const logoImage = await getLogoImageUrl(mediaMode, item.id);
-      return logoImage ? { ...item, logoImage } : item;
-    }),
+  const genreMap = mapGenres(genresData.genres);
+
+  const moviesWithLogos = await Promise.all(
+    trending.slice(0, 9).map(async (item) => ({
+      ...item,
+      logoImage: await api.media.getLogos(mediaMode, item.id),
+    })),
   );
 
-  return {
-    genreMap: mapGenres(genres),
-    moviesWithLogos: movies,
-  };
-};
-
-const Carousel = async ({ mediaMode }: Props) => {
-  const { genreMap, moviesWithLogos } = await loadCarouselData(mediaMode);
   return (
     <CarouselClient itemCount={moviesWithLogos.length}>
       {moviesWithLogos.map((movie, index) => (
@@ -59,6 +31,4 @@ const Carousel = async ({ mediaMode }: Props) => {
       ))}
     </CarouselClient>
   );
-};
-
-export default Carousel;
+}

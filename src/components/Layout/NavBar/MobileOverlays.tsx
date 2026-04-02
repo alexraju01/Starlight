@@ -1,0 +1,47 @@
+import SearchBox from '@/components/ui/SearchBox/SearchBox';
+
+import NavLinks from './NavLinks';
+
+interface MobileOverlaysProps {
+  isSearchOpen: boolean;
+  isMobileNavOpen: boolean;
+  setIsMobileNavOpen: (open: boolean) => void;
+  searchWrapperRef: React.RefObject<HTMLDivElement | null>;
+  mobileNavRef: React.RefObject<HTMLDivElement | null>;
+}
+
+const MobileOverlays = ({
+  isSearchOpen,
+  isMobileNavOpen,
+  setIsMobileNavOpen,
+  searchWrapperRef,
+  mobileNavRef,
+}: MobileOverlaysProps) => (
+  <>
+    {/* 📱 Search Dropdown */}
+    <div
+      ref={searchWrapperRef}
+      className={`relative lg:hidden transition-all duration-300 ease-in-out bg-[#0E0E0E] ${
+        isSearchOpen ? 'max-h-[100vh] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
+      }`}
+    >
+      <div className="px-6 py-4">
+        <SearchBox />
+      </div>
+    </div>
+
+    {/* 📱 Nav Menu */}
+    <div
+      ref={mobileNavRef}
+      className={`lg:hidden relative transition-all duration-300 ease-in-out ${
+        isMobileNavOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
+      }`}
+    >
+      <div className="absolute w-full bg-[#100F10] p-6 shadow-xl">
+        <NavLinks className="flex flex-col gap-4" onLinkClick={() => setIsMobileNavOpen(false)} />
+      </div>
+    </div>
+  </>
+);
+
+export default MobileOverlays;

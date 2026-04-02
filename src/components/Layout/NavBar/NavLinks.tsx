@@ -4,24 +4,19 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 import { links } from '@/constants';
-import { cn } from '@/lib/utils';
 
-const NavLinks = ({
-  className = '',
-  onLinkClick,
-}: {
-  className?: string;
+// Added className to the Props interface
+interface NavLinksProps {
   onLinkClick?: () => void;
-}) => {
+  className?: string;
+}
+
+const NavLinks = ({ onLinkClick, className = '' }: NavLinksProps) => {
   const pathname = usePathname();
 
   return (
-    <ul
-      className={cn(
-        'flex flex-col lg:flex-row lg:items-center md:gap-3 md:px-2 md:py-1.5 md:rounded-2xl xl:gap-5 xl:px-2.5 xl:py-2.5',
-        className,
-      )}
-    >
+    // Use a template literal to merge the default styles with the passed className
+    <ul className={`lg:flex lg:flex-row lg:items-center gap-3 xl:gap-5 ${className}`}>
       {links.map((link) => {
         const isActive = pathname === link.href;
 
@@ -31,10 +26,12 @@ const NavLinks = ({
               href={link.href as any}
               aria-current={isActive ? 'page' : undefined}
               onClick={onLinkClick}
-              className={cn(
-                'inline-block whitespace-nowrap text-[16px] xl:text-[18px] font-Helvetica leading-[150%] px-4 py-2.5 xl:px-6 xl:py-[14px] rounded-md transition-colors duration-200',
-                isActive ? 'bg-primary text-white' : 'text-[#BFBFBF] hover:text-white',
-              )}
+              className={`
+                inline-block whitespace-nowrap text-[16px] xl:text-[18px] font-Helvetica 
+                px-4 py-2.5 xl:px-6 xl:py-[14px] rounded-md 
+                transition-all duration-300 ease-in-out cursor-pointer
+                ${isActive ? 'bg-primary text-white' : 'text-[#BFBFBF] hover:text-white'}
+              `}
             >
               {link.name}
             </Link>
