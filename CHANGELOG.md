@@ -1,3 +1,9 @@
+## [2.5.1](https://github.com/alexraju01/Starlight/compare/v2.5.0...v2.5.1) (2026-04-02)
+
+### 🛠 Refactors
+
+* Update ITEM_GAP constant in CustomSliderClient for improved layout consistency ([3fbc2ec](https://github.com/alexraju01/Starlight/commit/3fbc2ecc005c641c37f88f062bc4e993b673956f))
+
 ## [2.5.0](https://github.com/alexraju01/Starlight/compare/v2.4.0...v2.5.0) (2026-04-02)
 
 ### ✨ Features
