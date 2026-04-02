@@ -1,21 +1,26 @@
 'use client';
 
 import clsx from 'clsx';
-import { Volume2, VolumeX } from 'lucide-react'; // Example icons
 import Link from 'next/link';
-import { useState, useMemo, useRef, useEffect } from 'react';
+import { useState, useMemo, useRef } from 'react';
 
 import { ROUTES } from '@/constants/route';
 import { useMediaContext } from '@/context/MediaContext';
-import { MediaListItem, MediaWithDetails } from '@/types/global';
+import { MediaWithDetails } from '@/types/global';
 import { formatGenres } from '@/utils';
 import { formatDate } from '@/utils/date';
 import { getVideoKey } from '@/utils/serverActions/getVideoKey';
 import { isMovie, isTVShow } from '@/utils/typeGuard';
 
+import { MediaCardInfo } from './MediaCardInfo';
+import { MediaVideoPlayer } from './MediaVideoPlayer';
 import PosterImage from './PosterImage';
-import RatingBadge from './RatingBadge';
-import SeasonBadge from './SeasonBadge';
+
+const getMediaDate = (item: any): string => {
+  if (isMovie(item)) return item.release_date;
+  if (isTVShow(item)) return item.first_air_date;
+  return '';
+};
 
 interface Props {
   item: MediaWithDetails;
@@ -23,31 +28,6 @@ interface Props {
   isFirst?: boolean;
   isLast?: boolean;
 }
-
-// Helper to load YouTube API globally
-const loadYouTubeAPI = () => {
-  if (window.YT && window.YT.Player) return Promise.resolve();
-  return new Promise<void>((resolve) => {
-    const tag = document.createElement('script');
-    tag.src = 'https://www.youtube.com/iframe_api';
-    const firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
-
-    // Polling check for YT readiness
-    const checkYT = setInterval(() => {
-      if (window.YT && window.YT.Player) {
-        clearInterval(checkYT);
-        resolve();
-      }
-    }, 100);
-  });
-};
-
-const getMediaDate = (item: MediaListItem): string => {
-  if (isMovie(item)) return item.release_date;
-  if (isTVShow(item)) return item.first_air_date;
-  return '';
-};
 
 const MediaCard2 = ({ item, style, isFirst, isLast }: Props) => {
   const { mediaMode, genres } = useMediaContext();
@@ -57,7 +37,6 @@ const MediaCard2 = ({ item, style, isFirst, isLast }: Props) => {
 
   const videoKeyRef = useRef<string | null>(null);
   const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const playerRef = useRef<any>(null);
   const iframeId = `yt-player-${item.id}`;
 
   const title = item.name || item.title;
@@ -65,54 +44,16 @@ const MediaCard2 = ({ item, style, isFirst, isLast }: Props) => {
   const mediaDate = useMemo(() => getMediaDate(item), [item]);
   const dateStr = formatDate(item, mediaMode);
   const hasValidRating = typeof item.vote_average === 'number' && item.vote_average > 0;
-  const transformOrigin = isFirst ? 'left center' : isLast ? 'right center' : 'center';
 
-  const isUpcoming = useMemo(() => {
-    const releaseDate = new Date(mediaDate);
-    return releaseDate > new Date();
-  }, [mediaDate]);
+  const isUpcoming = useMemo(() => new Date(mediaDate) > new Date(), [mediaDate]);
 
-  // Handle Mute/Unmute Logic
   const handleToggleMute = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-
-    if (playerRef.current && typeof playerRef.current.mute === 'function') {
-      if (isMuted) {
-        playerRef.current.unMute();
-        setIsMuted(false);
-      } else {
-        playerRef.current.mute();
-        setIsMuted(true);
-      }
-    }
+    setIsMuted((prev) => !prev);
+    // Note: The actual player mute call will happen via prop sync or a ref if needed,
+    // but in many cases, re-rendering the iframe with a new mute param works if the API is tricky.
   };
-
-  useEffect(() => {
-    if (hovered && videoKey) {
-      loadYouTubeAPI().then(() => {
-        playerRef.current = new window.YT.Player(iframeId, {
-          events: {
-            onReady: (event: any) => {
-              event.target.mute(); // Browser compliance
-              event.target.playVideo();
-            },
-          },
-        });
-      });
-    }
-
-    return () => {
-      if (playerRef.current) {
-        try {
-          playerRef.current.destroy();
-        } catch (e) {
-          console.error('Player cleanup error', e);
-        }
-        playerRef.current = null;
-      }
-    };
-  }, [hovered, videoKey, iframeId]);
 
   const handlePointerEnter = async () => {
     hoverTimeoutRef.current = setTimeout(async () => {
@@ -130,7 +71,7 @@ const MediaCard2 = ({ item, style, isFirst, isLast }: Props) => {
   const handlePointerLeave = () => {
     if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
     setHovered(false);
-    setIsMuted(true); // Reset mute state for next hover
+    setIsMuted(true);
   };
 
   // Dynamic Classes
@@ -143,13 +84,6 @@ const MediaCard2 = ({ item, style, isFirst, isLast }: Props) => {
     },
   );
 
-  const figureClasses = clsx(
-    ' relative w-full max-h-[230px] sm:max-h-none overflow-hidden transition-all duration-300 ease-in-out aspect-2/3 group-hover:aspect-video',
-  );
-
-  const posterSrc =
-    hovered && !videoKey && item.backdrop_path ? item.backdrop_path : item.poster_path;
-
   return (
     <Link
       href={ROUTES.MEDIA(mediaMode, item.id, title)}
@@ -158,41 +92,24 @@ const MediaCard2 = ({ item, style, isFirst, isLast }: Props) => {
       onPointerEnter={handlePointerEnter}
       onPointerLeave={handlePointerLeave}
     >
-      <div className={cardClasses} style={{ transformOrigin }}>
-        <figure className={figureClasses}>
+      <div
+        className={cardClasses}
+        style={{ transformOrigin: isFirst ? 'left' : isLast ? 'right' : 'center' }}
+      >
+        <figure className="relative w-full overflow-hidden transition-all duration-300 aspect-2/3 group-hover:aspect-video">
           {hovered && videoKey ? (
-            <div className="absolute inset-0 bg-black animate-fadeIn overflow-hidden rounded-[10.92px]">
-              {/* This invisible div catches all clicks over the video area */}
-              <div className="absolute inset-0 z-40 cursor-pointer" onClick={handleToggleMute} />
-
-              {/* THE MUTE BUTTON */}
-              <button
-                type="button"
-                onClick={handleToggleMute}
-                className="absolute bottom-3 right-3 z-50 flex size-13 items-center justify-center rounded-full bg-black/60 text-white border border-white/20 hover:scale-110 transition-all active:scale-95"
-              >
-                {isMuted ? (
-                  <VolumeX className="cursor-pointer" size={23} />
-                ) : (
-                  <Volume2 className="cursor-pointer" size={23} />
-                )}
-              </button>
-
-              <div className="w-full h-full pointer-events-none scale-[1.35]">
-                <iframe
-                  id={iframeId}
-                  className="w-full h-full object-cover"
-                  src={`https://www.youtube.com/embed/${videoKey}?enablejsapi=1&autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&iv_load_policy=3&loop=1&playlist=${videoKey}`}
-                  allow="autoplay; encrypted-media"
-                  title={`${title} Trailer`}
-                />
-              </div>
-            </div>
+            <MediaVideoPlayer
+              videoKey={videoKey}
+              iframeId={iframeId}
+              title={title}
+              isMuted={isMuted}
+              onToggleMute={handleToggleMute}
+            />
           ) : (
             <PosterImage
-              src={posterSrc || 'Media Poster'}
-              alt={title || 'Movie Poster'}
-              className={clsx('rounded-[10.92px]', { 'rounded-b-0': hovered && !videoKey })}
+              src={(hovered && !videoKey ? item.backdrop_path : item.poster_path) || 'Media Poster'}
+              alt={title}
+              className={clsx('rounded-[10.92px]', hovered && !videoKey && 'rounded-b-0')}
             />
           )}
 
@@ -203,22 +120,14 @@ const MediaCard2 = ({ item, style, isFirst, isLast }: Props) => {
           )}
         </figure>
 
-        <div className="flex flex-col px-6 gap-3 py-5 truncate md:px-[10px]">
-          <div className="flex justify-between">
-            <h3 className="text-2xl text-white font-medium truncate">{title}</h3>
-            {hasValidRating && <RatingBadge rating={item.vote_average} />}
-          </div>
-
-          <div className="flex gap-3.5 text-gray-400 text-xl">
-            <time dateTime={mediaDate}>{dateStr}</time>
-            <p>|</p>
-            <p className="truncate">{genreText}</p>
-          </div>
-
-          <div className="min-h-[28px] flex items-center">
-            <SeasonBadge item={item} />
-          </div>
-        </div>
+        <MediaCardInfo
+          item={item}
+          title={title}
+          dateStr={dateStr}
+          mediaDate={mediaDate}
+          genreText={genreText}
+          hasValidRating={hasValidRating}
+        />
       </div>
     </Link>
   );

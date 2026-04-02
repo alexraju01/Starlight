@@ -20,7 +20,7 @@ interface Props {
   breakpoints?: { max: number; value: number }[];
 }
 
-const ITEM_GAP = 16;
+const ITEM_GAP = 10;
 
 export default function CustomSliderClient({
   media,
@@ -68,7 +68,7 @@ export default function CustomSliderClient({
       <section className="flex flex-col w-full mb-10 text-white gap-4">
         <header className="flex justify-between items-center px-2">
           <h2 className="slider-title">{title}</h2>
-          <div className="flex gap-2 px-4 py-2 z-10">
+          <div className="flex gap-2 px-1 py-2 z-10">
             <CustomSliderButtons
               direction="left"
               onClick={() => handleClick('left')}
@@ -84,7 +84,7 @@ export default function CustomSliderClient({
 
         <div className="relative w-full overflow-hidden">
           <div
-            className="flex transition-transform duration-300 ease-in-out ml-3 w-full"
+            className="flex transition-transform duration-300 ease-in-out ml-2 w-full"
             style={transformStyle}
           >
             {media.map((item, i) => {
