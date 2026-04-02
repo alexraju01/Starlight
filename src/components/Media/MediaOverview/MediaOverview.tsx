@@ -53,14 +53,16 @@ export default async function MediaOverview({ params, mediaMode }: Props) {
       : '/placeholder.jpg';
 
   return (
-    <div className=" w-full h-full ">
-      <Image
-        alt={mediaTitle}
-        src={mediaSrc}
-        fill
-        className="absolute  left-0 h-full w-full object-cover z-[-1] brightness-[0.9] animate-fadeIn top-[-10rem] 
-                            xl:h-auto xl:brightness-100 mask-gradient-default"
-      />
+    <div className="h-full w-full">
+      <div className="absolute inset-0">
+        <Image
+          alt={mediaTitle}
+          src={mediaSrc}
+          fill
+          className="absolute  left-0 h-full w-full object-cover brightness-[0.9] animate-fadeIn top-[-10rem] 
+        xl:h-auto xl:brightness-100 mask-gradient-default"
+        />
+      </div>
       <GoBack />
 
       <div className="pt-[30%] px-12 xl:pt-0 xl:pb-[10rem] xl:pl-12 xl:h-[calc(100vh-100px)] xl:w-[50rem] xl:box-border xl:flex xl:flex-col xl:justify-end">

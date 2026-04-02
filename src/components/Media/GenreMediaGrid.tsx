@@ -8,7 +8,7 @@ import { useResponsiveItems } from '@/hooks/useResponsiveItems';
 import { MediaMode } from '@/types';
 import { MediaWithDetails } from '@/types/global';
 
-import { LoadingSkeletons } from '../Feedback/LoadingSkeletons/LoadingSkeletons';
+import { LoadingSkeletons } from '../Skeletons/LoadingSkeletons/LoadingSkeletons';
 // 1. Import the Provider
 
 interface Props {

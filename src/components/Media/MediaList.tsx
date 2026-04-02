@@ -4,7 +4,6 @@ import { Loader } from 'lucide-react';
 import { useState } from 'react';
 
 import MediaCard2 from '@/components/Cards/MediaCard2';
-import { LoadingSkeletons } from '@/components/Feedback/LoadingSkeletons/LoadingSkeletons';
 import Button from '@/components/ui/Button/Button';
 import { CAROUSEL_BREAKPOINTS } from '@/constants/breakpoints';
 import { MediaProvider } from '@/context/MediaContext';
@@ -13,6 +12,8 @@ import { useResponsiveItems } from '@/hooks/useResponsiveItems';
 import { Movie, TVShow } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
 import { api } from '@/utils/api';
+
+import { LoadingSkeletons } from '../Skeletons/LoadingSkeletons/LoadingSkeletons';
 
 interface Props {
   initialMedia: (Movie | TVShow)[];

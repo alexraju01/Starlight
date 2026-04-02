@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 
-import GenreSkeleton from '@/components/Feedback/LoadingSkeletons/GenreSkeleton';
+import GenreSkeleton from '@/components/Skeletons/LoadingSkeletons/GenreSkeleton';
 import GenreCard from '@/components/Genre/GenreCollection/GenreCard';
 import { api } from '@/utils/api';
 import Icons, { GenreKey } from '@/utils/icons';

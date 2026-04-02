@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 
-import { LoadingSkeletons } from '@/components/Feedback/LoadingSkeletons/LoadingSkeletons';
 import MediaList from '@/components/Media/MediaList';
+import { LoadingSkeletons } from '@/components/Skeletons/LoadingSkeletons/LoadingSkeletons';
 import { Media } from '@/types';
 import { MediaMode } from '@/types/mediaMode';
 import { api } from '@/utils/api';

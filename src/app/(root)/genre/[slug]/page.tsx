@@ -1,8 +1,9 @@
 import Image from 'next/image';
 import { Suspense } from 'react';
 
-import { LoadingSkeletons } from '@/components/Feedback/LoadingSkeletons/LoadingSkeletons';
 import GenreMediaList from '@/components/Genre/GenreMediaList';
+import { GenreHeaderSkeleton } from '@/components/Skeletons/GenreHeaderSkeleton';
+import { LoadingSkeletons } from '@/components/Skeletons/LoadingSkeletons/LoadingSkeletons';
 import { MediaMode } from '@/types';
 import { api } from '@/utils/api';
 
@@ -36,7 +37,7 @@ async function GenreContent({ slug }: { slug: string }) {
   return (
     <>
       {backgroundImage && (
-        <div className="pointer-events-none fixed top-0 left-0 w-full h-screen -z-10">
+        <div className="pointer-events-none fixed top-0 left-0 w-full h-screen -z-1">
           <Image src={backgroundImage} alt={genreName} fill priority className="object-cover" />
           <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/70 to-black" />
         </div>
@@ -60,7 +61,14 @@ export default async function Page({ params }: Props) {
   const { slug } = await params;
   return (
     <section className="relative overflow-hidden">
-      <Suspense fallback={<LoadingSkeletons />}>
+      <Suspense
+        fallback={
+          <>
+            <GenreHeaderSkeleton />
+            <LoadingSkeletons />
+          </>
+        }
+      >
         <GenreContent slug={slug} />
       </Suspense>
     </section>

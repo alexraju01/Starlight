@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 
 import { MediaOverview } from '@/components';
-import { Spinner } from '@/components/Feedback/LoadingSkeletons';
+import { Spinner } from '@/components/Skeletons/LoadingSkeletons';
 import { MediaMode } from '@/types/mediaMode';
 
 interface Props {
