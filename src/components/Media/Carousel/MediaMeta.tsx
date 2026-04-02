@@ -51,7 +51,7 @@ export default function MediaMeta({ movie, genres }: Props) {
         {genreLinks.map(({ id, label }, index) => (
           <div key={id} className="flex items-center">
             <Link
-              href={ROUTES.GENRE(id)}
+              href={ROUTES.GENRE(label)}
               className="text-[clamp(1.1rem,1.1vw,1.5rem)] text-gray-300 transition-colors hover:text-white"
             >
               {label}

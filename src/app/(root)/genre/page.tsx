@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 
-import GenreSkeleton from '@/components/Skeletons/LoadingSkeletons/GenreSkeleton';
 import GenreCard from '@/components/Genre/GenreCollection/GenreCard';
+import GenreSkeleton from '@/components/Skeletons/LoadingSkeletons/GenreSkeleton';
 import { api } from '@/utils/api';
 import Icons, { GenreKey } from '@/utils/icons';
 
@@ -13,13 +13,11 @@ async function GenreGrid() {
   ).sort((a, b) => a.name.localeCompare(b.name));
 
   return (
-    //   <div className="relative border-b border-white/5 bg-gradient-to-b from-red-900/10 to-transparent px-6 py-16">
-
     <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
       {uniqueGenres.map((genre, i) => (
         <GenreCard
           key={genre.id}
-          {...genre}
+          name={genre.name}
           index={i}
           icon={Icons.genreIcons[genre.name as GenreKey]}
         />

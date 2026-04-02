@@ -121,3 +121,10 @@ export interface MediaWithDetails extends MoviesWithLogos {
   first_air_date?: string;
   number_of_seasons?: number; // This is what we need for the badge
 }
+
+declare global {
+  interface Window {
+    onYouTubeIframeAPIReady: () => void;
+    YT: any;
+  }
+}

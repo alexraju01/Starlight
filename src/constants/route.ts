@@ -17,7 +17,8 @@ export const ROUTES = {
   MEDIA: (mode: MediaMode, id: number, slug?: string): Route =>
     (mode === 'movie' ? ROUTES.MOVIE(id, slug) : ROUTES.TV(id, slug)) as Route,
 
-  GENRE: (id: number): Route => `/genre/${id}` as Route,
+  // routes.ts
+  GENRE: (name: string): Route => `/genre/${slugify(name)}` as Route,
 
   DISCOVER: (text: string): Route => `/discover?search=${slugify(text)}` as Route,
 

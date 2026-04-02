@@ -19,7 +19,6 @@ export default function MediaDetailsPanel({ media, mediaMode }: Props) {
   const { overview, vote_average, genres } = media;
   const mediaTitle = isMovie(media) ? media.title : media.name;
   const releaseDate = isMovie(media) ? media.release_date : media.first_air_date;
-
   return (
     <div className="pt-[30%] px-12 xl:pt-0 xl:pb-[10rem] xl:pl-12 xl:h-[calc(100vh-100px)] xl:w-[50rem] xl:box-border xl:flex xl:flex-col xl:justify-end">
       <h1 className="text-center text-[3.5rem] mb-8 font-bold drop-shadow-[2px_5px_5px_black]">
@@ -43,11 +42,13 @@ export default function MediaDetailsPanel({ media, mediaMode }: Props) {
         </div>
 
         <div className="flex flex-wrap justify-center font-normal gap-4 text-[1.7rem] mb-8">
-          {genres?.map((genre: Genre) => (
-            <Link key={genre.id} href={ROUTES.GENRE(genre.id)}>
-              <p className="genre-item">{genre.name}</p>
-            </Link>
-          ))}
+          {genres?.map((genre: Genre) => {
+            return (
+              <Link key={genre.id} href={ROUTES.GENRE(genre.name)}>
+                <p className="genre-item">{genre.name}</p>
+              </Link>
+            );
+          })}
         </div>
 
         {isTVShow(media) && media.number_of_seasons != null && media.number_of_episodes != null && (
