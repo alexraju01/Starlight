@@ -3,6 +3,7 @@
 import React, { useState, useMemo, useCallback, CSSProperties } from 'react';
 
 import { MediaCard2 } from '@/components/Cards';
+import CustomSliderSkeleton from '@/components/Skeletons/LoadingSkeletons/CustomSliderLoading';
 import { CAROUSEL_BREAKPOINTS } from '@/constants/breakpoints';
 import { MediaProvider } from '@/context/MediaContext';
 import { useResponsiveItems } from '@/hooks/useResponsiveItems';
@@ -59,7 +60,7 @@ export default function CustomSliderClient({
   }, [sliderIndex, itemsPerScreen]);
 
   if (!itemsPerScreen) {
-    return <div className="text-gray-400 text-center py-6">Loading slider...</div>;
+    return <CustomSliderSkeleton />;
   }
 
   return (
