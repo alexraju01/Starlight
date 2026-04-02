@@ -33,7 +33,7 @@ export default function MoviesPage() {
       </div>
 
       {/* Content */}
-      <section className=" lg:mx-[68px] 2xl:mx-[101px] px-6 py-12">
+      <section className="lg:mx-[68px] 2xl:mx-[101px] px-6 py-12">
         <Suspense fallback={<LoadingSkeletons />}>
           <MovieContent />
         </Suspense>
