@@ -20,7 +20,7 @@ interface Props {
   breakpoints?: { max: number; value: number }[];
 }
 
-const ITEM_GAP = 10;
+const ITEM_GAP = 16;
 
 export default function CustomSliderClient({
   media,
