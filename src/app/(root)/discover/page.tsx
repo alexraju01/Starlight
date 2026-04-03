@@ -28,7 +28,7 @@ export default function DiscoverPage() {
     setQuery(value);
     replace(`?${params.toString()}`);
   };
-
+  // lg:mx-[68px] 2xl:mx-[101px] px-6 py-12
   return (
     <div className="flex min-h-screen w-full flex-col items-center justify-center gap-16 px-4 py-8">
       <h2 className="text-center text-4xl font-bold text-white animate-fadeIn drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">
@@ -38,7 +38,9 @@ export default function DiscoverPage() {
       <SearchForm query={query} onChangeAction={handleInputChange} onSubmitAction={() => {}} />
 
       {genresLoaded ? (
-        <MovieGrid media={movies} />
+        <div className="lg:mx-[68px] 2xl:mx-[101px] px-6 py-12">
+          <MovieGrid media={movies} />
+        </div>
       ) : (
         <p className="text-white text-2xl">Loading genres...</p>
       )}

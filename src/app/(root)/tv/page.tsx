@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 
-import { LoadingSkeletons } from '@/components/Skeletons/LoadingSkeletons/LoadingSkeletons';
 import MediaList from '@/components/Media/MediaList';
+import { LoadingSkeletons } from '@/components/Skeletons/LoadingSkeletons/LoadingSkeletons';
 import { Media } from '@/types';
 import { MediaMode } from '@/types/mediaMode';
 import { api } from '@/utils/api';
@@ -10,7 +10,7 @@ async function TvContent() {
   const rawMedia = await api.media.getMedia(MediaMode.TV);
   const mediaWithType = rawMedia.map((item) => ({
     ...item,
-    media_type: 'tv',
+    media_type: MediaMode.TV,
   })) as Media[];
 
   return <MediaList initialMedia={mediaWithType} mediaMode={MediaMode.TV} />;
@@ -32,7 +32,7 @@ export default function TVPage() {
       </div>
 
       {/* Content */}
-      <section className=" lg:mx-[68px] 2xl:mx-[101px] py-12">
+      <section className="lg:mx-[68px] 2xl:mx-[101px] px-6 py-12">
         <Suspense fallback={<LoadingSkeletons />}>
           <TvContent />
         </Suspense>

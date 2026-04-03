@@ -11,7 +11,7 @@ async function MovieContent() {
 
   const mediaWithType = rawMedia.map((item) => ({
     ...item,
-    media_type: 'movie',
+    media_type: MediaMode.MOVIE,
   })) as Media[];
 
   return <MediaList initialMedia={mediaWithType} mediaMode={MediaMode.MOVIE} />;
