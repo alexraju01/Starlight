@@ -39,8 +39,8 @@ async function GenreContent({ genreSlug }: { genreSlug: string }) {
   ]);
 
   const combineRelatedMedia = [
-    ...genreRelatedMovies.map((m) => ({ ...m, media_type: 'movie' })),
-    ...genreRelatedTv.map((m) => ({ ...m, media_type: 'tv' })),
+    ...genreRelatedMovies.map((m) => ({ ...m, media_type: MediaMode.MOVIE })),
+    ...genreRelatedTv.map((m) => ({ ...m, media_type: MediaMode.TV })),
   ];
 
   //   const foundGenre = [...movieGenres, ...tvGenres].find((g) => g.id === genreId);

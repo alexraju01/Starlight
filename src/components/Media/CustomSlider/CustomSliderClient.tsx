@@ -82,9 +82,9 @@ export default function CustomSliderClient({
           </div>
         </header>
 
-        <div className="relative w-full overflow-hidden">
+        <div className="relative px-2 -ml-3 w-full  overflow-hidden">
           <div
-            className="flex transition-transform duration-300 ease-in-out ml-2 w-full"
+            className="flex transition-transform duration-300 ml-6  ease-in-out w-full"
             style={transformStyle}
           >
             {media.map((item, i) => {
