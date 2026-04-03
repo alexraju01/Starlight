@@ -1,3 +1,10 @@
+## [2.5.2](https://github.com/alexraju01/Starlight/compare/v2.5.1...v2.5.2) (2026-04-03)
+
+### 🛠 Refactors
+
+* Enhanced layout and animation in DiscoverPage, MediaList, and MovieGrid components ([3f8e117](https://github.com/alexraju01/Starlight/commit/3f8e1178317e3ce51099068f5f3620e34b887f5c))
+* Replace hardcoded media_type strings with MediaMode constants for consistency and clarity ([ea49110](https://github.com/alexraju01/Starlight/commit/ea491101435c110c5b8e6786353f4e2bc8f3ff74))
+
 ## [2.5.1](https://github.com/alexraju01/Starlight/compare/v2.5.0...v2.5.1) (2026-04-02)
 
 ### 🛠 Refactors
