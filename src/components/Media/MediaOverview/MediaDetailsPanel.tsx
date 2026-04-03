@@ -20,7 +20,7 @@ export default function MediaDetailsPanel({ media, mediaMode }: Props) {
   const mediaTitle = isMovie(media) ? media.title : media.name;
   const releaseDate = isMovie(media) ? media.release_date : media.first_air_date;
   return (
-    <div className="pt-[30%] px-12 xl:pt-0 xl:pb-[10rem] xl:pl-12 xl:h-[calc(100vh-100px)] xl:w-[50rem] xl:box-border xl:flex xl:flex-col xl:justify-end">
+    <div className="pt-[30%] xl:pt-0 xl:pb-[10rem] xl:pl-12 xl:h-[calc(100vh-100px)] xl:w-[50rem] xl:box-border xl:flex xl:flex-col xl:justify-end">
       <h1 className="text-center text-[3.5rem] mb-8 font-bold drop-shadow-[2px_5px_5px_black]">
         {mediaTitle}
       </h1>

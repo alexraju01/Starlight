@@ -11,7 +11,7 @@ const Home = () => {
       <section className="relative sm:mt-15 h-full bg-[#100F10] w-full  overflow-hidden">
         <BlurBackground />
 
-        <div className="mx-6 lg:mx-[68px] 2xl:mx-[101px]">
+        <div className="mx-6 lg:mx-[68px] 2xl:mx-[101px] px-2">
           <GenreCollection />
           <SliderBoundary message="Failed to load trending movies.">
             <CustomSlider

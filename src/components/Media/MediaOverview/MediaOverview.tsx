@@ -38,12 +38,13 @@ export default async function MediaOverview({ params, mediaMode }: Props) {
     <>
       <MediaBackdrop media={mediaDetails} mediaMode={mediaMode} />
       <GoBack />
+      <div className="px-6 md:px-12">
+        <MediaDetailsPanel media={mediaDetails} mediaMode={mediaMode} />
 
-      <MediaDetailsPanel media={mediaDetails} mediaMode={mediaMode} />
-
-      {isTVShow(mediaDetails) && <Seasons seasons={mediaDetails.seasons} />}
-      <CastContainer castList={credits.cast.slice(0, 10)} />
-      <SimilarMedia mediaMode={mediaMode} params={params} />
+        {isTVShow(mediaDetails) && <Seasons seasons={mediaDetails.seasons} />}
+        <CastContainer castList={credits.cast.slice(0, 10)} />
+        <SimilarMedia mediaMode={mediaMode} params={params} />
+      </div>
     </>
   );
 }

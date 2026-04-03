@@ -13,21 +13,16 @@ interface Props {
   params: string;
 }
 const SimilarMedia = async ({ mediaMode, params }: Props) => {
-  const similarMedia = await fetchData<APIResponse>('3', `${mediaMode}/${params}/similar`);
   const textChanger = mediaMode === 'tv' ? 'TV Shows' : 'Movies';
   return (
-    <>
-      {similarMedia.results && similarMedia.results.length > 0 && (
-        <section className="text-[1.8rem] w-full px-10  mb-20">
-          <CustomSlider
-            endpoint={`${mediaMode}/${params}/similar`}
-            title={<SectionHeading icon={Icons.play}>{`Similar ${textChanger}`}</SectionHeading>}
-            mediaMode={mediaMode}
-            breakpoints={DISCOVER_BREAKPOINTS}
-          />
-        </section>
-      )}
-    </>
+    <section className="text-[1.8rem] w-full mb-20">
+      <CustomSlider
+        endpoint={`${mediaMode}/${params}/recommendations`}
+        title={<SectionHeading icon={Icons.play}>{`Similar ${textChanger}`}</SectionHeading>}
+        mediaMode={mediaMode}
+        breakpoints={DISCOVER_BREAKPOINTS}
+      />
+    </section>
   );
 };
 

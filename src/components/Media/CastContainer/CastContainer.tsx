@@ -1,8 +1,8 @@
 import { CastMember } from '@/types/cast';
 
 import Icons from '../../../utils/icons';
-import ImageWithFallback from '../../Skeletons/BrokenImage/ImageWithFallback';
 import SectionHeading from '../../Navigation/SectionHeading';
+import ImageWithFallback from '../../Skeletons/BrokenImage/ImageWithFallback';
 
 interface Props {
   castList: CastMember[];
@@ -12,7 +12,7 @@ export default async function CastContainer({ castList }: Props) {
   if (!castList) return null;
 
   return (
-    <div className="w-full px-12 text-[1.8rem]">
+    <div className="w-full text-[1.8rem]">
       <SectionHeading icon={Icons.play}>Cast</SectionHeading>
 
       <div className="grid grid-cols-[repeat(auto-fill,minmax(13rem,1fr))] xl:grid-cols-[repeat(auto-fill,minmax(17rem,1fr))] justify-center items-start text-[1.3rem]">
