@@ -7,27 +7,21 @@ import MediaCard2 from '@/components/Cards/MediaCard2';
 import Button from '@/components/ui/Button/Button';
 import { CAROUSEL_BREAKPOINTS } from '@/constants/breakpoints';
 import { MediaProvider } from '@/context/MediaContext';
-import { useGenres } from '@/hooks/useGenre';
 import { useResponsiveItems } from '@/hooks/useResponsiveItems';
 import { MediaMode } from '@/types';
-import { api } from '@/utils/api';
+import { fetchGenreMedia } from '@/utils/serverActions/media';
 
-export default function GenreMediaList({
-  initialMedia,
-  genreId,
-}: {
+interface GenreMediaListProps {
   initialMedia: any[];
   genreId: number;
-}) {
+  genreMap: Record<number, string>; // The object map from the server
+}
+
+export default function GenreMediaList({ initialMedia, genreId, genreMap }: GenreMediaListProps) {
   const [media, setMedia] = useState(initialMedia);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-
-  // Get all genres for the Provider
-  const movieGenres = useGenres(MediaMode.MOVIE);
-  const tvGenres = useGenres(MediaMode.TV);
-  const allGenres = { ...movieGenres, ...tvGenres };
 
   const itemsPerRow = useResponsiveItems(CAROUSEL_BREAKPOINTS);
 
@@ -35,33 +29,32 @@ export default function GenreMediaList({
     setLoading(true);
     const nextPage = page + 1;
 
-    const [newMovies, newTv] = await Promise.all([
-      api.media.getMedia(MediaMode.MOVIE, nextPage, [genreId]),
-      api.media.getMedia(MediaMode.TV, nextPage, [genreId]),
-    ]);
+    try {
+      const combined = await fetchGenreMedia(genreId, nextPage);
 
-    const combined = [
-      ...newMovies.map((m) => ({ ...m, media_type: 'movie' })),
-      ...newTv.map((m) => ({ ...m, media_type: 'tv' })),
-    ];
-
-    if (combined.length === 0) setHasMore(false);
-
-    setMedia((prev) => [...prev, ...combined]);
-    setPage(nextPage);
-    setLoading(false);
+      if (!combined || combined.length === 0) {
+        setHasMore(false);
+      } else {
+        setMedia((prev) => [...prev, ...combined]);
+        setPage(nextPage);
+      }
+    } catch (error) {
+      console.error('Failed to fetch media:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (itemsPerRow === null) return null;
 
   return (
     <div className="animate-fadeIn">
-      <div className="grid gap-8 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
+      <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
         {media.map((item, index) => (
           <MediaProvider
             key={`${item.id}-${index}`}
             mediaMode={item.media_type as MediaMode}
-            genres={allGenres}
+            genres={genreMap}
           >
             <MediaCard2 item={item} isLast={(index + 1) % itemsPerRow === 0} />
           </MediaProvider>
@@ -69,7 +62,7 @@ export default function GenreMediaList({
       </div>
 
       {hasMore && (
-        <div className="flex justify-center mt-12">
+        <div className="mt-12 flex justify-center">
           <Button
             onClick={loadMore}
             disabled={loading}

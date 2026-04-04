@@ -20,3 +20,20 @@ export async function getMoreMediaAction(mediaMode: MediaMode, page: number) {
 export async function getGenresAction(mediaMode: string) {
   return await api.genre.getGenres(mediaMode);
 }
+
+export async function fetchGenreMedia(genreId: number, page: number) {
+  try {
+    const [newMovies, newTv] = await Promise.all([
+      api.media.getMedia(MediaMode.MOVIE, page, [genreId]),
+      api.media.getMedia(MediaMode.TV, page, [genreId]),
+    ]);
+
+    return [
+      ...newMovies.map((m) => ({ ...m, media_type: MediaMode.MOVIE })),
+      ...newTv.map((m) => ({ ...m, media_type: MediaMode.TV })),
+    ];
+  } catch (error) {
+    console.error('Action error:', error);
+    return [];
+  }
+}
