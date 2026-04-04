@@ -3,9 +3,9 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-import { MovieGrid } from '@/components';
 import { SearchForm } from '@/components/Forms/SearchForm';
-import { MediaProvider } from '@/context/MediaContext';
+
+import { MovieGrid } from './Media';
 
 export default function DiscoverClient({
   initialMovies,
@@ -23,10 +23,9 @@ export default function DiscoverClient({
     setQuery(value);
     const slug = value.trim().toLowerCase().replace(/\s+/g, '-');
     const params = new URLSearchParams();
-    // if (value) params.set('search', value);
-    if (slug) {
-      params.set('search', slug);
-    }
+
+    if (slug) params.set('search', slug);
+
     replace(`?${params.toString()}`);
   };
 
@@ -39,10 +38,7 @@ export default function DiscoverClient({
       <SearchForm query={query} onChangeAction={handleInputChange} onSubmitAction={() => {}} />
 
       <div className="lg:mx-[68px] 2xl:mx-[101px] px-6 py-12">
-        {/* We use the genreMap passed from server for the context */}
-        <MediaProvider genres={genreMap}>
-          <MovieGrid media={initialMovies} />
-        </MediaProvider>
+        <MovieGrid media={initialMovies} genreMap={genreMap} />
       </div>
     </div>
   );

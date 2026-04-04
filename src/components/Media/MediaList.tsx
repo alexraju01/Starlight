@@ -7,7 +7,6 @@ import MediaCard2 from '@/components/Cards/MediaCard2';
 import Button from '@/components/ui/Button/Button';
 import { CAROUSEL_BREAKPOINTS } from '@/constants/breakpoints';
 import { MediaProvider } from '@/context/MediaContext';
-import { useGenres } from '@/hooks/useGenre';
 import { useResponsiveItems } from '@/hooks/useResponsiveItems';
 import { Movie, TVShow } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';

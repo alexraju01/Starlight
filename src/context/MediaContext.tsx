@@ -4,8 +4,8 @@ import React, { createContext, useContext } from 'react';
 import { MediaMode } from '@/types/mediaMode';
 
 interface MediaContextProps {
-  mediaMode?: MediaMode;
-  genres?: Record<number, string>;
+  mediaMode: MediaMode;
+  genres: Record<number, string>;
 }
 
 const MediaContext = createContext<MediaContextProps | undefined>(undefined);

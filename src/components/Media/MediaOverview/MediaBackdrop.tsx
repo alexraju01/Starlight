@@ -1,7 +1,6 @@
 import Image from 'next/image';
 
 import { MediaWithDetails } from '@/types/global';
-import { isMovie } from '@/utils';
 
 interface Props {
   media: MediaWithDetails;

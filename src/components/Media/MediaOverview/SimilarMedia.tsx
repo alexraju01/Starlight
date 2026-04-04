@@ -1,9 +1,6 @@
-// import { Slider } from "@/components/Media/Slider";
 import SectionHeading from '@/components/Navigation/SectionHeading';
 import { DISCOVER_BREAKPOINTS } from '@/constants/breakpoints';
-import { APIResponse } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
-import fetchData from '@/utils/fetchData';
 import Icons from '@/utils/icons';
 
 import CustomSlider from '../CustomSlider/CustomSlider';

@@ -1,7 +1,7 @@
 import DiscoverClient from '@/components/DiscoverClient';
 import { searchMediaAction, getAllGenresAction } from '@/utils/serverActions/media';
 
-// app/discover/page.tsx
+
 
 export default async function Page({
   searchParams,
