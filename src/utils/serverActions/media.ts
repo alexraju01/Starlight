@@ -37,3 +37,32 @@ export async function fetchGenreMedia(genreId: number, page: number) {
     return [];
   }
 }
+
+export async function searchMediaAction(query: string) {
+  if (!query || query.trim() === '') return [];
+
+  try {
+    // This runs on the server. Your API key is safe inside fetchData.
+    return await api.media.search(query);
+  } catch (error) {
+    console.error('Search Action Error:', error);
+    return [];
+  }
+}
+
+export async function getAllGenresAction() {
+  try {
+    const { movieGenres, tvGenres } = await api.genre.getAllGenres();
+
+    // Create a single lookup object { id: name }
+    const genreMap: Record<number, string> = {};
+    [...movieGenres, ...tvGenres].forEach((g) => {
+      genreMap[g.id] = g.name;
+    });
+
+    return genreMap;
+  } catch (error) {
+    console.error('Failed to fetch all genres for map:', error);
+    return {};
+  }
+}

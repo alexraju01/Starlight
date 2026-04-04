@@ -9,6 +9,27 @@ export const api = {
   // Media-related endpoints
   // ----------------------
   media: {
+    search: async (query: string, page = 1) => {
+      // TMDB 'multi' search includes movies, tv shows, and people
+      const { results } = await fetchData<APIResponse>('3', 'search/multi', {
+        query: {
+          query: encodeURIComponent(query),
+          page,
+          include_adult: 'false',
+          language: 'en-US',
+        },
+        // Search results change often, so we'll cache for a shorter time
+        cache: { type: 'revalidate', seconds: 60 * 5 },
+      });
+
+      // Filter to only include Movies and TV shows, and ensure they have a poster
+      return results.filter(
+        (item) =>
+          (item.media_type === 'movie' || item.media_type === 'tv') &&
+          (item.poster_path || item.backdrop_path),
+      );
+    },
+
     getMedia: async (mediaMode: MediaMode, page = 1, withGenres?: number[]) => {
       const query: Record<string, string | number> = {
         page,
