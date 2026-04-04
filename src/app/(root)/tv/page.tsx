@@ -7,13 +7,22 @@ import { MediaMode } from '@/types/mediaMode';
 import { api } from '@/utils/api';
 
 async function TvContent() {
-  const rawMedia = await api.media.getMedia(MediaMode.TV);
+  const [rawMedia, genres] = await Promise.all([
+    api.media.getMedia(MediaMode.TV),
+    api.genre.getGenres(MediaMode.TV), // Use your server-side API util
+  ]);
   const mediaWithType = rawMedia.map((item) => ({
     ...item,
     media_type: MediaMode.TV,
   })) as Media[];
 
-  return <MediaList initialMedia={mediaWithType} mediaMode={MediaMode.TV} />;
+  return (
+    <MediaList
+      initialGenres={genres.genresMap}
+      initialMedia={mediaWithType}
+      mediaMode={MediaMode.TV}
+    />
+  );
 }
 
 export default function TVPage() {

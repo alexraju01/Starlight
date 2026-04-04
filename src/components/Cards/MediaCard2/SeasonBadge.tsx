@@ -4,7 +4,7 @@ import { HiRectangleStack } from 'react-icons/hi2';
 
 import { useMediaContext } from '@/context/MediaContext';
 import { MediaWithDetails } from '@/types/global';
-import { fetchData } from '@/utils';
+import { getTvSeasons } from '@/utils/serverActions/tvSeason';
 
 interface Props {
   item: MediaWithDetails;
@@ -15,16 +15,11 @@ const SeasonBadge = ({ item }: Props) => {
   const [seasons, setSeasons] = useState<number | null>(item.number_of_seasons ?? null);
 
   useEffect(() => {
-    // Only fetch if TV and not already available
     if (mediaMode !== 'tv' || seasons !== null) return;
 
     const fetchSeasons = async () => {
-      try {
-        const data = await fetchData<{ number_of_seasons: number }>('3', `tv/${item.id}`);
-        setSeasons(data.number_of_seasons);
-      } catch (err) {
-        console.error('Failed to fetch seasons:', err);
-      }
+      const count = await getTvSeasons(item.id);
+      if (count !== null) setSeasons(count);
     };
 
     fetchSeasons();

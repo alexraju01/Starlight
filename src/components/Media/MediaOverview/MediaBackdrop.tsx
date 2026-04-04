@@ -3,16 +3,13 @@ import Image from 'next/image';
 import { MediaWithDetails } from '@/types/global';
 import { isMovie } from '@/utils';
 
-import type { MediaMode } from '@/types';
-
 interface Props {
   media: MediaWithDetails;
-  mediaMode: MediaMode.TV | MediaMode.MOVIE;
 }
 
 export default function MediaBackdrop({ media }: Props) {
   const { backdrop_path, poster_path, title, name } = media;
-  const mediaTitle = isMovie(media) ? title : name;
+  const mediaTitle = title || name || 'Media backdrop';
   const mediaSrc = backdrop_path
     ? `https://image.tmdb.org/t/p/original${backdrop_path}`
     : poster_path

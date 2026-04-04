@@ -11,23 +11,24 @@ import { useGenres } from '@/hooks/useGenre';
 import { useResponsiveItems } from '@/hooks/useResponsiveItems';
 import { Movie, TVShow } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
-import { api } from '@/utils/api';
+import { getMoreMediaAction } from '@/utils/serverActions/media';
 
 import { LoadingSkeletons } from '../Skeletons/LoadingSkeletons/LoadingSkeletons';
 
 interface Props {
   initialMedia: (Movie | TVShow)[];
+  initialGenres: Record<number, string>; // Add this prop
   mediaMode: MediaMode;
 }
 // lucy from wren recuirment
 
-export default function MediaList({ initialMedia, mediaMode }: Props) {
+export default function MediaList({ initialMedia, initialGenres, mediaMode }: Props) {
   const [media, setMedia] = useState<(Movie | TVShow)[]>(initialMedia);
   const [page, setPage] = useState(1);
   const [buttonHidden, setButtonHidden] = useState(initialMedia.length === 0);
   const [loading, setLoading] = useState(false);
 
-  const genres = useGenres(mediaMode);
+  const genres = initialGenres;
   const itemsPerRow = useResponsiveItems(CAROUSEL_BREAKPOINTS);
 
   if (itemsPerRow === null) return <LoadingSkeletons />;
@@ -35,7 +36,9 @@ export default function MediaList({ initialMedia, mediaMode }: Props) {
   const loadMoreMedia = async () => {
     setLoading(true);
     const nextPage = page + 1;
-    const mediaList = await api.media.getMedia(mediaMode, nextPage);
+
+    // CALL THE SERVER ACTION INSTEAD OF THE API UTIL
+    const mediaList = await getMoreMediaAction(mediaMode, nextPage);
 
     const newMedia = mediaList.filter(
       (newItem) => !media.some((existing) => existing.id === newItem.id),
@@ -46,7 +49,6 @@ export default function MediaList({ initialMedia, mediaMode }: Props) {
     setPage(nextPage);
     setLoading(false);
   };
-
   return (
     <MediaProvider mediaMode={mediaMode} genres={genres}>
       <div className="animate-fadeIn">

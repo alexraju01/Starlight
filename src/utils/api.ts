@@ -63,9 +63,15 @@ export const api = {
   // ----------------------
   genre: {
     getGenres: async (mediaMode: string) => {
-      return await fetchData<GenreResponse>('3', `genre/${mediaMode}/list`, {
+      const data = await fetchData<GenreResponse>('3', `genre/${mediaMode}/list`, {
         cache: { type: 'revalidate', seconds: 60 * 60 * 24 },
       });
+
+      // Return BOTH formats
+      return {
+        genres: data.genres, // Keep the original array for other functions
+        genresMap: Object.fromEntries(data.genres.map(({ id, name }) => [id, name])), // The mapped record for your UI
+      };
     },
 
     getAllGenres: async () => {

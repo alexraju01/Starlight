@@ -36,7 +36,7 @@ export default async function MediaOverview({ params, mediaMode }: Props) {
 
   return (
     <>
-      <MediaBackdrop media={mediaDetails} mediaMode={mediaMode} />
+      <MediaBackdrop media={mediaDetails} />
       <GoBack />
       <div className="px-6 md:px-12">
         <MediaDetailsPanel media={mediaDetails} mediaMode={mediaMode} />

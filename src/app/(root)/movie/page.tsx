@@ -7,16 +7,25 @@ import { MediaMode } from '@/types/mediaMode';
 import { api } from '@/utils/api';
 
 async function MovieContent() {
-  const rawMedia = await api.media.getMedia(MediaMode.MOVIE);
+  // Fetch both media AND genres on the server
+  const [rawMedia, genres] = await Promise.all([
+    api.media.getMedia(MediaMode.MOVIE),
+    api.genre.getGenres(MediaMode.MOVIE), // Use your server-side API util
+  ]);
 
   const mediaWithType = rawMedia.map((item) => ({
     ...item,
     media_type: MediaMode.MOVIE,
   })) as Media[];
 
-  return <MediaList initialMedia={mediaWithType} mediaMode={MediaMode.MOVIE} />;
+  return (
+    <MediaList
+      initialMedia={mediaWithType}
+      initialGenres={genres.genresMap} // Pass genres here
+      mediaMode={MediaMode.MOVIE}
+    />
+  );
 }
-
 export default function MoviesPage() {
   return (
     <section className=" text-white animate-fadeIn">
