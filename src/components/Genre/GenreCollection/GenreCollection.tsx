@@ -1,7 +1,7 @@
 import { api } from '@/utils/api';
 
 import Slider from './Slider';
-import { GenreCard } from '../GenreCard';
+import GenreCollectionCard from '../GenreCollectionCard';
 
 const GenreCollection = async () => {
   try {
@@ -12,7 +12,7 @@ const GenreCollection = async () => {
     return (
       <Slider title="Our Genres" totalItems={genreMovies.length}>
         {genreMovies.map((genre) => (
-          <GenreCard key={genre.id} genre={genre} totalItems={genreMovies.length} />
+          <GenreCollectionCard key={genre.id} genre={genre} totalItems={genreMovies.length} />
         ))}
       </Slider>
     );

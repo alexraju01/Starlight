@@ -10,9 +10,9 @@ import {
 import { ROUTES } from '@/constants/route';
 import { APIResponse, Media } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
+import { fetchData } from '@/utils';
 import { displayName } from '@/utils/stringUtils';
 
-import fetchData from '../../utils/fetchData';
 import MediaCard from '../Cards/MediaCard';
 
 interface Props {

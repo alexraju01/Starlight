@@ -1,9 +1,8 @@
 import { Suspense } from 'react';
 
-import GenreCard from '@/components/Genre/GenreCollection/GenreCard';
-import GenreSkeleton from '@/components/Skeletons/LoadingSkeletons/GenreSkeleton';
-import { api } from '@/utils/api';
-import Icons, { GenreKey } from '@/utils/icons';
+import { GenreCard } from '@/components/Genre/GenreCollection';
+import { GenreSkeleton } from '@/components/Skeletons/LoadingSkeletons';
+import { api, GenreKey, Icons } from '@/utils';
 
 async function GenreGrid() {
   const { movieGenres, tvGenres } = await api.genre.getAllGenres();
@@ -29,7 +28,6 @@ async function GenreGrid() {
 export default function GenrePage() {
   return (
     <main className=" text-white animate-fadeIn bg-[#050505] ">
-      {/* Hero / Header */}
       <div className=" relative border-b border-white/5 bg-gradient-to-b from-red-900/16 to-transparent  pt-16">
         <div className="content-container">
           <h1 className="text-4xl font-black uppercase tracking-tight md:text-6xl">

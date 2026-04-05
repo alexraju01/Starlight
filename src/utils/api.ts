@@ -1,7 +1,7 @@
 import { Genre, GenreResponse, GenreWithMovies, MediaMode, MovieWithLogos } from '@/types';
 import { APIResponse, MediaWithDetails } from '@/types/global';
+import { fetchData } from '@/utils';
 
-import fetchData from './fetchData';
 import { getImageUrl } from './image/getImageUrl';
 
 export const api = {

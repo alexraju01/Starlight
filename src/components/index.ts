@@ -1,4 +1,3 @@
-// Re-exporting UI primitives
 export { default as Button } from './ui/Button/Button';
 export { default as SearchBox } from './ui/SearchBox/SearchBox';
 export { default as Dot } from './ui/Dot/Dot';

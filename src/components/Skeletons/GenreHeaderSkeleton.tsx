@@ -1,4 +1,4 @@
-export const GenreHeaderSkeleton = () => {
+const GenreHeaderSkeleton = () => {
   return (
     <div className="border-b border-white/5 px-6 py-16 animate-pulse">
       <div className="mx-6 lg:mx-[68px] mt-20">
@@ -11,3 +11,5 @@ export const GenreHeaderSkeleton = () => {
     </div>
   );
 };
+
+export default GenreHeaderSkeleton;

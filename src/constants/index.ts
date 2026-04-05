@@ -1,4 +1,4 @@
-import Icons from '@/utils/icons';
+import { Icons } from '@/utils';
 
 export const links = [
   { name: 'Home', href: '/', icon: Icons.home },

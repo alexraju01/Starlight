@@ -7,7 +7,12 @@ import { displayName } from '@/utils/stringUtils';
 
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w185';
 
-export function GenreCard({ genre, totalItems }: { genre: GenreWithMovies; totalItems: number }) {
+interface GenreCollectionCardProps {
+  genre: GenreWithMovies;
+  totalItems: number;
+}
+
+const GenreCollectionCard = ({ genre, totalItems }: GenreCollectionCardProps) => {
   return (
     <Link
       href={ROUTES.GENRE(genre.name)}
@@ -35,7 +40,7 @@ export function GenreCard({ genre, totalItems }: { genre: GenreWithMovies; total
       </div>
     </Link>
   );
-}
+};
 
 const ArrowIcon = () => (
   <svg width="21" height="19" viewBox="0 0 25 23" fill="none">
@@ -48,3 +53,5 @@ const ArrowIcon = () => (
     />
   </svg>
 );
+
+export default GenreCollectionCard;

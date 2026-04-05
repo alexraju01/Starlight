@@ -12,7 +12,7 @@ import { MediaWithDetails } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
 import { getMoreMediaAction } from '@/utils/serverActions/media';
 
-import { LoadingSkeletons } from '../Skeletons/LoadingSkeletons/LoadingSkeletons';
+import { LoadingSkeletons } from '../Skeletons/LoadingSkeletons';
 
 interface Props {
   initialMedia: MediaWithDetails[];

@@ -10,9 +10,8 @@ import { ROUTES } from '@/constants/route';
 import { MediaProvider } from '@/context/MediaContext';
 import { MediaMode } from '@/types/mediaMode';
 import { SearchMedia } from '@/types/searchMedia';
-import { dateConverter } from '@/utils/date';
+import { capitalize, dateConverter } from '@/utils';
 import getSearch from '@/utils/serverActions/getSearch';
-import { capitalize } from '@/utils/stringUtils';
 
 import MediaCard from '../MediaCard';
 

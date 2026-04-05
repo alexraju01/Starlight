@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { api } from '@/utils/api';
+import { api } from '@/utils';
 
 type GenreMap = Record<number, string>;
 

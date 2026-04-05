@@ -1,9 +1,9 @@
 import { Suspense } from 'react';
 
 import MediaList from '@/components/Media/MediaList';
-import { LoadingSkeletons } from '@/components/Skeletons/LoadingSkeletons/LoadingSkeletons';
+import { LoadingSkeletons } from '@/components/Skeletons/LoadingSkeletons';
 import { MediaMode } from '@/types/mediaMode';
-import { api } from '@/utils/api';
+import { api } from '@/utils';
 
 async function MovieContent() {
   const [movies, genres] = await Promise.all([

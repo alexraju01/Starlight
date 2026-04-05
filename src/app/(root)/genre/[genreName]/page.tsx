@@ -2,8 +2,8 @@ import Image from 'next/image';
 import { Suspense } from 'react';
 
 import GenreMediaList from '@/components/Genre/GenreMediaList';
-import { GenreHeaderSkeleton } from '@/components/Skeletons/GenreHeaderSkeleton';
-import { LoadingSkeletons } from '@/components/Skeletons/LoadingSkeletons/LoadingSkeletons';
+import GenreHeaderSkeleton from '@/components/Skeletons/GenreHeaderSkeleton';
+import { LoadingSkeletons } from '@/components/Skeletons/LoadingSkeletons';
 import { MediaMode } from '@/types';
 import { slugify } from '@/utils';
 import { api } from '@/utils/api';

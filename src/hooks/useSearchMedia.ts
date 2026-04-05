@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDebounce } from 'use-debounce';
 
 import { Media } from '@/types/global';
-import fetchData from '@/utils/fetchData';
+import { fetchData } from '@/utils';
 
 interface APIResponse {
   page: number;

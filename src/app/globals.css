@@ -1,5 +1,4 @@
 @import 'tailwindcss';
-
 @plugin 'tailwindcss-animate';
 
 @layer base {
@@ -120,7 +119,7 @@
 
   --breakpoint-3xl: 112rem;
 
-  /* Colour Plalette */
+  /* Colour Pallette */
 
   --color-primary: #9e221a;
   --color-secondary: #100f10;

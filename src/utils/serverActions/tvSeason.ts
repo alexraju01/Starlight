@@ -1,4 +1,5 @@
 'use server';
+
 import { fetchData } from '@/utils';
 
 export async function getTvSeasons(id: number) {

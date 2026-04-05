@@ -21,7 +21,7 @@ export default function GenreCard({ name, index, icon }: GenreCardProps) {
       transition={{ delay: index * 0.05 }}
     >
       <Link
-        href={ROUTES.GENRE(name.toLowerCase())}
+        href={ROUTES.GENRE(name)}
         className="group relative flex h-40 flex-col items-center justify-center gap-3 overflow-hidden rounded-xl border border-white/5 bg-[#111] p-6 text-center transition-all hover:border-red-600/50"
       >
         <div className="absolute inset-0 bg-gradient-to-br from-red-600/0 via-transparent to-red-600/0 opacity-0 transition-opacity duration-500 group-hover:from-red-600/10 group-hover:opacity-100" />
