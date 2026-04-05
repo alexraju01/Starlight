@@ -1,19 +1,19 @@
 import Image from 'next/image';
 
-import { MoviesWithLogos } from '@/types/global';
+import { MovieWithLogos } from '@/types/global';
 import { getImageUrl } from '@/utils/image/getImageUrl';
+import { displayName } from '@/utils/stringUtils';
 
 import ActionButtons from './ActionButton';
 import MediaMeta from './MediaMeta';
 
 interface CarouselItemProps {
-  movie: MoviesWithLogos;
+  movie: MovieWithLogos;
   genres: Record<number, string>;
   priority?: boolean;
 }
 
 export default function CarouselItem({ movie, genres, priority }: CarouselItemProps) {
-  const title = movie.title ?? movie.name ?? 'Media';
   const backdropSrc = getImageUrl(movie.backdrop_path, 'backdrop', 'original');
 
   return (
@@ -22,7 +22,7 @@ export default function CarouselItem({ movie, genres, priority }: CarouselItemPr
         src={backdropSrc}
         fill
         quality={75}
-        alt={title}
+        alt={displayName(movie)}
         className="object-cover object-center brightness-[80%] carousel-mask-gradiant"
         priority={priority}
       />
@@ -34,12 +34,12 @@ export default function CarouselItem({ movie, genres, priority }: CarouselItemPr
               src={movie.logoImage}
               fill
               quality={60}
-              alt={`${title} logo`}
+              alt={`${displayName(movie)} logo`}
               className="object-contain object-center"
             />
           </div>
         ) : (
-          <h2 className="text-[clamp(2rem,5vw,50px)] font-bold text-white">{title}</h2>
+          <h2 className="text-[clamp(2rem,5vw,50px)] font-bold text-white">{displayName(movie)}</h2>
         )}
 
         <MediaMeta movie={movie} genres={genres} />

@@ -2,12 +2,12 @@ import Link from 'next/link';
 import { useMemo } from 'react';
 
 import { ROUTES } from '@/constants/route';
-import { MoviesWithLogos } from '@/types/global';
+import { MovieWithLogos } from '@/types/global';
 import { dateConverter } from '@/utils/date';
 import { capitalize } from '@/utils/stringUtils';
 
 interface Props {
-  movie: MoviesWithLogos;
+  movie: MovieWithLogos;
   genres: Record<string, string>;
 }
 

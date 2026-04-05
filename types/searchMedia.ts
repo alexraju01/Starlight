@@ -2,7 +2,7 @@ import { MediaMode } from './mediaMode';
 
 export interface SearchMedia {
   id: number;
-  media_type: MediaMode; // Ensures valid types
+  media_type: MediaMode;
   title?: string;
   name?: string;
   poster_path: string | null;

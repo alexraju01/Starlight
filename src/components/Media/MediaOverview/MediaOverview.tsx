@@ -1,7 +1,7 @@
 import GoBack from '@/components/Navigation/GoBack';
 import { CastMember, MediaMode } from '@/types';
 import { MediaWithDetails } from '@/types/global';
-import { fetchData, isTVShow } from '@/utils';
+import { fetchData } from '@/utils';
 
 import { Seasons, SimilarMedia } from '.';
 import MediaBackdrop from './MediaBackdrop';
@@ -41,7 +41,7 @@ export default async function MediaOverview({ params, mediaMode }: Props) {
       <div className="px-6 md:px-12">
         <MediaDetailsPanel media={mediaDetails} mediaMode={mediaMode} />
 
-        {isTVShow(mediaDetails) && <Seasons seasons={mediaDetails.seasons} />}
+        {mediaDetails.media_type === MediaMode.TV && <Seasons seasons={mediaDetails.seasons} />}
         <CastContainer castList={credits.cast.slice(0, 10)} />
         <SimilarMedia mediaMode={mediaMode} params={params} />
       </div>

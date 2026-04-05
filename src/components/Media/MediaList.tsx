@@ -8,21 +8,21 @@ import Button from '@/components/ui/Button/Button';
 import { CAROUSEL_BREAKPOINTS } from '@/constants/breakpoints';
 import { MediaProvider } from '@/context/MediaContext';
 import { useResponsiveItems } from '@/hooks/useResponsiveItems';
-import { Movie, TVShow } from '@/types/global';
+import { MediaWithDetails } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
 import { getMoreMediaAction } from '@/utils/serverActions/media';
 
 import { LoadingSkeletons } from '../Skeletons/LoadingSkeletons/LoadingSkeletons';
 
 interface Props {
-  initialMedia: (Movie | TVShow)[];
-  initialGenres: Record<number, string>; // Add this prop
+  initialMedia: MediaWithDetails[];
+  initialGenres: Record<number, string>;
   mediaMode: MediaMode;
 }
 // lucy from wren recuirment
 
 export default function MediaList({ initialMedia, initialGenres, mediaMode }: Props) {
-  const [media, setMedia] = useState<(Movie | TVShow)[]>(initialMedia);
+  const [media, setMedia] = useState<MediaWithDetails[]>(initialMedia);
   const [page, setPage] = useState(1);
   const [buttonHidden, setButtonHidden] = useState(initialMedia.length === 0);
   const [loading, setLoading] = useState(false);
@@ -36,7 +36,6 @@ export default function MediaList({ initialMedia, initialGenres, mediaMode }: Pr
     setLoading(true);
     const nextPage = page + 1;
 
-    // CALL THE SERVER ACTION INSTEAD OF THE API UTIL
     const mediaList = await getMoreMediaAction(mediaMode, nextPage);
 
     const newMedia = mediaList.filter(

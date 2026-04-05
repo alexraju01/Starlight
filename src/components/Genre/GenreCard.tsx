@@ -3,6 +3,7 @@ import Link from 'next/link';
 
 import { ROUTES } from '@/constants/route';
 import { GenreWithMovies } from '@/types/genre';
+import { displayName } from '@/utils/stringUtils';
 
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w185';
 
@@ -19,7 +20,7 @@ export function GenreCard({ genre, totalItems }: { genre: GenreWithMovies; total
           <div key={movie.id} className="relative aspect-[0.8] z-10">
             <Image
               src={`${IMAGE_BASE_URL}${movie.poster_path}`}
-              alt={movie.title || 'Movie'}
+              alt={displayName(movie)}
               fill
               className="object-cover rounded-[11px]"
             />

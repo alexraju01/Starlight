@@ -2,28 +2,17 @@ import { Suspense } from 'react';
 
 import MediaList from '@/components/Media/MediaList';
 import { LoadingSkeletons } from '@/components/Skeletons/LoadingSkeletons/LoadingSkeletons';
-import { Media } from '@/types';
 import { MediaMode } from '@/types/mediaMode';
 import { api } from '@/utils/api';
 
 async function MovieContent() {
-  // Fetch both media AND genres on the server
-  const [rawMedia, genres] = await Promise.all([
+  const [movies, genres] = await Promise.all([
     api.media.getMedia(MediaMode.MOVIE),
-    api.genre.getGenres(MediaMode.MOVIE), // Use your server-side API util
+    api.genre.getGenres(MediaMode.MOVIE),
   ]);
 
-  const mediaWithType = rawMedia.map((item) => ({
-    ...item,
-    media_type: MediaMode.MOVIE,
-  })) as Media[];
-
   return (
-    <MediaList
-      initialMedia={mediaWithType}
-      initialGenres={genres.genresMap} // Pass genres here
-      mediaMode={MediaMode.MOVIE}
-    />
+    <MediaList initialMedia={movies} initialGenres={genres.genresMap} mediaMode={MediaMode.MOVIE} />
   );
 }
 export default function MoviesPage() {

@@ -1,5 +1,5 @@
-import { Genre, GenreResponse, GenreWithMovies, MediaMode, MoviesWithLogos } from '@/types';
-import { APIResponse, MediaWithDetails, MovieListItem, TVShowListItem } from '@/types/global';
+import { Genre, GenreResponse, GenreWithMovies, MediaMode, MovieWithLogos } from '@/types';
+import { APIResponse, MediaWithDetails } from '@/types/global';
 
 import fetchData from './fetchData';
 import { getImageUrl } from './image/getImageUrl';
@@ -45,11 +45,14 @@ export const api = {
         cache: { type: 'revalidate', seconds: 60 * 60 },
       });
 
-      return results;
+      return results.map((item) => ({
+        ...item,
+        media_type: mediaMode,
+      })) as MediaWithDetails[];
     },
 
     getTrending: async (mediaMode: MediaMode, page = 1, time: 'day' | 'week' = 'day') => {
-      const { results } = await fetchData<APIResponse<MoviesWithLogos>>(
+      const { results } = await fetchData<APIResponse<MovieWithLogos>>(
         '3',
         `trending/${mediaMode}/${time}`,
         {
@@ -132,13 +135,11 @@ export const api = {
   },
 
   getSliderData: async (mediaMode: MediaMode, endpoint: string): Promise<MediaWithDetails[]> => {
-    const { results } = await fetchData<{ results: MovieListItem[] | TVShowListItem[] }>(
-      '3',
-      endpoint,
-      {
-        cache: { type: 'revalidate', seconds: 60 * 60 * 24 },
-      },
-    );
+    const { results } = await fetchData<APIResponse>('3', endpoint, {
+      cache: { type: 'revalidate', seconds: 60 * 60 * 24 },
+    });
+
+    console.log(`Fetched slider data from ${endpoint}:`, results);
 
     return results.map((item) => ({
       ...item,

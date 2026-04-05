@@ -10,6 +10,7 @@ import {
 import { ROUTES } from '@/constants/route';
 import { APIResponse, Media } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
+import { displayName } from '@/utils/stringUtils';
 
 import fetchData from '../../utils/fetchData';
 import MediaCard from '../Cards/MediaCard';
@@ -49,7 +50,7 @@ export default async function Slider({ mediaMode, endpoint }: Props) {
 								xl:pr-[0.8rem]
 							`}
             >
-              <Link href={ROUTES.MEDIA(mediaMode, topRated.id, topRated.title || topRated.name)}>
+              <Link href={ROUTES.MEDIA(mediaMode, topRated.id, displayName(topRated))}>
                 <MediaCard className="rounded-2xl" media={topRated} mediaMode={mediaMode} />
               </Link>
             </CarouselItem>

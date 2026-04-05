@@ -1,16 +1,19 @@
 'use server';
 
+import { MediaWithDetails } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
 import { api } from '@/utils/api';
 
-/**
- * This runs ONLY on the server.
- * Your API keys inside fetchData remain hidden.
- */
-export async function getMoreMediaAction(mediaMode: MediaMode, page: number) {
+export async function getMoreMediaAction(
+  mediaMode: MediaMode,
+  page: number,
+): Promise<MediaWithDetails[]> {
   try {
     const results = await api.media.getMedia(mediaMode, page);
-    return results;
+
+    // Ensure the results are treated as the detailed type
+    // that includes the required genre_ids
+    return results as MediaWithDetails[];
   } catch (error) {
     console.error('Server Action Error:', error);
     return [];

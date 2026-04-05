@@ -3,12 +3,14 @@ import Link from 'next/link';
 import { MediaCard } from '@/components/Cards';
 import { RatingIcon } from '@/components/ui';
 import { ROUTES } from '@/constants/route';
+import { Genre, MediaMode } from '@/types';
 import { MediaWithDetails } from '@/types/global';
-import { isMovie, isTVShow, dateConverter, displayRuntime } from '@/utils';
+import { dateConverter, displayRuntime } from '@/utils';
+import { displayName } from '@/utils/stringUtils';
 
-import { SeasonEpisodeInfo } from '.';
+import SeasonEpisodeInfo from './SeasonEpisodeInfo';
 
-import type { Genre, MediaMode } from '@/types';
+// import { SeasonEpisodeInfo } from '.';
 
 interface Props {
   media: MediaWithDetails;
@@ -17,12 +19,13 @@ interface Props {
 
 export default function MediaDetailsPanel({ media, mediaMode }: Props) {
   const { overview, vote_average, genres } = media;
-  const mediaTitle = isMovie(media) ? media.title : media.name;
-  const releaseDate = isMovie(media) ? media.release_date : media.first_air_date;
+  console.log('MediaDetailsPanel media:', media);
+  const releaseDate =
+    media.media_type === MediaMode.MOVIE ? media.release_date : media.first_air_date;
   return (
     <div className="pt-[30%] xl:pt-0 xl:pb-[10rem] xl:pl-12 xl:h-[calc(100vh-100px)] xl:w-[50rem] xl:box-border xl:flex xl:flex-col xl:justify-end">
       <h1 className="text-center text-[3.5rem] mb-8 font-bold drop-shadow-[2px_5px_5px_black]">
-        {mediaTitle}
+        {displayName(media)}
       </h1>
 
       <div
@@ -51,12 +54,10 @@ export default function MediaDetailsPanel({ media, mediaMode }: Props) {
           })}
         </div>
 
-        {isTVShow(media) && media.number_of_seasons != null && media.number_of_episodes != null && (
+        {media.media_type === MediaMode.TV && (
           <SeasonEpisodeInfo
-            metaData={{
-              number_of_seasons: media.number_of_seasons,
-              number_of_episodes: media.number_of_episodes,
-            }}
+            seasons={media.number_of_seasons}
+            episodes={media.number_of_episodes}
           />
         )}
 

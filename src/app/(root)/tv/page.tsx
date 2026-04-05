@@ -2,26 +2,17 @@ import { Suspense } from 'react';
 
 import MediaList from '@/components/Media/MediaList';
 import { LoadingSkeletons } from '@/components/Skeletons/LoadingSkeletons/LoadingSkeletons';
-import { Media } from '@/types';
 import { MediaMode } from '@/types/mediaMode';
 import { api } from '@/utils/api';
 
 async function TvContent() {
-  const [rawMedia, genres] = await Promise.all([
+  const [tvShows, genres] = await Promise.all([
     api.media.getMedia(MediaMode.TV),
     api.genre.getGenres(MediaMode.TV), // Use your server-side API util
   ]);
-  const mediaWithType = rawMedia.map((item) => ({
-    ...item,
-    media_type: MediaMode.TV,
-  })) as Media[];
 
   return (
-    <MediaList
-      initialGenres={genres.genresMap}
-      initialMedia={mediaWithType}
-      mediaMode={MediaMode.TV}
-    />
+    <MediaList initialGenres={genres.genresMap} initialMedia={tvShows} mediaMode={MediaMode.TV} />
   );
 }
 

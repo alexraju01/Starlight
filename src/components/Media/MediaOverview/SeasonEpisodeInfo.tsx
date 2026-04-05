@@ -1,22 +1,20 @@
 interface Props {
-  metaData: {
-    number_of_seasons: number;
-    number_of_episodes: number;
-  };
+  seasons?: number;
+  episodes?: number;
 }
 
-const SeasonEpisodeInfo = ({ metaData }: Props) => {
-  const { number_of_seasons, number_of_episodes } = metaData;
-  const plural = number_of_seasons === 1 || !number_of_seasons ? 'Season' : 'Seasons';
+const SeasonEpisodeInfo = ({ seasons, episodes }: Props) => {
+  // Guard clause: If data is missing, don't render anything
+  if (!seasons || !episodes) return null;
+
+  const seasonText = seasons === 1 ? 'Season' : 'Seasons';
 
   return (
     <section className="w-full">
-      {number_of_seasons && number_of_episodes && (
-        <div className="flex justify-evenly text-[2rem] w-full text-white/50 mb-4">
-          <div>{`${number_of_seasons} ${plural}`}</div>
-          <div>{`${number_of_episodes} Episodes`}</div>
-        </div>
-      )}
+      <div className="flex justify-evenly text-[2rem] w-full text-white/50 mb-4">
+        <div>{`${seasons} ${seasonText}`}</div>
+        <div>{`${episodes} Episodes`}</div>
+      </div>
     </section>
   );
 };

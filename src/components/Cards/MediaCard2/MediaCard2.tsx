@@ -6,21 +6,17 @@ import { useState, useMemo, useRef } from 'react';
 
 import { ROUTES } from '@/constants/route';
 import { useMediaContext } from '@/context/MediaContext';
+import { MediaMode } from '@/types';
 import { MediaWithDetails } from '@/types/global';
 import { formatGenres } from '@/utils';
 import { formatDate } from '@/utils/date';
+import { getMediaDate } from '@/utils/date/formatDate';
 import { getVideoKey } from '@/utils/serverActions/getVideoKey';
-import { isMovie, isTVShow } from '@/utils/typeGuard';
+// import { isMovie, isTVShow } from '@/utils/typeGuard';
 
 import { MediaCardInfo } from './MediaCardInfo';
 import { MediaVideoPlayer } from './MediaVideoPlayer';
 import PosterImage from './PosterImage';
-
-const getMediaDate = (item: any): string => {
-  if (isMovie(item)) return item.release_date;
-  if (isTVShow(item)) return item.first_air_date;
-  return '';
-};
 
 interface Props {
   item: MediaWithDetails;
@@ -39,7 +35,8 @@ const MediaCard2 = ({ item, style, isFirst, isLast }: Props) => {
   const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const iframeId = `yt-player-${item.id}`;
 
-  const title = item.name || item.title;
+  const title = item.media_type === MediaMode.MOVIE ? item.title : item.name;
+
   const genreText = useMemo(() => formatGenres(item, genres), [item, genres]);
   const mediaDate = useMemo(() => getMediaDate(item), [item]);
   const dateStr = formatDate(item, mediaMode);

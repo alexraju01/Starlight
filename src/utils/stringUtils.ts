@@ -1,3 +1,5 @@
+import { Media, MediaMode } from '@/types';
+
 export const capitalize = (str: string): string => {
   if (!str) return '';
   return str.charAt(0).toUpperCase() + str.slice(1);
@@ -19,3 +21,6 @@ export const stripLeadingSlash = (path: string | null | undefined): string => {
   if (!path) return '';
   return path.startsWith('/') ? path.slice(1) : path;
 };
+
+export const displayName = (media: Media) =>
+  media.media_type === MediaMode.MOVIE ? media.title : media.name;
