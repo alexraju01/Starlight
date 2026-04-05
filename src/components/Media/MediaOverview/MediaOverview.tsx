@@ -26,7 +26,7 @@ async function fetchMediaData(params: string, mediaMode: MediaMode.TV | MediaMod
     return { mediaDetails, credits };
   } catch (error) {
     console.error('Error fetching media data:', error);
-    return { mediaDetails: null, credits: { cast: [] } }; // Handle errors gracefully
+    return { mediaDetails: null, credits: { cast: [] } };
   }
 }
 

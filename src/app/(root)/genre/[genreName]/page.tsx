@@ -13,7 +13,6 @@ interface Props {
 }
 
 async function GenreContent({ genreSlug }: { genreSlug: string }) {
-  // 1. Fetch the genre lists on the server
   const { movieGenres, tvGenres } = await api.genre.getAllGenres();
 
   // 2. Create the genreMap (ID -> Name)
@@ -65,15 +64,14 @@ async function GenreContent({ genreSlug }: { genreSlug: string }) {
         </div>
       )}
 
-      <div className="border-b border-white/5 px-6 py-16">
-        <div className="mx-6 mt-20 lg:mx-[68px]">
-          <h1 className="text-4xl font-black uppercase md:text-6xl">{genreName}</h1>
-          <p className="mt-4 text-slate-400">Explore {genreName} movies and TV shows.</p>
+      <div className="border-b border-white/5 py-16">
+        <div className="content-container mt-10">
+          <h1 className="text-5xl font-black uppercase md:text-6xl">{genreName}</h1>
+          <p className="mt-4 text-lg text-slate-400">Explore {genreName} movies and TV shows.</p>
         </div>
       </div>
 
-      <div className="lg:mx-[68px] 2xl:mx-[101px] px-6 py-12">
-        {/* Pass the genreMap object instead of the two arrays */}
+      <div className="content-container ">
         <GenreMediaList initialMedia={combineRelatedMedia} genreId={genreId} genreMap={genreMap} />
       </div>
     </>

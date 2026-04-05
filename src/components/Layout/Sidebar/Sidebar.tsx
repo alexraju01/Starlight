@@ -52,7 +52,7 @@ export default function Sidebar() {
         className={`flex flex-col justify-between transition-all duration- w-64 transform z-50 ${
           isOpen ? 'translate-x-0' : '-translate-x-80 w-0'
         }`}
-        style={{ height: 'calc(100vh - 5rem)' }} // 👈 adjust based on logo height
+        style={{ height: 'calc(100vh - 5rem)' }}
       >
         <ul className="flex flex-col gap-4 pt-4 px-4">
           {links.map((link) => (

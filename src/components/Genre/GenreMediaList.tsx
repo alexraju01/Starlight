@@ -14,7 +14,7 @@ import { fetchGenreMedia } from '@/utils/serverActions/media';
 interface GenreMediaListProps {
   initialMedia: any[];
   genreId: number;
-  genreMap: Record<number, string>; // The object map from the server
+  genreMap: Record<number, string>;
 }
 
 export default function GenreMediaList({ initialMedia, genreId, genreMap }: GenreMediaListProps) {

@@ -10,7 +10,6 @@ export const api = {
   // ----------------------
   media: {
     search: async (query: string, page = 1) => {
-      // TMDB 'multi' search includes movies, tv shows, and people
       const { results } = await fetchData<APIResponse>('3', 'search/multi', {
         query: {
           query: encodeURIComponent(query),
@@ -18,11 +17,8 @@ export const api = {
           include_adult: 'false',
           language: 'en-US',
         },
-        // Search results change often, so we'll cache for a shorter time
-        cache: { type: 'revalidate', seconds: 60 * 5 },
       });
 
-      // Filter to only include Movies and TV shows, and ensure they have a poster
       return results.filter(
         (item) =>
           (item.media_type === 'movie' || item.media_type === 'tv') &&
@@ -91,9 +87,8 @@ export const api = {
         cache: { type: 'revalidate', seconds: 60 * 60 * 24 },
       });
 
-      // Return BOTH formats
       return {
-        genres: data.genres, // Keep the original array for other functions
+        genres: data.genres,
         genresMap: Object.fromEntries(data.genres.map(({ id, name }) => [id, name])), // The mapped record for your UI
       };
     },

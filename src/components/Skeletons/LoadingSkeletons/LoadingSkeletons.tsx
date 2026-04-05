@@ -1,5 +1,5 @@
 interface LoadingSkeletonsProps {
-  count?: number; // Number of skeleton cards to render
+  count?: number;
 }
 
 export const LoadingSkeletons = ({ count = 20 }: LoadingSkeletonsProps) => {

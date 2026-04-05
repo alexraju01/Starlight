@@ -1,4 +1,3 @@
-// app/components/GenreCollection/loading.tsx
 export default function LoadingGenreCollection() {
   return (
     <div className="flex justify-center items-center h-64">

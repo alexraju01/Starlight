@@ -1,4 +1,3 @@
-// useGenres.ts
 import { useEffect, useState } from 'react';
 
 import { MediaMode } from '@/types/mediaMode';

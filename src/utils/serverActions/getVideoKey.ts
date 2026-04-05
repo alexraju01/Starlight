@@ -8,7 +8,6 @@ export async function getVideoKey(mediaType: 'movie' | 'tv', id: number): Promis
     const data = await fetchData<VideoResponse>('3', `${mediaType}/${id}/videos`, {});
 
     if (!data?.results) return null;
-    // Prefer Trailer, fallback to Teaser
     let trailer = data.results.find(
       (video) => video.type === 'Trailer' && video.site === 'YouTube',
     );

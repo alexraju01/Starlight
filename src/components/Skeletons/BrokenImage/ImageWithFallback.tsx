@@ -12,13 +12,7 @@ interface Props {
   height?: number;
 }
 
-export default function ImageWithFallback({
-  src,
-  alt,
-  className,
-  width, // ideal size based on layout
-  height,
-}: Props) {
+export default function ImageWithFallback({ src, alt, className, width, height }: Props) {
   const [imgError, setImgError] = useState(false);
   return imgError ? (
     <BrokenImage className={className ?? ''} />

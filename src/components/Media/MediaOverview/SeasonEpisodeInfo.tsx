@@ -4,7 +4,6 @@ interface Props {
 }
 
 const SeasonEpisodeInfo = ({ seasons, episodes }: Props) => {
-  // Guard clause: If data is missing, don't render anything
   if (!seasons || !episodes) return null;
 
   const seasonText = seasons === 1 ? 'Season' : 'Seasons';

@@ -109,6 +109,10 @@
   .group:hover .media-frame {
     aspect-ratio: 16 / 9;
   }
+
+  .content-container {
+    @apply lg:mx-[68px] 2xl:mx-[101px] px-6;
+  }
 }
 @theme {
   --font-Helvetica: 'Helvetica', 'sans-serif';

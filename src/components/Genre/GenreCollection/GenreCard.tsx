@@ -1,4 +1,4 @@
-'use client'; // This is the crucial line
+'use client';
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
@@ -7,7 +7,6 @@ import { FaQuestionCircle } from 'react-icons/fa';
 import { ROUTES } from '@/constants/route';
 
 interface GenreCardProps {
-  //   id: number;
   name: string;
   index: number;
   icon?: React.ReactNode;

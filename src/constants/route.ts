@@ -1,5 +1,3 @@
-// routes.ts
-
 import { slugify } from '@/utils';
 
 import type { MediaMode } from '@/types/mediaMode';
@@ -17,7 +15,6 @@ export const ROUTES = {
   MEDIA: (mode: MediaMode, id: number, slug?: string): Route =>
     (mode === 'movie' ? ROUTES.MOVIE(id, slug) : ROUTES.TV(id, slug)) as Route,
 
-  // routes.ts
   GENRE: (name: string): Route => `/genre/${slugify(name)}` as Route,
 
   DISCOVER: (text: string): Route => `/discover?search=${slugify(text)}` as Route,

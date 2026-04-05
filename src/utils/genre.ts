@@ -1,11 +1,7 @@
 import { Genre } from '@/types/genre';
 import { MediaListItem } from '@/types/global';
-// import { isGenreMovie } from '@/utils/typeGuard';
-
-// utils/formatGenres.ts
 
 export function formatGenres(item: MediaListItem, genreMap: Record<number, string>): string {
-  // Use optional chaining and nullish coalescing
   const ids = item.genre_ids ?? [];
 
   if (ids.length === 0) return 'Unknown genre';

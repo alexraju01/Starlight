@@ -10,8 +10,6 @@ import { displayName } from '@/utils/stringUtils';
 
 import SeasonEpisodeInfo from './SeasonEpisodeInfo';
 
-// import { SeasonEpisodeInfo } from '.';
-
 interface Props {
   media: MediaWithDetails;
   mediaMode: MediaMode.TV | MediaMode.MOVIE;

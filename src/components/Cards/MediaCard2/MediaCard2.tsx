@@ -12,7 +12,6 @@ import { formatGenres } from '@/utils';
 import { formatDate } from '@/utils/date';
 import { getMediaDate } from '@/utils/date/formatDate';
 import { getVideoKey } from '@/utils/serverActions/getVideoKey';
-// import { isMovie, isTVShow } from '@/utils/typeGuard';
 
 import { MediaCardInfo } from './MediaCardInfo';
 import { MediaVideoPlayer } from './MediaVideoPlayer';

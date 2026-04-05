@@ -1,4 +1,3 @@
-// components/Slider/CustomSlider.tsx
 import { MediaMode } from '@/types/mediaMode';
 import { api } from '@/utils/api';
 

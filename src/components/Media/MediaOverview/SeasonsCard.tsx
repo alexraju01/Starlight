@@ -1,4 +1,3 @@
-// import ImageWithFallback from "@/components/feedback/BrokenImage";
 import ImageWithFallback from '@/components/Skeletons/BrokenImage/ImageWithFallback';
 import { Season } from '@/types/seasons';
 

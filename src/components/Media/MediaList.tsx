@@ -19,7 +19,6 @@ interface Props {
   initialGenres: Record<number, string>;
   mediaMode: MediaMode;
 }
-// lucy from wren recuirment
 
 export default function MediaList({ initialMedia, initialGenres, mediaMode }: Props) {
   const [media, setMedia] = useState<MediaWithDetails[]>(initialMedia);

@@ -82,7 +82,7 @@ export default function CustomSliderClient({
           </div>
         </header>
 
-        <div className="relative  -ml-4 w-full  overflow-hidden">
+        <div className="relative -ml-4 w-full overflow-hidden">
           <div
             className="flex transition-transform duration-300 ml-6  ease-in-out w-full"
             style={transformStyle}
