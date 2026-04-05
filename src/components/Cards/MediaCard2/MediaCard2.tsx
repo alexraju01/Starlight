@@ -39,7 +39,7 @@ const MediaCard2 = ({ item, style, isFirst, isLast }: Props) => {
 
   const genreText = useMemo(() => formatGenres(item, genres), [item, genres]);
   const mediaDate = useMemo(() => getMediaDate(item), [item]);
-  const dateStr = formatDate(item, mediaMode);
+  const dateStr = formatDate(item);
   const hasValidRating = typeof item.vote_average === 'number' && item.vote_average > 0;
 
   const isUpcoming = useMemo(() => new Date(mediaDate) > new Date(), [mediaDate]);

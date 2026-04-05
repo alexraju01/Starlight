@@ -139,8 +139,6 @@ export const api = {
       cache: { type: 'revalidate', seconds: 60 * 60 * 24 },
     });
 
-    console.log(`Fetched slider data from ${endpoint}:`, results);
-
     return results.map((item) => ({
       ...item,
       media_type: mediaMode,

@@ -72,7 +72,7 @@ async function GenreContent({ genreSlug }: { genreSlug: string }) {
         </div>
       </div>
 
-      <div className="px-6 py-12 lg:mx-[68px]">
+      <div className="lg:mx-[68px] 2xl:mx-[101px] px-6 py-12">
         {/* Pass the genreMap object instead of the two arrays */}
         <GenreMediaList initialMedia={combineRelatedMedia} genreId={genreId} genreMap={genreMap} />
       </div>

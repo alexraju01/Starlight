@@ -19,7 +19,6 @@ interface Props {
 
 export default function MediaDetailsPanel({ media, mediaMode }: Props) {
   const { overview, vote_average, genres } = media;
-  console.log('MediaDetailsPanel media:', media);
   const releaseDate =
     media.media_type === MediaMode.MOVIE ? media.release_date : media.first_air_date;
   return (
