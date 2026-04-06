@@ -12,7 +12,7 @@ interface Props {
 
 const CustomSlider = async ({ endpoint, title, mediaMode, breakpoints }: Props) => {
   const [media, { genres }] = await Promise.all([
-    api.getSliderData(mediaMode, endpoint),
+    api.media.getSliderData(mediaMode, endpoint),
     api.genre.getGenres(mediaMode),
   ]);
   const genreMap = Object.fromEntries(genres.map(({ id, name }) => [id, name]));
