@@ -17,9 +17,9 @@ async function MovieContent() {
 }
 export default function MoviesPage() {
   return (
-    <section className=" text-white animate-fadeIn ">
+    <section className="text-white animate-fadeIn ">
       {/* Hero / Header */}
-      <div className=" relative border-b border-white/5 bg-gradient-to-b from-red-900/10 to-transparent  py-16">
+      <div className=" relative border-b border-white/5 bg-gradient-to-b from-red-900/10 to-transparent py-16">
         <div className="content-container ">
           <h1 className="text-4xl font-black uppercase tracking-tight md:text-6xl">
             Browse <span className="text-primary">Movies</span>

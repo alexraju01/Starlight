@@ -2,7 +2,7 @@ import { Star } from 'lucide-react';
 
 const RatingBadge = ({ rating }: { rating: number }) => {
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex-center gap-2">
       <i>
         <Star fill="#FACC15" color="#FACC15" size={20} />
       </i>

@@ -16,7 +16,7 @@ const GenreCollectionCard = ({ genre, totalItems }: GenreCollectionCardProps) =>
   return (
     <Link
       href={ROUTES.GENRE(genre.name)}
-      className=" rounded-[13.75px] border-[1.15px] border-solid  border-[#262626] bg-[#1A1A1A] px-[17px] pt-[17px] pb-[6px] xl:px-[34.39px] xl:pt-[34px] xl:pb-[12px] flex flex-col gap-4 cursor-pointer transition hover:bg-[#E500000F] hover:border-[#E50000]"
+      className="rounded-[13.75px] border-[1.15px] border-solid  border-[#262626] bg-[#1A1A1A] px-[17px] pt-[17px] pb-[6px] xl:px-[34.39px] xl:pt-[34px] xl:pb-[12px] flex flex-col gap-4 cursor-pointer transition hover:bg-[#E500000F] hover:border-[#E50000]"
       style={{ width: `${100 / totalItems}%` }}
     >
       <div className="relative grid grid-cols-2 gap-[7px]">
@@ -27,7 +27,7 @@ const GenreCollectionCard = ({ genre, totalItems }: GenreCollectionCardProps) =>
               src={`${IMAGE_BASE_URL}${movie.poster_path}`}
               alt={displayName(movie)}
               fill
-              className="object-cover rounded-[11px]"
+              className="img-cover-center rounded-[11px]"
             />
           </div>
         ))}
