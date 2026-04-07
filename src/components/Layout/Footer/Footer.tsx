@@ -4,9 +4,9 @@ const Footer = () => {
   return (
     <footer className="my-10 border-t border-gray-700 text-md text-gray-400 flex flex-col  items-center justify-center gap-3 ">
       <Image
-        src="/images/TMDB Primary Short.svg"
+        src="/images/TMDB-Primary-Short.svg"
         alt="The Movie Database (TMDB)"
-        height={21.42}
+        height={21}
         width={50}
         priority
       />

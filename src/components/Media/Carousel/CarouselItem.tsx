@@ -17,25 +17,26 @@ export default function CarouselItem({ movie, genres, priority }: CarouselItemPr
   const backdropSrc = getImageUrl(movie.backdrop_path, 'backdrop', 'original');
 
   return (
-    <li className="flex-shrink-0 flex w-full h-full items-center justify-evenly relative">
+    <li className="flex-shrink-0 flex-evenly w-full h-full  relative">
       <Image
         src={backdropSrc}
         fill
         quality={75}
         alt={displayName(movie)}
-        className="object-cover object-center brightness-[80%] carousel-mask-gradiant"
+        className="img-cover-center brightness-[80%] carousel-mask-gradiant"
         priority={priority}
       />
 
-      <div className="absolute space-y-4 z-10 max-w-screen lg:w-[854px] bottom-0 sm:pb-0 md:pb-0 left-[25px] right-[25px] lg:left-[102px]">
+      <div className="absolute space-y-4 z-10 max-w-screen lg:w-[854px] bottom-0 sm:pb-0 md:pb-0 inset-x-[25px] lg:left-[102px]">
         {movie.logoImage ? (
           <div className="relative h-[clamp(1rem,14vw,13rem)] w-[clamp(19rem,20vw,33rem)] mb-5">
             <Image
               src={movie.logoImage}
               fill
+              loading="eager"
               quality={60}
               alt={`${displayName(movie)} logo`}
-              className="object-contain object-center"
+              className="img-contain-center"
             />
           </div>
         ) : (

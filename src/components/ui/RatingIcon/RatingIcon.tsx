@@ -14,7 +14,7 @@ const RatingIcon = memo(function RatingIcon({ vote, className }: RatingIconProps
     <div role="group" aria-label={ariaLabel} className="flex items-center gap-2">
       <span aria-hidden className={['font-bold text-white', className || ''].join(' ')}>
         <Image
-          src="/images/TMDB Primary Short.svg"
+          src="/images/TMDB-Primary-Short.svg"
           alt="The Movie Database (TMDB)"
           width={40}
           height={18}

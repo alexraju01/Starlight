@@ -61,9 +61,7 @@ export const api = {
       const { results } = await fetchData<APIResponse>('3', endpoint, {
         cache: { type: 'revalidate', seconds: 60 * 60 * 24 },
       });
-      console.log(mediaMode, endpoint);
       if (mediaMode === MediaMode.TV) {
-        console.log('Enriching TV data with seasons...');
         return attachTvSeasonData(results as TVShow[]);
       }
 
