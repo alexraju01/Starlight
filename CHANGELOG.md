@@ -1,3 +1,24 @@
+## [2.5.3](https://github.com/alexraju01/Starlight/compare/v2.5.2...v2.5.3) (2026-04-09)
+
+### 🐛 Bug Fixes
+
+* Able to see the trailer on mobile screen by tap on image card ([1313010](https://github.com/alexraju01/Starlight/commit/131301013fefe2306ffee5b0546be290c7da6084))
+
+### 🛠 Refactors
+
+* Clean up code by removing commented lines and improving component structure; enhance styling consistency across genre and media pages ([e1ba849](https://github.com/alexraju01/Starlight/commit/e1ba849da69f0a7fd9aee6bb9ac8893c0e254d89))
+* Enhance genre fetching logic and improve GenreMediaList component with genreMap integration ([ebc263f](https://github.com/alexraju01/Starlight/commit/ebc263f9ecde675990a2c730fbff1a2be8c55413))
+* Enhance layout and styling in Home and MediaCardInfo components; update API calls for improved data handling and caching ([fd129b1](https://github.com/alexraju01/Starlight/commit/fd129b172052d561fc2c9f15e142cc32b84f9384))
+* Improve layout consistency and structure across multiple components ([b280c88](https://github.com/alexraju01/Starlight/commit/b280c88eb6d84df4fb0835728d08e4d4839a07ef))
+* Improve styling consistency and clean up class names across multiple components ([40d4c97](https://github.com/alexraju01/Starlight/commit/40d4c97bb53a0bb150dfdad4c6582599b86b073c))
+* Improved layout and styling in GenreMediaList, MediaCard2, and CustomSlider components; remove console logs in MediaDetailsPanel and api ([2220ea3](https://github.com/alexraju01/Starlight/commit/2220ea322e630797229b623a84049d2fb8e4cd4c))
+* Integrate server actions for media and genre fetching, enhance MediaList and SeasonBadge components ([4ad5d77](https://github.com/alexraju01/Starlight/commit/4ad5d7755dfe9d32ccb7437d9e34a681f52a1c74))
+* Restructure Discover page and integrate media search functionality with improved genre handling ([25c2148](https://github.com/alexraju01/Starlight/commit/25c2148bb2a64dfbe155ba99e2bac9ca96c56f8a))
+* Update import paths for components and utilities; consolidate loading skeleton imports; remove unused GenreCard component ([17d8cb5](https://github.com/alexraju01/Starlight/commit/17d8cb53fb8b5fb9337d6e02fed933608fd12411))
+* Update SearchCard, DiscoverClient, and MovieGrid components for improved genre handling and media context integration ([5aa2cdb](https://github.com/alexraju01/Starlight/commit/5aa2cdba07990133f7f90d4c9f81e96fd2fb0686))
+* update SVG assets and improve styling utilities ([69a7ed8](https://github.com/alexraju01/Starlight/commit/69a7ed8f60f50d1ebac9e5a0a796e10df297c3af))
+* Updated media handling across components for improved type consistency and genre integration ([1a52b9d](https://github.com/alexraju01/Starlight/commit/1a52b9d99a627827059b136ef3a047a6c611f83e))
+
 ## [2.5.2](https://github.com/alexraju01/Starlight/compare/v2.5.1...v2.5.2) (2026-04-03)
 
 ### 🛠 Refactors
