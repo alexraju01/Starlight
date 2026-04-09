@@ -8,7 +8,7 @@ const Home = () => {
     <>
       <Carousel mediaMode={MediaMode.MOVIE} />
 
-      <section className="relative sm:mt-15 bg-[#100F10] overflow-hidden">
+      <section className="relative sm:mt-15  overflow-hidden">
         <BlurBackground />
 
         <div className="md:mx-6 lg:mx-[68px] 2xl:mx-[101px] px-2">
