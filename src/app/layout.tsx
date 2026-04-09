@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     template: '%s | Starlight',
   },
   description:
-    'Starlight helps you discover new and popular movies and TV shows. Explore trending titles, watch trailers, and find your next favorite फिल्म or series.',
+    'Starlight helps you discover new and popular movies and TV shows. Explore trending titles, watch trailers, and find your next favorite movies or series.',
 
   keywords: [
     'movies',
