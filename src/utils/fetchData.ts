@@ -24,7 +24,7 @@ if (!TMDB_API_KEY) {
   throw new Error('TMDB_API_KEY is not defined in environment variables');
 }
 
-export default async function fetchData<T>(
+export async function fetchData<T>(
   version: string,
   endpoint: string,
   options: FetchDataOptions = {},

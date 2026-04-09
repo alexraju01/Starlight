@@ -2,8 +2,8 @@ import Image from 'next/image';
 import { Suspense } from 'react';
 
 import GenreMediaList from '@/components/Genre/GenreMediaList';
-import { GenreHeaderSkeleton } from '@/components/Skeletons/GenreHeaderSkeleton';
-import { LoadingSkeletons } from '@/components/Skeletons/LoadingSkeletons/LoadingSkeletons';
+import GenreHeaderSkeleton from '@/components/Skeletons/GenreHeaderSkeleton';
+import { LoadingSkeletons } from '@/components/Skeletons/LoadingSkeletons';
 import { MediaMode } from '@/types';
 import { slugify } from '@/utils';
 import { api } from '@/utils/api';
@@ -13,14 +13,20 @@ interface Props {
 }
 
 async function GenreContent({ genreSlug }: { genreSlug: string }) {
-  // 1. Fetch the genre list to find the ID for this slug
   const { movieGenres, tvGenres } = await api.genre.getAllGenres();
-  const allGenres = [...movieGenres, ...tvGenres];
 
-  // 2. Find the genre matching the URL slug
-  const foundGenre = allGenres.find((g) => slugify(g.name) === genreSlug);
+  // 2. Create the genreMap (ID -> Name)
+  // This turns two arrays into one fast lookup object
+  const genreMap: Record<number, string> = {};
+  [...movieGenres, ...tvGenres].forEach((genre) => {
+    genreMap[genre.id] = genre.name;
+  });
 
-  // Fallback if the user types a fake genre in the URL
+  // 3. Find the genre matching the URL slug
+  // We use the arrays we already fetched to find the current genre
+  const allGenresList = [...movieGenres, ...tvGenres];
+  const foundGenre = allGenresList.find((g) => slugify(g.name) === genreSlug);
+
   if (!foundGenre) {
     return (
       <div className="flex h-96 items-center justify-center">
@@ -32,7 +38,7 @@ async function GenreContent({ genreSlug }: { genreSlug: string }) {
   const genreId = foundGenre.id;
   const genreName = foundGenre.name;
 
-  // 3. Fetch media using the ID we just found
+  // 4. Fetch initial media
   const [genreRelatedMovies, genreRelatedTv] = await Promise.all([
     api.media.getMedia(MediaMode.MOVIE, 1, [genreId]),
     api.media.getMedia(MediaMode.TV, 1, [genreId]),
@@ -43,9 +49,6 @@ async function GenreContent({ genreSlug }: { genreSlug: string }) {
     ...genreRelatedTv.map((m) => ({ ...m, media_type: MediaMode.TV })),
   ];
 
-  //   const foundGenre = [...movieGenres, ...tvGenres].find((g) => g.id === genreId);
-  //   const genreName = foundGenre?.name || 'Unknown Genre';
-
   const backgroundMedia =
     combineRelatedMedia.find((m) => m.backdrop_path) || combineRelatedMedia[0];
   const backgroundImage = backgroundMedia?.backdrop_path
@@ -55,21 +58,21 @@ async function GenreContent({ genreSlug }: { genreSlug: string }) {
   return (
     <>
       {backgroundImage && (
-        <div className="pointer-events-none fixed top-0 left-0 w-full h-screen -z-1">
+        <div className="pointer-events-none fixed top-0 left-0 -z-1 h-screen w-full">
           <Image src={backgroundImage} alt={genreName} fill priority className="object-cover" />
           <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/70 to-black" />
         </div>
       )}
 
-      <div className="border-b border-white/5 px-6 py-16">
-        <div className="mx-6 lg:mx-[68px] mt-20">
-          <h1 className="text-4xl font-black uppercase md:text-6xl">{genreName}</h1>
-          <p className="mt-4 text-slate-400">Explore {genreName} movies and TV shows.</p>
+      <div className="border-b border-white/5 py-16">
+        <div className="content-container mt-10">
+          <h1 className="text-5xl font-black uppercase md:text-6xl">{genreName}</h1>
+          <p className="mt-4 text-lg text-slate-400">Explore {genreName} movies and TV shows.</p>
         </div>
       </div>
 
-      <div className="lg:mx-[68px] px-6 py-12">
-        <GenreMediaList initialMedia={combineRelatedMedia} genreId={genreId} />
+      <div className="content-container ">
+        <GenreMediaList initialMedia={combineRelatedMedia} genreId={genreId} genreMap={genreMap} />
       </div>
     </>
   );

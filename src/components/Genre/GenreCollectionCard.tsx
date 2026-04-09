@@ -3,14 +3,20 @@ import Link from 'next/link';
 
 import { ROUTES } from '@/constants/route';
 import { GenreWithMovies } from '@/types/genre';
+import { displayName } from '@/utils/stringUtils';
 
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w185';
 
-export function GenreCard({ genre, totalItems }: { genre: GenreWithMovies; totalItems: number }) {
+interface GenreCollectionCardProps {
+  genre: GenreWithMovies;
+  totalItems: number;
+}
+
+const GenreCollectionCard = ({ genre, totalItems }: GenreCollectionCardProps) => {
   return (
     <Link
       href={ROUTES.GENRE(genre.name)}
-      className=" rounded-[13.75px] border-[1.15px] border-solid  border-[#262626] bg-[#1A1A1A] px-[17px] pt-[17px] pb-[6px] xl:px-[34.39px] xl:pt-[34px] xl:pb-[12px] flex flex-col gap-4 cursor-pointer transition hover:bg-[#E500000F] hover:border-[#E50000]"
+      className="rounded-[13.75px] border-[1.15px] border-solid  border-[#262626] bg-[#1A1A1A] px-[17px] pt-[17px] pb-[6px] xl:px-[34.39px] xl:pt-[34px] xl:pb-[12px] flex flex-col gap-4 cursor-pointer transition hover:bg-[#E500000F] hover:border-[#E50000]"
       style={{ width: `${100 / totalItems}%` }}
     >
       <div className="relative grid grid-cols-2 gap-[7px]">
@@ -19,9 +25,9 @@ export function GenreCard({ genre, totalItems }: { genre: GenreWithMovies; total
           <div key={movie.id} className="relative aspect-[0.8] z-10">
             <Image
               src={`${IMAGE_BASE_URL}${movie.poster_path}`}
-              alt={movie.title || 'Movie'}
+              alt={displayName(movie)}
               fill
-              className="object-cover rounded-[11px]"
+              className="img-cover-center rounded-[11px]"
             />
           </div>
         ))}
@@ -34,7 +40,7 @@ export function GenreCard({ genre, totalItems }: { genre: GenreWithMovies; total
       </div>
     </Link>
   );
-}
+};
 
 const ArrowIcon = () => (
   <svg width="21" height="19" viewBox="0 0 25 23" fill="none">
@@ -47,3 +53,5 @@ const ArrowIcon = () => (
     />
   </svg>
 );
+
+export default GenreCollectionCard;

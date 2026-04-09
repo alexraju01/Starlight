@@ -1,28 +1,26 @@
 import { Suspense } from 'react';
 
 import MediaList from '@/components/Media/MediaList';
-import { LoadingSkeletons } from '@/components/Skeletons/LoadingSkeletons/LoadingSkeletons';
-import { Media } from '@/types';
+import { LoadingSkeletons } from '@/components/Skeletons/LoadingSkeletons';
 import { MediaMode } from '@/types/mediaMode';
-import { api } from '@/utils/api';
+import { api } from '@/utils';
 
 async function MovieContent() {
-  const rawMedia = await api.media.getMedia(MediaMode.MOVIE);
+  const [movies, genres] = await Promise.all([
+    api.media.getMedia(MediaMode.MOVIE),
+    api.genre.getGenres(MediaMode.MOVIE),
+  ]);
 
-  const mediaWithType = rawMedia.map((item) => ({
-    ...item,
-    media_type: MediaMode.MOVIE,
-  })) as Media[];
-
-  return <MediaList initialMedia={mediaWithType} mediaMode={MediaMode.MOVIE} />;
+  return (
+    <MediaList initialMedia={movies} initialGenres={genres.genresMap} mediaMode={MediaMode.MOVIE} />
+  );
 }
-
 export default function MoviesPage() {
   return (
-    <section className=" text-white animate-fadeIn">
+    <section className="text-white animate-fadeIn ">
       {/* Hero / Header */}
-      <div className=" relative border-b border-white/5 bg-gradient-to-b from-red-900/10 to-transparent px-6 py-16">
-        <div className="lg:mx-[68px] 2xl:mx-[101px]">
+      <div className=" relative border-b border-white/5 bg-gradient-to-b from-red-900/10 to-transparent py-16">
+        <div className="content-container ">
           <h1 className="text-4xl font-black uppercase tracking-tight md:text-6xl">
             Browse <span className="text-primary">Movies</span>
           </h1>
@@ -33,7 +31,7 @@ export default function MoviesPage() {
       </div>
 
       {/* Content */}
-      <section className="lg:mx-[68px] 2xl:mx-[101px] px-6 py-12">
+      <section className="content-container">
         <Suspense fallback={<LoadingSkeletons />}>
           <MovieContent />
         </Suspense>

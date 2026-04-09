@@ -19,7 +19,7 @@ const CarouselControls = memo(function CarouselControls({ onPrev, onNext }: Prop
       )}
     >
       <button
-        className="border-2 flex justify-center items-center size-[33px] sm:size-[59px] hover:cursor-pointer border-solid rounded-lg border-white p-1"
+        className="flex-center btn-base size-btn border-2 border-white p-1 border-solid"
         onClick={onPrev}
       >
         <svg

@@ -66,7 +66,7 @@ export default function CustomSliderClient({
   return (
     <MediaProvider mediaMode={mediaMode} genres={genres}>
       <section className="flex flex-col w-full mb-10 text-white gap-4">
-        <header className="flex justify-between items-center px-2">
+        <header className="flex-between px-2">
           <h2 className="slider-title">{title}</h2>
           <div className="flex gap-2 px-1 py-2 z-10">
             <CustomSliderButtons
@@ -82,7 +82,7 @@ export default function CustomSliderClient({
           </div>
         </header>
 
-        <div className="relative px-2 -ml-3 w-full  overflow-hidden">
+        <div className="relative -ml-4 w-full overflow-hidden">
           <div
             className="flex transition-transform duration-300 ml-6  ease-in-out w-full"
             style={transformStyle}

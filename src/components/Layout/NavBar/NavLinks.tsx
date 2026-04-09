@@ -5,7 +5,6 @@ import { usePathname } from 'next/navigation';
 
 import { links } from '@/constants';
 
-// Added className to the Props interface
 interface NavLinksProps {
   onLinkClick?: () => void;
   className?: string;
@@ -15,7 +14,6 @@ const NavLinks = ({ onLinkClick, className = '' }: NavLinksProps) => {
   const pathname = usePathname();
 
   return (
-    // Use a template literal to merge the default styles with the passed className
     <ul className={`lg:flex lg:flex-row lg:items-center gap-3 xl:gap-5 ${className}`}>
       {links.map((link) => {
         const isActive = pathname === link.href;

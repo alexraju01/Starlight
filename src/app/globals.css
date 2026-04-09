@@ -1,5 +1,4 @@
 @import 'tailwindcss';
-
 @plugin 'tailwindcss-animate';
 
 @layer base {
@@ -109,6 +108,46 @@
   .group:hover .media-frame {
     aspect-ratio: 16 / 9;
   }
+
+  .content-container {
+    @apply lg:mx-[68px] 2xl:mx-[101px] px-6 py-6;
+  }
+  /* Flex */
+  .flex-center {
+    @apply flex justify-center items-center;
+  }
+
+  .flex-between {
+    @apply flex justify-between items-center;
+  }
+  .flex-evenly {
+    @apply flex items-center justify-evenly;
+  }
+
+  /* Absolute */
+  .absolute-full {
+    @apply absolute w-full;
+  }
+  .absolute-fill {
+    @apply absolute inset-0;
+  }
+
+  .btn-base {
+    @apply rounded-lg hover:cursor-pointer;
+  }
+
+  .size-btn {
+    @apply size-[33px] sm:size-[59px];
+  }
+
+  /* Image helpers */
+  .img-cover-center {
+    @apply object-cover object-center;
+  }
+
+  .img-contain-center {
+    @apply object-contain object-center;
+  }
 }
 @theme {
   --font-Helvetica: 'Helvetica', 'sans-serif';
@@ -116,7 +155,7 @@
 
   --breakpoint-3xl: 112rem;
 
-  /* Colour Plalette */
+  /* Colour Pallette */
 
   --color-primary: #9e221a;
   --color-secondary: #100f10;

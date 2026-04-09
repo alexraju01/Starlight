@@ -1,7 +1,7 @@
 import GoBack from '@/components/Navigation/GoBack';
 import { CastMember, MediaMode } from '@/types';
 import { MediaWithDetails } from '@/types/global';
-import { fetchData, isTVShow } from '@/utils';
+import { fetchData } from '@/utils';
 
 import { Seasons, SimilarMedia } from '.';
 import MediaBackdrop from './MediaBackdrop';
@@ -26,7 +26,7 @@ async function fetchMediaData(params: string, mediaMode: MediaMode.TV | MediaMod
     return { mediaDetails, credits };
   } catch (error) {
     console.error('Error fetching media data:', error);
-    return { mediaDetails: null, credits: { cast: [] } }; // Handle errors gracefully
+    return { mediaDetails: null, credits: { cast: [] } };
   }
 }
 
@@ -36,14 +36,15 @@ export default async function MediaOverview({ params, mediaMode }: Props) {
 
   return (
     <>
-      <MediaBackdrop media={mediaDetails} mediaMode={mediaMode} />
+      <MediaBackdrop media={mediaDetails} />
       <GoBack />
+      <div className="px-6 md:px-12">
+        <MediaDetailsPanel media={mediaDetails} mediaMode={mediaMode} />
 
-      <MediaDetailsPanel media={mediaDetails} mediaMode={mediaMode} />
-
-      {isTVShow(mediaDetails) && <Seasons seasons={mediaDetails.seasons} />}
-      <CastContainer castList={credits.cast.slice(0, 10)} />
-      <SimilarMedia mediaMode={mediaMode} params={params} />
+        {mediaDetails.media_type === MediaMode.TV && <Seasons seasons={mediaDetails.seasons} />}
+        <CastContainer castList={credits.cast.slice(0, 10)} />
+        <SimilarMedia mediaMode={mediaMode} params={params} />
+      </div>
     </>
   );
 }

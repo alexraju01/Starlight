@@ -24,7 +24,7 @@ function CustomSliderButtons({
     >
       {direction === 'left' ? (
         <svg
-          className="w-[16px] h-[10.3px] lg:w-[23px] lg:h-[22px] 2xl:w-[28px] 2xl:h-[24px]"
+          className="size-[16px] lg:w-[23px] lg:h-[22px] 2xl:w-[28px] 2xl:h-[24px]"
           width="28"
           height="24"
           viewBox="0 0 28 22"
@@ -41,7 +41,7 @@ function CustomSliderButtons({
         </svg>
       ) : (
         <svg
-          className="w-[16px] h-[16px] lg:w-[23px] lg:h-[22px] 2xl:w-[28px] 2xl:h-[24px] "
+          className="size-[16px] lg:w-[23px] lg:h-[22px] 2xl:w-[28px] 2xl:h-[24px] "
           width="28"
           height="24"
           viewBox="0 0 28 24"

@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react';
 import { useDebounce } from 'use-debounce';
 
-import { MultiMedia } from '@/types/global';
-import fetchData from '@/utils/fetchData';
+import { Media } from '@/types/global';
+import { fetchData } from '@/utils';
 
 interface APIResponse {
   page: number;
-  results: MultiMedia[];
+  results: Media[];
   total_pages: number;
   total_results: number;
 }
 
 export const useSearchMedia = (query: string) => {
-  const [results, setResults] = useState<MultiMedia[]>([]);
+  const [results, setResults] = useState<Media[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 

@@ -1,4 +1,3 @@
-// hooks/useResponsiveItems.ts
 import { useEffect, useState } from 'react';
 
 type Breakpoint = { max: number; value: number };

@@ -1,8 +1,7 @@
-// useGenres.ts
 import { useEffect, useState } from 'react';
 
 import { MediaMode } from '@/types/mediaMode';
-import { api } from '@/utils/api';
+import { api } from '@/utils';
 
 export const useGenres = (mediaMode: MediaMode) => {
   const [genres, setGenres] = useState<Record<number, string>>({});

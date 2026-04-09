@@ -15,7 +15,7 @@ const Seasons = async ({ seasons }: Props) => {
   const plural = seasons.length === 1 ? 'Season' : 'Seasons';
 
   return (
-    <section className="flex flex-col gap-4 px-12 w-full">
+    <section className="flex flex-col gap-4 w-full">
       <SectionHeading icon={Icons.play}>{`${plural} (${seasons.length})`}</SectionHeading>
 
       <Suspense fallback={<div>Loading season. . . </div>}>

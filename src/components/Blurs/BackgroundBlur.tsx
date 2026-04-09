@@ -1,4 +1,3 @@
-// Abstracted background blur effects into a component
 const BlurBackground = () => {
   return (
     <>

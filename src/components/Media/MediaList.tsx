@@ -7,27 +7,26 @@ import MediaCard2 from '@/components/Cards/MediaCard2';
 import Button from '@/components/ui/Button/Button';
 import { CAROUSEL_BREAKPOINTS } from '@/constants/breakpoints';
 import { MediaProvider } from '@/context/MediaContext';
-import { useGenres } from '@/hooks/useGenre';
 import { useResponsiveItems } from '@/hooks/useResponsiveItems';
-import { Movie, TVShow } from '@/types/global';
+import { MediaWithDetails } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
-import { api } from '@/utils/api';
+import { getMoreMediaAction } from '@/utils/serverActions/media';
 
-import { LoadingSkeletons } from '../Skeletons/LoadingSkeletons/LoadingSkeletons';
+import { LoadingSkeletons } from '../Skeletons/LoadingSkeletons';
 
 interface Props {
-  initialMedia: (Movie | TVShow)[];
+  initialMedia: MediaWithDetails[];
+  initialGenres: Record<number, string>;
   mediaMode: MediaMode;
 }
-// lucy from wren recuirment
 
-export default function MediaList({ initialMedia, mediaMode }: Props) {
-  const [media, setMedia] = useState<(Movie | TVShow)[]>(initialMedia);
+export default function MediaList({ initialMedia, initialGenres, mediaMode }: Props) {
+  const [media, setMedia] = useState<MediaWithDetails[]>(initialMedia);
   const [page, setPage] = useState(1);
   const [buttonHidden, setButtonHidden] = useState(initialMedia.length === 0);
   const [loading, setLoading] = useState(false);
 
-  const genres = useGenres(mediaMode);
+  const genres = initialGenres;
   const itemsPerRow = useResponsiveItems(CAROUSEL_BREAKPOINTS);
 
   if (itemsPerRow === null) return <LoadingSkeletons />;
@@ -35,7 +34,8 @@ export default function MediaList({ initialMedia, mediaMode }: Props) {
   const loadMoreMedia = async () => {
     setLoading(true);
     const nextPage = page + 1;
-    const mediaList = await api.media.getMedia(mediaMode, nextPage);
+
+    const mediaList = await getMoreMediaAction(mediaMode, nextPage);
 
     const newMedia = mediaList.filter(
       (newItem) => !media.some((existing) => existing.id === newItem.id),
@@ -46,7 +46,6 @@ export default function MediaList({ initialMedia, mediaMode }: Props) {
     setPage(nextPage);
     setLoading(false);
   };
-
   return (
     <MediaProvider mediaMode={mediaMode} genres={genres}>
       <div className="animate-fadeIn">

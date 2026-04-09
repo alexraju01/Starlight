@@ -16,8 +16,8 @@ interface Props {
 const MediaCard = ({ media, className }: Props) => {
   const [isLoaded, setIsLoaded] = useState(false);
 
-  const { name, title, poster_path } = media;
-  const displayName = title || name;
+  const { poster_path } = media;
+  const displayName = media.media_type === MediaMode.MOVIE ? media.title : media.name;
 
   useEffect(() => {
     if (!poster_path) setIsLoaded(true);
