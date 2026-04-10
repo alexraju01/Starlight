@@ -1,9 +1,27 @@
+import { Metadata } from 'next';
 import { Suspense } from 'react';
 
 import MediaList from '@/components/Media/MediaList';
 import { LoadingSkeletons } from '@/components/Skeletons/LoadingSkeletons';
 import { MediaMode } from '@/types/mediaMode';
 import { api } from '@/utils';
+
+export const metadata: Metadata = {
+  title: 'Movies – Discover Popular & Trending Films',
+  description:
+    'Browse popular movies, trending films, and timeless classics on Starlight. Watch official trailers, explore movie details, and discover new releases.',
+
+  keywords: [
+    'movies',
+    'films',
+    'trending movies',
+    'popular movies',
+    'movie trailers',
+    'watch trailers',
+    'latest films',
+    'new movie releases',
+  ],
+};
 
 async function MovieContent() {
   const [movies, genres] = await Promise.all([

@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import { Suspense } from 'react';
 
 import MediaList from '@/components/Media/MediaList';
@@ -5,6 +6,22 @@ import { LoadingSkeletons } from '@/components/Skeletons/LoadingSkeletons';
 import { MediaMode } from '@/types/mediaMode';
 import { api } from '@/utils/api';
 
+export const metadata: Metadata = {
+  title: 'TV Shows – Browse Popular & Trending Series',
+  description:
+    'Explore trending TV shows, binge-worthy series, and critically acclaimed dramas on Starlight. Watch official trailers, explore show details, and discover new releases.',
+
+  keywords: [
+    'tv shows',
+    'series',
+    'trending tv shows',
+    'popular series',
+    'tv trailers',
+    'watch trailers',
+    'latest tv shows',
+    'new tv releases',
+  ],
+};
 async function TvContent() {
   const [tvShows, genres] = await Promise.all([
     api.media.getMedia(MediaMode.TV),
