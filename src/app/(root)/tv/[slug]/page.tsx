@@ -12,7 +12,6 @@ interface TVPageParams {
 }
 export async function generateMetadata({ params }: TVPageParams): Promise<Metadata> {
   const { slug } = await params;
-  console.log('=====', slug);
   const show = (await api.media.getOneMedia(MediaMode.TV, slug)) as TVShow;
 
   return {
@@ -25,7 +24,7 @@ export async function generateMetadata({ params }: TVPageParams): Promise<Metada
   };
 }
 
-export default async function page({ params }: TVPageParams) {
+export default async function TVDetailsPage({ params }: TVPageParams) {
   const { slug } = await params;
 
   return (
