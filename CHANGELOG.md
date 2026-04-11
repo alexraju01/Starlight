@@ -1,3 +1,16 @@
+## [2.6.0](https://github.com/alexraju01/Starlight/compare/v2.5.3...v2.6.0) (2026-04-11)
+
+### ✨ Features
+
+* Added custom favicon and opengraph and also added metadata on rootLayout.tsx ([ecff547](https://github.com/alexraju01/Starlight/commit/ecff5473d67f4b466775b055236b5f2f8f4c79f2))
+* Added metadata to  movie dynamic pages ([d3d6662](https://github.com/alexraju01/Starlight/commit/d3d6662b974f563077b6a2968ad24cbceb4ae274))
+* Added metaData to main pages and tv dynamic page ([305cd32](https://github.com/alexraju01/Starlight/commit/305cd327ed0323ed469ad399252caace3a86ce01))
+
+### 🐛 Bug Fixes
+
+* Fixed background image not showing ([62c7071](https://github.com/alexraju01/Starlight/commit/62c707119697f8c4735394acd654aaa892e5d756))
+* Fixed typo ([60f18f6](https://github.com/alexraju01/Starlight/commit/60f18f64340d26123812d0a5742b43c65412064c))
+
 ## [2.5.3](https://github.com/alexraju01/Starlight/compare/v2.5.2...v2.5.3) (2026-04-09)
 
 ### 🐛 Bug Fixes
