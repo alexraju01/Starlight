@@ -1,4 +1,11 @@
-import { Genre, GenreResponse, GenreWithMovies, MediaMode, MovieWithLogos } from '@/types';
+import {
+  CastMember,
+  Genre,
+  GenreResponse,
+  GenreWithMovies,
+  MediaMode,
+  MovieWithLogos,
+} from '@/types';
 import { APIResponse, MediaWithDetails, TVShow } from '@/types/global';
 import { fetchData } from '@/utils';
 
@@ -55,6 +62,47 @@ export const api = {
       }
 
       return results.map((item) => ({ ...item, media_type: mediaMode })) as MediaWithDetails[];
+    },
+
+    getOneMedia: async (
+      mediaMode: MediaMode,
+      id: string | number,
+    ): Promise<MediaWithDetails | null> => {
+      try {
+        const details = await fetchData<MediaWithDetails>('3', `/${mediaMode}/${id}`, {
+          cache: { type: 'revalidate', seconds: 60 * 60 * 24 },
+        });
+
+        if (details) {
+          details.media_type = mediaMode as MediaMode.MOVIE | MediaMode.TV;
+          // Ensure TV shows have season data attached if missing
+
+          if (mediaMode === MediaMode.TV) {
+            details.number_of_seasons =
+              details.number_of_seasons ?? (await getTvSeasons(Number(id))) ?? undefined;
+          }
+        }
+        return details;
+      } catch (error) {
+        console.error(`Failed to fetch ${mediaMode} details for ID ${id}:`, error);
+        return null;
+      }
+    },
+
+    getAllActors: async (mediaMode: MediaMode, id: string | number): Promise<CastMember[]> => {
+      try {
+        const { cast } = await fetchData<{ cast: CastMember[] }>(
+          '3',
+          `/${mediaMode}/${id}/credits`,
+          {
+            cache: { type: 'revalidate', seconds: 60 * 60 * 24 },
+          },
+        );
+        return cast || [];
+      } catch (error) {
+        console.error(`Failed to fetch actors for ${mediaMode} ID ${id}:`, error);
+        return [];
+      }
     },
 
     getSliderData: async (mediaMode: MediaMode, endpoint: string): Promise<MediaWithDetails[]> => {

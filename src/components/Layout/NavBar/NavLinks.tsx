@@ -16,7 +16,7 @@ const NavLinks = ({ onLinkClick, className = '' }: NavLinksProps) => {
   return (
     <ul className={`lg:flex lg:flex-row lg:items-center gap-3 xl:gap-5 ${className}`}>
       {links.map((link) => {
-        const isActive = pathname === link.href;
+        const isActive = link.href === '/' ? pathname === '/' : pathname.startsWith(link.href);
 
         return (
           <li key={link.href}>

@@ -1,8 +1,27 @@
+import { Metadata } from 'next';
 import { Suspense } from 'react';
 
 import { GenreCard } from '@/components/Genre/GenreCollection';
 import { GenreSkeleton } from '@/components/Skeletons/LoadingSkeletons';
 import { api, GenreKey, Icons } from '@/utils';
+
+export const metadata: Metadata = {
+  title: 'Genres – Browse Movies & TV Categories',
+  description:
+    'Explore genres across movies and TV shows on Starlight. Discover action, drama, comedy, thriller, and more to find what to watch next.',
+
+  keywords: [
+    'genres',
+    'movie genres',
+    'tv genres',
+    'action movies',
+    'drama series',
+    'comedy films',
+    'thriller movies',
+    'browse genres',
+    'entertainment categories',
+  ],
+};
 
 async function GenreGrid() {
   const { movieGenres, tvGenres } = await api.genre.getAllGenres();
