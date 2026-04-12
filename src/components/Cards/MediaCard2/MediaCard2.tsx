@@ -28,7 +28,7 @@ const MediaCard2 = ({ item, style, isFirst, isLast }: Props) => {
   const { mediaMode, genres } = useMediaContext();
   const [isPlaying, setIsPlaying] = useState(false);
   const [videoKey, setVideoKey] = useState<string | null>(null);
-  const [isMuted, setIsMuted] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
 
   const videoKeyRef = useRef<string | null>(null);
   const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -101,7 +101,7 @@ const MediaCard2 = ({ item, style, isFirst, isLast }: Props) => {
 
   return (
     <div
-      className="group relative w-full overflow-visible flex-shrink-0"
+      className="group relative w-full flex-shrink-0 overflow-visible"
       style={{ ...style, display: 'block' }}
       onPointerEnter={handlePointerEnter}
       onPointerLeave={handlePointerLeave}
@@ -111,7 +111,7 @@ const MediaCard2 = ({ item, style, isFirst, isLast }: Props) => {
         style={{ transformOrigin: isFirst ? 'left' : isLast ? 'right' : 'center' }}
       >
         <figure
-          className="relative w-full overflow-hidden transition-all duration-300 aspect-2/3 group-hover:aspect-video cursor-pointer"
+          className="relative aspect-2/3 w-full cursor-pointer overflow-hidden transition-all duration-300 group-hover:aspect-video"
           onClick={handleImageClick}
         >
           {isPlaying && videoKey ? (
@@ -133,7 +133,7 @@ const MediaCard2 = ({ item, style, isFirst, isLast }: Props) => {
           )}
 
           {isUpcoming && (
-            <figcaption className="absolute top-2 right-2 z-10 bg-primary text-white text-lg font-semibold px-4 py-2 rounded-[7px]">
+            <figcaption className="bg-primary absolute top-2 right-2 z-10 rounded-[7px] px-4 py-2 text-lg font-semibold text-white">
               Upcoming
             </figcaption>
           )}
