@@ -11,16 +11,15 @@ interface MediaVideoPlayerProps {
   onToggleMute: (e: React.MouseEvent) => void;
 }
 
-// --- MISSING HELPER FUNCTION ---
+// Load YouTube API
 const loadYouTubeAPI = () => {
-  // Check if API is already loaded
   if (typeof window !== 'undefined' && window.YT && window.YT.Player) {
     return Promise.resolve();
   }
 
   return new Promise<void>((resolve) => {
-    // Check if the script tag already exists to avoid duplicates
     const existingScript = document.getElementById('youtube-sdk');
+
     if (!existingScript) {
       const tag = document.createElement('script');
       tag.id = 'youtube-sdk';
@@ -29,7 +28,6 @@ const loadYouTubeAPI = () => {
       firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
     }
 
-    // Polling check for YT readiness
     const checkYT = setInterval(() => {
       if (window.YT && window.YT.Player) {
         clearInterval(checkYT);
@@ -48,7 +46,7 @@ export const MediaVideoPlayer = ({
 }: MediaVideoPlayerProps) => {
   const playerRef = useRef<any>(null);
 
-  // 1. Sync the isMuted prop with the YouTube Player instance
+  // Sync mute state
   useEffect(() => {
     if (playerRef.current && typeof playerRef.current.mute === 'function') {
       if (isMuted) {
@@ -59,27 +57,40 @@ export const MediaVideoPlayer = ({
     }
   }, [isMuted]);
 
-  // 2. Initialize Player
+  // Init player
   useEffect(() => {
     let isMounted = true;
 
     const initPlayer = async () => {
       await loadYouTubeAPI();
-
-      // Safety check to ensure component hasn't unmounted during API load
       if (!isMounted) return;
 
       playerRef.current = new window.YT.Player(iframeId, {
         events: {
           onReady: (event: any) => {
-            // Browser compliance: Video must start muted to autoplay
-            event.target.mute();
-            event.target.playVideo();
+            const player = event.target;
 
-            // If the parent state was already 'unmuted' before the player was ready,
-            // we sync it here after a tiny delay
+            player.mute();
+            player.playVideo();
+
             if (!isMuted) {
-              event.target.unMute();
+              player.unMute();
+            }
+          },
+
+          onStateChange: (event: any) => {
+            const player = event.target;
+
+            // ✅ Only run when video is actually playing
+            if (event.data === window.YT.PlayerState.PLAYING) {
+              setTimeout(() => {
+                try {
+                  player.setPlaybackQualityRange?.('highres');
+                  player.setPlaybackQuality('highres');
+                } catch (e) {
+                  console.warn('Quality setting failed', e);
+                }
+              }, 200);
             }
           },
         },
@@ -102,26 +113,24 @@ export const MediaVideoPlayer = ({
   }, [videoKey, iframeId]);
 
   return (
-    <div className="absolute inset-0 bg-black animate-fadeIn overflow-hidden rounded-[10.92px]">
-      {/* Invisible overlay to capture clicks for the toggle */}
+    <div className="animate-fadeIn absolute inset-0 overflow-hidden rounded-[10.92px] bg-black">
+      {/* Click overlay */}
       <div className="absolute inset-0 z-40 cursor-pointer" onClick={onToggleMute} />
 
+      {/* Mute button */}
       <button
         type="button"
         onClick={onToggleMute}
-        className="absolute bottom-3 right-3 z-50 flex size-13 items-center justify-center rounded-full bg-black/60 text-white border border-white/20 hover:scale-110 transition-all active:scale-95"
+        className="absolute right-3 bottom-3 z-50 flex size-13 items-center justify-center rounded-full border border-white/20 bg-black/60 text-white transition-all hover:scale-110 active:scale-95"
       >
-        {isMuted ? (
-          <VolumeX className="cursor-pointer" size={23} />
-        ) : (
-          <Volume2 className="cursor-pointer" size={23} />
-        )}
+        {isMuted ? <VolumeX size={23} /> : <Volume2 size={23} />}
       </button>
 
-      <div className="w-full h-full pointer-events-none scale-[1.35]">
+      {/* Video container */}
+      <div className="pointer-events-none h-full w-full">
         <iframe
           id={iframeId}
-          className="w-full h-full object-cover"
+          className="h-full w-full object-cover"
           src={`https://www.youtube.com/embed/${videoKey}?enablejsapi=1&autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&iv_load_policy=3&loop=1&playlist=${videoKey}`}
           allow="autoplay; encrypted-media"
           title={`${title} Trailer`}

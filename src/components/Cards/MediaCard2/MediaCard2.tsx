@@ -92,9 +92,7 @@ const MediaCard2 = ({ item, style, isFirst, isLast }: Props) => {
 
   const cardClasses = clsx(
     'relative w-full px-[12px] pt-[12px] rounded-[10.92px] bg-card-bg border border-solid border-card-stroke transition-[width,top,left,right,z-index] duration-300 ',
-    // Expansion logic (Group-hover for desktop, isPlaying for mobile)
     'group-hover:z-20 group-hover:w-[70vw] sm:group-hover:w-[53vw] md:group-hover:w-[41vw] lg:group-hover:w-[38vw] xl:group-hover:w-[34vw] 2xl:group-hover:w-[26vw] 2xl:group-hover:max-w-[26vw] group-hover:top-[43%] group-hover:-translate-y-1/2 ',
-    // isPlaying && 'z-20 w-[70vw] sm:w-[53vw] md:w-[41vw] lg:w-[38vw] xl:w-[34vw] 2xl:w-[26vw] ',
     {
       ' transform group-hover:right-[calc(70vw-100%)] sm:group-hover:right-[calc(70vw-151%)] md:group-hover:right-[calc(70vw-226%)] lg:group-hover:right-[calc(70vw-257%)] xl:group-hover:right-[calc(70vw-312%)] 2xl:group-hover:right-[calc(70vw-418%)]':
         isLast,

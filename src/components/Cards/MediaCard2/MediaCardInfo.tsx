@@ -20,7 +20,7 @@ export const MediaCardInfo = ({
   genreText,
   hasValidRating,
 }: MediaCardInfoProps) => (
-  <div className="flex flex-col  gap-3 py-5 truncate md:px-[10px]">
+  <div className="flex flex-col  gap-3 py-5 truncate md:px-[3px]">
     <div className="flex-between">
       <h3 className="text-2xl text-white font-medium truncate">{title}</h3>
       {hasValidRating && <RatingBadge rating={item.vote_average} />}

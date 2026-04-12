@@ -20,9 +20,9 @@ export default function CarouselClient({ children, itemCount }: Props) {
   }, [itemCount]);
 
   return (
-    <div className="relative overflow-hidden flex-center sm:h-[700px] h-[500px] md:h-[calc(100vh-87px)] rounded-[32px] m-[24px] sm:m-0 sm:rounded-none">
+    <div className="flex-center relative m-[24px] h-[500px] overflow-hidden rounded-[32px] sm:m-0 sm:h-[700px] sm:rounded-none md:h-[calc(100vh-87px)]">
       <ul
-        className="flex w-full h-full transition-transform duration-500 ease-in-out"
+        className="flex h-full w-full transition-transform duration-500 ease-in-out"
         style={{ transform: `translateX(-${currentIndex * 100}%)` }}
       >
         {children}
