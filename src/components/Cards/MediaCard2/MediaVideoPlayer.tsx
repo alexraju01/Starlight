@@ -1,5 +1,6 @@
 'use client';
 
+import clsx from 'clsx';
 import { Volume2, VolumeX } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 
@@ -9,6 +10,7 @@ interface MediaVideoPlayerProps {
   title: string;
   isMuted: boolean;
   onToggleMute: (e: React.MouseEvent) => void;
+  isCarousel?: boolean;
 }
 
 // Load YouTube API
@@ -43,10 +45,10 @@ export const MediaVideoPlayer = ({
   title,
   isMuted,
   onToggleMute,
+  isCarousel = false,
 }: MediaVideoPlayerProps) => {
   const playerRef = useRef<any>(null);
 
-  // Sync mute state
   useEffect(() => {
     if (playerRef.current && typeof playerRef.current.mute === 'function') {
       if (isMuted) {
@@ -81,7 +83,6 @@ export const MediaVideoPlayer = ({
           onStateChange: (event: any) => {
             const player = event.target;
 
-            // ✅ Only run when video is actually playing
             if (event.data === window.YT.PlayerState.PLAYING) {
               setTimeout(() => {
                 try {
@@ -114,23 +115,25 @@ export const MediaVideoPlayer = ({
 
   return (
     <div className="animate-fadeIn absolute inset-0 overflow-hidden rounded-[10.92px] bg-black">
-      {/* Click overlay */}
-      <div className="absolute inset-0 z-40 cursor-pointer" onClick={onToggleMute} />
-
-      {/* Mute button */}
+      {/* Only show these if NOT in a carousel */}
+      {!isCarousel && (
+        <div className="absolute inset-0 z-40 cursor-pointer" onClick={onToggleMute} />
+      )}
       <button
         type="button"
         onClick={onToggleMute}
-        className="absolute right-3 bottom-3 z-50 flex size-13 items-center justify-center rounded-full border border-white/20 bg-black/60 text-white transition-all hover:scale-110 active:scale-95"
+        className="absolute right-4 bottom-4 z-50 flex size-13 cursor-pointer items-center justify-center rounded-full border border-white/20 bg-black/60 text-white transition-all"
       >
         {isMuted ? <VolumeX size={23} /> : <Volume2 size={23} />}
       </button>
 
-      {/* Video container */}
       <div className="pointer-events-none h-full w-full">
         <iframe
           id={iframeId}
-          className="h-full w-full object-cover"
+          className={clsx(
+            'h-full w-full object-cover',
+            isCarousel && 'scale-110', // Slight zoom to hide edges in carousel mode
+          )}
           src={`https://www.youtube.com/embed/${videoKey}?enablejsapi=1&autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&iv_load_policy=3&loop=1&playlist=${videoKey}`}
           allow="autoplay; encrypted-media"
           title={`${title} Trailer`}

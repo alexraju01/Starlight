@@ -2,9 +2,10 @@
 
 import clsx from 'clsx';
 import Image from 'next/image';
-import { useState, useTransition } from 'react';
+import { useState, useTransition, useEffect } from 'react';
 
 import { MediaVideoPlayer } from '@/components/Cards/MediaCard2/MediaVideoPlayer';
+import { useCarousel } from '@/context/CarouselContext';
 import { MediaMode } from '@/types';
 import { MovieWithLogos } from '@/types/global';
 import { getImageUrl } from '@/utils/image/getImageUrl';
@@ -25,8 +26,14 @@ export default function CarouselItem({ movie, genres, priority, mediaMode }: Car
   const [videoKey, setVideoKey] = useState<string | null>(null);
   const [isMuted, setIsMuted] = useState(false);
   const [isPending, startTransition] = useTransition();
+  const { setIsAnyVideoPlaying } = useCarousel();
 
   const isPlaying = !!videoKey;
+
+  useEffect(() => {
+    setIsAnyVideoPlaying(isPlaying);
+    return () => setIsAnyVideoPlaying(false);
+  }, [isPlaying, setIsAnyVideoPlaying]);
 
   const handleToggleTrailer = () => {
     if (isPlaying) {
@@ -60,6 +67,7 @@ export default function CarouselItem({ movie, genres, priority, mediaMode }: Car
           title={displayName(movie)}
           isMuted={isMuted}
           onToggleMute={toggleMute}
+          isCarousel={true}
         />
       ) : (
         <Image
@@ -72,7 +80,7 @@ export default function CarouselItem({ movie, genres, priority, mediaMode }: Car
         />
       )}
 
-      <div className="absolute inset-x-[25px] bottom-0 z-10 max-w-screen space-y-4 sm:pb-0 md:pb-0 lg:left-[102px] lg:w-[854px]">
+      <div className="absolute inset-x-[25px] bottom-0 z-10 max-w-screen space-y-4 lg:left-[102px] lg:w-[854px]">
         <div
           className={clsx(
             'space-y-4 transition-all duration-500 ease-in-out',

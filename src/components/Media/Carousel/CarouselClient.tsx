@@ -1,5 +1,9 @@
 'use client';
+
+import clsx from 'clsx';
 import { useState, ReactNode, useCallback } from 'react';
+
+import { useCarousel } from '@/context/CarouselContext';
 
 import CarouselControls from './CarouselControls';
 
@@ -10,6 +14,7 @@ interface Props {
 
 export default function CarouselClient({ children, itemCount }: Props) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const { isAnyVideoPlaying } = useCarousel();
 
   const handlePrev = useCallback(() => {
     setCurrentIndex((prev) => (prev === 0 ? itemCount - 1 : prev - 1));
@@ -27,7 +32,15 @@ export default function CarouselClient({ children, itemCount }: Props) {
       >
         {children}
       </ul>
-      <CarouselControls onPrev={handlePrev} onNext={handleNext} />
+
+      <div
+        className={clsx(
+          'transition-all duration-500 ease-in-out',
+          isAnyVideoPlaying ? 'pointer-events-none opacity-0' : 'opacity-100',
+        )}
+      >
+        <CarouselControls onPrev={handlePrev} onNext={handleNext} />
+      </div>
     </div>
   );
 }

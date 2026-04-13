@@ -1,7 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
-import { Volume2, VolumeX } from 'lucide-react';
+import { VolumeX } from 'lucide-react';
 
 import Icons from '@/utils/icons';
 
@@ -31,7 +31,7 @@ export default function ActionButtons({
             'flex h-[50px] w-[220px] flex-shrink-0 cursor-pointer items-center justify-center gap-2 rounded-[8px] px-4 text-[17.14px] transition-all duration-300 sm:h-[59px] sm:text-[20px]',
             isTrailerActive
               ? 'border border-white/20 bg-black/80 text-white shadow-lg hover:bg-[#9E221A]'
-              : 'sm:bg-primary bg-white text-white hover:bg-[#9E221A]',
+              : 'sm:bg-primary bg-white text-black hover:bg-[#9E221A] sm:text-white',
             isLoading && 'cursor-not-allowed opacity-40',
           )}
         >
