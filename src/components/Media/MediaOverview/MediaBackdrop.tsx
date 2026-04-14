@@ -22,8 +22,7 @@ export default function MediaBackdrop({ media }: Props) {
         alt={mediaTitle}
         src={mediaSrc}
         fill
-        className="absolute left-0 h-full w-full object-cover brightness-[0.9] animate-fadeIn top-[-10rem] 
-        xl:h-auto xl:brightness-100 mask-gradient-default"
+        className="animate-fadeIn mask-gradient-default absolute top-[-10rem] left-0 h-full w-full object-cover brightness-[0.9] xl:h-auto xl:brightness-100"
       />
     </div>
   );

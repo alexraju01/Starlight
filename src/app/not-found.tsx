@@ -19,24 +19,24 @@ export default function NotFound() {
   const suggestion = results.length > 0 ? results[0].item : null;
 
   return (
-    <div className="min-h-screen w-full bg-[#100F10] text-white flex items-center justify-center px-6">
+    <div className="flex min-h-screen w-full items-center justify-center bg-[#100F10] px-6 text-white">
       {/* Card */}
-      <div className="  relative z-10 w-auto  rounded-2xl bg-card-bg border border-white/10 shadow-2xl px-16 py-14 text-center space-y-6  ">
-        <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight drop-shadow">
+      <div className="bg-card-bg relative z-10 w-auto space-y-6 rounded-2xl border border-white/10 px-16 py-14 text-center shadow-2xl">
+        <h2 className="text-4xl font-extrabold tracking-tight drop-shadow sm:text-5xl md:text-6xl lg:text-7xl">
           Page Not Found
         </h2>
 
-        <p className="text-gray-300 text-2xl">
+        <p className="text-2xl text-gray-300">
           We couldn’t find{' '}
           <span className="font-semibold break-words text-red-300 underline">/{cleanPath}</span>
         </p>
 
         {suggestion && (
-          <p className="text-gray-400 text-xl">
+          <p className="text-xl text-gray-400">
             Did you mean{' '}
             <Link
               href={`/${suggestion}` as any}
-              className="text-lime-400 font-semibold underline hover:text-white transition-colors duration-200 ease-in-out"
+              className="font-semibold text-lime-400 underline transition-colors duration-200 ease-in-out hover:text-white"
             >
               /{suggestion}
             </Link>
@@ -47,7 +47,7 @@ export default function NotFound() {
         <div className="pt-4">
           <Link
             href="/"
-            className="text-2xl inline-block px-6 py-3 rounded-full border border-white/20 bg-white/10 hover:bg-white/20 transition-all duration-200 ease-in-out text-white font-medium shadow hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-white/30"
+            className="inline-block rounded-full border border-white/20 bg-white/10 px-6 py-3 text-2xl font-medium text-white shadow transition-all duration-200 ease-in-out hover:bg-white/20 hover:shadow-lg focus:ring-2 focus:ring-white/30 focus:outline-none"
           >
             Return Home
           </Link>

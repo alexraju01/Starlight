@@ -31,13 +31,13 @@ export default function DiscoverClient({
 
   return (
     <div className="flex min-h-screen w-full flex-col items-center justify-center gap-16 px-4 py-8">
-      <h2 className="text-center text-4xl font-bold text-white animate-fadeIn">
+      <h2 className="animate-fadeIn text-center text-4xl font-bold text-white">
         Discover More Movies...
       </h2>
 
       <SearchForm query={query} onChangeAction={handleInputChange} onSubmitAction={() => {}} />
 
-      <div className="lg:mx-[68px] 2xl:mx-[101px] px-6 py-12">
+      <div className="px-6 py-12 lg:mx-[68px] 2xl:mx-[101px]">
         <MovieGrid media={initialMovies} genreMap={genreMap} />
       </div>
     </div>

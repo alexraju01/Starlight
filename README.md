@@ -1,4 +1,4 @@
-# Starlight 
+# Starlight
 
 Starlight is a modern, elegant movie and TV series discovery app built using the latest **Next.js App Router**.
 It offers a clean, responsive interface that allows users to browse, search, and explore detailed information about their favorite films and shows — all powered by a robust movie API.
@@ -7,10 +7,10 @@ The app is designed with performance and user experience in mind, making it fast
 
 ## 🚀 Features
 
--  **Search Functionality** – Instantly search for The Movie Database (`TMDB`) Api and TV series by title.
--  **Browse Popular Movies & TV Shows** – Explore trending and top-rated content.
--  **Detailed Information** – View synopsis, ratings, genres, and more.
--  **Optimized Performance** – Built with Next.js for fast, server-side rendering and seamless client-side navigation.
+- **Search Functionality** – Instantly search for The Movie Database (`TMDB`) Api and TV series by title.
+- **Browse Popular Movies & TV Shows** – Explore trending and top-rated content.
+- **Detailed Information** – View synopsis, ratings, genres, and more.
+- **Optimized Performance** – Built with Next.js for fast, server-side rendering and seamless client-side navigation.
   <!-- - 🌙 **Dark/Light Mode** – Enjoy a visually appealing interface with theme toggling. -->
   <!-- - 🔗 **Direct Links to Trailers** – Watch trailers directly from the app. -->
 
@@ -46,17 +46,12 @@ TV Show Detail Page - Desktop View
 ![starlight-TvShowDeatil-part2](https://github.com/user-attachments/assets/4f404052-2f45-4de0-9555-84640dcbb91a)
 
 Genre List Page - Desktop View
-| Old Design v1                                                                                                    | New Design v2                                                                                                                       |
+| Old Design v1 | New Design v2 |
 | ---------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
 | ![starlight-genreList](https://github.com/user-attachments/assets/1e297b80-199c-4f81-b0c8-9b981d374afe) | <img width="1919" height="987" alt="image" src="https://github.com/user-attachments/assets/060c92c5-708c-4386-9107-607645bb2a82" /> |
 
-
-
-
 Genre specified(Animation) Media List - Desktop View
 ![Screenshot 2025-04-01 165924](https://github.com/user-attachments/assets/a98e50f6-57e6-4699-a526-f6a7058f8125)
-
-
 
 Discover Search Page - Desktop View
 ![Screenshot 2025-04-01 170705](https://github.com/user-attachments/assets/547ecc9d-8eb0-4f11-b44a-99314c6e0dfb)

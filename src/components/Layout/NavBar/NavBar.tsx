@@ -16,15 +16,15 @@ const NavBar = () => {
     useNavBarLogic();
 
   return (
-    <header className="fixed top-0 left-0 w-full z-50 bg-[#100F10]">
-      <nav className="flex relative flex-col md:flex-row gap-4 md:gap-10 justify-between items-start md:items-center w-full px-6 lg:px-10 py-4">
+    <header className="fixed top-0 left-0 z-50 w-full bg-[#100F10]">
+      <nav className="relative flex w-full flex-col items-start justify-between gap-4 px-6 py-4 md:flex-row md:items-center md:gap-10 lg:px-10">
         <MobileControls>
           {/* 1. Mobile Menu Toggle */}
           <Button
             size="default"
             ref={refs.mobileMenuButtonRef}
             onClick={toggleMobileNav}
-            className="lg:hidden text-white py-7 px-5 cursor-pointer"
+            className="cursor-pointer px-5 py-7 text-white lg:hidden"
           >
             {isMobileNavOpen ? <X size={20} /> : <AlignJustify size={20} />}
           </Button>
@@ -38,11 +38,11 @@ const NavBar = () => {
               e.stopPropagation();
               toggleSearch();
             }}
-            className="lg:hidden text-white ml-auto"
+            className="ml-auto text-white lg:hidden"
           >
             <Search
               size={26}
-              className="cursor-pointer text-[#AAAAAA] hover:text-white transition-all duration-300 "
+              className="cursor-pointer text-[#AAAAAA] transition-all duration-300 hover:text-white"
             />
           </button>
         </MobileControls>
@@ -54,7 +54,7 @@ const NavBar = () => {
           <NavLinks />
         </div> */}
 
-        <div className="hidden lg:flex items-center gap-5 flex-1 justify-end">
+        <div className="hidden flex-1 items-center justify-end gap-5 lg:flex">
           <SearchBox />
         </div>
       </nav>

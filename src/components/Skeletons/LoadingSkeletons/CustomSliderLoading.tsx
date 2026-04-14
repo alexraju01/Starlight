@@ -1,18 +1,18 @@
 import React from 'react';
 
 const SkeletonCard = () => (
-  <div className="rounded-lg bg-[#1f1f1f] w-full aspect-[2/3] animate-pulse" />
+  <div className="aspect-[2/3] w-full animate-pulse rounded-lg bg-[#1f1f1f]" />
 );
 
 export default function CustomSliderSkeleton() {
   return (
-    <div className="flex flex-col w-full py-6 mb-10 text-white gap-[18px]">
+    <div className="mb-10 flex w-full flex-col gap-[18px] py-6 text-white">
       {/* Title and nav buttons */}
-      <div className="flex justify-between items-center">
-        <div className="block bg-gray-700 rounded w-[200px] h-[1.6em] animate-pulse" />
+      <div className="flex items-center justify-between">
+        <div className="block h-[1.6em] w-[200px] animate-pulse rounded bg-gray-700" />
         <div className="flex gap-2.5 px-4 py-2">
-          <div className="h-9 w-9 bg-[#2a2a2a] rounded-full animate-pulse" />
-          <div className="h-9 w-9 bg-[#2a2a2a] rounded-full animate-pulse" />
+          <div className="h-9 w-9 animate-pulse rounded-full bg-[#2a2a2a]" />
+          <div className="h-9 w-9 animate-pulse rounded-full bg-[#2a2a2a]" />
         </div>
       </div>
 
@@ -22,15 +22,7 @@ export default function CustomSliderSkeleton() {
           {Array.from({ length: 7 }).map((_, idx) => (
             <div
               key={idx}
-              className={`
-								flex-shrink-0
-								w-[calc(50%-8px)]
-								sm:w-[calc(33.333%-10.67px)]
-								md:w-[calc(25%-12px)]
-								lg:w-[calc(25%-12px)]
-								xl:w-[calc(20%-12.8px)]
-								2xl:w-[calc(16.666%-13.33px)]
-							`}
+              className={`w-[calc(50%-8px)] flex-shrink-0 sm:w-[calc(33.333%-10.67px)] md:w-[calc(25%-12px)] lg:w-[calc(25%-12px)] xl:w-[calc(20%-12.8px)] 2xl:w-[calc(16.666%-13.33px)]`}
             >
               <SkeletonCard />
             </div>

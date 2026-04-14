@@ -28,7 +28,7 @@ export default async function TVDetailsPage({ params }: TVPageParams) {
   const { slug } = await params;
 
   return (
-    <section className="w-full h-full">
+    <section className="h-full w-full">
       <Suspense fallback={<Spinner />}>
         <MediaOverview params={slug} mediaMode={MediaMode.TV} />
       </Suspense>

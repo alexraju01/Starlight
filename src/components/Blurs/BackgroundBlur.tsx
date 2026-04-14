@@ -1,8 +1,8 @@
 const BlurBackground = () => {
   return (
     <>
-      <div className="absolute z-0 size-[400px] left-[-334px] top-[334px] md:bg-[#9E221A70] blur-[225px]" />
-      <div className="absolute z-0 size-[400px] right-[-334px] top-1/2 md:bg-[#9E221A70] blur-[255px]" />
+      <div className="absolute top-[334px] left-[-334px] z-0 size-[400px] blur-[225px] md:bg-[#9E221A70]" />
+      <div className="absolute top-1/2 right-[-334px] z-0 size-[400px] blur-[255px] md:bg-[#9E221A70]" />
     </>
   );
 };

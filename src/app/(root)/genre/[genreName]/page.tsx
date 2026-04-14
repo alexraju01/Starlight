@@ -123,7 +123,7 @@ async function GenreContent({ genreSlug }: { genreSlug: string }) {
         </div>
       )}
 
-      <div className="relative border-b border-white/5 py-16 z-1">
+      <div className="relative z-1 border-b border-white/5 py-16">
         <div className="content-container mt-10">
           <h1 className="text-5xl font-black uppercase md:text-6xl">{genreName}</h1>
           <p className="mt-4 text-lg text-slate-400">Explore {genreName} movies and TV shows.</p>

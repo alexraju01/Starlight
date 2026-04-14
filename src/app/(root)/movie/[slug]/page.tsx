@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: MoviePageParams): Promise<Met
 export default async function MovieDetailsPage({ params }: MoviePageParams) {
   const { slug } = await params;
   return (
-    <section className="w-full h-full ">
+    <section className="h-full w-full">
       <Suspense fallback={<Spinner />}>
         <MediaOverview params={slug} mediaMode={MediaMode.MOVIE} />
       </Suspense>

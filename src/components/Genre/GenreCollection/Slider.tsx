@@ -42,10 +42,10 @@ export default function Slider({ title, totalItems, children }: SliderProps) {
   const translatePercent = sliderIndex * (100 / totalItems);
 
   return (
-    <div className="relative z-1 mb-[28px] flex flex-col w-full text-white gap-[18px]">
-      <div className="flex justify-between items-center">
+    <div className="relative z-1 mb-[28px] flex w-full flex-col gap-[18px] text-white">
+      <div className="flex items-center justify-between">
         <h2 className="slider-title">{title}</h2>
-        <div className="flex items-center gap-2.5 px-4 py-2 border border-[#262626] bg-[#0F0F0F] rounded-[12px]">
+        <div className="flex items-center gap-2.5 rounded-[12px] border border-[#262626] bg-[#0F0F0F] px-4 py-2">
           <CustomSliderButtons
             direction="left"
             onClick={() => handleScroll('left')}

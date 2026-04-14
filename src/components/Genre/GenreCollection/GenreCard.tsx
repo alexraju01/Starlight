@@ -34,7 +34,7 @@ export default function GenreCard({ name, index, icon }: GenreCardProps) {
           <h3 className="text-lg font-medium tracking-wide text-slate-200 group-hover:text-white">
             {name}
           </h3>
-          <p className="mt-1 text-xs uppercase tracking-tighter text-slate-500 group-hover:text-red-500/80">
+          <p className="mt-1 text-xs tracking-tighter text-slate-500 uppercase group-hover:text-red-500/80">
             View Collection
           </p>
         </div>

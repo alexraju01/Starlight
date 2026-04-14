@@ -14,7 +14,7 @@ const NavLinks = ({ onLinkClick, className = '' }: NavLinksProps) => {
   const pathname = usePathname();
 
   return (
-    <ul className={`lg:flex lg:flex-row lg:items-center gap-3 xl:gap-5 ${className}`}>
+    <ul className={`gap-3 lg:flex lg:flex-row lg:items-center xl:gap-5 ${className}`}>
       {links.map((link) => {
         const isActive = link.href === '/' ? pathname === '/' : pathname.startsWith(link.href);
 
@@ -24,12 +24,7 @@ const NavLinks = ({ onLinkClick, className = '' }: NavLinksProps) => {
               href={link.href as any}
               aria-current={isActive ? 'page' : undefined}
               onClick={onLinkClick}
-              className={`
-                inline-block whitespace-nowrap text-[16px] xl:text-[18px] font-Helvetica 
-                px-4 py-2.5 xl:px-6 xl:py-[14px] rounded-md 
-                transition-all duration-300 ease-in-out cursor-pointer
-                ${isActive ? 'bg-primary text-white' : 'text-[#BFBFBF] hover:text-white'}
-              `}
+              className={`font-Helvetica inline-block cursor-pointer rounded-md px-4 py-2.5 text-[16px] whitespace-nowrap transition-all duration-300 ease-in-out xl:px-6 xl:py-[14px] xl:text-[18px] ${isActive ? 'bg-primary text-white' : 'text-[#BFBFBF] hover:text-white'} `}
             >
               {link.name}
             </Link>

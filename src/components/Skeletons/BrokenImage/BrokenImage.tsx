@@ -5,7 +5,7 @@ interface Props {
 export default function BrokenImage({ className = '' }: Props) {
   return (
     <div
-      className={`w-full h-full rounded-full flex justify-center items-center bg-[#123] text-white text-center ${className}`}
+      className={`flex h-full w-full items-center justify-center rounded-full bg-[#123] text-center text-white ${className}`}
     >
       <p>Image not available</p>
     </div>

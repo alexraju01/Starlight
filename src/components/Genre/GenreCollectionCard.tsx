@@ -16,13 +16,13 @@ const GenreCollectionCard = ({ genre, totalItems }: GenreCollectionCardProps) =>
   return (
     <Link
       href={ROUTES.GENRE(genre.name)}
-      className="rounded-[13.75px] border-[1.15px] border-solid  border-[#262626] bg-[#1A1A1A] px-[17px] pt-[17px] pb-[6px] xl:px-[34.39px] xl:pt-[34px] xl:pb-[12px] flex flex-col gap-4 cursor-pointer transition hover:bg-[#E500000F] hover:border-[#E50000]"
+      className="flex cursor-pointer flex-col gap-4 rounded-[13.75px] border-[1.15px] border-solid border-[#262626] bg-[#1A1A1A] px-[17px] pt-[17px] pb-[6px] transition hover:border-[#E50000] hover:bg-[#E500000F] xl:px-[34.39px] xl:pt-[34px] xl:pb-[12px]"
       style={{ width: `${100 / totalItems}%` }}
     >
       <div className="relative grid grid-cols-2 gap-[7px]">
-        <div className="absolute inset-0 rounded-[9px] z-20 genre-gradient" />
+        <div className="genre-gradient absolute inset-0 z-20 rounded-[9px]" />
         {genre.movies?.slice(0, 4).map((movie) => (
-          <div key={movie.id} className="relative aspect-[0.8] z-10">
+          <div key={movie.id} className="relative z-10 aspect-[0.8]">
             <Image
               src={`${IMAGE_BASE_URL}${movie.poster_path}`}
               alt={displayName(movie)}
@@ -33,7 +33,7 @@ const GenreCollectionCard = ({ genre, totalItems }: GenreCollectionCardProps) =>
         ))}
       </div>
       <div className="flex items-center justify-between">
-        <span className="text-white text-[14px] leading xl:text-[22px] leading-[150%] font-medium font-Helvetica flex items-center justify-between">
+        <span className="leading font-Helvetica flex items-center justify-between text-[14px] leading-[150%] font-medium text-white xl:text-[22px]">
           {genre.name}
         </span>
         <ArrowIcon />

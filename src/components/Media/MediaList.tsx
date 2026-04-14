@@ -49,10 +49,7 @@ export default function MediaList({ initialMedia, initialGenres, mediaMode }: Pr
   return (
     <MediaProvider mediaMode={mediaMode} genres={genres}>
       <div className="animate-fadeIn">
-        <div
-          className="grid gap-8 w-full mb-8 transition-all relative overflow-hidden
-                  grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6"
-        >
+        <div className="relative mb-8 grid w-full grid-cols-2 gap-8 overflow-hidden transition-all sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
           {media.map((item, index) => {
             const isLastInRow = (index + 1) % itemsPerRow === 0;
 
@@ -63,7 +60,7 @@ export default function MediaList({ initialMedia, initialGenres, mediaMode }: Pr
         </div>
 
         {!buttonHidden && (
-          <div className="flex justify-center ">
+          <div className="flex justify-center">
             <Button
               icon={loading && <Loader className="animate-spin" />}
               onClick={loadMoreMedia}

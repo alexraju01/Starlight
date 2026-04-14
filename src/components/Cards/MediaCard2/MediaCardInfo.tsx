@@ -20,19 +20,19 @@ export const MediaCardInfo = ({
   genreText,
   hasValidRating,
 }: MediaCardInfoProps) => (
-  <div className="flex flex-col  gap-3 py-5 truncate md:px-[3px]">
+  <div className="flex flex-col gap-3 truncate py-5 md:px-[3px]">
     <div className="flex-between">
-      <h3 className="text-2xl text-white font-medium truncate">{title}</h3>
+      <h3 className="truncate text-2xl font-medium text-white">{title}</h3>
       {hasValidRating && <RatingBadge rating={item.vote_average} />}
     </div>
 
-    <div className="flex gap-3.5 text-gray-400 text-xl">
+    <div className="flex gap-3.5 text-xl text-gray-400">
       <time dateTime={mediaDate}>{dateStr}</time>
       <p>|</p>
       <p className="truncate">{genreText}</p>
     </div>
 
-    <div className="min-h-[28px] flex items-center">
+    <div className="flex min-h-[28px] items-center">
       <SeasonBadge item={item} />
     </div>
   </div>

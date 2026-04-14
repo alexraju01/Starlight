@@ -26,7 +26,7 @@ export default async function Slider({ mediaMode, endpoint }: Props) {
 
   return (
     <Carousel
-      className="w-full "
+      className="w-full"
       opts={{
         align: 'start',
       }}
@@ -36,19 +36,7 @@ export default async function Slider({ mediaMode, endpoint }: Props) {
           topRated.poster_path ? (
             <CarouselItem
               key={topRated.id}
-              className={`
-								basis-[calc((100%-1rem)/3)]
-								sm:basis-[calc((100%-1rem)/4)]
-								md:basis-[calc((100%-1rem)/5)]
-								lg:basis-[calc((100%-1rem)/6)]
-								xl:basis-[calc((100%-1rem)/6)]
-								2xl:basis-[calc((100%-1rem)/8)]
-								w-full
-								py-8
-								pl-8
-														
-								xl:pr-[0.8rem]
-							`}
+              className={`w-full basis-[calc((100%-1rem)/3)] py-8 pl-8 sm:basis-[calc((100%-1rem)/4)] md:basis-[calc((100%-1rem)/5)] lg:basis-[calc((100%-1rem)/6)] xl:basis-[calc((100%-1rem)/6)] xl:pr-[0.8rem] 2xl:basis-[calc((100%-1rem)/8)]`}
             >
               <Link href={ROUTES.MEDIA(mediaMode, topRated.id, displayName(topRated))}>
                 <MediaCard className="rounded-2xl" media={topRated} mediaMode={mediaMode} />

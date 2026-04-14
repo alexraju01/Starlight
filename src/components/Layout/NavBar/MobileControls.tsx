@@ -4,8 +4,8 @@ interface MobileControlsProps {
 
 const MobileControls = ({ children }: MobileControlsProps) => {
   return (
-    <div className="flex items-center w-full lg:w-auto">
-      <div className="flex items-center gap-5 w-full">{children}</div>
+    <div className="flex w-full items-center lg:w-auto">
+      <div className="flex w-full items-center gap-5">{children}</div>
     </div>
   );
 };

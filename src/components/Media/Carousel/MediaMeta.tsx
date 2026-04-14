@@ -25,22 +25,12 @@ export default function MediaMeta({ movie, genres }: Props) {
   );
 
   return (
-    <div className="flex flex-wrap items-center text-[clamp(1.3rem,1.2vw,1.8rem)] gap-x-3 gap-y-2 md:mb-6">
-      <span className=" font-bold text-white tracking-tight">{releaseDate}</span>
+    <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-[clamp(1.3rem,1.2vw,1.8rem)] md:mb-6">
+      <span className="font-bold tracking-tight text-white">{releaseDate}</span>
 
       <DotSeparator />
 
-      <span
-        className="
-        px-2 py-0.5 
-        rounded-sm 
-        bg-red-600/10 
-        border border-red-600/50 
-        text-red-500 
-        text-[10px] md:text-[11px] 
-        font-black uppercase tracking-widest
-      "
-      >
+      <span className="rounded-sm border border-red-600/50 bg-red-600/10 px-2 py-0.5 text-[10px] font-black tracking-widest text-red-500 uppercase md:text-[11px]">
         {mediaType}
       </span>
 
@@ -65,8 +55,5 @@ export default function MediaMeta({ movie, genres }: Props) {
 }
 
 const DotSeparator = ({ className }: { className?: string }) => (
-  <span
-    className={`size-1.5 md:size-2 rounded-full bg-white/30  ${className}`}
-    aria-hidden="true"
-  />
+  <span className={`size-1.5 rounded-full bg-white/30 md:size-2 ${className}`} aria-hidden="true" />
 );

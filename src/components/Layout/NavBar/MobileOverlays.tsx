@@ -21,8 +21,8 @@ const MobileOverlays = ({
     {/* 📱 Search Dropdown */}
     <div
       ref={searchWrapperRef}
-      className={`relative lg:hidden transition-all duration-300 ease-in-out bg-[#0E0E0E] ${
-        isSearchOpen ? 'max-h-[100vh] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
+      className={`relative bg-[#0E0E0E] transition-all duration-300 ease-in-out lg:hidden ${
+        isSearchOpen ? 'max-h-[100vh] opacity-100' : 'max-h-0 overflow-hidden opacity-0'
       }`}
     >
       <div className="px-6 py-4">
@@ -33,8 +33,8 @@ const MobileOverlays = ({
     {/* 📱 Nav Menu */}
     <div
       ref={mobileNavRef}
-      className={`lg:hidden relative transition-all duration-300 ease-in-out ${
-        isMobileNavOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
+      className={`relative transition-all duration-300 ease-in-out lg:hidden ${
+        isMobileNavOpen ? 'max-h-screen opacity-100' : 'max-h-0 overflow-hidden opacity-0'
       }`}
     >
       <div className="absolute w-full bg-[#100F10] p-6 shadow-xl">
