@@ -1,3 +1,14 @@
+## [2.7.0](https://github.com/alexraju01/Starlight/compare/v2.6.0...v2.7.0) (2026-04-14)
+
+### ✨ Features
+
+* Added trailer playback with mute control and hide media details in carousel ([c5b38e3](https://github.com/alexraju01/Starlight/commit/c5b38e3e105bcc59fb99a656476ab1721a22bc84))
+
+### 🐛 Bug Fixes
+
+* Changed the sound mode to unmute by default ([c2956f8](https://github.com/alexraju01/Starlight/commit/c2956f8f6d261df2ebe56e5e898430dfa0abb914))
+* Hides the carousel button when the trailer shows ([0a6f18b](https://github.com/alexraju01/Starlight/commit/0a6f18be2e6d851870083809cb132096506221f7))
+
 ## [2.6.0](https://github.com/alexraju01/Starlight/compare/v2.5.3...v2.6.0) (2026-04-11)
 
 ### ✨ Features
