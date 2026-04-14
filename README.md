@@ -5,23 +5,24 @@ It offers a clean, responsive interface that allows users to browse, search, and
 
 The app is designed with performance and user experience in mind, making it fast, intuitive, and mobile-friendly.
 
-## 🚀 Features
+## Features
 
 - **Search Functionality** – Instantly search for The Movie Database (`TMDB`) Api and TV series by title.
 - **Browse Popular Movies & TV Shows** – Explore trending and top-rated content.
 - **Detailed Information** – View synopsis, ratings, genres, and more.
 - **Optimized Performance** – Built with Next.js for fast, server-side rendering and seamless client-side navigation.
+- **Watch Trailers** – Enjoy official trailers directly within the app for a quick preview.
   <!-- - 🌙 **Dark/Light Mode** – Enjoy a visually appealing interface with theme toggling. -->
   <!-- - 🔗 **Direct Links to Trailers** – Watch trailers directly from the app. -->
 
-## 🛠️ Technologies Used
+## Technologies Used
 
 - **Next.js** – Server-side rendering and static site generation.
 - **React** – Component-based UI development.
 - **Tailwind CSS** – Styling for a modern and responsive UI.
 - **TMDB API** – Fetches movie and TV series data.
 
-## 🎬 Movie Website Redesign
+## Movie Website Redesign
 
 ### Home Page - Desktop View
 
@@ -35,7 +36,7 @@ The app is designed with performance and user experience in mind, making it fast
 
 | Old Design v1                                                                                                    | New Design v2                                                                                                                       |
 | ---------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| ![Screenshot 2025-04-01 161409](https://github.com/user-attachments/assets/49f6b137-4da0-40a0-b0be-b7c224d1fcd2) | <img width="1886" height="914" alt="image" src="https://github.com/user-attachments/assets/f9c2e3c6-2d43-4438-be9c-903c19dc2801" /> |
+| ![Screenshot 2025-04-01 161409](https://github.com/user-attachments/assets/49f6b137-4da0-40a0-b0be-b7c224d1fcd2) | <img width="1898" height="952" alt="image" src="https://github.com/user-attachments/assets/fc56b37b-9ca7-4074-9417-cb83cf91c8df" /> |
 
 Movie Detail Page - Desktop View
 ![Screenshot 2025-04-01 161750](https://github.com/user-attachments/assets/d86518a1-8f22-4566-85fc-767a946cb737)
@@ -48,10 +49,14 @@ TV Show Detail Page - Desktop View
 Genre List Page - Desktop View
 | Old Design v1 | New Design v2 |
 | ---------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| ![starlight-genreList](https://github.com/user-attachments/assets/1e297b80-199c-4f81-b0c8-9b981d374afe) | <img width="1919" height="987" alt="image" src="https://github.com/user-attachments/assets/060c92c5-708c-4386-9107-607645bb2a82" /> |
+| ![starlight-genreList](https://github.com/user-attachments/assets/1e297b80-199c-4f81-b0c8-9b981d374afe) | <img width="1911" height="958" alt="image" src="https://github.com/user-attachments/assets/897204a9-1394-4129-b984-d581cf1c2175" />
+ |
 
 Genre specified(Animation) Media List - Desktop View
-![Screenshot 2025-04-01 165924](https://github.com/user-attachments/assets/a98e50f6-57e6-4699-a526-f6a7058f8125)
+| Old Design v1 | New Design v2 |
+| ---------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+![Screenshot 2025-04-01 165924](https://github.com/user-attachments/assets/a98e50f6-57e6-4699-a526-f6a7058f8125) | <img width="1894" height="956" alt="image" src="https://github.com/user-attachments/assets/7517d802-42f3-4978-9ff6-d4ce89feeabd" /> |
+
 
 Discover Search Page - Desktop View
 ![Screenshot 2025-04-01 170705](https://github.com/user-attachments/assets/547ecc9d-8eb0-4f11-b44a-99314c6e0dfb)
@@ -64,20 +69,20 @@ Prerequisites:
 
 To get started with Starlight on your local machine, follow these steps:
 
-### 1️⃣ Clone the Repository
+### 1. Clone the Repository
 
 ```bash
 https://github.com/alexraju01/Starlight.git
 cd starlight
 ```
 
-### 2️⃣ Install Dependencies
+### 2. Install Dependencies
 
 ```bash
 npm install  # or yarn install
 ```
 
-### 3️⃣ Set Up Environment Variables
+### 3. Set Up Environment Variables
 
 Create a `.env.local` file in the root directory and add the following:
 
@@ -87,7 +92,7 @@ TMDB_API_KEY=your_api_key_here
 
 > Replace `your_api_key_here` with your actual API key from [The Movie Database (TMDb)](https://www.themoviedb.org/).
 
-### 4️⃣ Run the Development Server
+### 4. Run the Development Server
 
 ```bash
 npm run dev # or yarn dev
