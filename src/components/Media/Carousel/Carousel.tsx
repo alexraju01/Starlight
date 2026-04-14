@@ -24,7 +24,6 @@ export default async function Carousel({ mediaMode }: CarouselProps) {
       logoImage: await api.media.getLogos(mediaMode, item.id),
     })),
   );
-  console.log(moviesWithLogos);
 
   return (
     <CarouselProvider>
