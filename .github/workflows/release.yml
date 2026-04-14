@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - feature/seo-metatdata
+      - feat-carousel-trailer
 
 jobs:
   release:

@@ -8,12 +8,12 @@ interface SliderErrorFallbackProps extends FallbackProps {
 
 export function SliderErrorFallback({ resetErrorBoundary, message }: SliderErrorFallbackProps) {
   return (
-    <div className="text-center my-5 py-10 bg-[#1a1a1a] border border-dashed border-red-900/30 rounded-lg text-red-400">
+    <div className="my-5 rounded-lg border border-dashed border-red-900/30 bg-[#1a1a1a] py-10 text-center text-red-400">
       <p className="font-medium">{message || 'Something went wrong loading this section.'}</p>
 
       <button
         onClick={resetErrorBoundary}
-        className="mt-4 px-4 py-1.5 bg-red-600 hover:bg-red-500 text-white text-sm font-semibold rounded transition-colors"
+        className="mt-4 rounded bg-red-600 px-4 py-1.5 text-sm font-semibold text-white transition-colors hover:bg-red-500"
       >
         Retry Connection
       </button>

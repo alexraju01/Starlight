@@ -28,7 +28,7 @@ const MediaCard2 = ({ item, style, isFirst, isLast }: Props) => {
   const { mediaMode, genres } = useMediaContext();
   const [isPlaying, setIsPlaying] = useState(false);
   const [videoKey, setVideoKey] = useState<string | null>(null);
-  const [isMuted, setIsMuted] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
 
   const videoKeyRef = useRef<string | null>(null);
   const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -92,9 +92,7 @@ const MediaCard2 = ({ item, style, isFirst, isLast }: Props) => {
 
   const cardClasses = clsx(
     'relative w-full px-[12px] pt-[12px] rounded-[10.92px] bg-card-bg border border-solid border-card-stroke transition-[width,top,left,right,z-index] duration-300 ',
-    // Expansion logic (Group-hover for desktop, isPlaying for mobile)
     'group-hover:z-20 group-hover:w-[70vw] sm:group-hover:w-[53vw] md:group-hover:w-[41vw] lg:group-hover:w-[38vw] xl:group-hover:w-[34vw] 2xl:group-hover:w-[26vw] 2xl:group-hover:max-w-[26vw] group-hover:top-[43%] group-hover:-translate-y-1/2 ',
-    // isPlaying && 'z-20 w-[70vw] sm:w-[53vw] md:w-[41vw] lg:w-[38vw] xl:w-[34vw] 2xl:w-[26vw] ',
     {
       ' transform group-hover:right-[calc(70vw-100%)] sm:group-hover:right-[calc(70vw-151%)] md:group-hover:right-[calc(70vw-226%)] lg:group-hover:right-[calc(70vw-257%)] xl:group-hover:right-[calc(70vw-312%)] 2xl:group-hover:right-[calc(70vw-418%)]':
         isLast,
@@ -103,7 +101,7 @@ const MediaCard2 = ({ item, style, isFirst, isLast }: Props) => {
 
   return (
     <div
-      className="group relative w-full overflow-visible flex-shrink-0"
+      className="group relative w-full flex-shrink-0 overflow-visible"
       style={{ ...style, display: 'block' }}
       onPointerEnter={handlePointerEnter}
       onPointerLeave={handlePointerLeave}
@@ -113,7 +111,7 @@ const MediaCard2 = ({ item, style, isFirst, isLast }: Props) => {
         style={{ transformOrigin: isFirst ? 'left' : isLast ? 'right' : 'center' }}
       >
         <figure
-          className="relative w-full overflow-hidden transition-all duration-300 aspect-2/3 group-hover:aspect-video cursor-pointer"
+          className="relative aspect-2/3 w-full cursor-pointer overflow-hidden transition-all duration-300 group-hover:aspect-video"
           onClick={handleImageClick}
         >
           {isPlaying && videoKey ? (
@@ -135,7 +133,7 @@ const MediaCard2 = ({ item, style, isFirst, isLast }: Props) => {
           )}
 
           {isUpcoming && (
-            <figcaption className="absolute top-2 right-2 z-10 bg-primary text-white text-lg font-semibold px-4 py-2 rounded-[7px]">
+            <figcaption className="bg-primary absolute top-2 right-2 z-10 rounded-[7px] px-4 py-2 text-lg font-semibold text-white">
               Upcoming
             </figcaption>
           )}

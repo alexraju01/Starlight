@@ -8,10 +8,10 @@ const Home = () => {
     <>
       <Carousel mediaMode={MediaMode.MOVIE} />
 
-      <section className="relative sm:mt-15  overflow-hidden">
+      <section className="relative overflow-hidden sm:mt-15">
         <BlurBackground />
 
-        <div className="md:mx-6 lg:mx-[68px] 2xl:mx-[101px] px-2">
+        <div className="px-2 md:mx-6 lg:mx-[68px] 2xl:mx-[101px]">
           <GenreCollection />
           <SliderBoundary message="Failed to load trending movies.">
             <CustomSlider

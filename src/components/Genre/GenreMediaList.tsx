@@ -49,10 +49,7 @@ export default function GenreMediaList({ initialMedia, genreId, genreMap }: Genr
 
   return (
     <div className="animate-fadeIn">
-      <div
-        className="grid gap-8 w-full mb-8 transition-all relative overflow-hidden
-                  grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6"
-      >
+      <div className="relative mb-8 grid w-full grid-cols-2 gap-8 overflow-hidden transition-all sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
         {media.map((item, index) => (
           <MediaProvider
             key={`${item.id}-${index}`}

@@ -46,10 +46,10 @@ async function GenreGrid() {
 
 export default function GenrePage() {
   return (
-    <main className=" text-white animate-fadeIn bg-[#050505] ">
-      <div className=" relative border-b border-white/5 bg-gradient-to-b from-red-900/16 to-transparent  pt-16">
+    <main className="animate-fadeIn bg-[#050505] text-white">
+      <div className="relative border-b border-white/5 bg-gradient-to-b from-red-900/16 to-transparent pt-16">
         <div className="content-container">
-          <h1 className="text-4xl font-black uppercase tracking-tight md:text-6xl">
+          <h1 className="text-4xl font-black tracking-tight uppercase md:text-6xl">
             Browse by <span className="text-primary">Genres</span>
           </h1>
           <p className="mt-4 max-w-xl text-lg text-slate-400">

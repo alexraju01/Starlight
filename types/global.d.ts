@@ -89,7 +89,6 @@ export interface Logo {
   width: number;
 }
 
-
 export type MovieWithLogos = Movie & {
   logoImage?: string;
 };

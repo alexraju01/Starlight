@@ -20,11 +20,11 @@ function CustomSliderButtons({
       aria-label={`${direction} scroll button`}
       onClick={onClick}
       disabled={disabled}
-      className={`slider-control-btn ${'disabled:opacity-40 text-gray-400 '} ${className}`}
+      className={`slider-control-btn ${'text-gray-400 disabled:opacity-40'} ${className}`}
     >
       {direction === 'left' ? (
         <svg
-          className="size-[16px] lg:w-[23px] lg:h-[22px] 2xl:w-[28px] 2xl:h-[24px]"
+          className="size-[16px] lg:h-[22px] lg:w-[23px] 2xl:h-[24px] 2xl:w-[28px]"
           width="28"
           height="24"
           viewBox="0 0 28 22"
@@ -41,7 +41,7 @@ function CustomSliderButtons({
         </svg>
       ) : (
         <svg
-          className="size-[16px] lg:w-[23px] lg:h-[22px] 2xl:w-[28px] 2xl:h-[24px] "
+          className="size-[16px] lg:h-[22px] lg:w-[23px] 2xl:h-[24px] 2xl:w-[28px]"
           width="28"
           height="24"
           viewBox="0 0 28 24"

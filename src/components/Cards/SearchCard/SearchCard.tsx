@@ -50,7 +50,7 @@ export default function SearchCard({ query, genreMap }: Props) {
   return (
     <>
       {query.length > 1 && (
-        <div className="absolute top-full left-0 mt-2 z-50 flex flex-col w-full overflow-y-auto rounded-[13px] bg-[#171717] border border-[#1D1D1D] shadow-xl">
+        <div className="absolute top-full left-0 z-50 mt-2 flex w-full flex-col overflow-y-auto rounded-[13px] border border-[#1D1D1D] bg-[#171717] shadow-xl">
           {isLoading ? (
             <p className="px-4 py-4 text-slate-400">Searching...</p>
           ) : hasSearched && result.length === 0 ? (
@@ -69,7 +69,7 @@ export default function SearchCard({ query, genreMap }: Props) {
                     <Link
                       href={ROUTES.MEDIA(mode, media.id, title)}
                       className={clsx(
-                        'relative z-[10] max-h-[200px] flex gap-[1.5rem] px-[1.5rem] py-[1rem] transition-all duration-300 ease-in-out hover:bg-[#123]',
+                        'relative z-[10] flex max-h-[200px] gap-[1.5rem] px-[1.5rem] py-[1rem] transition-all duration-300 ease-in-out hover:bg-[#123]',
                         idx % 2 === 0 ? 'bg-[#1c1c1e]' : 'bg-[#171717]',
                       )}
                     >
@@ -77,14 +77,14 @@ export default function SearchCard({ query, genreMap }: Props) {
                         <MediaCard media={media} mediaMode={mode} />
                       </div>
 
-                      <div className="flex flex-col gap-[0.75rem] w-full min-w-0">
-                        <h2 className="text-[1.3rem] font-medium leading-[1.5rem] overflow-hidden text-ellipsis line-clamp-1 text-white">
+                      <div className="flex w-full min-w-0 flex-col gap-[0.75rem]">
+                        <h2 className="line-clamp-1 overflow-hidden text-[1.3rem] leading-[1.5rem] font-medium text-ellipsis text-white">
                           {title}
                         </h2>
 
-                        <div className="flex items-center gap-[0.75rem] text-[#777777] text-[1.1rem]">
+                        <div className="flex items-center gap-[0.75rem] text-[1.1rem] text-[#777777]">
                           <RatingIcon
-                            className="text-[0.9rem] rounded-[0.4rem]"
+                            className="rounded-[0.4rem] text-[0.9rem]"
                             vote={media.vote_average ?? 0}
                           />
                           <Dot />
@@ -94,7 +94,7 @@ export default function SearchCard({ query, genreMap }: Props) {
                           {date && (
                             <>
                               <Dot className="hidden sm:block" />
-                              <p className="hidden sm:block whitespace-nowrap">
+                              <p className="hidden whitespace-nowrap sm:block">
                                 {dateConverter(date)}
                               </p>
                             </>

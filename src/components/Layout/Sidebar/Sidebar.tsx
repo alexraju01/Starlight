@@ -30,15 +30,15 @@ export default function Sidebar() {
 
   return (
     <nav
-      className={`fixed  top-0 left-0 z-15 h-screen bg-[#100f10] text-white border-r border-[#252525] transition-all duration-300 ${
+      className={`fixed top-0 left-0 z-15 h-screen border-r border-[#252525] bg-[#100f10] text-white transition-all duration-300 ${
         isOpen ? 'min-w-70 translate-x-0' : 'w-0'
       } xl:sticky xl:w-70`}
       style={{ borderRight: '0.1rem solid #252525' }}
     >
       {/* Logo Section */}
       <div
-        className={`flex justify-center items-center pt-12 pb-4 text-3xl font-semibold whitespace-nowrap transition-all duration-300 ${
-          isOpen ? 'translate-x-0 w-full' : '-translate-x-80 w-0'
+        className={`flex items-center justify-center pt-12 pb-4 text-3xl font-semibold whitespace-nowrap transition-all duration-300 ${
+          isOpen ? 'w-full translate-x-0' : 'w-0 -translate-x-80'
         }`}
       >
         <p>
@@ -49,12 +49,12 @@ export default function Sidebar() {
 
       {/* Sidebar with height minus logo */}
       <div
-        className={`flex flex-col justify-between transition-all duration- w-64 transform z-50 ${
-          isOpen ? 'translate-x-0' : '-translate-x-80 w-0'
+        className={`duration- z-50 flex w-64 transform flex-col justify-between transition-all ${
+          isOpen ? 'translate-x-0' : 'w-0 -translate-x-80'
         }`}
         style={{ height: 'calc(100vh - 5rem)' }}
       >
-        <ul className="flex flex-col gap-4 pt-4 px-4">
+        <ul className="flex flex-col gap-4 px-4 pt-4">
           {links.map((link) => (
             <NavLinks key={link.href} linkData={link} closeSidebar={closeSidebarOnMobile} />
           ))}
@@ -65,7 +65,7 @@ export default function Sidebar() {
       <button
         onClick={toggleSidebar}
         aria-label="Toggle Sidebar"
-        className="absolute left-full top-0 w-24 h-24 text-3xl bg-[#100f10] rounded-br-full xl:hidden hover:cursor-pointer"
+        className="absolute top-0 left-full h-24 w-24 rounded-br-full bg-[#100f10] text-3xl hover:cursor-pointer xl:hidden"
       >
         <span className="absolute top-4 left-4">{Icons.menu}</span>
       </button>

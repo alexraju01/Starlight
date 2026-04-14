@@ -25,18 +25,16 @@ export default function NavLinks({ linkData, closeSidebar }: NavLinksProps) {
   };
 
   return (
-    <li role="listitem" className="w-full h-14 flex justify-center px-4  items-center text-xl">
+    <li role="listitem" className="flex h-14 w-full items-center justify-center px-4 text-xl">
       <Link
         href={linkData.href as any}
         onClick={handleClick}
-        className={`flex items-center -4 w-full h-full gap-4 px-4 rounded-xl transition-all
-					${isActive ? 'text-white bg-[#1c1b1c]' : 'text-[#515256]'}
-					hover:text-white hover:bg-[#1c1b1c]`}
+        className={`-4 flex h-full w-full items-center gap-4 rounded-xl px-4 transition-all ${isActive ? 'bg-[#1c1b1c] text-white' : 'text-[#515256]'} hover:bg-[#1c1b1c] hover:text-white`}
       >
-        <span className={`flex justify-end w-1/5 ${isActive ? 'text-primary' : ''}`}>
+        <span className={`flex w-1/5 justify-end ${isActive ? 'text-primary' : ''}`}>
           {linkData.icon}
         </span>
-        <p className="flex justify-start w-1/2">{linkData.name}</p>
+        <p className="flex w-1/2 justify-start">{linkData.name}</p>
       </Link>
     </li>
   );

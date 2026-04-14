@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 const Footer = () => {
   return (
-    <footer className="relative z-1 my-10 border-t border-gray-700 text-md text-gray-400 flex flex-col  items-center justify-center gap-3 ">
+    <footer className="text-md relative z-1 my-10 flex flex-col items-center justify-center gap-3 border-t border-gray-700 text-gray-400">
       <Image
         src="/images/TMDB-Primary-Short.svg"
         alt="The Movie Database (TMDB)"

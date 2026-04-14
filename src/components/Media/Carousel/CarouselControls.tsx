@@ -12,14 +12,14 @@ const CarouselControls = memo(function CarouselControls({ onPrev, onNext }: Prop
   return (
     <div
       className={clsx(
-        'absolute flex gap-2.5 p-4 z-2 w-full px-6 justify-end',
+        'absolute z-2 flex h-fit justify-end gap-2.5 p-4 px-6',
         'top-5 right-5',
-        'bottom-[0px] md:bottom-[50px] md:pb-0 sm:right-[25px] sm:top-auto sm:w-auto sm:flex-row sm:px-12',
+        'bottom-[0px] sm:top-auto sm:right-[25px] sm:w-auto sm:flex-row sm:px-12 md:bottom-[50px] md:pb-0',
         'lg:right-[101px]',
       )}
     >
       <button
-        className="flex-center btn-base size-btn border-2 border-white p-1 border-solid"
+        className="flex-center btn-base size-btn border-2 border-solid border-white p-1"
         onClick={onPrev}
       >
         <svg
@@ -39,7 +39,7 @@ const CarouselControls = memo(function CarouselControls({ onPrev, onNext }: Prop
         </svg>
       </button>
       <button
-        className="bg-white border-1 p-3 flex justify-center items-center size-[33px] sm:size-[59px] hover:cursor-pointer rounded-lg border-white"
+        className="flex size-[33px] items-center justify-center rounded-lg border-1 border-white bg-white p-3 hover:cursor-pointer sm:size-[59px]"
         onClick={onNext}
       >
         <svg

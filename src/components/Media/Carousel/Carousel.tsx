@@ -1,3 +1,4 @@
+import { CarouselProvider } from '@/context/CarouselContext';
 import { MediaMode } from '@/types';
 import { mapGenres } from '@/utils';
 import { api } from '@/utils/api';
@@ -25,10 +26,18 @@ export default async function Carousel({ mediaMode }: CarouselProps) {
   );
 
   return (
-    <CarouselClient itemCount={moviesWithLogos.length}>
-      {moviesWithLogos.map((movie, index) => (
-        <CarouselItem key={movie.id} movie={movie} genres={genreMap} priority={index === 0} />
-      ))}
-    </CarouselClient>
+    <CarouselProvider>
+      <CarouselClient itemCount={moviesWithLogos.length}>
+        {moviesWithLogos.map((movie, index) => (
+          <CarouselItem
+            key={movie.id}
+            movie={movie}
+            genres={genreMap}
+            priority={index === 0}
+            mediaMode={mediaMode}
+          />
+        ))}
+      </CarouselClient>
+    </CarouselProvider>
   );
 }

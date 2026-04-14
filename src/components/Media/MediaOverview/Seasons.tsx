@@ -15,18 +15,11 @@ const Seasons = async ({ seasons }: Props) => {
   const plural = seasons.length === 1 ? 'Season' : 'Seasons';
 
   return (
-    <section className="flex flex-col gap-4 w-full">
+    <section className="flex w-full flex-col gap-4">
       <SectionHeading icon={Icons.play}>{`${plural} (${seasons.length})`}</SectionHeading>
 
       <Suspense fallback={<div>Loading season. . . </div>}>
-        <div
-          className="
-						grid w-full gap-[1.2rem]
-						[grid-template-columns:repeat(auto-fill,minmax(13rem,1fr))]
-						@xl:[grid-template-columns:repeat(auto-fill,minmax(17rem,1fr))]
-						xl:gap-[1.5rem]
-					"
-        >
+        <div className="grid w-full [grid-template-columns:repeat(auto-fill,minmax(13rem,1fr))] gap-[1.2rem] xl:gap-[1.5rem] @xl:[grid-template-columns:repeat(auto-fill,minmax(17rem,1fr))]">
           {seasons.map((season, index) => (
             <SeasonsCard key={index} id={season.id} season={season} />
           ))}

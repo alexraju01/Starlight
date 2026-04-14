@@ -17,10 +17,7 @@ const MovieGrid = ({ media, genreMap }: MovieGridProps) => {
   if (!media.length || columns === null) return null;
 
   return (
-    <div
-      className="grid gap-8 w-full mb-8 transition-all relative overflow-hidden
-                 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6"
-    >
+    <div className="relative mb-8 grid w-full grid-cols-2 gap-8 overflow-hidden transition-all sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
       {media.map((item, index) => {
         const isFirst = index % columns === 0;
         const isLast = (index + 1) % columns === 0;

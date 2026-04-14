@@ -3,7 +3,7 @@
 
 @layer base {
   * {
-    @apply m-0 p-0 box-border list-none no-underline outline-none border-none;
+    @apply m-0 box-border list-none border-none p-0 no-underline outline-none;
   }
 
   html {
@@ -38,9 +38,7 @@
   }
 
   .genre-item {
-    @apply border-[2px] border-solid border-gray-100 px-[0.7rem] py-[0.4rem] rounded-[0.8rem] backdrop-blur-lg 
-        transition-all duration-300 hover:cursor-pointer hover:border-primary hover:bg-[#9e221a1a] hover:scale-108
-        xl:border xl:border-white/0 xl:bg-white/25  xl:hover:border-white xl:hover:bg-white/10;
+    @apply hover:border-primary rounded-[0.8rem] border-[2px] border-solid border-gray-100 px-[0.7rem] py-[0.4rem] backdrop-blur-lg transition-all duration-300 hover:scale-108 hover:cursor-pointer hover:bg-[#9e221a1a] xl:border xl:border-white/0 xl:bg-white/25 xl:hover:border-white xl:hover:bg-white/10;
   }
 
   .mask-gradient-default {
@@ -56,14 +54,14 @@
   }
 
   .slider-control-btn {
-    @apply bg-[#1A1A1A] flex items-center justify-center rounded-[4.72px] lg:rounded-[6.1px] 2xl:rounded-[9px] hover:cursor-pointer border-[1.15px] border-solid border-[#262626];
+    @apply flex items-center justify-center rounded-[4.72px] border-[1.15px] border-solid border-[#262626] bg-[#1A1A1A] hover:cursor-pointer lg:rounded-[6.1px] 2xl:rounded-[9px];
 
     width: clamp(33px, 5vw, 64px);
     height: clamp(33px, 5vw, 64px);
   }
 
   .slider-title {
-    @apply leading-[150%] text-[22.63px] lg:text-[29.28px] 2xl:text-[44px] font-normal;
+    @apply text-[22.63px] leading-[150%] font-normal lg:text-[29.28px] 2xl:text-[44px];
     font-size: clamp(22.63px, 2.5vw, 44px);
   }
 
@@ -110,15 +108,15 @@
   }
 
   .content-container {
-    @apply lg:mx-[68px] 2xl:mx-[101px] px-6 py-6;
+    @apply px-6 py-6 lg:mx-[68px] 2xl:mx-[101px];
   }
   /* Flex */
   .flex-center {
-    @apply flex justify-center items-center;
+    @apply flex items-center justify-center;
   }
 
   .flex-between {
-    @apply flex justify-between items-center;
+    @apply flex items-center justify-between;
   }
   .flex-evenly {
     @apply flex items-center justify-evenly;

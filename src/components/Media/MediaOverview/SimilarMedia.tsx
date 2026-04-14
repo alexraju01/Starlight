@@ -12,7 +12,7 @@ interface Props {
 const SimilarMedia = async ({ mediaMode, params }: Props) => {
   const textChanger = mediaMode === 'tv' ? 'TV Shows' : 'Movies';
   return (
-    <section className="text-[1.8rem] w-full mb-20">
+    <section className="mb-20 w-full text-[1.8rem]">
       <CustomSlider
         endpoint={`${mediaMode}/${params}/recommendations`}
         title={<SectionHeading icon={Icons.play}>{`Similar ${textChanger}`}</SectionHeading>}
