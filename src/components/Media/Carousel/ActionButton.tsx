@@ -1,7 +1,10 @@
 'use client';
 
 import clsx from 'clsx';
-import { VolumeX } from 'lucide-react';
+import { Info, VolumeX } from 'lucide-react';
+import Link from 'next/link';
+
+import type { Route } from 'next';
 
 import Icons from '@/utils/icons';
 
@@ -11,6 +14,7 @@ interface ActionButtonsProps {
   isTrailerActive: boolean;
   isMuted: boolean;
   onToggleMute: (e: React.MouseEvent) => void;
+  detailsHref: Route;
 }
 
 export default function ActionButtons({
@@ -19,16 +23,19 @@ export default function ActionButtons({
   isTrailerActive,
   isMuted,
   onToggleMute,
+  detailsHref,
 }: ActionButtonsProps) {
   return (
     <div className="relative mb-9 flex w-full flex-row items-center justify-start gap-[13px] sm:mb-[7px] md:mb-[47px]">
       {/* Primary Button */}
-      <div className="group relative flex w-full items-center justify-center sm:w-fit">
+      <div className="group relative flex flex-1 items-center justify-center sm:w-fit sm:flex-none">
         <button
+          type="button"
           onClick={onWatchTrailer}
           disabled={isLoading}
+          aria-busy={isLoading}
           className={clsx(
-            'flex h-[50px] w-[220px] flex-shrink-0 cursor-pointer items-center justify-center gap-2 rounded-[8px] px-4 text-[17.14px] transition-all duration-300 sm:h-[59px] sm:text-[20px]',
+            'flex h-[50px] w-full flex-shrink-0 cursor-pointer sm:w-[220px] items-center justify-center gap-2 rounded-[8px] px-4 text-[17.14px] transition-all duration-300 sm:h-[59px] sm:text-[20px]',
             isTrailerActive
               ? 'border border-white/20 bg-black/80 text-white shadow-lg hover:bg-[#9E221A]'
               : 'sm:bg-primary bg-white text-black hover:bg-[#9E221A] sm:text-white',
@@ -53,9 +60,21 @@ export default function ActionButtons({
 
       {/* Secondary Buttons */}
       <div className="flex gap-2.5 opacity-100 transition-all duration-500 ease-in-out">
+        {!isTrailerActive && (
+          <Link
+            href={detailsHref}
+            className="flex h-[50px] items-center justify-center gap-2 rounded-[8px] border border-white/30 bg-white/10 px-5 text-[16px] text-white backdrop-blur-md transition-colors hover:bg-white/20 sm:h-[59px] sm:text-[18px]"
+          >
+            <Info size={20} aria-hidden="true" />
+            More Info
+          </Link>
+        )}
         <div className="hidden items-center gap-2.5 sm:flex">
           <button
+            type="button"
             onClick={onToggleMute}
+            aria-label={isMuted ? 'Unmute trailer' : 'Mute trailer'}
+            aria-pressed={!isMuted}
             className={clsx(
               'flex h-[33px] w-[33px] cursor-pointer items-center justify-center rounded-[4.72px] border border-solid bg-[#100F10] transition-all duration-300 sm:h-[56px] sm:w-[56px] sm:rounded-[5.33px]',
               isTrailerActive
@@ -64,9 +83,10 @@ export default function ActionButtons({
             )}
           >
             {isMuted ? (
-              <VolumeX size={30} />
+              <VolumeX size={30} aria-hidden="true" />
             ) : (
               <svg
+                aria-hidden="true"
                 width="26"
                 height="24"
                 viewBox="0 0 26 24"

@@ -2,6 +2,7 @@
 
 import clsx from 'clsx';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState, useMemo, useRef } from 'react';
 
 import { ROUTES } from '@/constants/route';
@@ -28,13 +29,16 @@ const MediaCard2 = ({ item, style, isFirst, isLast }: Props) => {
   const { mediaMode, genres } = useMediaContext();
   const [isPlaying, setIsPlaying] = useState(false);
   const [videoKey, setVideoKey] = useState<string | null>(null);
-  const [isMuted, setIsMuted] = useState(false);
+  // Hover previews start muted – unexpected audio on hover is a poor experience.
+  const [isMuted, setIsMuted] = useState(true);
+  const router = useRouter();
 
   const videoKeyRef = useRef<string | null>(null);
   const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const iframeId = `yt-player-${item.id}`;
 
   const title = item.media_type === MediaMode.MOVIE ? item.title : item.name;
+  const href = ROUTES.MEDIA(mediaMode, item.id, title);
   const genreText = useMemo(() => formatGenres(item, genres), [item, genres]);
   const mediaDate = useMemo(() => getMediaDate(item), [item]);
   const dateStr = formatDate(item);
@@ -76,18 +80,11 @@ const MediaCard2 = ({ item, style, isFirst, isLast }: Props) => {
     }
   };
 
-  const handleImageClick = async (e: React.MouseEvent) => {
-    // This is the main toggle for mobile taps
-    e.stopPropagation();
-
-    if (!isPlaying) {
-      setIsPlaying(true);
-      await loadVideo();
-    } else {
-      // On mobile, if already playing, clicking the image area again stops it
-      setIsPlaying(false);
-      setIsMuted(true);
-    }
+  // Tapping/clicking the artwork opens the title (previously a tap on mobile started
+  // a trailer instead, so touch users had to find the small text link to navigate).
+  // While a hover preview plays, the player's overlay intercepts clicks to toggle sound.
+  const handleImageClick = () => {
+    router.push(href);
   };
 
   const cardClasses = clsx(
@@ -111,7 +108,7 @@ const MediaCard2 = ({ item, style, isFirst, isLast }: Props) => {
         style={{ transformOrigin: isFirst ? 'left' : isLast ? 'right' : 'center' }}
       >
         <figure
-          className="relative aspect-2/3 w-full cursor-pointer overflow-hidden transition-all duration-300 group-hover:aspect-video"
+          className="relative aspect-2/3 w-full cursor-pointer overflow-hidden rounded-[10.92px] bg-white/5 transition-all duration-300 group-hover:aspect-video"
           onClick={handleImageClick}
         >
           {isPlaying && videoKey ? (
@@ -124,9 +121,7 @@ const MediaCard2 = ({ item, style, isFirst, isLast }: Props) => {
             />
           ) : (
             <PosterImage
-              src={
-                (isPlaying && !videoKey ? item.backdrop_path : item.poster_path) || 'Media Poster'
-              }
+              src={(isPlaying && !videoKey && item.backdrop_path) || item.poster_path}
               alt={title}
               className={clsx('rounded-[10.92px]', isPlaying && !videoKey && 'rounded-b-0')}
             />
@@ -139,7 +134,7 @@ const MediaCard2 = ({ item, style, isFirst, isLast }: Props) => {
           )}
         </figure>
 
-        <Link href={ROUTES.MEDIA(mediaMode, item.id, title)}>
+        <Link href={href} className="block rounded-md">
           <MediaCardInfo
             item={item}
             title={title}

@@ -19,10 +19,13 @@ const CarouselControls = memo(function CarouselControls({ onPrev, onNext }: Prop
       )}
     >
       <button
+        type="button"
+        aria-label="Previous slide"
         className="flex-center btn-base size-btn border-2 border-solid border-white p-1"
         onClick={onPrev}
       >
         <svg
+          aria-hidden="true"
           width="20"
           height="18"
           viewBox="0 0 20 18"
@@ -39,10 +42,13 @@ const CarouselControls = memo(function CarouselControls({ onPrev, onNext }: Prop
         </svg>
       </button>
       <button
+        type="button"
+        aria-label="Next slide"
         className="flex size-[33px] items-center justify-center rounded-lg border-1 border-white bg-white p-3 hover:cursor-pointer sm:size-[59px]"
         onClick={onNext}
       >
         <svg
+          aria-hidden="true"
           width="20"
           height="18"
           viewBox="0 0 24 20"
