@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: 'Discover Movies & TV Shows – Search & Watch Trailers',
   description:
     'Search movies and TV shows on Starlight. Explore titles, discover new releases, and watch official trailers on hover.',
-
+  alternates: { canonical: '/discover' },
   keywords: [
     'search movies',
     'search tv shows',
@@ -22,16 +22,21 @@ export const metadata: Metadata = {
 export default async function DiscoverPage({
   searchParams,
 }: {
-  searchParams: Promise<{ search?: string }>;
+  searchParams: Promise<{ search?: string | string[] }>;
 }) {
   const { search } = await searchParams;
+  const query = (Array.isArray(search) ? search[0] : search)?.trim() ?? '';
 
-  const cleanQuery = search ? search.replace(/-/g, ' ') : '';
-
-  const [movies, genreMap] = await Promise.all([
-    searchMediaAction(cleanQuery),
+  const [results, genreMap] = await Promise.all([
+    searchMediaAction(query),
     getAllGenresAction(),
   ]);
 
-  return <DiscoverClient initialMovies={movies} genreMap={genreMap} initialQuery={cleanQuery} />;
+  return (
+    <DiscoverClient
+      results={results}
+      genreMap={genreMap}
+      initialQuery={query}
+    />
+  );
 }
