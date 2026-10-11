@@ -1,7 +1,10 @@
 'use client';
 
+import { RotateCw, TriangleAlert } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect } from 'react';
+
+import { ghostButton, primaryButton } from '@/components/ui/buttonStyles';
 
 export default function Error({
   error,
@@ -17,28 +20,29 @@ export default function Error({
   return (
     <div
       role="alert"
-      className="flex min-h-[60vh] flex-col items-center justify-center gap-6 px-6 text-center"
+      className="page-gutter flex min-h-[60vh] flex-col items-center justify-center py-[64px] text-center"
     >
-      <h1 className="text-4xl font-bold md:text-5xl">Something went wrong</h1>
-      <p className="max-w-xl text-[16px] text-slate-400">
+      <span className="flex size-[64px] items-center justify-center rounded-full bg-white/[0.06]">
+        <TriangleAlert aria-hidden="true" className="size-[28px] text-white/70" />
+      </span>
+      <h1 className="mt-[20px] text-[26px] leading-[1.2] font-bold tracking-[-0.01em] text-white lg:text-[32px]">
+        Something went wrong
+      </h1>
+      <p className="mt-[12px] max-w-[48ch] text-[15px] leading-[1.6] text-white/60 lg:text-[16px]">
         We couldn’t load this page. This is usually temporary — please try again.
       </p>
-      <div className="flex flex-wrap items-center justify-center gap-4">
-        <button
-          type="button"
-          onClick={reset}
-          className="bg-primary rounded-full px-8 py-3 text-[16px] font-semibold text-white transition-colors hover:bg-[#b8281f]"
-        >
+      <div className="mt-[28px] flex w-full flex-col gap-[12px] sm:w-auto sm:flex-row">
+        <button type="button" onClick={reset} className={primaryButton}>
+          <RotateCw aria-hidden="true" className="size-[18px]" />
           Try again
         </button>
-        <Link
-          href="/"
-          className="rounded-full border border-white/20 px-8 py-3 text-[16px] font-semibold text-white transition-colors hover:bg-white/10"
-        >
-          Go home
+        <Link href="/" className={ghostButton}>
+          Go to home
         </Link>
       </div>
-      {error.digest && <p className="text-[12px] text-slate-600">Error ID: {error.digest}</p>}
+      {error.digest && (
+        <p className="mt-[20px] font-mono text-[12px] text-white/30">Error ID: {error.digest}</p>
+      )}
     </div>
   );
 }
