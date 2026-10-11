@@ -11,6 +11,16 @@ export const useNavBarLogic = () => {
   const searchButtonRef = useRef<HTMLButtonElement | null>(null);
   const mobileNavRef = useRef<HTMLElement | null>(null);
   const mobileMenuButtonRef = useRef<HTMLButtonElement | null>(null);
+  const drawerCloseButtonRef = useRef<HTMLButtonElement | null>(null);
+
+  // True once the page has scrolled, so the bar can switch to its translucent style.
+  const [isScrolled, setIsScrolled] = useState(false);
+  useEffect(() => {
+    const update = () => setIsScrolled(window.scrollY > 8);
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    return () => window.removeEventListener('scroll', update);
+  }, []);
 
   const toggleMobileNav = () => {
     setIsMobileNavOpen((prev) => !prev);
@@ -21,6 +31,29 @@ export const useNavBarLogic = () => {
     setIsSearchOpen((prev) => !prev);
     setIsMobileNavOpen(false);
   };
+
+  /** Closes the drawer from inside it and hands focus back to the menu button. */
+  const closeMobileNav = () => {
+    setIsMobileNavOpen(false);
+    mobileMenuButtonRef.current?.focus();
+  };
+
+  // While the drawer is open: the page behind doesn't scroll, focus starts on "Close", and
+  // widening the window past the mobile layout closes it.
+  useEffect(() => {
+    if (!isMobileNavOpen) return;
+    drawerCloseButtonRef.current?.focus();
+    const { overflow } = document.body.style;
+    document.body.style.overflow = 'hidden';
+
+    const desktop = window.matchMedia('(min-width: 1024px)');
+    const onChange = (e: MediaQueryListEvent) => e.matches && setIsMobileNavOpen(false);
+    desktop.addEventListener('change', onChange);
+    return () => {
+      document.body.style.overflow = overflow;
+      desktop.removeEventListener('change', onChange);
+    };
+  }, [isMobileNavOpen]);
 
   const closeAll = () => {
     setIsMobileNavOpen(false);
@@ -86,11 +119,15 @@ export const useNavBarLogic = () => {
 
   return {
     isMobileNavOpen,
-    setIsMobileNavOpen,
     isSearchOpen,
+    isScrolled,
     toggleMobileNav,
     toggleSearch,
+    closeMobileNav,
+    /** For links inside the drawer: close without moving focus (the page is changing). */
+    dismissMobileNav: () => setIsMobileNavOpen(false),
     refs: {
+      drawerCloseButtonRef,
       searchWrapperRef,
       searchButtonRef,
       mobileNavRef,

@@ -104,7 +104,7 @@ export default async function BrowseMediaPage({
         </div>
       </header>
 
-      <div className="bg-secondary/85 border-b border-white/[0.06] py-[16px] backdrop-blur-xl lg:sticky lg:top-[var(--nav-h)] lg:z-30 lg:mt-[16px]">
+      <div className="bg-secondary/95 border-b border-white/[0.06] py-[16px] backdrop-blur-xl lg:sticky lg:top-[var(--nav-h)] lg:z-30 lg:mt-[16px]">
         <div className="page-gutter">
           <BrowseToolbar
             basePath={mediaMode === MediaMode.TV ? '/tv' : '/movie'}

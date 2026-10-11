@@ -10,9 +10,16 @@ import { ROUTES } from '@/constants/route';
 
 interface Props {
   autoFocus?: boolean;
+  /** Desktop navbar: pressing "/" anywhere on the page focuses this field. */
+  shortcut?: boolean;
 }
 
-export default function SearchBox({ autoFocus = false }: Props) {
+/** Typing outside a form field? (So "/" can be used as a shortcut without hijacking input.) */
+const isTypingTarget = (el: EventTarget | null) =>
+  el instanceof HTMLElement &&
+  (el.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(el.tagName));
+
+export default function SearchBox({ autoFocus = false, shortcut = false }: Props) {
   const [search, setSearch] = useState('');
   const [isOpen, setIsOpen] = useState(false);
 
@@ -60,6 +67,17 @@ export default function SearchBox({ autoFocus = false }: Props) {
     inputRef.current?.focus();
   };
 
+  useEffect(() => {
+    if (!shortcut) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== '/' || e.metaKey || e.ctrlKey || e.altKey || isTypingTarget(e.target)) return;
+      e.preventDefault();
+      inputRef.current?.focus();
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [shortcut]);
+
   // Close dropdown if clicking outside
   useEffect(() => {
     const handlePointerDown = (event: PointerEvent) => {
@@ -79,11 +97,11 @@ export default function SearchBox({ autoFocus = false }: Props) {
   return (
     <div
       ref={containerRef}
-      className="relative h-[50px] rounded-[13px] border border-solid border-[#1D1D1D] transition-colors focus-within:border-white/40 lg:block lg:w-[346px]"
+      className="relative h-[44px] w-full rounded-[12px] border border-white/12 bg-white/[0.04] transition-colors focus-within:border-white/40 focus-within:bg-white/[0.06] hover:border-white/25 lg:w-[300px] xl:w-[360px]"
     >
       <form role="search" onSubmit={handleSubmit} className="h-full">
         <Search
-          className="pointer-events-none absolute top-1/2 left-4 size-[20px] -translate-y-1/2 text-[#BFBFBF]"
+          className="pointer-events-none absolute top-1/2 left-[14px] size-[18px] -translate-y-1/2 text-white/45"
           aria-hidden="true"
         />
 
@@ -103,15 +121,23 @@ export default function SearchBox({ autoFocus = false }: Props) {
           onFocus={() => search && setIsOpen(true)}
           onKeyDown={handleKeyDown}
           // 16px minimum stops iOS Safari from zooming the page on focus.
-          className="h-full w-full truncate rounded-[13px] bg-transparent pr-12 pl-14 text-[16px] text-[#E5E5E5] placeholder:text-[#8a8a8a] focus:outline-none [&::-webkit-search-cancel-button]:hidden"
+          className="h-full w-full truncate rounded-[12px] bg-transparent pr-[44px] pl-[42px] text-[16px] text-white placeholder:text-white/40 focus:outline-none lg:text-[15px] [&::-webkit-search-cancel-button]:hidden"
         />
 
+        {shortcut && !search && (
+          <kbd
+            aria-hidden="true"
+            className="pointer-events-none absolute top-1/2 right-[10px] flex size-[22px] -translate-y-1/2 items-center justify-center rounded-[6px] border border-white/15 font-sans text-[12px] text-white/45"
+          >
+            /
+          </kbd>
+        )}
         {search && (
           <button
             type="button"
             onClick={clearSearch}
             aria-label="Clear search"
-            className="absolute top-1/2 right-3 flex size-9 -translate-y-1/2 items-center justify-center rounded-full text-[#BFBFBF] transition-colors hover:bg-white/10 hover:text-white"
+            className="absolute top-1/2 right-[6px] flex size-[32px] -translate-y-1/2 items-center justify-center rounded-full text-white/60 transition-colors hover:bg-white/10 hover:text-white"
           >
             <X className="size-[18px]" aria-hidden="true" />
           </button>

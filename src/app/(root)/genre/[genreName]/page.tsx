@@ -191,7 +191,7 @@ export default async function GenrePage({ params, searchParams }: Props) {
         </div>
       </header>
 
-      <div className="bg-secondary/85 border-y border-white/[0.06] py-[16px] backdrop-blur-xl lg:sticky lg:top-[var(--nav-h)] lg:z-30">
+      <div className="bg-secondary/95 border-y border-white/[0.06] py-[16px] backdrop-blur-xl lg:sticky lg:top-[var(--nav-h)] lg:z-30">
         <div className="page-gutter flex flex-col gap-[12px] sm:flex-row sm:items-center sm:justify-between">
           {typeOptions ? <SegmentedLinks label="Show" options={typeOptions} /> : <span />}
           <SegmentedLinks

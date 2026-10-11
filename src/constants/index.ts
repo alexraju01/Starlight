@@ -14,3 +14,15 @@ export const ENDPOINTS = {
   POPULAR_MOVIES: 'movie/popular',
   TRENDING_TV: 'trending/tv/day',
 };
+
+/** Genre shortcuts in the mobile menu. */
+export const QUICK_GENRES = [
+  'Action',
+  'Comedy',
+  'Drama',
+  'Horror',
+  'Science Fiction',
+  'Animation',
+  'Thriller',
+  'Romance',
+];
