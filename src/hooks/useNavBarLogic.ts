@@ -1,13 +1,15 @@
+import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
 export const useNavBarLogic = () => {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const pathname = usePathname();
 
   // Refs for click-outside detection
   const searchWrapperRef = useRef<HTMLDivElement | null>(null);
   const searchButtonRef = useRef<HTMLButtonElement | null>(null);
-  const mobileNavRef = useRef<HTMLDivElement | null>(null);
+  const mobileNavRef = useRef<HTMLElement | null>(null);
   const mobileMenuButtonRef = useRef<HTMLButtonElement | null>(null);
 
   const toggleMobileNav = () => {
@@ -25,7 +27,18 @@ export const useNavBarLogic = () => {
     setIsSearchOpen(false);
   };
 
+  // Close any open overlay after navigating (e.g. picking a search result).
+  // Adjusting state during render is the React-recommended way to react to a prop change.
+  const [lastPathname, setLastPathname] = useState(pathname);
+  if (pathname !== lastPathname) {
+    setLastPathname(pathname);
+    setIsMobileNavOpen(false);
+    setIsSearchOpen(false);
+  }
+
   useEffect(() => {
+    if (!isSearchOpen && !isMobileNavOpen) return;
+
     const handleClickOutside = (e: MouseEvent | TouchEvent) => {
       const target = e.target as Node;
 
@@ -52,12 +65,22 @@ export const useNavBarLogic = () => {
       }
     };
 
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return;
+      // Return focus to the control that opened the overlay.
+      if (isMobileNavOpen) mobileMenuButtonRef.current?.focus();
+      else if (isSearchOpen) searchButtonRef.current?.focus();
+      closeAll();
+    };
+
     document.addEventListener('mousedown', handleClickOutside);
     document.addEventListener('touchstart', handleClickOutside);
+    document.addEventListener('keydown', handleKeyDown);
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
       document.removeEventListener('touchstart', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
     };
   }, [isSearchOpen, isMobileNavOpen]);
 

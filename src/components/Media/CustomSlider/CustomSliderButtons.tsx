@@ -17,13 +17,15 @@ function CustomSliderButtons({
 }: SliderButtonProps) {
   return (
     <button
-      aria-label={`${direction} scroll button`}
+      type="button"
+      aria-label={direction === 'left' ? 'Scroll to previous items' : 'Scroll to next items'}
       onClick={onClick}
       disabled={disabled}
       className={`slider-control-btn ${'text-gray-400 disabled:opacity-40'} ${className}`}
     >
       {direction === 'left' ? (
         <svg
+          aria-hidden="true"
           className="size-[16px] lg:h-[22px] lg:w-[23px] 2xl:h-[24px] 2xl:w-[28px]"
           width="28"
           height="24"
@@ -41,6 +43,7 @@ function CustomSliderButtons({
         </svg>
       ) : (
         <svg
+          aria-hidden="true"
           className="size-[16px] lg:h-[22px] lg:w-[23px] 2xl:h-[24px] 2xl:w-[28px]"
           width="28"
           height="24"

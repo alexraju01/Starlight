@@ -3,6 +3,7 @@
 import Fuse from 'fuse.js';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useMemo } from 'react';
 
 import { stripLeadingSlash, validRoutes } from '@/utils';
 
@@ -10,21 +11,21 @@ export default function NotFound() {
   const pathname = usePathname();
   const cleanPath = stripLeadingSlash(pathname);
 
-  const fuse = new Fuse(validRoutes, {
-    includeScore: true,
-    threshold: 0.4,
-  });
-
-  const results = fuse.search(cleanPath);
-  const suggestion = results.length > 0 ? results[0].item : null;
+  const suggestion = useMemo(() => {
+    // Only fuzzy-match the first segment: "/moviez/123" → "movie".
+    const firstSegment = cleanPath.split('/')[0];
+    if (!firstSegment) return null;
+    const fuse = new Fuse(validRoutes, { threshold: 0.4 });
+    return fuse.search(firstSegment)[0]?.item ?? null;
+  }, [cleanPath]);
 
   return (
     <div className="flex min-h-screen w-full items-center justify-center bg-[#100F10] px-6 text-white">
       {/* Card */}
-      <div className="bg-card-bg relative z-10 w-auto space-y-6 rounded-2xl border border-white/10 px-16 py-14 text-center shadow-2xl">
-        <h2 className="text-4xl font-extrabold tracking-tight drop-shadow sm:text-5xl md:text-6xl lg:text-7xl">
+      <div className="bg-card-bg relative z-10 w-full max-w-2xl space-y-6 rounded-2xl border border-white/10 px-8 py-14 text-center shadow-2xl sm:px-16">
+        <h1 className="text-4xl font-extrabold tracking-tight drop-shadow sm:text-5xl md:text-6xl lg:text-7xl">
           Page Not Found
-        </h2>
+        </h1>
 
         <p className="text-2xl text-gray-300">
           We couldn’t find{' '}

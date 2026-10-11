@@ -30,10 +30,14 @@ const loadYouTubeAPI = () => {
       firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
     }
 
+    const startedAt = Date.now();
     const checkYT = setInterval(() => {
       if (window.YT && window.YT.Player) {
         clearInterval(checkYT);
         resolve();
+      } else if (Date.now() - startedAt > 15000) {
+        // e.g. blocked by an ad/content blocker – stop polling.
+        clearInterval(checkYT);
       }
     }, 100);
   });
@@ -117,14 +121,20 @@ export const MediaVideoPlayer = ({
     <div className="animate-fadeIn absolute inset-0 overflow-hidden rounded-[10.92px] bg-black">
       {/* Only show these if NOT in a carousel */}
       {!isCarousel && (
-        <div className="absolute inset-0 z-40 cursor-pointer" onClick={onToggleMute} />
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 z-40 cursor-pointer"
+          onClick={onToggleMute}
+        />
       )}
       <button
         type="button"
         onClick={onToggleMute}
+        aria-label={isMuted ? 'Unmute trailer' : 'Mute trailer'}
+        aria-pressed={!isMuted}
         className="absolute right-4 bottom-4 z-50 flex size-13 cursor-pointer items-center justify-center rounded-full border border-white/20 bg-black/60 text-white transition-all"
       >
-        {isMuted ? <VolumeX size={23} /> : <Volume2 size={23} />}
+        {isMuted ? <VolumeX size={23} aria-hidden /> : <Volume2 size={23} aria-hidden />}
       </button>
 
       <div className="pointer-events-none h-full w-full">
@@ -134,8 +144,9 @@ export const MediaVideoPlayer = ({
             'h-full w-full object-cover',
             isCarousel && 'scale-110', // Slight zoom to hide edges in carousel mode
           )}
-          src={`https://www.youtube.com/embed/${videoKey}?enablejsapi=1&autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&iv_load_policy=3&loop=1&playlist=${videoKey}`}
+          src={`https://www.youtube-nocookie.com/embed/${videoKey}?enablejsapi=1&autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&iv_load_policy=3&loop=1&playlist=${videoKey}`}
           allow="autoplay; encrypted-media"
+          tabIndex={-1}
           title={`${title} Trailer`}
         />
       </div>

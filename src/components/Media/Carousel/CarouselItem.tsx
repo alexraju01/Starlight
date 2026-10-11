@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useState, useTransition, useEffect } from 'react';
 
 import { MediaVideoPlayer } from '@/components/Cards/MediaCard2/MediaVideoPlayer';
+import { ROUTES } from '@/constants/route';
 import { useCarousel } from '@/context/CarouselContext';
 import { MediaMode } from '@/types';
 import { MovieWithLogos } from '@/types/global';
@@ -26,6 +27,7 @@ export default function CarouselItem({ movie, genres, priority, mediaMode }: Car
   const [videoKey, setVideoKey] = useState<string | null>(null);
   const [isMuted, setIsMuted] = useState(false);
   const [isPending, startTransition] = useTransition();
+  const [trailerError, setTrailerError] = useState(false);
   const { setIsAnyVideoPlaying } = useCarousel();
 
   const isPlaying = !!videoKey;
@@ -41,12 +43,14 @@ export default function CarouselItem({ movie, genres, priority, mediaMode }: Car
       return;
     }
 
+    setTrailerError(false);
     startTransition(async () => {
       const key = await getVideoKey(mediaMode as 'movie' | 'tv', movie.id);
       if (key) {
         setVideoKey(key);
       } else {
-        alert('Trailer not available.');
+        // Inline message instead of a blocking `alert()`.
+        setTrailerError(true);
       }
     });
   };
@@ -56,7 +60,10 @@ export default function CarouselItem({ movie, genres, priority, mediaMode }: Car
     setIsMuted((prev) => !prev);
   };
 
-  const backdropSrc = getImageUrl(movie.backdrop_path, 'backdrop', 'original');
+  // w1280 instead of `original` (often 3840px / several MB, and images are unoptimized).
+  const backdropSrc = getImageUrl(movie.backdrop_path, 'backdrop', 'w1280');
+  const title = displayName(movie);
+  const detailsHref = ROUTES.MEDIA(mediaMode, movie.id, title);
 
   return (
     <li className="flex-evenly relative h-full w-full flex-shrink-0 overflow-hidden">
@@ -73,10 +80,11 @@ export default function CarouselItem({ movie, genres, priority, mediaMode }: Car
         <Image
           src={backdropSrc}
           fill
-          quality={75}
-          alt={displayName(movie)}
+          sizes="100vw"
+          alt=""
           className="img-cover-center carousel-mask-gradiant brightness-[80%]"
           priority={priority}
+          loading={priority ? undefined : 'lazy'}
         />
       )}
 
@@ -90,20 +98,21 @@ export default function CarouselItem({ movie, genres, priority, mediaMode }: Car
           )}
         >
           {movie.logoImage ? (
+            // Logo is an image – keep a real heading for screen readers / SEO.
+            <h2 className="sr-only">{title}</h2>
+          ) : null}
+          {movie.logoImage ? (
             <div className="relative mb-5 h-[clamp(1rem,14vw,13rem)] w-[clamp(19rem,20vw,33rem)]">
               <Image
                 src={movie.logoImage}
                 fill
-                loading="eager"
-                quality={60}
-                alt={`${displayName(movie)} logo`}
+                sizes="330px"
+                alt={title}
                 className="img-contain-center"
               />
             </div>
           ) : (
-            <h2 className="text-[clamp(2rem,5vw,50px)] font-bold text-white">
-              {displayName(movie)}
-            </h2>
+            <h2 className="text-[clamp(2rem,5vw,50px)] font-bold text-white">{title}</h2>
           )}
 
           <MediaMeta movie={movie} genres={genres} />
@@ -129,7 +138,13 @@ export default function CarouselItem({ movie, genres, priority, mediaMode }: Car
             isTrailerActive={isPlaying}
             isMuted={isMuted}
             onToggleMute={toggleMute}
+            detailsHref={detailsHref}
           />
+          {trailerError && (
+            <p role="status" className="-mt-6 mb-6 text-[14px] text-white/80">
+              Sorry — no trailer is available for this title yet.
+            </p>
+          )}
         </div>
       </div>
     </li>
