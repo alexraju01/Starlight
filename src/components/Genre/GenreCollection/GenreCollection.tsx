@@ -10,9 +10,9 @@ const GenreCollection = async () => {
     if (!genreMovies || genreMovies.length === 0) return null;
 
     return (
-      <Slider title="Our Genres" totalItems={genreMovies.length}>
+      <Slider title="Browse by genre" href="/genre">
         {genreMovies.map((genre) => (
-          <GenreCollectionCard key={genre.id} genre={genre} totalItems={genreMovies.length} />
+          <GenreCollectionCard key={genre.id} genre={genre} />
         ))}
       </Slider>
     );

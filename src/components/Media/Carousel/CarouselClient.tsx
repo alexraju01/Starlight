@@ -4,10 +4,10 @@ import clsx from 'clsx';
 import { useState, ReactNode, useCallback, useEffect, useRef } from 'react';
 
 import { useCarousel } from '@/context/CarouselContext';
+import { useSwipe } from '@/hooks/useSwipe';
 
 import CarouselControls from './CarouselControls';
 import CarouselDots from './CarouselDots';
-import { useCarouselSwipe } from './useCarouselSwipe';
 
 interface Props {
   children: ReactNode;
@@ -79,14 +79,13 @@ export default function CarouselClient({ children, itemCount }: Props) {
   // Position the drag started from, so grabbing a slide mid-animation doesn't make it jump.
   const dragOrigin = useRef(0);
 
-  const { isDragging, handlers: swipeHandlers } = useCarouselSwipe({
+  const { isDragging, handlers: swipeHandlers } = useSwipe({
     enabled: !isAnyVideoPlaying && itemCount > 1,
-    getWidth: () => trackRef.current?.offsetWidth ?? 1,
     onDragStart: () => {
       dragOrigin.current = visualPosition();
       layout(dragOrigin.current);
     },
-    onDrag: (slidesMoved) => layout(dragOrigin.current - slidesMoved),
+    onDrag: (dx) => layout(dragOrigin.current - dx / (trackRef.current?.offsetWidth || 1)),
     onRelease: (direction) => {
       const target = Math.round(dragOrigin.current) + direction;
       if (target === position)

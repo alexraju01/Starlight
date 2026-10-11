@@ -15,7 +15,8 @@ const CarouselControls = memo(function CarouselControls({ onPrev, onNext }: Prop
         'absolute z-2 flex h-fit justify-end gap-2.5 p-4 px-6',
         'top-5 right-5',
         'bottom-[0px] sm:top-auto sm:right-[25px] sm:w-auto sm:flex-row sm:px-12 md:bottom-[50px] md:pb-0',
-        'lg:right-[101px]',
+        // Right edge of the arrows on the page gutter.
+        'lg:right-[68px] lg:px-0 2xl:right-[101px]',
       )}
     >
       <button

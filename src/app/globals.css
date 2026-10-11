@@ -99,18 +99,6 @@
     }
   }
 
-  .slider-control-btn {
-    @apply flex items-center justify-center rounded-[4.72px] border-[1.15px] border-solid border-[#262626] bg-[#1A1A1A] hover:cursor-pointer lg:rounded-[6.1px] 2xl:rounded-[9px];
-
-    width: clamp(33px, 5vw, 64px);
-    height: clamp(33px, 5vw, 64px);
-  }
-
-  .slider-title {
-    @apply text-[22.63px] leading-[150%] font-normal lg:text-[29.28px] 2xl:text-[44px];
-    font-size: clamp(22.63px, 2.5vw, 44px);
-  }
-
   .carousel-mask-gradiant {
     -webkit-mask-image: linear-gradient(
       to top,

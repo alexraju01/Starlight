@@ -8,15 +8,14 @@ import { displayName } from '@/utils/stringUtils';
 
 interface GenreCollectionCardProps {
   genre: GenreWithMovies;
-  totalItems: number;
 }
 
-const GenreCollectionCard = ({ genre, totalItems }: GenreCollectionCardProps) => {
+/** Genre tile for the home page row: a 2×2 poster collage and the genre name. */
+const GenreCollectionCard = ({ genre }: GenreCollectionCardProps) => {
   return (
     <Link
       href={ROUTES.GENRE(genre.name)}
-      className="flex cursor-pointer flex-col gap-4 rounded-[13.75px] border-[1.15px] border-solid border-[#262626] bg-[#1A1A1A] px-[17px] pt-[17px] pb-[6px] transition hover:border-[#E50000] hover:bg-[#E500000F] xl:px-[34.39px] xl:pt-[34px] xl:pb-[12px]"
-      style={{ width: `${100 / totalItems}%` }}
+      className="flex h-full flex-col gap-[12px] rounded-[13.75px] border-[1.15px] border-solid border-[#262626] bg-[#1A1A1A] p-[12px] transition-colors hover:border-[#E50000] hover:bg-[#E500000F] lg:gap-[16px] lg:p-[16px]"
     >
       <div className="relative grid grid-cols-2 gap-[7px]">
         <div className="genre-gradient absolute inset-0 z-20 rounded-[9px]" />
@@ -26,6 +25,7 @@ const GenreCollectionCard = ({ genre, totalItems }: GenreCollectionCardProps) =>
               src={getImageUrl(movie.poster_path, 'poster', 'w185')}
               alt={displayName(movie)}
               fill
+              sizes="(min-width: 1024px) 10vw, (min-width: 768px) 13vw, 25vw"
               className="img-cover-center rounded-[11px]"
             />
           </div>

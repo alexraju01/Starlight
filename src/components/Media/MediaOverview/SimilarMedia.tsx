@@ -11,9 +11,8 @@ interface Props {
 
 /** Recommendations slider; also the target of the hero's "More like this" link. */
 const SimilarMedia = ({ mediaMode, id }: Props) => (
-  // The slider insets its header and cards by 5px; pull it out so it lines up with the
-  // other sections. scroll-mt keeps the heading clear of the fixed navbar.
-  <section id="similar" className="-mx-[5px] scroll-mt-[calc(var(--nav-h)+24px)]">
+  // scroll-mt keeps the heading clear of the fixed navbar.
+  <section id="similar" className="scroll-mt-[calc(var(--nav-h)+24px)]">
     <CustomSlider
       endpoint={`${mediaMode}/${id}/recommendations`}
       title={<SectionHeading>More like this</SectionHeading>}

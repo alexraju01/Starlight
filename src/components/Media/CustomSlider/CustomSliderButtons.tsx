@@ -1,63 +1,26 @@
 'use client';
 
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+
 type SliderButtonProps = {
   direction: 'left' | 'right';
   onClick: () => void;
   disabled?: boolean;
-  className?: string;
 };
 
-function CustomSliderButtons({
-  direction,
-  onClick,
-  disabled = false,
-  className = '',
-}: SliderButtonProps) {
+/** Round previous / next button for row sliders. */
+function CustomSliderButtons({ direction, onClick, disabled = false }: SliderButtonProps) {
+  const Icon = direction === 'left' ? ChevronLeft : ChevronRight;
+
   return (
     <button
       type="button"
-      aria-label={direction === 'left' ? 'Scroll to previous items' : 'Scroll to next items'}
+      aria-label={direction === 'left' ? 'Previous items' : 'Next items'}
       onClick={onClick}
       disabled={disabled}
-      className={`slider-control-btn text-gray-400 disabled:opacity-40 ${className}`}
+      className="flex size-[40px] items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-white transition-colors hover:border-white/30 hover:bg-white/15 disabled:cursor-default disabled:opacity-30 disabled:hover:border-white/15 disabled:hover:bg-white/[0.06] lg:size-[44px]"
     >
-      {direction === 'left' ? (
-        <svg
-          aria-hidden="true"
-          className="size-[16px] lg:h-[22px] lg:w-[23px] 2xl:h-[24px] 2xl:w-[28px]"
-          width="28"
-          height="24"
-          viewBox="0 0 28 22"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M21.7488 10.9999L1.69043 10.9999M1.69043 10.9999L10.7167 20.0262M1.69043 10.9999L10.7167 1.97363"
-            stroke="white"
-            strokeWidth="2.29239"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      ) : (
-        <svg
-          aria-hidden="true"
-          className="size-[16px] lg:h-[22px] lg:w-[23px] 2xl:h-[24px] 2xl:w-[28px]"
-          width="28"
-          height="24"
-          viewBox="0 0 28 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M15.9125 1.9707L25.9417 11.9999M25.9417 11.9999L15.9125 22.0291M25.9417 11.9999H1.87164"
-            stroke="white"
-            strokeWidth="2.29239"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      )}
+      <Icon aria-hidden="true" className="size-[20px]" />
     </button>
   );
 }

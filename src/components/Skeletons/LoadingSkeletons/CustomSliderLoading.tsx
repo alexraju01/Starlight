@@ -1,33 +1,27 @@
-import React from 'react';
+const bar = 'animate-pulse rounded-[8px] bg-white/[0.07]';
 
-const SkeletonCard = () => (
-  <div className="aspect-[2/3] w-full animate-pulse rounded-lg bg-[#1f1f1f]" />
-);
-
+/** Placeholder for a row slider: heading + a page of poster cards (widths follow the breakpoints). */
 export default function CustomSliderSkeleton() {
   return (
-    <div className="mb-10 flex w-full flex-col gap-[18px] py-6 text-white">
-      {/* Title and nav buttons */}
+    <div aria-hidden="true" className="flex flex-col gap-[16px] lg:gap-[20px]">
       <div className="flex items-center justify-between">
-        <div className="block h-[1.6em] w-[200px] animate-pulse rounded bg-gray-700" />
-        <div className="flex gap-2.5 px-4 py-2">
-          <div className="h-9 w-9 animate-pulse rounded-full bg-[#2a2a2a]" />
-          <div className="h-9 w-9 animate-pulse rounded-full bg-[#2a2a2a]" />
+        <div className={`${bar} h-[26px] w-[200px]`} />
+        <div className="hidden gap-[8px] sm:flex">
+          <div className={`${bar} size-[40px] rounded-full lg:size-[44px]`} />
+          <div className={`${bar} size-[40px] rounded-full lg:size-[44px]`} />
         </div>
       </div>
-
-      {/* Slider Track with padding and scroll safety */}
-      <div className="relative w-full px-3 sm:px-6">
-        <div className="flex gap-[16px] overflow-x-hidden">
-          {Array.from({ length: 7 }).map((_, idx) => (
-            <div
-              key={idx}
-              className={`w-[calc(50%-8px)] flex-shrink-0 sm:w-[calc(33.333%-10.67px)] md:w-[calc(25%-12px)] lg:w-[calc(25%-12px)] xl:w-[calc(20%-12.8px)] 2xl:w-[calc(16.666%-13.33px)]`}
-            >
-              <SkeletonCard />
-            </div>
-          ))}
-        </div>
+      <div className="flex gap-[16px] overflow-hidden">
+        {Array.from({ length: 6 }, (_, i) => (
+          <div
+            key={i}
+            className="border-card-stroke bg-card-bg w-[calc((100%-16px)/2)] shrink-0 rounded-[10.92px] border p-[12px] sm:w-[calc((100%-32px)/3)] md:w-[calc((100%-48px)/4)] xl:w-[calc((100%-64px)/5)] 2xl:w-[calc((100%-80px)/6)]"
+          >
+            <div className={`${bar} aspect-[2/3] rounded-[10.92px]`} />
+            <div className={`${bar} mt-[16px] h-[14px] w-3/4`} />
+            <div className={`${bar} mt-[10px] h-[12px] w-1/2`} />
+          </div>
+        ))}
       </div>
     </div>
   );
