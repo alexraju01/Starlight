@@ -8,12 +8,10 @@ const VELOCITY_WINDOW_MS = 100;
 
 interface Options {
   enabled: boolean;
-  /** Width of one slide, used to turn pixels dragged into slides moved. */
-  getWidth: () => number;
   /** Called once when a horizontal drag locks in, before the first `onDrag`. */
-  onDragStart: () => void;
-  /** Places the slides for a fractional position while the pointer moves. */
-  onDrag: (slidesMoved: number) => void;
+  onDragStart?: () => void;
+  /** Pixels dragged since the drag started (negative = towards the next item). */
+  onDrag: (dx: number) => void;
   /** Called on release: -1 = previous, 1 = next, 0 = snap back. */
   onRelease: (direction: -1 | 0 | 1) => void;
 }
@@ -27,10 +25,11 @@ interface DragState {
 }
 
 /**
- * Swipe (touch) and click-and-drag (mouse) via pointer events. Locks to an axis on the first
- * real movement so vertical page scrolling still works.
+ * Swipe (touch) and click-and-drag (mouse) via pointer events, used by the hero carousel
+ * and the row sliders. Locks to an axis on the first real movement so vertical page
+ * scrolling still works (pair it with `touch-action: pan-y`).
  */
-export function useCarouselSwipe({ enabled, getWidth, onDragStart, onDrag, onRelease }: Options) {
+export function useSwipe({ enabled, onDragStart, onDrag, onRelease }: Options) {
   const [isDragging, setIsDragging] = useState(false);
   const drag = useRef<DragState | null>(null);
   const didDrag = useRef(false);
@@ -61,7 +60,7 @@ export function useCarouselSwipe({ enabled, getWidth, onDragStart, onDrag, onRel
       // Measure from here so the dead zone above doesn't make the slide jump.
       state.x = e.clientX;
       setIsDragging(true);
-      onDragStart();
+      onDragStart?.();
       // Keep receiving moves even if the mouse leaves the carousel mid-drag.
       e.currentTarget.setPointerCapture(e.pointerId);
     }
@@ -78,7 +77,7 @@ export function useCarouselSwipe({ enabled, getWidth, onDragStart, onDrag, onRel
     if (!frame.current) {
       frame.current = requestAnimationFrame(() => {
         frame.current = 0;
-        onDrag(pendingDx.current / (getWidth() || 1));
+        onDrag(pendingDx.current);
       });
     }
   };

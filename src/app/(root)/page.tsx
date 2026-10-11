@@ -8,15 +8,16 @@ const Home = () => {
   return (
     <>
       <Carousel mediaMode={MediaMode.MOVIE} />
-      <section className="relative overflow-hidden sm:mt-15">
+      <section className="relative overflow-hidden">
         <BlurBackground />
 
-        <div className="px-2 md:mx-6 lg:mx-[68px] 2xl:mx-[101px]">
+        <div className="page-gutter relative flex flex-col gap-[40px] pt-[32px] pb-[48px] lg:gap-[56px] lg:pt-[48px] lg:pb-[72px]">
           <GenreCollection />
           <SliderBoundary message="Failed to load trending movies.">
             <CustomSlider
               endpoint={ENDPOINTS.TRENDING_MOVIES}
               title="Trending Movies"
+              href="/movie"
               mediaMode={MediaMode.MOVIE}
             />
           </SliderBoundary>
@@ -24,6 +25,7 @@ const Home = () => {
             <CustomSlider
               endpoint={ENDPOINTS.POPULAR_MOVIES}
               title="Popular Movies"
+              href="/movie"
               mediaMode={MediaMode.MOVIE}
             />
           </SliderBoundary>
@@ -31,6 +33,7 @@ const Home = () => {
             <CustomSlider
               endpoint={ENDPOINTS.TRENDING_TV}
               title="Trending TV Shows"
+              href="/tv"
               mediaMode={MediaMode.TV}
             />
           </SliderBoundary>

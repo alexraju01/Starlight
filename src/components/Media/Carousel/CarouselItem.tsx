@@ -111,7 +111,8 @@ export default function CarouselItem({ movie, genres, priority, mediaMode }: Car
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent min-[840px]:hidden" />
       )}
 
-      <div className="absolute inset-x-[25px] bottom-0 z-10 max-w-screen space-y-4 lg:left-[102px] lg:w-[854px]">
+      {/* Same horizontal gutter as the rest of the page (.page-gutter). */}
+      <div className="absolute inset-x-[16px] bottom-0 z-10 max-w-screen space-y-4 sm:inset-x-[24px] lg:left-[68px] lg:w-[854px] 2xl:left-[101px]">
         <div
           className={clsx(
             'space-y-4 transition-all duration-500 ease-in-out',

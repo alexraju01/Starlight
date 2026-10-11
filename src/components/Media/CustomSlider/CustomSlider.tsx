@@ -5,14 +5,18 @@ import { api } from '@/utils/api';
 
 import CustomSliderClient from './CustomSliderClient';
 
+import type { Route } from 'next';
+
 interface Props {
   endpoint: string;
   title: ReactNode;
+  /** "See all" destination. */
+  href?: Route;
   mediaMode: MediaMode;
   breakpoints?: { max: number; value: number }[];
 }
 
-const CustomSlider = async ({ endpoint, title, mediaMode, breakpoints }: Props) => {
+const CustomSlider = async ({ endpoint, title, href, mediaMode, breakpoints }: Props) => {
   const [media, { genresMap }] = await Promise.all([
     api.media.getSliderData(mediaMode, endpoint),
     api.genre.getGenres(mediaMode),
@@ -25,6 +29,7 @@ const CustomSlider = async ({ endpoint, title, mediaMode, breakpoints }: Props) 
     <CustomSliderClient
       media={media}
       title={title}
+      href={href}
       mediaMode={mediaMode}
       genres={genresMap}
       breakpoints={breakpoints}
