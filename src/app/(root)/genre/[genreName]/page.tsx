@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import Image from 'next/image';
+import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 
 import GenreMediaList from '@/components/Genre/GenreMediaList';
@@ -35,11 +36,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { genreName } = await params;
   const { foundGenre } = await getGenreData(genreName);
 
-  if (!foundGenre) {
-    return {
-      title: 'Genre Not Found – Starlight',
-    };
-  }
+  if (!foundGenre) notFound();
 
   const genreTitle = foundGenre.name;
 
@@ -50,12 +47,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     ? `https://image.tmdb.org/t/p/w780${backdrop.backdrop_path}`
     : undefined;
 
-  const title = `${genreTitle} Movies & TV Shows – Starlight`;
+  // The root layout template already appends "| Starlight".
+  const title = `${genreTitle} Movies & TV Shows`;
   const description = `Explore the best ${genreTitle} movies and TV shows on Starlight. Discover trending, popular, and top-rated ${genreTitle} content.`;
 
   return {
     title,
     description,
+    alternates: { canonical: `/genre/${genreName}` },
     keywords: [`${genreTitle} movies`, `${genreTitle} tv shows`, `${genreTitle} genre`],
     openGraph: {
       title,
@@ -75,13 +74,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 async function GenreContent({ genreSlug }: { genreSlug: string }) {
   const { foundGenre, movieGenres, tvGenres } = await getGenreData(genreSlug);
 
-  if (!foundGenre) {
-    return (
-      <div className="flex h-96 items-center justify-center">
-        <h2 className="text-2xl font-semibold">Genre not found</h2>
-      </div>
-    );
-  }
+  if (!foundGenre) notFound();
 
   const genreId = foundGenre.id;
   const genreName = foundGenre.name;
@@ -104,7 +97,7 @@ async function GenreContent({ genreSlug }: { genreSlug: string }) {
   const backgroundMedia =
     combineRelatedMedia.find((m) => m.backdrop_path) || combineRelatedMedia[0];
   const backgroundImage = backgroundMedia?.backdrop_path
-    ? `https://image.tmdb.org/t/p/original${backgroundMedia.backdrop_path}`
+    ? `https://image.tmdb.org/t/p/w1280${backgroundMedia.backdrop_path}`
     : null;
 
   return (
@@ -113,7 +106,7 @@ async function GenreContent({ genreSlug }: { genreSlug: string }) {
         <div className="pointer-events-none fixed top-0 left-0 z-0 h-screen w-full">
           <Image
             src={backgroundImage}
-            alt={genreName}
+            alt=""
             fill
             priority
             className="object-cover"

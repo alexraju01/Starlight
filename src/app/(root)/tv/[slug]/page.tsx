@@ -2,35 +2,37 @@ import { Metadata } from 'next';
 import { Suspense } from 'react';
 
 import { MediaOverview } from '@/components';
-import Spinner from '@/components/Skeletons/LoadingSkeletons/Spinner/Spinner';
-import { TVShow } from '@/types/global';
+import { Spinner } from '@/components/Skeletons/LoadingSkeletons';
 import { MediaMode } from '@/types/mediaMode';
-import { api } from '@/utils/api';
+import {
+  buildMediaJsonLd,
+  buildMediaMetadata,
+  getMediaOrNotFound,
+  jsonLdString,
+} from '@/utils/mediaPage';
 
-interface TVPageParams {
+interface PageProps {
   params: Promise<{ slug: string }>;
 }
-export async function generateMetadata({ params }: TVPageParams): Promise<Metadata> {
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const show = (await api.media.getOneMedia(MediaMode.TV, slug)) as TVShow;
-
-  return {
-    title: `${show.name} – TV Show Details`,
-    description:
-      show.overview?.slice(0, 160) ||
-      'Explore details, cast, and similiar shows for this TV show on Starlight.',
-
-    keywords: [show.name, 'tv show', 'tv details'],
-  };
+  const media = await getMediaOrNotFound(MediaMode.TV, slug);
+  return buildMediaMetadata(media, MediaMode.TV);
 }
 
-export default async function TVDetailsPage({ params }: TVPageParams) {
+export default async function DetailsPage({ params }: PageProps) {
   const { slug } = await params;
+  const media = await getMediaOrNotFound(MediaMode.TV, slug);
 
   return (
     <section className="h-full w-full">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdString(buildMediaJsonLd(media, MediaMode.TV)) }}
+      />
       <Suspense fallback={<Spinner />}>
-        <MediaOverview params={slug} mediaMode={MediaMode.TV} />
+        <MediaOverview media={media} mediaMode={MediaMode.TV} />
       </Suspense>
     </section>
   );

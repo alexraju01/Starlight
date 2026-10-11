@@ -7,14 +7,14 @@ import CustomSlider from '../CustomSlider/CustomSlider';
 
 interface Props {
   mediaMode: MediaMode;
-  params: string;
+  id: number;
 }
-const SimilarMedia = async ({ mediaMode, params }: Props) => {
+const SimilarMedia = async ({ mediaMode, id }: Props) => {
   const textChanger = mediaMode === 'tv' ? 'TV Shows' : 'Movies';
   return (
     <section className="mb-20 w-full text-[1.8rem]">
       <CustomSlider
-        endpoint={`${mediaMode}/${params}/recommendations`}
+        endpoint={`${mediaMode}/${id}/recommendations`}
         title={<SectionHeading icon={Icons.play}>{`Similar ${textChanger}`}</SectionHeading>}
         mediaMode={mediaMode}
         breakpoints={DISCOVER_BREAKPOINTS}

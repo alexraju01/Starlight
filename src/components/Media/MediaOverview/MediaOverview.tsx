@@ -1,49 +1,46 @@
+import { Suspense } from 'react';
+
 import GoBack from '@/components/Navigation/GoBack';
-import { CastMember, MediaMode } from '@/types';
+import CustomSliderSkeleton from '@/components/Skeletons/LoadingSkeletons/CustomSliderLoading';
+import { MediaMode } from '@/types';
 import { MediaWithDetails } from '@/types/global';
-import { fetchData } from '@/utils';
+import { api } from '@/utils/api';
 
 import { Seasons, SimilarMedia } from '.';
 import MediaBackdrop from './MediaBackdrop';
 import MediaDetailsPanel from './MediaDetailsPanel';
 import CastContainer from '../CastContainer/CastContainer';
+import SliderBoundary from '../CustomSlider/SliderBoundary';
 
 interface Props {
-  params: string;
+  media: MediaWithDetails;
   mediaMode: MediaMode.TV | MediaMode.MOVIE;
 }
 
-async function fetchMediaData(params: string, mediaMode: MediaMode.TV | MediaMode.MOVIE) {
-  try {
-    const [mediaDetails, credits] = await Promise.all([
-      fetchData<MediaWithDetails>('3', `/${mediaMode}/${params}`),
-      fetchData<{ cast: CastMember[] }>('3', `/${mediaMode}/${params}/credits`),
-    ]);
-
-    if (mediaDetails) {
-      mediaDetails.media_type = mediaMode;
-    }
-    return { mediaDetails, credits };
-  } catch (error) {
-    console.error('Error fetching media data:', error);
-    return { mediaDetails: null, credits: { cast: [] } };
-  }
+async function Cast({ media, mediaMode }: Props) {
+  const cast = await api.media.getAllActors(mediaMode, media.id);
+  return <CastContainer castList={cast.slice(0, 10)} />;
 }
 
-export default async function MediaOverview({ params, mediaMode }: Props) {
-  const { mediaDetails, credits } = await fetchMediaData(params, mediaMode);
-  if (!mediaDetails) return <div>Error loading media details.</div>;
-
+export default function MediaOverview({ media, mediaMode }: Props) {
   return (
     <>
-      <MediaBackdrop media={mediaDetails} />
+      <MediaBackdrop media={media} />
       <GoBack />
       <div className="px-6 md:px-12">
-        <MediaDetailsPanel media={mediaDetails} mediaMode={mediaMode} />
+        <MediaDetailsPanel media={media} mediaMode={mediaMode} />
 
-        {mediaDetails.media_type === MediaMode.TV && <Seasons seasons={mediaDetails.seasons} />}
-        <CastContainer castList={credits.cast.slice(0, 10)} />
-        <SimilarMedia mediaMode={mediaMode} params={params} />
+        {media.media_type === MediaMode.TV && <Seasons seasons={media.seasons} />}
+
+        <Suspense fallback={null}>
+          <Cast media={media} mediaMode={mediaMode} />
+        </Suspense>
+
+        <SliderBoundary message="Failed to load recommendations.">
+          <Suspense fallback={<CustomSliderSkeleton />}>
+            <SimilarMedia mediaMode={mediaMode} id={media.id} />
+          </Suspense>
+        </SliderBoundary>
       </div>
     </>
   );
