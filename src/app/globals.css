@@ -110,6 +110,42 @@
     );
   }
 
+  /*
+   * Hero carousel (see CarouselClient for --pos / --i / --slide).
+   * --offset is this slide's distance from the centre, clamped to -1…1.
+   */
+  .carousel-slide {
+    --offset: clamp(-1, calc(var(--i, 0) - var(--pos, 0)), 1);
+  }
+
+  /* Backdrop drifts against the slide's movement, so it travels slower than its frame. */
+  .carousel-parallax {
+    transform: translateX(calc(var(--offset) * -10%));
+  }
+
+  .carousel-slide,
+  .carousel-parallax {
+    transition: transform 500ms ease-out;
+  }
+
+  [data-dragging] .carousel-slide,
+  [data-dragging] .carousel-parallax {
+    transition: none;
+  }
+
+  @media (max-width: 639.98px) {
+    /* Mobile: rounded cards; neighbours sit slightly smaller as they peek in. */
+    .carousel-slide {
+      border-radius: 24px;
+      transform: scale(calc(1 - 0.08 * max(var(--offset), -1 * var(--offset))));
+    }
+
+    .carousel-slide .carousel-mask-gradiant {
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
+  }
+
   .line-clamp-3-custom {
     display: -webkit-box;
     -webkit-box-orient: vertical;

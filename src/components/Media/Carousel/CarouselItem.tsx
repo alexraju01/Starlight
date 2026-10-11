@@ -66,7 +66,7 @@ export default function CarouselItem({ movie, genres, priority, mediaMode }: Car
   const detailsHref = ROUTES.MEDIA(mediaMode, movie.id, title);
 
   return (
-    <li className="flex-evenly relative h-full w-full flex-shrink-0 overflow-hidden">
+    <li className="carousel-slide flex-evenly relative h-full w-[var(--slide)] flex-shrink-0 overflow-hidden max-sm:bg-[#1a1a1a]">
       {isPlaying ? (
         <MediaVideoPlayer
           videoKey={videoKey!}
@@ -77,15 +77,22 @@ export default function CarouselItem({ movie, genres, priority, mediaMode }: Car
           isCarousel={true}
         />
       ) : (
-        <Image
-          src={backdropSrc}
-          fill
-          sizes="100vw"
-          alt=""
-          className="img-cover-center carousel-mask-gradiant brightness-[80%]"
-          priority={priority}
-          loading={priority ? undefined : 'lazy'}
-        />
+        <>
+          {/* Wider than the slide so it can drift for the parallax effect. */}
+          <div className="carousel-parallax absolute inset-y-0 -left-[15%] w-[130%]">
+            <Image
+              src={backdropSrc}
+              fill
+              sizes="(max-width: 640px) 120vw, 130vw"
+              alt=""
+              className="img-cover-center carousel-mask-gradiant brightness-[80%]"
+              priority={priority}
+              loading={priority ? undefined : 'lazy'}
+            />
+          </div>
+          {/* Mobile cards fade to black inside the card rather than into the page. */}
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent sm:hidden" />
+        </>
       )}
 
       <div className="absolute inset-x-[25px] bottom-0 z-10 max-w-screen space-y-4 lg:left-[102px] lg:w-[854px]">
