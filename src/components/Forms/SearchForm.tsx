@@ -1,19 +1,30 @@
 'use client';
 
-import { Loader2, Search } from 'lucide-react';
+import { Loader2, Search, X } from 'lucide-react';
+import { useRef } from 'react';
 
 interface Props {
   query: string;
   onChangeAction: (value: string) => void;
   onSubmitAction: () => void;
+  onClearAction: () => void;
   isPending?: boolean;
 }
 
-export function SearchForm({ query, onChangeAction, onSubmitAction, isPending = false }: Props) {
+/** Large search field for the discover page: live results, Enter to search now, one-tap clear. */
+export function SearchForm({
+  query,
+  onChangeAction,
+  onSubmitAction,
+  onClearAction,
+  isPending = false,
+}: Props) {
+  const inputRef = useRef<HTMLInputElement>(null);
+
   return (
     <form
       role="search"
-      className="animate-fadeIn relative w-full max-w-[60rem]"
+      className="relative w-full max-w-[720px]"
       onSubmit={(e) => {
         e.preventDefault();
         onSubmitAction();
@@ -24,9 +35,10 @@ export function SearchForm({ query, onChangeAction, onSubmitAction, isPending = 
       </label>
       <Search
         aria-hidden="true"
-        className="pointer-events-none absolute top-1/2 left-6 size-6 -translate-y-1/2 text-[#878d98]"
+        className="pointer-events-none absolute top-1/2 left-[20px] size-[20px] -translate-y-1/2 text-white/45"
       />
       <input
+        ref={inputRef}
         id="discover-search"
         type="search"
         value={query}
@@ -35,15 +47,27 @@ export function SearchForm({ query, onChangeAction, onSubmitAction, isPending = 
         autoComplete="off"
         enterKeyHint="search"
         // 16px+ prevents iOS Safari from zooming the page on focus.
-        className="h-20 w-full rounded-full border border-solid border-white/20 bg-[#100f10] pr-36 pl-16 text-[18px] text-white transition-all duration-300 placeholder:text-[#6b6f78] hover:shadow-[0_0_12px_rgba(255,255,255,0.4)] focus:shadow-[0_0_12px_rgba(255,255,255,0.6)] focus:outline-none sm:h-24 [&::-webkit-search-cancel-button]:hidden"
+        className="h-[56px] w-full rounded-[14px] border border-white/12 bg-white/[0.04] pr-[96px] pl-[52px] text-[16px] text-white transition-[border-color,background-color,box-shadow] duration-200 placeholder:text-white/40 hover:border-white/25 focus:border-white/40 focus:bg-white/[0.06] focus:shadow-[0_0_0_4px_rgba(255,255,255,0.06)] focus:outline-none lg:h-[64px] lg:text-[18px] [&::-webkit-search-cancel-button]:hidden"
       />
-      <button
-        type="submit"
-        className="absolute top-1/2 right-2 flex h-[calc(100%-1rem)] -translate-y-1/2 items-center gap-2 rounded-full bg-white/10 px-6 text-[16px] font-medium text-white transition-colors hover:bg-white/20"
-      >
-        {isPending ? <Loader2 className="size-5 animate-spin" aria-hidden="true" /> : null}
-        Search
-      </button>
+
+      <div className="absolute top-1/2 right-[12px] flex -translate-y-1/2 items-center gap-[4px]">
+        {isPending && (
+          <Loader2 aria-hidden="true" className="size-[18px] animate-spin text-white/60" />
+        )}
+        {query && (
+          <button
+            type="button"
+            onClick={() => {
+              onClearAction();
+              inputRef.current?.focus();
+            }}
+            aria-label="Clear search"
+            className="flex size-[36px] items-center justify-center rounded-full text-white/60 transition-colors hover:bg-white/10 hover:text-white"
+          >
+            <X aria-hidden="true" className="size-[18px]" />
+          </button>
+        )}
+      </div>
     </form>
   );
 }
