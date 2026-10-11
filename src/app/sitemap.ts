@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/constants/site';
 import { slugify } from '@/utils';
 import { api } from '@/utils/api';
 
@@ -5,66 +6,34 @@ import type { MetadataRoute } from 'next';
 
 export const revalidate = 86400; // 24h
 
+/** How many paginated movie / TV sitemaps are exposed (20 titles each). */
+export const MEDIA_SITEMAP_PAGES = 100;
+
+/** Child sitemaps — advertised in robots.txt (a <urlset> must not list other sitemaps). */
+export const mediaSitemapUrls = () =>
+  (['movies', 'tv'] as const).flatMap((type) =>
+    Array.from({ length: MEDIA_SITEMAP_PAGES }, (_, i) => `${SITE_URL}/sitemap/${type}/${i + 1}.xml`),
+  );
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://www.starlightdiscover.co.uk';
-
+  const now = new Date();
   const { movieGenres, tvGenres } = await api.genre.getAllGenres();
-  const allGenres = [...movieGenres, ...tvGenres];
 
-  const uniqueGenres = Array.from(new Map(allGenres.map((g) => [slugify(g.name), g])).values());
+  const uniqueGenreSlugs = new Set([...movieGenres, ...tvGenres].map((g) => slugify(g.name)));
 
-  const genreUrls = uniqueGenres.map((genre) => ({
-    url: `${baseUrl}/genre/${slugify(genre.name)}`,
-    lastModified: new Date(),
+  const genreUrls = [...uniqueGenreSlugs].map((slug) => ({
+    url: `${SITE_URL}/genre/${slug}`,
+    lastModified: now,
     changeFrequency: 'weekly' as const,
     priority: 0.7,
   }));
 
-  // 🔥 control how many sitemap pages you expose
-  const totalMoviePages = 100;
-  const totalTvPages = 100;
-
-  const movieSitemaps = Array.from({ length: totalMoviePages }, (_, i) => ({
-    url: `${baseUrl}/sitemap/movies/${i + 1}.xml`,
-    lastModified: new Date(),
-  }));
-
-  const tvSitemaps = Array.from({ length: totalTvPages }, (_, i) => ({
-    url: `${baseUrl}/sitemap/tv/${i + 1}.xml`,
-    lastModified: new Date(),
-  }));
-
   return [
-    {
-      url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: 'daily',
-      priority: 1,
-    },
-    {
-      url: `${baseUrl}/movie`,
-      lastModified: new Date(),
-      changeFrequency: 'daily',
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/tv`,
-      lastModified: new Date(),
-      changeFrequency: 'daily',
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/genre`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.6,
-    },
-
-    // ✅ genre pages
+    { url: SITE_URL, lastModified: now, changeFrequency: 'daily', priority: 1 },
+    { url: `${SITE_URL}/movie`, lastModified: now, changeFrequency: 'daily', priority: 0.8 },
+    { url: `${SITE_URL}/tv`, lastModified: now, changeFrequency: 'daily', priority: 0.8 },
+    { url: `${SITE_URL}/genre`, lastModified: now, changeFrequency: 'weekly', priority: 0.6 },
+    { url: `${SITE_URL}/discover`, lastModified: now, changeFrequency: 'monthly', priority: 0.4 },
     ...genreUrls,
-
-    // 🔥 scalable movie + tv sitemap links
-    ...movieSitemaps,
-    ...tvSitemaps,
   ];
 }
