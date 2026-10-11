@@ -9,27 +9,17 @@ import { LoadingSkeletons } from '@/components/Skeletons/LoadingSkeletons';
 import { MediaMode } from '@/types';
 import { slugify } from '@/utils';
 import { api } from '@/utils/api';
+import { getImageUrl } from '@/utils/image/getImageUrl';
 
 interface Props {
   params: Promise<{ genreName: string }>;
 }
 
-/**
- * HELPER: Centralized genre lookup to avoid code duplication
- * Next.js automatically deduplicates fetch requests, but manually
- * handling this ensures we don't trigger unnecessary logic.
- */
+/** Finds the genre for a URL slug (shared by the metadata and the page). */
 async function getGenreData(genreSlug: string) {
-  const { movieGenres, tvGenres } = await api.genre.getAllGenres();
-  const allGenresList = [...movieGenres, ...tvGenres];
-  const foundGenre = allGenresList.find((g) => slugify(g.name) === genreSlug);
-
-  return {
-    foundGenre,
-    allGenresList,
-    movieGenres,
-    tvGenres,
-  };
+  const { movieGenres, tvGenres, genresMap } = await api.genre.getAllGenres();
+  const foundGenre = [...movieGenres, ...tvGenres].find((g) => slugify(g.name) === genreSlug);
+  return { foundGenre, genresMap };
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -41,11 +31,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const genreTitle = foundGenre.name;
 
   const movies = await api.media.getMedia(MediaMode.MOVIE, 1, [foundGenre.id]);
-  const backdrop = movies.find((m) => m.backdrop_path);
-
-  const image = backdrop?.backdrop_path
-    ? `https://image.tmdb.org/t/p/w780${backdrop.backdrop_path}`
-    : undefined;
+  const image =
+    getImageUrl(movies.find((m) => m.backdrop_path)?.backdrop_path, 'backdrop', 'w780') ||
+    undefined;
 
   // The root layout template already appends "| Starlight".
   const title = `${genreTitle} Movies & TV Shows`;
@@ -72,33 +60,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 async function GenreContent({ genreSlug }: { genreSlug: string }) {
-  const { foundGenre, movieGenres, tvGenres } = await getGenreData(genreSlug);
+  const { foundGenre, genresMap } = await getGenreData(genreSlug);
 
   if (!foundGenre) notFound();
 
-  const genreId = foundGenre.id;
-  const genreName = foundGenre.name;
-
-  const genreMap: Record<number, string> = {};
-  [...movieGenres, ...tvGenres].forEach((genre) => {
-    genreMap[genre.id] = genre.name;
-  });
-
-  const [genreRelatedMovies, genreRelatedTv] = await Promise.all([
-    api.media.getMedia(MediaMode.MOVIE, 1, [genreId]),
-    api.media.getMedia(MediaMode.TV, 1, [genreId]),
-  ]);
-
-  const combineRelatedMedia = [
-    ...genreRelatedMovies.map((m) => ({ ...m, media_type: MediaMode.MOVIE })),
-    ...genreRelatedTv.map((m) => ({ ...m, media_type: MediaMode.TV })),
-  ];
-
-  const backgroundMedia =
-    combineRelatedMedia.find((m) => m.backdrop_path) || combineRelatedMedia[0];
-  const backgroundImage = backgroundMedia?.backdrop_path
-    ? `https://image.tmdb.org/t/p/w1280${backgroundMedia.backdrop_path}`
-    : null;
+  const { id: genreId, name: genreName } = foundGenre;
+  const media = await api.media.getGenreMedia(genreId);
+  const backgroundImage = getImageUrl(
+    media.find((m) => m.backdrop_path)?.backdrop_path,
+    'backdrop',
+    'w1280',
+  );
 
   return (
     <>
@@ -124,7 +96,7 @@ async function GenreContent({ genreSlug }: { genreSlug: string }) {
       </div>
 
       <div className="content-container relative z-10 pb-20">
-        <GenreMediaList initialMedia={combineRelatedMedia} genreId={genreId} genreMap={genreMap} />
+        <GenreMediaList initialMedia={media} genreId={genreId} genreMap={genresMap} />
       </div>
     </>
   );

@@ -9,6 +9,7 @@ import { MediaWithDetails } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
 
 import { api } from './api';
+import { getMediaDate } from './date/formatDate';
 import { getImageUrl } from './image/getImageUrl';
 import { displayName } from './stringUtils';
 
@@ -38,12 +39,9 @@ export const getMediaOrNotFound = cache(
   },
 );
 
-const releaseDateOf = (media: MediaWithDetails) =>
-  media.media_type === MediaMode.MOVIE ? media.release_date : media.first_air_date;
-
 export function buildMediaMetadata(media: MediaWithDetails, mediaMode: DetailMode): Metadata {
   const name = displayName(media);
-  const year = releaseDateOf(media)?.slice(0, 4);
+  const year = getMediaDate(media)?.slice(0, 4);
   const kind = mediaMode === MediaMode.MOVIE ? 'Movie' : 'TV Show';
   const title = `${name}${year ? ` (${year})` : ''} – ${kind} Details`;
   const description =
@@ -83,7 +81,7 @@ export function buildMediaJsonLd(media: MediaWithDetails, mediaMode: DetailMode)
     url: `${SITE_URL}${ROUTES.MEDIA(mediaMode, media.id, name)}`,
     description: media.overview || undefined,
     image: getImageUrl(media.poster_path, 'poster', 'w500') || undefined,
-    datePublished: releaseDateOf(media) || undefined,
+    datePublished: getMediaDate(media) || undefined,
     genre: media.genres?.map((g) => g.name),
     ...(media.media_type === MediaMode.TV && media.number_of_seasons
       ? { numberOfSeasons: media.number_of_seasons }

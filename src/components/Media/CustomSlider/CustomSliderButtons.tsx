@@ -1,7 +1,5 @@
 'use client';
 
-import React from 'react';
-
 type SliderButtonProps = {
   direction: 'left' | 'right';
   onClick: () => void;
@@ -21,7 +19,7 @@ function CustomSliderButtons({
       aria-label={direction === 'left' ? 'Scroll to previous items' : 'Scroll to next items'}
       onClick={onClick}
       disabled={disabled}
-      className={`slider-control-btn ${'text-gray-400 disabled:opacity-40'} ${className}`}
+      className={`slider-control-btn text-gray-400 disabled:opacity-40 ${className}`}
     >
       {direction === 'left' ? (
         <svg

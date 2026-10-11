@@ -13,7 +13,7 @@ import { MediaMode } from '@/types/mediaMode';
 import { SearchMedia } from '@/types/searchMedia';
 import { capitalize, dateConverter } from '@/utils';
 import { getImageUrl } from '@/utils/image/getImageUrl';
-import getSearch from '@/utils/serverActions/getSearch';
+import { searchMediaAction } from '@/utils/serverActions/media';
 
 interface Props {
   id?: string;
@@ -37,7 +37,7 @@ export default function SearchCard({ id, query }: Props) {
     // Ignore responses that arrive after the user has typed something newer.
     let cancelled = false;
 
-    getSearch(trimmedQuery)
+    searchMediaAction(trimmedQuery)
       .then((results: SearchMedia[]) => {
         if (!cancelled) setState({ query: trimmedQuery, results, status: 'done' });
       })

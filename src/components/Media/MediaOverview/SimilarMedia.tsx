@@ -9,13 +9,14 @@ interface Props {
   mediaMode: MediaMode;
   id: number;
 }
-const SimilarMedia = async ({ mediaMode, id }: Props) => {
-  const textChanger = mediaMode === 'tv' ? 'TV Shows' : 'Movies';
+
+const SimilarMedia = ({ mediaMode, id }: Props) => {
+  const kind = mediaMode === MediaMode.TV ? 'TV Shows' : 'Movies';
   return (
     <section className="mb-20 w-full text-[1.8rem]">
       <CustomSlider
         endpoint={`${mediaMode}/${id}/recommendations`}
-        title={<SectionHeading icon={Icons.play}>{`Similar ${textChanger}`}</SectionHeading>}
+        title={<SectionHeading icon={Icons.play}>{`Similar ${kind}`}</SectionHeading>}
         mediaMode={mediaMode}
         breakpoints={DISCOVER_BREAKPOINTS}
       />

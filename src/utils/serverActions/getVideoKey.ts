@@ -14,16 +14,11 @@ export async function getVideoKey(mediaType: 'movie' | 'tv', id: number): Promis
       cache: { type: 'revalidate', seconds: 60 * 60 * 24 },
     });
 
-    if (!data?.results) return null;
-    let trailer = data.results.find(
-      (video) => video.type === 'Trailer' && video.site === 'YouTube',
-    );
+    // Prefer the official trailer, fall back to a teaser.
+    const youTubeVideo = (type: string) =>
+      data?.results?.find((video) => video.type === type && video.site === 'YouTube');
 
-    if (!trailer) {
-      trailer = data.results.find((video) => video.type === 'Teaser' && video.site === 'YouTube');
-    }
-
-    return trailer?.key ?? null;
+    return (youTubeVideo('Trailer') ?? youTubeVideo('Teaser'))?.key ?? null;
   } catch (err) {
     console.error('Failed to fetch video key:', err);
     return null;

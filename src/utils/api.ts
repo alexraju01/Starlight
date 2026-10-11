@@ -7,10 +7,16 @@ import {
   MovieWithLogos,
 } from '@/types';
 import { APIResponse, MediaWithDetails, TVShow } from '@/types/global';
-import { fetchData } from './fetchData';
 
+import { fetchData } from './fetchData';
 import { getImageUrl } from './image/getImageUrl';
 import { getTvSeasons } from './serverActions/tvSeason';
+
+const HOUR = 60 * 60;
+const DAY = 24 * HOUR;
+
+const toGenreMap = (genres: Genre[]): Record<number, string> =>
+  Object.fromEntries(genres.map(({ id, name }) => [id, name]));
 
 async function attachTvSeasonData<T extends TVShow>(items: T[]): Promise<MediaWithDetails[]> {
   return Promise.all(
@@ -26,9 +32,20 @@ async function attachTvSeasonData<T extends TVShow>(items: T[]): Promise<MediaWi
   );
 }
 
+/** Tags list results with their media type (TV shows also get their season count). */
+const withMediaType = (
+  mediaMode: MediaMode,
+  results: APIResponse['results'],
+): Promise<MediaWithDetails[]> =>
+  mediaMode === MediaMode.TV
+    ? attachTvSeasonData(results as TVShow[])
+    : Promise.resolve(
+        results.map((item) => ({ ...item, media_type: mediaMode })) as MediaWithDetails[],
+      );
+
 export const api = {
   media: {
-    search: async (query: string, page = 1) => {
+    search: async (query: string, page = 1): Promise<MediaWithDetails[]> => {
       const { results } = await fetchData<APIResponse>('3', 'search/multi', {
         query: {
           // URLSearchParams already encodes – encoding here as well double-encoded the query.
@@ -37,14 +54,16 @@ export const api = {
           include_adult: 'false',
           language: 'en-US',
         },
-        cache: { type: 'revalidate', seconds: 60 * 60 },
+        cache: { type: 'revalidate', seconds: HOUR },
       });
 
-      return results.filter(
-        (item) =>
-          (item.media_type === 'movie' || item.media_type === 'tv') &&
-          (item.poster_path || item.backdrop_path),
-      );
+      return results
+        .filter(
+          (item) =>
+            (item.media_type === 'movie' || item.media_type === 'tv') &&
+            (item.poster_path || item.backdrop_path),
+        )
+        .map((item) => ({ ...item, genre_ids: item.genre_ids ?? [] }));
     },
 
     getMedia: async (mediaMode: MediaMode, page = 1, withGenres?: number[]) => {
@@ -56,14 +75,19 @@ export const api = {
 
       const { results } = await fetchData<APIResponse>('3', `discover/${mediaMode}`, {
         query,
-        cache: { type: 'revalidate', seconds: 60 * 60 },
+        cache: { type: 'revalidate', seconds: HOUR },
       });
 
-      if (mediaMode === MediaMode.TV) {
-        return attachTvSeasonData(results as TVShow[]);
-      }
+      return withMediaType(mediaMode, results);
+    },
 
-      return results.map((item) => ({ ...item, media_type: mediaMode })) as MediaWithDetails[];
+    /** Movies followed by TV shows for one genre. */
+    getGenreMedia: async (genreId: number, page = 1) => {
+      const [movies, tvShows] = await Promise.all([
+        api.media.getMedia(MediaMode.MOVIE, page, [genreId]),
+        api.media.getMedia(MediaMode.TV, page, [genreId]),
+      ]);
+      return [...movies, ...tvShows];
     },
 
     getOneMedia: async (
@@ -72,13 +96,11 @@ export const api = {
     ): Promise<MediaWithDetails | null> => {
       try {
         const details = await fetchData<MediaWithDetails>('3', `${mediaMode}/${id}`, {
-          cache: { type: 'revalidate', seconds: 60 * 60 * 24 },
+          cache: { type: 'revalidate', seconds: DAY },
         });
 
         if (details) {
           details.media_type = mediaMode as MediaMode.MOVIE | MediaMode.TV;
-          // Ensure TV shows have season data attached if missing
-
           if (mediaMode === MediaMode.TV) {
             details.number_of_seasons =
               details.number_of_seasons ?? (await getTvSeasons(Number(id))) ?? undefined;
@@ -96,9 +118,7 @@ export const api = {
         const { cast } = await fetchData<{ cast: CastMember[] }>(
           '3',
           `${mediaMode}/${id}/credits`,
-          {
-            cache: { type: 'revalidate', seconds: 60 * 60 * 24 },
-          },
+          { cache: { type: 'revalidate', seconds: DAY } },
         );
         return cast || [];
       } catch (error) {
@@ -109,13 +129,10 @@ export const api = {
 
     getSliderData: async (mediaMode: MediaMode, endpoint: string): Promise<MediaWithDetails[]> => {
       const { results } = await fetchData<APIResponse>('3', endpoint, {
-        cache: { type: 'revalidate', seconds: 60 * 60 * 24 },
+        cache: { type: 'revalidate', seconds: DAY },
       });
-      if (mediaMode === MediaMode.TV) {
-        return attachTvSeasonData(results as TVShow[]);
-      }
 
-      return results.map((item) => ({ ...item, media_type: mediaMode })) as MediaWithDetails[];
+      return withMediaType(mediaMode, results);
     },
 
     getTrending: async (mediaMode: MediaMode, page = 1, time: 'day' | 'week' = 'day') => {
@@ -132,7 +149,7 @@ export const api = {
         const { logos } = await fetchData<{ logos: { file_path: string; iso_639_1: string }[] }>(
           '3',
           `${mediaMode}/${mediaId}/images`,
-          { cache: { type: 'revalidate', seconds: 60 * 60 } },
+          { cache: { type: 'revalidate', seconds: HOUR } },
         );
 
         const logo = logos?.find((l) => l.iso_639_1 === 'en') ?? logos?.[0];
@@ -147,21 +164,19 @@ export const api = {
   genre: {
     getGenres: async (mediaMode: string) => {
       const data = await fetchData<GenreResponse>('3', `genre/${mediaMode}/list`, {
-        cache: { type: 'revalidate', seconds: 60 * 60 * 24 },
+        cache: { type: 'revalidate', seconds: DAY },
       });
 
-      return {
-        genres: data.genres,
-        genresMap: Object.fromEntries(data.genres.map(({ id, name }) => [id, name])),
-      };
+      return { genres: data.genres, genresMap: toGenreMap(data.genres) };
     },
 
+    /** Movie + TV genres, plus one id → name map covering both. */
     getAllGenres: async () => {
       const [{ genres: movieGenres }, { genres: tvGenres }] = await Promise.all([
         api.genre.getGenres('movie'),
         api.genre.getGenres('tv'),
       ]);
-      return { movieGenres, tvGenres };
+      return { movieGenres, tvGenres, genresMap: toGenreMap([...movieGenres, ...tvGenres]) };
     },
 
     fetchGenreMovies: async (genre: Genre, seenMovieIds: Set<number>): Promise<GenreWithMovies> => {
@@ -181,9 +196,7 @@ export const api = {
     getGenreCollection: async (): Promise<GenreWithMovies[]> => {
       const { genres } = await api.genre.getGenres('movie');
       const seenMovieIds = new Set<number>();
-      return await Promise.all(
-        genres.map((genre) => api.genre.fetchGenreMovies(genre, seenMovieIds)),
-      );
+      return Promise.all(genres.map((genre) => api.genre.fetchGenreMovies(genre, seenMovieIds)));
     },
   },
 };

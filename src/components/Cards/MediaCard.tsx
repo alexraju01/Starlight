@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import { Movie, TVShow } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
 import { SearchMedia } from '@/types/searchMedia';
+import { getImageUrl } from '@/utils/image/getImageUrl';
 
 interface Props {
   media: Movie | TVShow | SearchMedia;
@@ -33,7 +34,7 @@ const MediaCard = ({ media, className }: Props) => {
 
       <Image
         className={`h-auto w-full transition-opacity duration-300 ease-in-out ${isLoaded ? 'opacity-100' : 'opacity-0'} relative z-[2] rounded-xl shadow-md`}
-        src={poster_path ? `https://image.tmdb.org/t/p/w342${poster_path}` : '/images/logo.webp'}
+        src={getImageUrl(poster_path, 'poster', 'w342') || '/images/logo.webp'}
         width={342}
         height={513}
         alt={displayName ?? 'Poster'}

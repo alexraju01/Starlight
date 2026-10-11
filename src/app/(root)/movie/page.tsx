@@ -1,10 +1,7 @@
 import { Metadata } from 'next';
-import { Suspense } from 'react';
 
-import MediaList from '@/components/Media/MediaList';
-import { LoadingSkeletons } from '@/components/Skeletons/LoadingSkeletons';
+import BrowseMediaPage from '@/components/Media/BrowseMediaPage';
 import { MediaMode } from '@/types/mediaMode';
-import { api } from '@/utils/api';
 
 export const metadata: Metadata = {
   title: 'Movies – Discover Popular & Trending Films',
@@ -23,37 +20,12 @@ export const metadata: Metadata = {
   ],
 };
 
-async function MovieContent() {
-  const [movies, genres] = await Promise.all([
-    api.media.getMedia(MediaMode.MOVIE),
-    api.genre.getGenres(MediaMode.MOVIE),
-  ]);
-
-  return (
-    <MediaList initialMedia={movies} initialGenres={genres.genresMap} mediaMode={MediaMode.MOVIE} />
-  );
-}
 export default function MoviesPage() {
   return (
-    <section className="animate-fadeIn text-white">
-      {/* Hero / Header */}
-      <div className="relative border-b border-white/5 bg-gradient-to-b from-red-900/10 to-transparent py-16">
-        <div className="content-container">
-          <h1 className="text-4xl font-black tracking-tight uppercase md:text-6xl">
-            Browse <span className="text-primary">Movies</span>
-          </h1>
-          <p className="mt-4 max-w-xl text-lg text-slate-400">
-            Discover blockbusters, hidden gems, and timeless classics — all in one place.
-          </p>
-        </div>
-      </div>
-
-      {/* Content */}
-      <section className="content-container">
-        <Suspense fallback={<LoadingSkeletons />}>
-          <MovieContent />
-        </Suspense>
-      </section>
-    </section>
+    <BrowseMediaPage
+      mediaMode={MediaMode.MOVIE}
+      heading="Movies"
+      tagline="Discover blockbusters, hidden gems, and timeless classics — all in one place."
+    />
   );
 }

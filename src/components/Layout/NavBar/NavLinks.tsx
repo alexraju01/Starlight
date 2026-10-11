@@ -21,7 +21,7 @@ const NavLinks = ({ onLinkClick, className = '' }: NavLinksProps) => {
         return (
           <li key={link.href}>
             <Link
-              href={link.href as any}
+              href={link.href}
               aria-current={isActive ? 'page' : undefined}
               onClick={onLinkClick}
               className={`font-Helvetica inline-block cursor-pointer rounded-md px-4 py-2.5 text-[16px] whitespace-nowrap transition-all duration-300 ease-in-out xl:px-6 xl:py-[14px] xl:text-[18px] ${isActive ? 'bg-primary text-white' : 'text-[#BFBFBF] hover:text-white'} `}

@@ -5,7 +5,6 @@ export { default as RatingIcon } from './ui/RatingIcon/RatingIcon';
 
 // Layout
 export { default as NavBar } from './Layout/NavBar/NavBar';
-export { default as Sidebar } from './Layout/Sidebar/Sidebar';
 export { default as Footer } from './Layout/Footer/Footer';
 
 // Media components

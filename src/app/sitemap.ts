@@ -12,7 +12,10 @@ export const MEDIA_SITEMAP_PAGES = 100;
 /** Child sitemaps — advertised in robots.txt (a <urlset> must not list other sitemaps). */
 export const mediaSitemapUrls = () =>
   (['movies', 'tv'] as const).flatMap((type) =>
-    Array.from({ length: MEDIA_SITEMAP_PAGES }, (_, i) => `${SITE_URL}/sitemap/${type}/${i + 1}.xml`),
+    Array.from(
+      { length: MEDIA_SITEMAP_PAGES },
+      (_, i) => `${SITE_URL}/sitemap/${type}/${i + 1}.xml`,
+    ),
   );
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

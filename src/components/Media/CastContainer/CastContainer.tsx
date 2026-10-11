@@ -1,14 +1,14 @@
+import SectionHeading from '@/components/Navigation/SectionHeading';
+import ImageWithFallback from '@/components/Skeletons/BrokenImage/ImageWithFallback';
 import { CastMember } from '@/types/cast';
-
-import Icons from '../../../utils/icons';
-import SectionHeading from '../../Navigation/SectionHeading';
-import ImageWithFallback from '../../Skeletons/BrokenImage/ImageWithFallback';
+import Icons from '@/utils/icons';
+import { getImageUrl } from '@/utils/image/getImageUrl';
 
 interface Props {
   castList: CastMember[];
 }
 
-export default async function CastContainer({ castList }: Props) {
+export default function CastContainer({ castList }: Props) {
   if (!castList?.length) return null;
 
   return (
@@ -23,7 +23,7 @@ export default async function CastContainer({ castList }: Props) {
           >
             <div className="relative mb-4 h-[clamp(7rem,8vw,10rem)] w-[clamp(7rem,8vw,10rem)]">
               <ImageWithFallback
-                src={cast.profile_path ? `https://image.tmdb.org/t/p/w185${cast.profile_path}` : ''}
+                src={getImageUrl(cast.profile_path, 'profile', 'w185')}
                 alt={cast.name}
                 className="rounded-full transition-transform duration-300 ease-in-out hover:scale-110"
               />

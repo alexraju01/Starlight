@@ -16,3 +16,11 @@ export const CAROUSEL_BREAKPOINTS = [
   { max: 1536, value: 5 },
   { max: 1980, value: 6 },
 ];
+
+/** "Our Genres" collection on the home page (5 per screen above 1000px). */
+export const GENRE_COLLECTION_BREAKPOINTS = [
+  { max: 500, value: 2 },
+  { max: 768, value: 3 },
+  { max: 1000, value: 4 },
+  { max: Infinity, value: 5 },
+];

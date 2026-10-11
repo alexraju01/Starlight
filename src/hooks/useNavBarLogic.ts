@@ -90,7 +90,6 @@ export const useNavBarLogic = () => {
     isSearchOpen,
     toggleMobileNav,
     toggleSearch,
-    closeAll,
     refs: {
       searchWrapperRef,
       searchButtonRef,

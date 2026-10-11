@@ -3,10 +3,10 @@
 import { Search, X } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState, useRef, useEffect, useCallback, useId } from 'react';
+import { useDebounce } from 'use-debounce';
 
 import SearchCard from '@/components/Cards/SearchCard/SearchCard';
 import { ROUTES } from '@/constants/route';
-import { useDebounce } from '@/hooks/useDebounce';
 
 interface Props {
   autoFocus?: boolean;
@@ -16,7 +16,7 @@ export default function SearchBox({ autoFocus = false }: Props) {
   const [search, setSearch] = useState('');
   const [isOpen, setIsOpen] = useState(false);
 
-  const debouncedSearch = useDebounce(search, 300);
+  const [debouncedSearch] = useDebounce(search, 300);
   const router = useRouter();
   const pathname = usePathname();
   const containerRef = useRef<HTMLDivElement>(null);
