@@ -1,5 +1,6 @@
 'use server';
 
+import { parseSort } from '@/constants/browse';
 import { MediaWithDetails } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
 import { api } from '@/utils/api';
@@ -9,11 +10,19 @@ import { MAX_PAGE, MAX_QUERY_LENGTH, isMediaMode, isPositiveInt } from './valida
 export async function getMoreMediaAction(
   mediaMode: MediaMode,
   page: number,
+  genreId?: number,
+  sort?: string,
 ): Promise<MediaWithDetails[]> {
   if (!isMediaMode(mediaMode) || !isPositiveInt(page, MAX_PAGE)) return [];
+  if (genreId !== undefined && !isPositiveInt(genreId)) return [];
 
   try {
-    return await api.media.getMedia(mediaMode, page);
+    return await api.media.getMedia(
+      mediaMode,
+      page,
+      genreId ? [genreId] : undefined,
+      parseSort(sort),
+    );
   } catch (error) {
     console.error('Server Action Error:', error);
     return [];
