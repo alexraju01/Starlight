@@ -1,6 +1,7 @@
 'use client';
 
 import { AlignJustify, X, Search } from 'lucide-react';
+import { useEffect, useRef } from 'react';
 
 import { Button } from '@/components/ui/button';
 import SearchBox from '@/components/ui/SearchBox/SearchBox';
@@ -16,10 +17,27 @@ const NavBar = () => {
   const { isMobileNavOpen, setIsMobileNavOpen, isSearchOpen, toggleMobileNav, toggleSearch, refs } =
     useNavBarLogic();
   useTrackInAppNavigation();
+  const barRef = useRef<HTMLDivElement>(null);
+
+  // Publish the bar's real height as --nav-h so the page offset and full-height
+  // sections (hero carousel) line up exactly with the bottom of the navbar.
+  // Measures the bar only, not the mobile overlays, so opening them doesn't shift the page.
+  useEffect(() => {
+    const bar = barRef.current;
+    if (!bar) return;
+    const observer = new ResizeObserver(() => {
+      document.documentElement.style.setProperty('--nav-h', `${bar.offsetHeight}px`);
+    });
+    observer.observe(bar);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <header className="fixed top-0 left-0 z-50 w-full bg-[#100F10]">
-      <div className="relative flex w-full flex-col items-start justify-between gap-4 px-6 py-4 md:flex-row md:items-center md:gap-10 lg:px-10">
+      <div
+        ref={barRef}
+        className="relative flex w-full flex-col items-start justify-between gap-4 px-6 py-4 md:flex-row md:items-center md:gap-10 lg:px-10"
+      >
         <MobileControls>
           {/* 1. Mobile Menu Toggle */}
           <Button

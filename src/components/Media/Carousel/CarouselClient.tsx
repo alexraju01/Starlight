@@ -162,7 +162,7 @@ export default function CarouselClient({ children, itemCount }: Props) {
       aria-roledescription="carousel"
       aria-label="Trending this week"
       data-dragging={isDragging || undefined}
-      className="group/carousel relative flex cursor-grab [touch-action:pan-y] flex-col overflow-hidden pt-4 pb-2 select-none data-[dragging]:cursor-grabbing sm:h-[700px] sm:p-0 md:h-[calc(100svh-87px)] md:max-h-[1100px]"
+      className="group/carousel relative flex h-[calc(100svh-var(--nav-h))] cursor-grab [touch-action:pan-y] flex-col overflow-hidden pb-2 select-none data-[dragging]:cursor-grabbing sm:p-0 md:max-h-[1100px]"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       onFocusCapture={() => setIsPaused(true)}
@@ -181,7 +181,7 @@ export default function CarouselClient({ children, itemCount }: Props) {
         aria-live={isPaused ? 'polite' : 'off'}
         onClick={onTrackClick}
         className={clsx(
-          'flex h-[min(540px,72svh)] w-full gap-[var(--gap)] sm:h-full',
+          'flex min-h-0 w-full flex-1 gap-[var(--gap)]',
           '[--gap:12px] [--slide:86%] sm:[--gap:0px] sm:[--slide:100%]',
           'transition-transform duration-500 ease-out group-data-[dragging]/carousel:transition-none',
         )}

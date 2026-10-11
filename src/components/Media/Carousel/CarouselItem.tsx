@@ -60,8 +60,8 @@ export default function CarouselItem({ movie, genres, priority, mediaMode }: Car
     setIsMuted((prev) => !prev);
   };
 
-  // w1280 instead of `original` (often 3840px / several MB, and images are unoptimized).
-  const backdropSrc = getImageUrl(movie.backdrop_path, 'backdrop', 'w1280');
+  // Full-resolution backdrop for the hero (large file – images are unoptimized).
+  const backdropSrc = getImageUrl(movie.backdrop_path, 'backdrop', 'original');
   const title = displayName(movie);
   const detailsHref = ROUTES.MEDIA(mediaMode, movie.id, title);
 
