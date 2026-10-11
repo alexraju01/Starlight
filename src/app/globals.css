@@ -6,6 +6,22 @@
     @apply m-0 box-border list-none border-none p-0 no-underline outline-none;
   }
 
+  /* Navbar height. NavBar overwrites this with the measured value after hydration;
+     these are close estimates so the first paint doesn't jump. */
+  :root {
+    --nav-h: 59px;
+  }
+  @media (min-width: 1024px) {
+    :root {
+      --nav-h: 70px;
+    }
+  }
+  @media (min-width: 1280px) {
+    :root {
+      --nav-h: 87px;
+    }
+  }
+
   html {
     font-size: 62.5%;
     -webkit-text-size-adjust: 100%;

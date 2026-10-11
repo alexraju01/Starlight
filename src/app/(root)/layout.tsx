@@ -7,7 +7,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
       <main
         id="main-content"
         tabIndex={-1}
-        className="bg-secondary mt-20 w-full flex-1 overflow-x-clip focus:outline-none lg:mt-[70px] xl:mt-[87px]"
+        className="bg-secondary mt-[var(--nav-h)] w-full flex-1 overflow-x-clip focus:outline-none"
       >
         {children}
       </main>
