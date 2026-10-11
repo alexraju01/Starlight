@@ -7,6 +7,8 @@ import { useMemo } from 'react';
 
 import { stripLeadingSlash, validRoutes } from '@/utils';
 
+import type { Route } from 'next';
+
 export default function NotFound() {
   const pathname = usePathname();
   const cleanPath = stripLeadingSlash(pathname);
@@ -36,7 +38,7 @@ export default function NotFound() {
           <p className="text-xl text-gray-400">
             Did you mean{' '}
             <Link
-              href={`/${suggestion}` as any}
+              href={`/${suggestion}` as Route}
               className="font-semibold text-lime-400 underline transition-colors duration-200 ease-in-out hover:text-white"
             >
               /{suggestion}

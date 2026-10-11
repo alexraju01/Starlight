@@ -64,9 +64,7 @@ export default function DiscoverClient({ results, genreMap, initialQuery }: Prop
         <h1 className="animate-fadeIn text-4xl font-bold text-white md:text-5xl">
           Discover movies &amp; TV shows
         </h1>
-        <p className="text-[16px] text-slate-400">
-          Search by title — results update as you type.
-        </p>
+        <p className="text-[16px] text-slate-400">Search by title — results update as you type.</p>
       </div>
 
       <SearchForm

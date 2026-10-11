@@ -13,7 +13,7 @@ interface Props {
 }
 
 const CustomSlider = async ({ endpoint, title, mediaMode, breakpoints }: Props) => {
-  const [media, { genres }] = await Promise.all([
+  const [media, { genresMap }] = await Promise.all([
     api.media.getSliderData(mediaMode, endpoint),
     api.genre.getGenres(mediaMode),
   ]);
@@ -21,14 +21,12 @@ const CustomSlider = async ({ endpoint, title, mediaMode, breakpoints }: Props) 
   // e.g. a title with no recommendations – don't render an empty section.
   if (media.length === 0) return null;
 
-  const genreMap = Object.fromEntries(genres.map(({ id, name }) => [id, name]));
-
   return (
     <CustomSliderClient
       media={media}
       title={title}
       mediaMode={mediaMode}
-      genres={genreMap}
+      genres={genresMap}
       breakpoints={breakpoints}
     />
   );

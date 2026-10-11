@@ -4,6 +4,7 @@ import { HiRectangleStack } from 'react-icons/hi2';
 
 import { useMediaContext } from '@/context/MediaContext';
 import { MediaWithDetails } from '@/types/global';
+import { MediaMode } from '@/types/mediaMode';
 
 interface Props {
   item: MediaWithDetails;
@@ -13,8 +14,7 @@ const SeasonBadge = ({ item }: Props) => {
   const { mediaMode } = useMediaContext();
 
   const seasons = item.number_of_seasons;
-
-  if (mediaMode !== 'tv' || !seasons) return null;
+  if (mediaMode !== MediaMode.TV || !seasons) return null;
 
   return (
     <div className="flex truncate md:text-lg">

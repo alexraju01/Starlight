@@ -10,8 +10,7 @@ import { fetchData } from './fetchData';
 /** TMDB's discover endpoint never returns more than 500 pages. */
 const MAX_TMDB_PAGE = 500;
 
-const escapeXml = (value: string) =>
-  value.replace(/[<>&'"]/g, (c) => `&#${c.charCodeAt(0)};`);
+const escapeXml = (value: string) => value.replace(/[<>&'"]/g, (c) => `&#${c.charCodeAt(0)};`);
 
 /**
  * Parses the `[page]` segment. Sitemap index links use `/sitemap/movies/1.xml`,

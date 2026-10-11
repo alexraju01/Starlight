@@ -11,10 +11,7 @@ const Footer = () => {
           <ul className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
             {links.map((link) => (
               <li key={link.href}>
-                <Link
-                  href={link.href as never}
-                  className="transition-colors hover:text-white"
-                >
+                <Link href={link.href} className="transition-colors hover:text-white">
                   {link.name}
                 </Link>
               </li>

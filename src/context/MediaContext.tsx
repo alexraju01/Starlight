@@ -1,5 +1,5 @@
 'use client';
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useMemo } from 'react';
 
 import { MediaMode } from '@/types/mediaMode';
 
@@ -21,5 +21,6 @@ interface MediaProviderProps extends MediaContextProps {
 }
 
 export const MediaProvider = ({ children, mediaMode, genres }: MediaProviderProps) => {
-  return <MediaContext.Provider value={{ mediaMode, genres }}>{children}</MediaContext.Provider>;
+  const value = useMemo(() => ({ mediaMode, genres }), [mediaMode, genres]);
+  return <MediaContext.Provider value={value}>{children}</MediaContext.Provider>;
 };

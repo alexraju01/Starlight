@@ -27,16 +27,7 @@ export default async function DiscoverPage({
   const { search } = await searchParams;
   const query = (Array.isArray(search) ? search[0] : search)?.trim() ?? '';
 
-  const [results, genreMap] = await Promise.all([
-    searchMediaAction(query),
-    getAllGenresAction(),
-  ]);
+  const [results, genreMap] = await Promise.all([searchMediaAction(query), getAllGenresAction()]);
 
-  return (
-    <DiscoverClient
-      results={results}
-      genreMap={genreMap}
-      initialQuery={query}
-    />
-  );
+  return <DiscoverClient results={results} genreMap={genreMap} initialQuery={query} />;
 }

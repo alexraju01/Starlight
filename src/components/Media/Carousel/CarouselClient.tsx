@@ -89,7 +89,8 @@ export default function CarouselClient({ children, itemCount }: Props) {
     onDrag: (slidesMoved) => layout(dragOrigin.current - slidesMoved),
     onRelease: (direction) => {
       const target = Math.round(dragOrigin.current) + direction;
-      if (target === position) layout(position); // snap back
+      if (target === position)
+        layout(position); // snap back
       else setPosition(target);
     },
   });

@@ -5,9 +5,7 @@ export { default as Icons } from './icons';
 // '@/utils/api' or '@/utils/fetchData' inside server code only.
 export * from './genre';
 export * from './icons';
-export * from './isEdgeIndex';
 export * from './routes';
-export * from './sleep';
 export * from './stringUtils';
 
 export * from './date';

@@ -5,7 +5,7 @@ import { RatingIcon } from '@/components/ui';
 import { ROUTES } from '@/constants/route';
 import { Genre, MediaMode } from '@/types';
 import { MediaWithDetails } from '@/types/global';
-import { dateConverter, displayRuntime } from '@/utils';
+import { dateConverter, displayRuntime, getMediaDate } from '@/utils';
 import { displayName } from '@/utils/stringUtils';
 
 import SeasonEpisodeInfo from './SeasonEpisodeInfo';
@@ -17,8 +17,8 @@ interface Props {
 
 export default function MediaDetailsPanel({ media, mediaMode }: Props) {
   const { overview, vote_average, genres } = media;
-  const releaseDate =
-    media.media_type === MediaMode.MOVIE ? media.release_date : media.first_air_date;
+  const releaseDate = getMediaDate(media);
+
   return (
     <div className="pt-[30%] xl:box-border xl:flex xl:h-[calc(100vh-100px)] xl:w-[50rem] xl:flex-col xl:justify-end xl:pt-0 xl:pb-[10rem] xl:pl-12">
       <h1 className="mb-8 text-center text-[3.5rem] font-bold drop-shadow-[2px_5px_5px_black]">

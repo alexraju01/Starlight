@@ -13,9 +13,7 @@ export async function getMoreMediaAction(
   if (!isMediaMode(mediaMode) || !isPositiveInt(page, MAX_PAGE)) return [];
 
   try {
-    const results = await api.media.getMedia(mediaMode, page);
-
-    return results as MediaWithDetails[];
+    return await api.media.getMedia(mediaMode, page);
   } catch (error) {
     console.error('Server Action Error:', error);
     return [];
@@ -26,21 +24,14 @@ export async function fetchGenreMedia(genreId: number, page: number) {
   if (!isPositiveInt(genreId) || !isPositiveInt(page, MAX_PAGE)) return [];
 
   try {
-    const [newMovies, newTv] = await Promise.all([
-      api.media.getMedia(MediaMode.MOVIE, page, [genreId]),
-      api.media.getMedia(MediaMode.TV, page, [genreId]),
-    ]);
-
-    return [
-      ...newMovies.map((m) => ({ ...m, media_type: MediaMode.MOVIE })),
-      ...newTv.map((m) => ({ ...m, media_type: MediaMode.TV })),
-    ];
+    return await api.media.getGenreMedia(genreId, page);
   } catch (error) {
     console.error('Action error:', error);
     return [];
   }
 }
 
+/** Used by the navbar dropdown and the discover page. */
 export async function searchMediaAction(query: string) {
   if (typeof query !== 'string') return [];
   const trimmed = query.trim().slice(0, MAX_QUERY_LENGTH);
@@ -56,14 +47,8 @@ export async function searchMediaAction(query: string) {
 
 export async function getAllGenresAction() {
   try {
-    const { movieGenres, tvGenres } = await api.genre.getAllGenres();
-
-    const genreMap: Record<number, string> = {};
-    [...movieGenres, ...tvGenres].forEach((g) => {
-      genreMap[g.id] = g.name;
-    });
-
-    return genreMap;
+    const { genresMap } = await api.genre.getAllGenres();
+    return genresMap;
   } catch (error) {
     console.error('Failed to fetch all genres for map:', error);
     return {};

@@ -10,8 +10,7 @@ import { useMediaContext } from '@/context/MediaContext';
 import { MediaMode } from '@/types';
 import { MediaWithDetails } from '@/types/global';
 import { formatGenres } from '@/utils';
-import { formatDate } from '@/utils/date';
-import { getMediaDate } from '@/utils/date/formatDate';
+import { formatDate, getMediaDate } from '@/utils/date';
 import { getVideoKey } from '@/utils/serverActions/getVideoKey';
 
 import { MediaCardInfo } from './MediaCardInfo';

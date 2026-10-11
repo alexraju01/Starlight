@@ -1,11 +1,3 @@
-// ONLY export the siblings that MediaOverview uses.
-// Do NOT export MediaOverview itself here.
-
+// Siblings used by MediaOverview (MediaOverview itself is imported directly to avoid a cycle).
 export { default as Seasons } from './Seasons';
-export { default as SeasonsCard } from './SeasonsCard';
-export { default as SeasonEpisodeInfo } from './SeasonEpisodeInfo';
 export { default as SimilarMedia } from './SimilarMedia';
-
-// If you have types to share from these files, you can also:
-// export type { SeasonsProps } from './Seasons';
-// export type { SeasonEpisodeInfoProps } from './SeasonEpisodeInfo';

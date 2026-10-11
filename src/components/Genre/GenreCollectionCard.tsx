@@ -3,9 +3,8 @@ import Link from 'next/link';
 
 import { ROUTES } from '@/constants/route';
 import { GenreWithMovies } from '@/types/genre';
+import { getImageUrl } from '@/utils/image/getImageUrl';
 import { displayName } from '@/utils/stringUtils';
-
-const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w185';
 
 interface GenreCollectionCardProps {
   genre: GenreWithMovies;
@@ -24,7 +23,7 @@ const GenreCollectionCard = ({ genre, totalItems }: GenreCollectionCardProps) =>
         {genre.movies?.slice(0, 4).map((movie) => (
           <div key={movie.id} className="relative z-10 aspect-[0.8]">
             <Image
-              src={`${IMAGE_BASE_URL}${movie.poster_path}`}
+              src={getImageUrl(movie.poster_path, 'poster', 'w185')}
               alt={displayName(movie)}
               fill
               className="img-cover-center rounded-[11px]"
