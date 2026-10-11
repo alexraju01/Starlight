@@ -7,7 +7,7 @@ import {
   MovieWithLogos,
 } from '@/types';
 import { APIResponse, MediaWithDetails, TVShow } from '@/types/global';
-import { fetchData } from '@/utils';
+import { fetchData } from './fetchData';
 
 import { getImageUrl } from './image/getImageUrl';
 import { getTvSeasons } from './serverActions/tvSeason';
@@ -31,11 +31,13 @@ export const api = {
     search: async (query: string, page = 1) => {
       const { results } = await fetchData<APIResponse>('3', 'search/multi', {
         query: {
-          query: encodeURIComponent(query),
+          // URLSearchParams already encodes – encoding here as well double-encoded the query.
+          query,
           page,
           include_adult: 'false',
           language: 'en-US',
         },
+        cache: { type: 'revalidate', seconds: 60 * 60 },
       });
 
       return results.filter(
@@ -69,7 +71,7 @@ export const api = {
       id: string | number,
     ): Promise<MediaWithDetails | null> => {
       try {
-        const details = await fetchData<MediaWithDetails>('3', `/${mediaMode}/${id}`, {
+        const details = await fetchData<MediaWithDetails>('3', `${mediaMode}/${id}`, {
           cache: { type: 'revalidate', seconds: 60 * 60 * 24 },
         });
 
@@ -93,7 +95,7 @@ export const api = {
       try {
         const { cast } = await fetchData<{ cast: CastMember[] }>(
           '3',
-          `/${mediaMode}/${id}/credits`,
+          `${mediaMode}/${id}/credits`,
           {
             cache: { type: 'revalidate', seconds: 60 * 60 * 24 },
           },

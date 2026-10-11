@@ -10,7 +10,7 @@ import {
 import { ROUTES } from '@/constants/route';
 import { APIResponse, Media } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
-import { fetchData } from '@/utils';
+import { fetchData } from '@/utils/fetchData';
 import { displayName } from '@/utils/stringUtils';
 
 import MediaCard from '../Cards/MediaCard';

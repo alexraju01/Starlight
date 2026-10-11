@@ -4,7 +4,7 @@ import { Suspense } from 'react';
 import MediaList from '@/components/Media/MediaList';
 import { LoadingSkeletons } from '@/components/Skeletons/LoadingSkeletons';
 import { MediaMode } from '@/types/mediaMode';
-import { api } from '@/utils';
+import { api } from '@/utils/api';
 
 export const metadata: Metadata = {
   title: 'Movies – Discover Popular & Trending Films',

@@ -3,7 +3,8 @@ import { Suspense } from 'react';
 
 import { GenreCard } from '@/components/Genre/GenreCollection';
 import { GenreSkeleton } from '@/components/Skeletons/LoadingSkeletons';
-import { api, GenreKey, Icons } from '@/utils';
+import { GenreKey, Icons } from '@/utils';
+import { api } from '@/utils/api';
 
 export const metadata: Metadata = {
   title: 'Genres – Browse Movies & TV Categories',
