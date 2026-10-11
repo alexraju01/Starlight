@@ -1,7 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
-import Image from 'next/image';
+import Image, { getImageProps } from 'next/image';
 import { useState, useTransition, useEffect } from 'react';
 
 import { MediaVideoPlayer } from '@/components/Cards/MediaCard2/MediaVideoPlayer';
@@ -60,13 +60,29 @@ export default function CarouselItem({ movie, genres, priority, mediaMode }: Car
     setIsMuted((prev) => !prev);
   };
 
-  // Full-resolution backdrop for the hero (large file – images are unoptimized).
+  // Full-resolution art for the hero (large files – images are unoptimized).
+  // Below 840px the slide is roughly poster-shaped, so it shows the portrait poster;
+  // from 840px (16:9) it shows the landscape backdrop.
   const backdropSrc = getImageUrl(movie.backdrop_path, 'backdrop', 'original');
+  const posterSrc = getImageUrl(movie.poster_path, 'poster', 'original');
   const title = displayName(movie);
   const detailsHref = ROUTES.MEDIA(mediaMode, movie.id, title);
 
+  const imageCommon = {
+    alt: '',
+    fill: true,
+    priority,
+    loading: priority ? undefined : ('lazy' as const),
+  };
+  const desktopImage = getImageProps({ ...imageCommon, src: backdropSrc, sizes: '100vw' }).props;
+  const { srcSet: mobileSrcSet, ...mobileImage } = getImageProps({
+    ...imageCommon,
+    src: posterSrc || backdropSrc,
+    sizes: '100vw',
+  }).props;
+
   return (
-    <li className="carousel-slide flex-evenly relative h-full w-[var(--slide)] flex-shrink-0 overflow-hidden max-sm:bg-[#1a1a1a]">
+    <li className="carousel-slide flex-evenly absolute inset-0 overflow-hidden max-[840px]:bg-[#1a1a1a]">
       {isPlaying ? (
         <MediaVideoPlayer
           videoKey={videoKey!}
@@ -78,20 +94,21 @@ export default function CarouselItem({ movie, genres, priority, mediaMode }: Car
         />
       ) : (
         <>
-          {/* Wider than the slide so it can drift for the parallax effect. */}
-          <div className="carousel-parallax absolute inset-y-0 -left-[15%] w-[130%]">
-            <Image
-              src={backdropSrc}
-              fill
-              sizes="(max-width: 640px) 120vw, 130vw"
-              alt=""
-              className="img-cover-center carousel-mask-gradiant brightness-[80%]"
-              priority={priority}
-              loading={priority ? undefined : 'lazy'}
-            />
+          {/* Same size as the slide (no zoom); it drifts for the parallax effect. */}
+          <div className="carousel-parallax absolute inset-0">
+            {/* <picture> so each device downloads only the image it shows. */}
+            <picture>
+              <source media="(min-width: 840px)" srcSet={desktopImage.srcSet ?? desktopImage.src} />
+              <img
+                {...mobileImage}
+                srcSet={mobileSrcSet ?? mobileImage.src}
+                alt=""
+                className="img-cover-center carousel-mask-gradiant brightness-[80%]"
+              />
+            </picture>
           </div>
           {/* Mobile cards fade to black inside the card rather than into the page. */}
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent sm:hidden" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent min-[840px]:hidden" />
         </>
       )}
 
