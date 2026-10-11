@@ -6,14 +6,16 @@ import { useState, ReactNode, useCallback, useEffect, useRef } from 'react';
 import { useCarousel } from '@/context/CarouselContext';
 
 import CarouselControls from './CarouselControls';
+import CarouselDots from './CarouselDots';
+import { useCarouselSwipe } from './useCarouselSwipe';
 
 interface Props {
   children: ReactNode;
   itemCount: number;
 }
 
-const AUTOPLAY_MS = 8000;
-const SWIPE_THRESHOLD_PX = 50;
+/** How long each slide stays on screen before autoplay moves on (ms). */
+const AUTOPLAY_MS = 5000;
 
 /** True modulo (`-1 mod 9` → 8). */
 const mod = (n: number, m: number) => ((n % m) + m) % m;
@@ -37,18 +39,14 @@ const ringDistance = (to: number, from: number, count: number) => {
 export default function CarouselClient({ children, itemCount }: Props) {
   const [position, setPosition] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const [isDragging, setIsDragging] = useState(false);
   const { isAnyVideoPlaying } = useCarousel();
   const sectionRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLUListElement>(null);
-  const drag = useRef<{ x: number; y: number; axis: 'x' | 'y' | null } | null>(null);
-  const didDrag = useRef(false);
 
   const currentIndex = mod(position, Math.max(itemCount, 1));
 
   const handlePrev = useCallback(() => setPosition((p) => p - 1), []);
   const handleNext = useCallback(() => setPosition((p) => p + 1), []);
-
   const goTo = (index: number) =>
     setPosition((p) => p + ringDistance(index, mod(p, itemCount), itemCount));
 
@@ -69,13 +67,22 @@ export default function CarouselClient({ children, itemCount }: Props) {
     [itemCount],
   );
 
+  const { isDragging, handlers: swipeHandlers } = useCarouselSwipe({
+    enabled: !isAnyVideoPlaying && itemCount > 1,
+    getWidth: () => trackRef.current?.offsetWidth ?? 1,
+    onDrag: (slidesMoved) => layout(position - slidesMoved),
+    onRelease: (direction) => {
+      if (direction === 1) handleNext();
+      else if (direction === -1) handlePrev();
+      else layout(position); // snap back
+    },
+  });
+
   // Place slides, and hide off-screen ones from keyboard + screen readers so Tab can't
   // land on invisible buttons.
   useEffect(() => {
     layout(position);
-    const slides = trackRef.current?.children;
-    if (!slides) return;
-    Array.from(slides).forEach((slide, i) => {
+    Array.from(trackRef.current?.children ?? []).forEach((slide, i) => {
       const hidden = i !== currentIndex;
       (slide as HTMLElement).inert = hidden;
       slide.setAttribute('aria-hidden', String(hidden));
@@ -91,8 +98,9 @@ export default function CarouselClient({ children, itemCount }: Props) {
     section.removeAttribute('data-instant');
   }, []);
 
-  // Gentle autoplay. Pauses on hover/focus, while dragging or a trailer plays, when the
-  // tab is hidden, and is disabled entirely for users who prefer reduced motion.
+  // Autoplay. Pauses on hover/focus, while dragging or a trailer plays, when the tab is
+  // hidden, and is disabled for users who prefer reduced motion. `position` is a dependency
+  // so the timer restarts after every manual slide change.
   useEffect(() => {
     if (isPaused || isDragging || isAnyVideoPlaying || itemCount < 2) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -102,63 +110,6 @@ export default function CarouselClient({ children, itemCount }: Props) {
     }, AUTOPLAY_MS);
     return () => window.clearInterval(id);
   }, [isPaused, isDragging, isAnyVideoPlaying, itemCount, handleNext, position]);
-
-  // Pointer events cover both touch (swipe) and mouse (click-and-drag).
-  const onPointerDown = (e: React.PointerEvent) => {
-    didDrag.current = false;
-    if (isAnyVideoPlaying || itemCount < 2) return;
-    if (e.pointerType === 'mouse' && e.button !== 0) return;
-    drag.current = { x: e.clientX, y: e.clientY, axis: null };
-  };
-
-  const onPointerMove = (e: React.PointerEvent) => {
-    const state = drag.current;
-    if (!state) return;
-    const dx = e.clientX - state.x;
-    const dy = e.clientY - state.y;
-
-    // Lock to an axis on the first real movement so vertical page scrolling still works.
-    if (!state.axis) {
-      if (Math.abs(dx) < 6 && Math.abs(dy) < 6) return;
-      state.axis = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
-      if (state.axis === 'x') {
-        setIsDragging(true);
-        // Keep receiving moves even if the mouse leaves the carousel mid-drag.
-        e.currentTarget.setPointerCapture(e.pointerId);
-      }
-    }
-    if (state.axis !== 'x') return;
-
-    // The slides follow the pointer 1:1, wrapping around in both directions.
-    const width = trackRef.current?.offsetWidth || 1;
-    layout(position - dx / width);
-  };
-
-  const onPointerUp = (e: React.PointerEvent) => {
-    const state = drag.current;
-    drag.current = null;
-    if (!state || state.axis !== 'x') return;
-
-    setIsDragging(false);
-    didDrag.current = true;
-    const delta = e.clientX - state.x;
-
-    if (e.type === 'pointercancel' || Math.abs(delta) < SWIPE_THRESHOLD_PX) {
-      layout(position); // snap back
-      return;
-    }
-    if (delta < 0) handleNext();
-    else handlePrev();
-  };
-
-  // A mouse drag still fires `click` on release – don't let it trigger the
-  // trailer button / links underneath the pointer.
-  const onClickCapture = (e: React.MouseEvent) => {
-    if (!didDrag.current) return;
-    didDrag.current = false;
-    e.preventDefault();
-    e.stopPropagation();
-  };
 
   const onKeyDown = (e: React.KeyboardEvent) => {
     if (isAnyVideoPlaying) return;
@@ -178,14 +129,8 @@ export default function CarouselClient({ children, itemCount }: Props) {
       onMouseLeave={() => setIsPaused(false)}
       onFocusCapture={() => setIsPaused(true)}
       onBlurCapture={() => setIsPaused(false)}
-      onPointerDown={onPointerDown}
-      onPointerMove={onPointerMove}
-      onPointerUp={onPointerUp}
-      onPointerCancel={onPointerUp}
-      onClickCapture={onClickCapture}
-      // Stop the browser's native image drag from hijacking a mouse swipe.
-      onDragStart={(e) => e.preventDefault()}
       onKeyDown={onKeyDown}
+      {...swipeHandlers}
     >
       <ul
         ref={trackRef}
@@ -211,23 +156,7 @@ export default function CarouselClient({ children, itemCount }: Props) {
         <div className="hidden sm:block">
           <CarouselControls onPrev={handlePrev} onNext={handleNext} />
         </div>
-
-        {/* Position indicators: below the image on small screens, overlaid from 840px up. */}
-        <div className="mt-4 flex justify-center gap-2 min-[840px]:absolute min-[840px]:bottom-4 min-[840px]:left-1/2 min-[840px]:z-2 min-[840px]:mt-0 min-[840px]:-translate-x-1/2">
-          {Array.from({ length: itemCount }).map((_, i) => (
-            <button
-              key={i}
-              type="button"
-              aria-label={`Go to slide ${i + 1} of ${itemCount}`}
-              aria-current={i === currentIndex ? 'true' : undefined}
-              onClick={() => goTo(i)}
-              className={clsx(
-                'h-1.5 rounded-full transition-all duration-300',
-                i === currentIndex ? 'w-8 bg-white' : 'w-3 bg-white/40 hover:bg-white/70',
-              )}
-            />
-          ))}
-        </div>
+        <CarouselDots count={itemCount} current={currentIndex} onSelect={goTo} />
       </div>
     </section>
   );
