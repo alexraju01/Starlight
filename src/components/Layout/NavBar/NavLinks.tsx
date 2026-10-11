@@ -26,7 +26,9 @@ const NavLinks = ({ variant, onLinkClick }: NavLinksProps) => {
   return (
     <ul className={variant === 'bar' ? 'flex items-center gap-[4px]' : 'flex flex-col gap-[4px]'}>
       {links.map((link) => {
-        const isActive = link.href === '/' ? pathname === '/' : pathname.startsWith(link.href);
+        // Whole segments only: "/movie" is active on /movie/550 but not on /moviez.
+        const isActive =
+          pathname === link.href || (link.href !== '/' && pathname.startsWith(`${link.href}/`));
         const Icon = ICONS[link.href];
 
         return (

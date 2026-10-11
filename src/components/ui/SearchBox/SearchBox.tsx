@@ -1,5 +1,6 @@
 'use client';
 
+import clsx from 'clsx';
 import { Search, X } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState, useRef, useEffect, useCallback, useId } from 'react';
@@ -12,6 +13,8 @@ interface Props {
   autoFocus?: boolean;
   /** Desktop navbar: pressing "/" anywhere on the page focuses this field. */
   shortcut?: boolean;
+  /** Fill the parent at every width (instead of the navbar's fixed desktop width). */
+  fullWidth?: boolean;
 }
 
 /** Typing outside a form field? (So "/" can be used as a shortcut without hijacking input.) */
@@ -19,7 +22,11 @@ const isTypingTarget = (el: EventTarget | null) =>
   el instanceof HTMLElement &&
   (el.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(el.tagName));
 
-export default function SearchBox({ autoFocus = false, shortcut = false }: Props) {
+export default function SearchBox({
+  autoFocus = false,
+  shortcut = false,
+  fullWidth = false,
+}: Props) {
   const [search, setSearch] = useState('');
   const [isOpen, setIsOpen] = useState(false);
 
@@ -97,7 +104,10 @@ export default function SearchBox({ autoFocus = false, shortcut = false }: Props
   return (
     <div
       ref={containerRef}
-      className="relative h-[44px] w-full rounded-[12px] border border-white/12 bg-white/[0.04] transition-colors focus-within:border-white/40 focus-within:bg-white/[0.06] hover:border-white/25 lg:w-[300px] xl:w-[360px]"
+      className={clsx(
+        'relative h-[44px] w-full rounded-[12px] border border-white/12 bg-white/[0.04] transition-colors focus-within:border-white/40 focus-within:bg-white/[0.06] hover:border-white/25',
+        !fullWidth && 'lg:w-[300px] xl:w-[360px]',
+      )}
     >
       <form role="search" onSubmit={handleSubmit} className="h-full">
         <Search
