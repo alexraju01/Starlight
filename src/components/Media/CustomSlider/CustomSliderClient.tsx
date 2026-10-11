@@ -41,7 +41,8 @@ export default function CustomSliderClient({
     <MediaProvider mediaMode={mediaMode} genres={genres}>
       <section className="mb-10 flex w-full flex-col gap-4 text-white">
         <header className="flex-between px-2">
-          <h2 className="slider-title">{title}</h2>
+          {/* A custom heading element is rendered as-is (an <h2> inside an <h2> is invalid). */}
+          {typeof title === 'string' ? <h2 className="slider-title">{title}</h2> : title}
           <div className="z-10 flex gap-2 px-1 py-2">
             <CustomSliderButtons
               direction="left"

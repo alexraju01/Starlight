@@ -1,11 +1,11 @@
 'use client';
 
+import { ArrowLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 import { hasInAppHistory } from '@/hooks/useInAppHistory';
-import Icons from '@/utils/icons';
 
-export default function GoBack() {
+export default function GoBack({ className = '' }: { className?: string }) {
   const router = useRouter();
 
   const handleBack = () => {
@@ -20,9 +20,9 @@ export default function GoBack() {
       type="button"
       onClick={handleBack}
       aria-label="Go back"
-      className="relative top-32 left-8 z-10 flex h-16 w-16 cursor-pointer items-center justify-center rounded-full bg-black/30 text-[2.5rem] backdrop-blur-sm transition-colors hover:bg-black/60"
+      className={`flex size-[44px] items-center justify-center rounded-full border border-white/15 bg-black/40 text-white backdrop-blur-md transition-colors hover:bg-black/70 ${className}`}
     >
-      <span aria-hidden="true">{Icons.goBack}</span>
+      <ArrowLeft aria-hidden="true" className="size-[20px]" />
     </button>
   );
 }

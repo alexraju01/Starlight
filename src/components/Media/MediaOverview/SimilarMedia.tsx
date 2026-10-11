@@ -1,7 +1,6 @@
 import SectionHeading from '@/components/Navigation/SectionHeading';
 import { DISCOVER_BREAKPOINTS } from '@/constants/breakpoints';
 import { MediaMode } from '@/types/mediaMode';
-import Icons from '@/utils/icons';
 
 import CustomSlider from '../CustomSlider/CustomSlider';
 
@@ -10,18 +9,18 @@ interface Props {
   id: number;
 }
 
-const SimilarMedia = ({ mediaMode, id }: Props) => {
-  const kind = mediaMode === MediaMode.TV ? 'TV Shows' : 'Movies';
-  return (
-    <section className="mb-20 w-full text-[1.8rem]">
-      <CustomSlider
-        endpoint={`${mediaMode}/${id}/recommendations`}
-        title={<SectionHeading icon={Icons.play}>{`Similar ${kind}`}</SectionHeading>}
-        mediaMode={mediaMode}
-        breakpoints={DISCOVER_BREAKPOINTS}
-      />
-    </section>
-  );
-};
+/** Recommendations slider; also the target of the hero's "More like this" link. */
+const SimilarMedia = ({ mediaMode, id }: Props) => (
+  // The slider insets its header and cards by 5px; pull it out so it lines up with the
+  // other sections. scroll-mt keeps the heading clear of the fixed navbar.
+  <section id="similar" className="-mx-[5px] scroll-mt-[calc(var(--nav-h)+24px)]">
+    <CustomSlider
+      endpoint={`${mediaMode}/${id}/recommendations`}
+      title={<SectionHeading>More like this</SectionHeading>}
+      mediaMode={mediaMode}
+      breakpoints={DISCOVER_BREAKPOINTS}
+    />
+  </section>
+);
 
 export default SimilarMedia;

@@ -1,40 +1,43 @@
 import SectionHeading from '@/components/Navigation/SectionHeading';
 import ImageWithFallback from '@/components/Skeletons/BrokenImage/ImageWithFallback';
 import { CastMember } from '@/types/cast';
-import Icons from '@/utils/icons';
 import { getImageUrl } from '@/utils/image/getImageUrl';
 
 interface Props {
   castList: CastMember[];
 }
 
+/** Top-billed cast as a swipeable row of portrait cards. */
 export default function CastContainer({ castList }: Props) {
   if (!castList?.length) return null;
 
   return (
-    <section className="w-full text-[1.8rem]">
-      <SectionHeading icon={Icons.play}>Cast</SectionHeading>
+    <section aria-labelledby="cast-heading" className="flex flex-col gap-[20px]">
+      <SectionHeading id="cast-heading">Top Cast</SectionHeading>
 
-      <div className="grid grid-cols-[repeat(auto-fill,minmax(13rem,1fr))] items-start justify-center text-[1.3rem] xl:grid-cols-[repeat(auto-fill,minmax(17rem,1fr))]">
-        {castList.map((cast, index) => (
-          <div
-            key={`${cast.id}-${index}`}
-            className="flex w-[13rem] flex-col items-center justify-center rounded-lg p-3 text-center transition-all duration-300 ease-in-out hover:bg-white/10 xl:w-[17rem]"
+      <ul className="scroll-row">
+        {castList.map((cast) => (
+          <li
+            key={cast.credit_id}
+            className="w-[124px] shrink-0 snap-start sm:w-[140px] lg:w-[152px]"
           >
-            <div className="relative mb-4 h-[clamp(7rem,8vw,10rem)] w-[clamp(7rem,8vw,10rem)]">
+            <div className="relative aspect-[2/3] overflow-hidden rounded-[12px] bg-[#1a1a1a] ring-1 ring-white/[0.06]">
               <ImageWithFallback
                 src={getImageUrl(cast.profile_path, 'profile', 'w185')}
                 alt={cast.name}
-                className="rounded-full transition-transform duration-300 ease-in-out hover:scale-110"
               />
             </div>
-            <div className="text-white transition-all duration-300 ease-in-out">
-              <p className="font-medium">{cast.name}</p>
-              <p className="text-white/50">{cast.character}</p>
-            </div>
-          </div>
+            <p className="mt-[10px] line-clamp-1 text-[14px] leading-[1.4] font-semibold text-white">
+              {cast.name}
+            </p>
+            {cast.character && (
+              <p className="mt-[2px] line-clamp-2 text-[13px] leading-[1.4] text-white/55">
+                {cast.character}
+              </p>
+            )}
+          </li>
         ))}
-      </div>
+      </ul>
     </section>
   );
 }

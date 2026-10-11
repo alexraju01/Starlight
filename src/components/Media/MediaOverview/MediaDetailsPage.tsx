@@ -1,6 +1,3 @@
-import { Suspense } from 'react';
-
-import { Spinner } from '@/components/Skeletons/LoadingSkeletons';
 import { MediaMode } from '@/types/mediaMode';
 import { buildMediaJsonLd, getMediaOrNotFound, jsonLdString } from '@/utils/mediaPage';
 
@@ -16,14 +13,12 @@ export default async function MediaDetailsPage({ mediaMode, slug }: Props) {
   const media = await getMediaOrNotFound(mediaMode, slug);
 
   return (
-    <section className="h-full w-full">
+    <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: jsonLdString(buildMediaJsonLd(media, mediaMode)) }}
       />
-      <Suspense fallback={<Spinner />}>
-        <MediaOverview media={media} mediaMode={mediaMode} />
-      </Suspense>
-    </section>
+      <MediaOverview media={media} mediaMode={mediaMode} />
+    </>
   );
 }
