@@ -228,6 +228,31 @@
     @apply size-[33px] sm:size-[59px];
   }
 
+  /* Horizontal page padding, aligned with the navbar and home page sections. */
+  .page-gutter {
+    @apply px-[16px] sm:px-[24px] lg:px-[68px] 2xl:px-[101px];
+  }
+
+  /*
+   * Swipeable row (cast, seasons). Bleeds to the screen edge on mobile so cards scroll
+   * under the gutter, snaps card-by-card, and keeps a slim scrollbar on desktop so the
+   * row still reads as scrollable.
+   */
+  .scroll-row {
+    @apply -mx-[16px] flex snap-x snap-mandatory scroll-px-[16px] gap-[16px] overflow-x-auto px-[16px] pb-[12px] sm:-mx-[24px] sm:scroll-px-[24px] sm:px-[24px] lg:mx-0 lg:scroll-px-0 lg:px-0;
+    scrollbar-width: thin;
+    scrollbar-color: #3a3a3a transparent;
+    overscroll-behavior-x: contain;
+  }
+
+  /* On desktop the row ends at the column edge – fade the cut-off card instead of clipping. */
+  @media (min-width: 1024px) {
+    .scroll-row {
+      -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 64px), transparent);
+      mask-image: linear-gradient(to right, #000 calc(100% - 64px), transparent);
+    }
+  }
+
   /* Image helpers */
   .img-cover-center {
     @apply object-cover object-center;
