@@ -3,7 +3,7 @@
 import { parseSort } from '@/constants/browse';
 import { MediaWithDetails } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
-import { api } from '@/utils/api';
+import { api, GenreIds } from '@/utils/api';
 
 import { MAX_PAGE, MAX_QUERY_LENGTH, isMediaMode, isPositiveInt } from './validate';
 
@@ -29,11 +29,15 @@ export async function getMoreMediaAction(
   }
 }
 
-export async function fetchGenreMedia(genreId: number, page: number) {
-  if (!isPositiveInt(genreId) || !isPositiveInt(page, MAX_PAGE)) return [];
+export async function fetchGenreMedia(genreIds: GenreIds, page: number, sort?: string) {
+  const { movie, tv } = genreIds ?? {};
+  const isValidId = (id: unknown) => id === undefined || isPositiveInt(id);
+  if (!isValidId(movie) || !isValidId(tv) || (!movie && !tv) || !isPositiveInt(page, MAX_PAGE)) {
+    return [];
+  }
 
   try {
-    return await api.media.getGenreMedia(genreId, page);
+    return await api.media.getGenreMedia({ movie, tv }, page, parseSort(sort));
   } catch (error) {
     console.error('Action error:', error);
     return [];

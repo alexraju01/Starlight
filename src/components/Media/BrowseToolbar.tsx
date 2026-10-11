@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import Link from 'next/link';
 
 import DragScrollList from '@/components/ui/DragScrollList';
+import SegmentedLinks from '@/components/ui/SegmentedLinks';
 import { DEFAULT_SORT, SORT_OPTIONS, SortOption } from '@/constants/browse';
 import { Genre } from '@/types';
 
@@ -64,29 +65,15 @@ export default function BrowseToolbar({ basePath, genres, activeGenreId, activeS
         </DragScrollList>
       </nav>
 
-      <div
-        role="group"
-        aria-label="Sort by"
-        className="grid shrink-0 grid-cols-3 rounded-[10px] border border-white/10 bg-white/[0.04] p-[4px] sm:inline-grid sm:w-fit"
-      >
-        {SORT_OPTIONS.map((option) => {
-          const isActive = option.value === activeSort;
-          return (
-            <Link
-              key={option.value}
-              href={browseHref(basePath, activeGenreId, option.value)}
-              scroll={false}
-              aria-current={isActive ? 'true' : undefined}
-              className={clsx(
-                'flex h-[36px] items-center justify-center rounded-[7px] px-[16px] text-[14px] font-medium whitespace-nowrap transition-colors',
-                isActive ? 'bg-white text-[#100f10]' : 'text-white/70 hover:text-white',
-              )}
-            >
-              {option.label}
-            </Link>
-          );
-        })}
-      </div>
+      <SegmentedLinks
+        label="Sort by"
+        options={SORT_OPTIONS.map((option) => ({
+          key: option.value,
+          label: option.label,
+          href: browseHref(basePath, activeGenreId, option.value),
+          active: option.value === activeSort,
+        }))}
+      />
     </div>
   );
 }
