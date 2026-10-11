@@ -14,52 +14,82 @@ interface Props {
 
 const AUTOPLAY_MS = 8000;
 const SWIPE_THRESHOLD_PX = 50;
-/** Drag resistance when pulling past the first / last slide. */
-const EDGE_RESISTANCE = 0.35;
+
+/** True modulo (`-1 mod 9` → 8). */
+const mod = (n: number, m: number) => ((n % m) + m) % m;
+
+/** Shortest signed distance from `from` to `to` around a ring of `count` slides. */
+const ringDistance = (to: number, from: number, count: number) => {
+  const d = mod(to - from, count);
+  return d > count / 2 ? d - count : d;
+};
 
 /*
- * Layout + parallax are driven by CSS variables so dragging never re-renders React:
- *   --pos    fractional position of the track (currentIndex, plus drag offset while swiping)
- *   --i      each slide's index (set on the <li>s below)
- *   --slide  slide width: 86% on mobile so neighbours peek in, 100% from `sm` up
- *   --gap    space between slides
- * Each slide reads `var(--i) - var(--pos)` to offset its backdrop (see CarouselItem).
+ * Endless loop: every slide is absolutely positioned and placed by its distance from the
+ * current position around a ring, so after the last slide the first one comes in from the
+ * right (instead of the track rewinding through every slide).
+ *
+ *   position  unbounded counter (…, 8, 9, 10, …); the active slide is position mod count
+ *   --d       each slide's signed distance from the centre, set imperatively so dragging
+ *             never re-renders React. CSS turns it into the slide offset and the backdrop
+ *             parallax (see .carousel-slide in globals.css).
  */
 export default function CarouselClient({ children, itemCount }: Props) {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [position, setPosition] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const { isAnyVideoPlaying } = useCarousel();
+  const sectionRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLUListElement>(null);
   const drag = useRef<{ x: number; y: number; axis: 'x' | 'y' | null } | null>(null);
   const didDrag = useRef(false);
 
-  const handlePrev = useCallback(() => {
-    setCurrentIndex((prev) => (prev === 0 ? itemCount - 1 : prev - 1));
-  }, [itemCount]);
+  const currentIndex = mod(position, Math.max(itemCount, 1));
 
-  const handleNext = useCallback(() => {
-    setCurrentIndex((prev) => (prev === itemCount - 1 ? 0 : prev + 1));
-  }, [itemCount]);
+  const handlePrev = useCallback(() => setPosition((p) => p - 1), []);
+  const handleNext = useCallback(() => setPosition((p) => p + 1), []);
 
-  const setTrackPos = (pos: number) => {
-    trackRef.current?.style.setProperty('--pos', String(pos));
-  };
+  const goTo = (index: number) =>
+    setPosition((p) => p + ringDistance(index, mod(p, itemCount), itemCount));
 
-  // Keep the track in sync with the active slide, and hide off-screen slides from
-  // keyboard + screen readers so Tab can't land on invisible buttons.
+  /** Places every slide around the ring for a (possibly fractional, while dragging) position. */
+  const layout = useCallback(
+    (pos: number) => {
+      const slides = trackRef.current?.children;
+      if (!slides) return;
+      Array.from(slides).forEach((slide, i) => {
+        const el = slide as HTMLElement;
+        const d = ringDistance(i, pos, itemCount);
+        el.style.setProperty('--d', String(d));
+        // Slides more than one step away are off-screen; hiding them means a slide that
+        // wraps from the far left to the far right never visibly flies across.
+        el.style.visibility = Math.abs(d) > 1.5 ? 'hidden' : '';
+      });
+    },
+    [itemCount],
+  );
+
+  // Place slides, and hide off-screen ones from keyboard + screen readers so Tab can't
+  // land on invisible buttons.
   useEffect(() => {
-    setTrackPos(currentIndex);
+    layout(position);
     const slides = trackRef.current?.children;
     if (!slides) return;
     Array.from(slides).forEach((slide, i) => {
-      const el = slide as HTMLElement;
       const hidden = i !== currentIndex;
-      el.style.setProperty('--i', String(i));
-      el.inert = hidden;
-      el.setAttribute('aria-hidden', String(hidden));
+      (slide as HTMLElement).inert = hidden;
+      slide.setAttribute('aria-hidden', String(hidden));
     });
-  }, [currentIndex, itemCount]);
+  }, [position, currentIndex, layout]);
+
+  // Transitions are off for the very first placement so slides don't animate in from the
+  // server-rendered stack.
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    void section.offsetWidth; // flush the instant layout before re-enabling transitions
+    section.removeAttribute('data-instant');
+  }, []);
 
   // Gentle autoplay. Pauses on hover/focus, while dragging or a trailer plays, when the
   // tab is hidden, and is disabled entirely for users who prefer reduced motion.
@@ -71,16 +101,7 @@ export default function CarouselClient({ children, itemCount }: Props) {
       if (document.visibilityState === 'visible') handleNext();
     }, AUTOPLAY_MS);
     return () => window.clearInterval(id);
-  }, [isPaused, isDragging, isAnyVideoPlaying, itemCount, handleNext, currentIndex]);
-
-  /** Width of one step (slide + gap) in px. */
-  const stepWidth = () => {
-    const track = trackRef.current;
-    const first = track?.children[0] as HTMLElement | undefined;
-    if (!track || !first) return 1;
-    const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
-    return first.offsetWidth + gap;
-  };
+  }, [isPaused, isDragging, isAnyVideoPlaying, itemCount, handleNext, position]);
 
   // Pointer events cover both touch (swipe) and mouse (click-and-drag).
   const onPointerDown = (e: React.PointerEvent) => {
@@ -93,7 +114,7 @@ export default function CarouselClient({ children, itemCount }: Props) {
   const onPointerMove = (e: React.PointerEvent) => {
     const state = drag.current;
     if (!state) return;
-    let dx = e.clientX - state.x;
+    const dx = e.clientX - state.x;
     const dy = e.clientY - state.y;
 
     // Lock to an axis on the first real movement so vertical page scrolling still works.
@@ -108,11 +129,9 @@ export default function CarouselClient({ children, itemCount }: Props) {
     }
     if (state.axis !== 'x') return;
 
-    const atEdge = (currentIndex === 0 && dx > 0) || (currentIndex === itemCount - 1 && dx < 0);
-    if (atEdge) dx *= EDGE_RESISTANCE;
-
-    // The track follows the pointer 1:1.
-    setTrackPos(currentIndex - dx / stepWidth());
+    // The slides follow the pointer 1:1, wrapping around in both directions.
+    const width = trackRef.current?.offsetWidth || 1;
+    layout(position - dx / width);
   };
 
   const onPointerUp = (e: React.PointerEvent) => {
@@ -125,7 +144,7 @@ export default function CarouselClient({ children, itemCount }: Props) {
     const delta = e.clientX - state.x;
 
     if (e.type === 'pointercancel' || Math.abs(delta) < SWIPE_THRESHOLD_PX) {
-      setTrackPos(currentIndex); // snap back
+      layout(position); // snap back
       return;
     }
     if (delta < 0) handleNext();
@@ -141,16 +160,6 @@ export default function CarouselClient({ children, itemCount }: Props) {
     e.stopPropagation();
   };
 
-  // Tapping a peeking neighbour (mobile) brings it to the centre. Inactive slides are
-  // `inert`, so the click lands on the track – use its position to pick a side.
-  const onTrackClick = (e: React.MouseEvent) => {
-    const active = trackRef.current?.children[currentIndex];
-    if (!active) return;
-    const { left, right } = active.getBoundingClientRect();
-    if (e.clientX < left) handlePrev();
-    else if (e.clientX > right) handleNext();
-  };
-
   const onKeyDown = (e: React.KeyboardEvent) => {
     if (isAnyVideoPlaying) return;
     if (e.key === 'ArrowLeft') handlePrev();
@@ -159,10 +168,12 @@ export default function CarouselClient({ children, itemCount }: Props) {
 
   return (
     <section
+      ref={sectionRef}
       aria-roledescription="carousel"
       aria-label="Trending this week"
+      data-instant=""
       data-dragging={isDragging || undefined}
-      className="group/carousel relative flex h-[calc(100svh-var(--nav-h))] cursor-grab [touch-action:pan-y] flex-col overflow-hidden pb-2 select-none data-[dragging]:cursor-grabbing sm:p-0 md:max-h-[1100px]"
+      className="relative flex cursor-grab [touch-action:pan-y] flex-col overflow-hidden pb-2 select-none data-[dragging]:cursor-grabbing min-[840px]:pb-0"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       onFocusCapture={() => setIsPaused(true)}
@@ -179,20 +190,13 @@ export default function CarouselClient({ children, itemCount }: Props) {
       <ul
         ref={trackRef}
         aria-live={isPaused ? 'polite' : 'off'}
-        onClick={onTrackClick}
         className={clsx(
-          'flex min-h-0 w-full flex-1 gap-[var(--gap)]',
-          '[--gap:12px] [--slide:86%] sm:[--gap:0px] sm:[--slide:100%]',
-          'transition-transform duration-500 ease-out group-data-[dragging]/carousel:transition-none',
+          'relative w-full overflow-hidden',
+          // Below 840px: Viki's billboard sizing – the larger of the screen width or 77% of
+          // its height (roughly poster-shaped). From 840px: 16:9, but never taller than the
+          // space between the bottom of the navbar and the bottom of the screen.
+          'h-[max(100vw,77svh)] min-[840px]:h-[min(56.25vw,calc(100svh-var(--nav-h)))]',
         )}
-        style={
-          {
-            '--pos': 0,
-            // Centre the active slide; on mobile this leaves room for both neighbours to peek.
-            transform:
-              'translateX(calc((100% - var(--slide)) / 2 - var(--pos) * (var(--slide) + var(--gap))))',
-          } as React.CSSProperties
-        }
       >
         {children}
       </ul>
@@ -203,20 +207,20 @@ export default function CarouselClient({ children, itemCount }: Props) {
           isAnyVideoPlaying ? 'pointer-events-none opacity-0' : 'opacity-100',
         )}
       >
-        {/* Arrows on larger screens; mobile uses swipe + tap-to-peek. */}
+        {/* Arrows on larger screens; mobile uses swipe. */}
         <div className="hidden sm:block">
           <CarouselControls onPrev={handlePrev} onNext={handleNext} />
         </div>
 
-        {/* Position indicators: below the cards on mobile, overlaid from md up. */}
-        <div className="mt-4 flex justify-center gap-2 sm:hidden md:absolute md:bottom-4 md:left-1/2 md:z-2 md:mt-0 md:flex md:-translate-x-1/2">
+        {/* Position indicators: below the image on small screens, overlaid from 840px up. */}
+        <div className="mt-4 flex justify-center gap-2 min-[840px]:absolute min-[840px]:bottom-4 min-[840px]:left-1/2 min-[840px]:z-2 min-[840px]:mt-0 min-[840px]:-translate-x-1/2">
           {Array.from({ length: itemCount }).map((_, i) => (
             <button
               key={i}
               type="button"
               aria-label={`Go to slide ${i + 1} of ${itemCount}`}
               aria-current={i === currentIndex ? 'true' : undefined}
-              onClick={() => setCurrentIndex(i)}
+              onClick={() => goTo(i)}
               className={clsx(
                 'h-1.5 rounded-full transition-all duration-300',
                 i === currentIndex ? 'w-8 bg-white' : 'w-3 bg-white/40 hover:bg-white/70',

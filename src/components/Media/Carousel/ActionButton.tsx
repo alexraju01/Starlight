@@ -8,7 +8,6 @@ import Icons from '@/utils/icons';
 
 import type { Route } from 'next';
 
-
 interface ActionButtonsProps {
   onWatchTrailer: () => void;
   isLoading: boolean;
