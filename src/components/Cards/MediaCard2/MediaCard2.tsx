@@ -38,6 +38,8 @@ const MediaCard2 = ({ item, style, isFirst, isLast }: Props) => {
 
   const videoKeyRef = useRef<string | null>(null);
   const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const slotRef = useRef<HTMLDivElement>(null);
+  const unlockTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const iframeId = `yt-player-${item.id}`;
 
   const title = item.media_type === MediaMode.MOVIE ? item.title : item.name;
@@ -68,6 +70,14 @@ const MediaCard2 = ({ item, style, isFirst, isLast }: Props) => {
   const handlePointerEnter = (e: React.PointerEvent) => {
     // Only trigger auto-play on mouse hover (desktop)
     if (e.pointerType === 'mouse') {
+      // The enlarged card stays in the layout flow, and its height changes as it widens
+      // (poster → landscape). Pin the slot at its resting height so the row – and on the
+      // last row, the page height and scroll position – doesn't jump, which could also pull
+      // the card out from under the cursor and make the hover flicker on and off.
+      if (unlockTimeoutRef.current) clearTimeout(unlockTimeoutRef.current);
+      const slot = slotRef.current;
+      if (slot && !slot.style.height) slot.style.height = `${slot.offsetHeight}px`;
+
       setHasHovered(true);
       hoverTimeoutRef.current = setTimeout(async () => {
         setIsPlaying(true);
@@ -79,6 +89,10 @@ const MediaCard2 = ({ item, style, isFirst, isLast }: Props) => {
   const handlePointerLeave = (e: React.PointerEvent) => {
     if (e.pointerType === 'mouse') {
       if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
+      // Release the pin once the card has shrunk back (matches the 300ms transitions).
+      unlockTimeoutRef.current = setTimeout(() => {
+        if (slotRef.current) slotRef.current.style.height = '';
+      }, 300);
       setIsPlaying(false);
       setIsMuted(true);
     }
@@ -102,6 +116,7 @@ const MediaCard2 = ({ item, style, isFirst, isLast }: Props) => {
 
   return (
     <div
+      ref={slotRef}
       className="group relative w-full flex-shrink-0 overflow-visible"
       style={{ ...style, display: 'block' }}
       onPointerEnter={handlePointerEnter}
