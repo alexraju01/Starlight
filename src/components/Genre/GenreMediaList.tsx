@@ -9,6 +9,7 @@ import { CAROUSEL_BREAKPOINTS } from '@/constants/breakpoints';
 import { MediaProvider } from '@/context/MediaContext';
 import { useResponsiveItems } from '@/hooks/useResponsiveItems';
 import { MediaMode } from '@/types';
+import { completeRows } from '@/utils/completeRows';
 import { fetchGenreMedia } from '@/utils/serverActions/media';
 
 interface GenreMediaListProps {
@@ -24,6 +25,12 @@ export default function GenreMediaList({ initialMedia, genreId, genreMap }: Genr
   const [hasMore, setHasMore] = useState(true);
 
   const itemsPerRow = useResponsiveItems(CAROUSEL_BREAKPOINTS);
+  // Only whole rows while "Load More" is showing, so the grid never looks like it ended.
+  const visibleMedia = completeRows(media, itemsPerRow, hasMore);
+
+  const gridStyle = itemsPerRow
+    ? { gridTemplateColumns: `repeat(${itemsPerRow}, minmax(0, 1fr))` }
+    : undefined;
 
   const loadMore = async () => {
     setLoading(true);
@@ -51,8 +58,13 @@ export default function GenreMediaList({ initialMedia, genreId, genreMap }: Genr
 
   return (
     <div className="animate-fadeIn">
-      <div className="relative mb-8 grid w-full grid-cols-2 gap-8 overflow-hidden transition-all sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
-        {media.map((item, index) => (
+      {/* The Tailwind columns cover the server render; once hydrated the column count comes
+            from the same breakpoints used to trim rows, so the two can never disagree. */}
+      <div
+        className="relative mb-8 grid w-full grid-cols-2 gap-8 overflow-hidden transition-all sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6"
+        style={gridStyle}
+      >
+        {visibleMedia.map((item, index) => (
           <MediaProvider
             key={`${item.media_type}-${item.id}`}
             mediaMode={item.media_type as MediaMode}
