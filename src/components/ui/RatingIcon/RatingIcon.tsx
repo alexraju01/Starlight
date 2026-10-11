@@ -18,7 +18,6 @@ const RatingIcon = memo(function RatingIcon({ vote, className }: RatingIconProps
           alt="The Movie Database (TMDB)"
           width={40}
           height={18}
-          priority
         />
       </span>
 

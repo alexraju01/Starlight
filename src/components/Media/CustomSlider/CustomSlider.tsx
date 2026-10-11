@@ -18,6 +18,9 @@ const CustomSlider = async ({ endpoint, title, mediaMode, breakpoints }: Props) 
     api.genre.getGenres(mediaMode),
   ]);
 
+  // e.g. a title with no recommendations – don't render an empty section.
+  if (media.length === 0) return null;
+
   const genreMap = Object.fromEntries(genres.map(({ id, name }) => [id, name]));
 
   return (

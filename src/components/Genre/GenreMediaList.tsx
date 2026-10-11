@@ -35,7 +35,11 @@ export default function GenreMediaList({ initialMedia, genreId, genreMap }: Genr
       if (!combined || combined.length === 0) {
         setHasMore(false);
       } else {
-        setMedia((prev) => [...prev, ...combined]);
+        // Movies and shows can share numeric ids, so dedupe on type + id.
+        setMedia((prev) => {
+          const seen = new Set(prev.map((m) => `${m.media_type}-${m.id}`));
+          return [...prev, ...combined.filter((m) => !seen.has(`${m.media_type}-${m.id}`))];
+        });
         setPage(nextPage);
       }
     } catch (error) {
@@ -45,18 +49,19 @@ export default function GenreMediaList({ initialMedia, genreId, genreMap }: Genr
     }
   };
 
-  if (itemsPerRow === null) return null;
-
   return (
     <div className="animate-fadeIn">
       <div className="relative mb-8 grid w-full grid-cols-2 gap-8 overflow-hidden transition-all sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
         {media.map((item, index) => (
           <MediaProvider
-            key={`${item.id}-${index}`}
+            key={`${item.media_type}-${item.id}`}
             mediaMode={item.media_type as MediaMode}
             genres={genreMap}
           >
-            <MediaCard2 item={item} isLast={(index + 1) % itemsPerRow === 0} />
+            <MediaCard2
+              item={item}
+              isLast={itemsPerRow !== null && (index + 1) % itemsPerRow === 0}
+            />
           </MediaProvider>
         ))}
       </div>
@@ -67,8 +72,9 @@ export default function GenreMediaList({ initialMedia, genreId, genreMap }: Genr
             onClick={loadMore}
             disabled={loading}
             icon={loading && <Loader className="animate-spin" />}
+            aria-busy={loading}
           >
-            Load More
+            {loading ? 'Loading…' : 'Load More'}
           </Button>
         </div>
       )}
