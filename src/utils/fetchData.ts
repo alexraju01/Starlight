@@ -1,3 +1,5 @@
+import 'server-only';
+
 type FetchDataOptions = {
   page?: number;
   disablePage?: boolean;

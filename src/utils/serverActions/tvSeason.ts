@@ -1,6 +1,6 @@
 import { cache } from 'react';
 
-import { fetchData } from '@/utils';
+import { fetchData } from '@/utils/fetchData';
 
 export const getTvSeasons = cache(async (id: number): Promise<number | null> => {
   try {
