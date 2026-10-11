@@ -26,7 +26,7 @@ const MovieGrid = ({ media, genreMap, hasMore = false }: MovieGridProps) => {
     // The Tailwind columns cover the server render; once hydrated the column count comes from
     // the same breakpoints used for row trimming and edge cards, so they can never disagree.
     <div
-      className="relative mb-8 grid w-full grid-cols-2 gap-8 overflow-hidden transition-all sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6"
+      className="relative grid w-full grid-cols-2 gap-x-[16px] gap-y-[24px] overflow-hidden sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 lg:gap-x-[24px] lg:gap-y-[32px] xl:grid-cols-5 2xl:grid-cols-6"
       style={columns ? { gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` } : undefined}
     >
       {visibleMedia.map((item, index) => (

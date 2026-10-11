@@ -1,3 +1,4 @@
+import { DEFAULT_SORT, SortOption } from '@/constants/browse';
 import {
   CastMember,
   Genre,
@@ -30,6 +31,32 @@ async function attachTvSeasonData<T extends TVShow>(items: T[]): Promise<MediaWi
       };
     }),
   );
+}
+
+/** TMDB discover parameters for each sort option. */
+function sortQuery(mediaMode: MediaMode, sort: SortOption): Record<string, string | number> {
+  const dateField = mediaMode === MediaMode.TV ? 'first_air_date' : 'primary_release_date';
+  // Only titles already out – TMDB lists unreleased films that already have votes.
+  const released = { [`${dateField}.lte`]: new Date().toISOString().slice(0, 10) };
+
+  switch (sort) {
+    case 'top_rated':
+      // Without a vote floor, "top rated" is dominated by titles with a handful of 10/10 votes.
+      return {
+        sort_by: 'vote_average.desc',
+        'vote_count.gte': mediaMode === MediaMode.TV ? 200 : 500,
+        ...released,
+      };
+    case 'newest':
+      // Small vote floor so brand-new obscure uploads don't fill the page.
+      return {
+        sort_by: `${dateField}.desc`,
+        ...released,
+        'vote_count.gte': 20,
+      };
+    default:
+      return { sort_by: 'popularity.desc' };
+  }
 }
 
 /** Tags list results with their media type (TV shows also get their season count). */
@@ -66,11 +93,13 @@ export const api = {
         .map((item) => ({ ...item, genre_ids: item.genre_ids ?? [] }));
     },
 
-    getMedia: async (mediaMode: MediaMode, page = 1, withGenres?: number[]) => {
-      const query: Record<string, string | number> = {
-        page,
-        sort_by: 'popularity.desc',
-      };
+    getMedia: async (
+      mediaMode: MediaMode,
+      page = 1,
+      withGenres?: number[],
+      sort: SortOption = DEFAULT_SORT,
+    ) => {
+      const query: Record<string, string | number> = { page, ...sortQuery(mediaMode, sort) };
       if (withGenres?.length) query.with_genres = withGenres.join(',');
 
       const { results } = await fetchData<APIResponse>('3', `discover/${mediaMode}`, {

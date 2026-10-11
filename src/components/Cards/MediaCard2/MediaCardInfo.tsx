@@ -1,4 +1,5 @@
 import { MediaWithDetails } from '@/types/global';
+import { MediaMode } from '@/types/mediaMode';
 
 import RatingBadge from './RatingBadge';
 import SeasonBadge from './SeasonBadge';
@@ -32,8 +33,11 @@ export const MediaCardInfo = ({
       <p className="truncate">{genreText}</p>
     </div>
 
-    <div className="flex min-h-[28px] items-center">
-      <SeasonBadge item={item} />
-    </div>
+    {/* Shows only: movies have no season badge, so don't reserve empty space for one. */}
+    {item.media_type === MediaMode.TV && (
+      <div className="flex min-h-[28px] items-center">
+        <SeasonBadge item={item} />
+      </div>
+    )}
   </div>
 );
