@@ -6,8 +6,10 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useState, useRef, useEffect, useCallback, useId } from 'react';
 import { useDebounce } from 'use-debounce';
 
-import SearchCard from '@/components/Cards/SearchCard/SearchCard';
+import SearchCard, { optionId } from '@/components/Cards/SearchCard/SearchCard';
 import { ROUTES } from '@/constants/route';
+
+import type { Route } from 'next';
 
 interface Props {
   autoFocus?: boolean;
@@ -36,6 +38,13 @@ export default function SearchBox({
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const listboxId = useId();
+  // Combobox state: where each dropdown option leads, and which one is highlighted.
+  const [options, setOptions] = useState<Route[]>([]);
+  const [activeIndex, setActiveIndex] = useState(-1);
+  const handleOptionsChange = useCallback((hrefs: Route[]) => {
+    setOptions(hrefs);
+    setActiveIndex(-1);
+  }, []);
 
   // Reset after navigating to a result so the dropdown doesn't linger on the new page.
   const [lastPathname, setLastPathname] = useState(pathname);
@@ -45,9 +54,12 @@ export default function SearchBox({
     setSearch('');
   }
 
+  const shouldShowDropdown = debouncedSearch.trim().length > 1 && isOpen;
+
   const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
     setIsOpen(true);
+    setActiveIndex(-1);
   }, []);
 
   const handleSubmit = useCallback(
@@ -55,18 +67,31 @@ export default function SearchBox({
       e.preventDefault();
       const query = search.trim();
       if (!query) return;
-      router.push(ROUTES.DISCOVER(query));
+      // Enter on a highlighted option opens it; otherwise search everything.
+      const highlighted = activeIndex >= 0 ? options[activeIndex] : undefined;
+      router.push(highlighted ?? ROUTES.DISCOVER(query));
       setIsOpen(false);
+      setActiveIndex(-1);
       inputRef.current?.blur();
     },
-    [router, search],
+    [router, search, activeIndex, options],
   );
 
-  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Escape') {
       setIsOpen(false);
+      setActiveIndex(-1);
+      return;
     }
-  }, []);
+    if (!shouldShowDropdown || options.length === 0) return;
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setActiveIndex((i) => (i + 1) % options.length);
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setActiveIndex((i) => (i <= 0 ? options.length - 1 : i - 1));
+    }
+  };
 
   const clearSearch = () => {
     setSearch('');
@@ -99,8 +124,6 @@ export default function SearchBox({
     };
   }, []);
 
-  const shouldShowDropdown = debouncedSearch.trim().length > 1 && isOpen;
-
   return (
     <div
       ref={containerRef}
@@ -119,9 +142,14 @@ export default function SearchBox({
           ref={inputRef}
           type="search"
           name="q"
+          role="combobox"
           aria-label="Search movies and TV shows"
+          aria-autocomplete="list"
           aria-expanded={shouldShowDropdown}
           aria-controls={listboxId}
+          aria-activedescendant={
+            shouldShowDropdown && activeIndex >= 0 ? optionId(listboxId, activeIndex) : undefined
+          }
           autoComplete="off"
           enterKeyHint="search"
           autoFocus={autoFocus}
@@ -154,7 +182,16 @@ export default function SearchBox({
         )}
       </form>
 
-      {shouldShowDropdown && <SearchCard id={listboxId} query={debouncedSearch} />}
+      {shouldShowDropdown && (
+        <SearchCard
+          id={listboxId}
+          query={debouncedSearch}
+          activeIndex={activeIndex}
+          onActiveIndexChange={setActiveIndex}
+          onOptionsChange={handleOptionsChange}
+          alignRight={!fullWidth}
+        />
+      )}
     </div>
   );
 }
