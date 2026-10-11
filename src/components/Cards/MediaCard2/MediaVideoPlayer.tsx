@@ -2,7 +2,7 @@
 
 import clsx from 'clsx';
 import { Volume2, VolumeX } from 'lucide-react';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface MediaVideoPlayerProps {
   videoKey: string;
@@ -12,6 +12,24 @@ interface MediaVideoPlayerProps {
   onToggleMute: (e: React.MouseEvent) => void;
   isCarousel?: boolean;
 }
+
+/*
+ * YouTube still draws its own chrome with `controls=0` (title + channel bar along the top,
+ * logo, thumbnail and spinner before playback). The iframe is sized to cover the frame at
+ * 16:9 and overscanned so those overlays sit outside the visible area. YouTube shrinks its
+ * chrome on small players, so the overscan scales with the frame (hover cards) up to a cap
+ * (the full-width carousel).
+ */
+const OVERSCAN = 'min(140px, 40cqh)';
+/**
+ * YouTube can report PLAYING while its big play button is still on screen, so the video is
+ * only revealed once the playhead has really moved this far (seconds) since it started.
+ */
+const REVEAL_AFTER_PLAYED_S = 0.5;
+const COVER_SIZE = (() => {
+  const height = `calc(max(100cqh, 56.25cqw) + ${OVERSCAN})`;
+  return { height, width: `calc(${height} * 16 / 9)` };
+})();
 
 // Load YouTube API
 const loadYouTubeAPI = () => {
@@ -52,6 +70,10 @@ export const MediaVideoPlayer = ({
   isCarousel = false,
 }: MediaVideoPlayerProps) => {
   const playerRef = useRef<any>(null);
+  // Only shown while frames are actually playing, so YouTube's thumbnail, title, spinner
+  // and big play button never show.
+  const [isVideoVisible, setIsVideoVisible] = useState(false);
+  const revealPollRef = useRef<ReturnType<typeof setInterval>>(undefined);
 
   useEffect(() => {
     if (playerRef.current && typeof playerRef.current.mute === 'function') {
@@ -86,26 +108,33 @@ export const MediaVideoPlayer = ({
 
           onStateChange: (event: any) => {
             const player = event.target;
-
-            if (event.data === window.YT.PlayerState.PLAYING) {
-              setTimeout(() => {
-                try {
-                  player.setPlaybackQualityRange?.('highres');
-                  player.setPlaybackQuality('highres');
-                } catch (e) {
-                  console.warn('Quality setting failed', e);
-                }
-              }, 200);
+            const { PLAYING } = window.YT.PlayerState;
+            // Any other state (buffering, paused, ended, restarting the loop) is where YouTube
+            // draws a spinner or play button in the middle, so hide the video then. On
+            // PLAYING, reveal it only once frames are visibly advancing.
+            clearInterval(revealPollRef.current);
+            if (event.data === PLAYING) {
+              const startedAt = player.getCurrentTime?.() ?? 0;
+              revealPollRef.current = setInterval(() => {
+                const played = (player.getCurrentTime?.() ?? 0) - startedAt;
+                if (played < REVEAL_AFTER_PLAYED_S) return;
+                clearInterval(revealPollRef.current);
+                setIsVideoVisible(true);
+              }, 100);
+            } else {
+              setIsVideoVisible(false);
             }
           },
         },
       });
     };
 
+    setIsVideoVisible(false);
     initPlayer();
 
     return () => {
       isMounted = false;
+      clearInterval(revealPollRef.current);
       if (playerRef.current) {
         try {
           playerRef.current.destroy();
@@ -118,7 +147,8 @@ export const MediaVideoPlayer = ({
   }, [videoKey, iframeId]);
 
   return (
-    <div className="animate-fadeIn absolute inset-0 overflow-hidden rounded-[10.92px] bg-black">
+    // Transparent: the artwork rendered underneath stays visible until the video fades in.
+    <div className="absolute inset-0 overflow-hidden rounded-[10.92px]">
       {/* Only show these if NOT in a carousel */}
       {!isCarousel && (
         <div
@@ -137,13 +167,16 @@ export const MediaVideoPlayer = ({
         {isMuted ? <VolumeX size={23} aria-hidden /> : <Volume2 size={23} aria-hidden />}
       </button>
 
-      <div className="pointer-events-none h-full w-full">
+      <div
+        className={clsx(
+          '[container-type:size] pointer-events-none absolute inset-0 transition-opacity duration-500',
+          isVideoVisible ? 'opacity-100' : 'opacity-0',
+        )}
+      >
         <iframe
           id={iframeId}
-          className={clsx(
-            'h-full w-full object-cover',
-            isCarousel && 'scale-110', // Slight zoom to hide edges in carousel mode
-          )}
+          className="absolute top-1/2 left-1/2 max-w-none -translate-x-1/2 -translate-y-1/2"
+          style={COVER_SIZE}
           src={`https://www.youtube-nocookie.com/embed/${videoKey}?enablejsapi=1&autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&iv_load_policy=3&loop=1&playlist=${videoKey}`}
           allow="autoplay; encrypted-media"
           tabIndex={-1}

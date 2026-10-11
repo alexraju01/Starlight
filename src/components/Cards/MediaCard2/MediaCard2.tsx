@@ -28,6 +28,9 @@ interface Props {
 const MediaCard2 = ({ item, style, isFirst, isLast }: Props) => {
   const { mediaMode, genres } = useMediaContext();
   const [isPlaying, setIsPlaying] = useState(false);
+  // The backdrop is only fetched once the card has been hovered, then kept so it can fade
+  // out again on leave.
+  const [hasHovered, setHasHovered] = useState(false);
   const [videoKey, setVideoKey] = useState<string | null>(null);
   // Hover previews start muted – unexpected audio on hover is a poor experience.
   const [isMuted, setIsMuted] = useState(true);
@@ -65,6 +68,7 @@ const MediaCard2 = ({ item, style, isFirst, isLast }: Props) => {
   const handlePointerEnter = (e: React.PointerEvent) => {
     // Only trigger auto-play on mouse hover (desktop)
     if (e.pointerType === 'mouse') {
+      setHasHovered(true);
       hoverTimeoutRef.current = setTimeout(async () => {
         setIsPlaying(true);
         await loadVideo();
@@ -111,19 +115,23 @@ const MediaCard2 = ({ item, style, isFirst, isLast }: Props) => {
           className="relative aspect-2/3 w-full cursor-pointer overflow-hidden rounded-[10.92px] bg-white/5 transition-all duration-300 group-hover:aspect-video"
           onClick={handleImageClick}
         >
-          {isPlaying && videoKey ? (
+          {/* Poster, with the landscape backdrop cross-fading over it as the card widens on
+              hover. Both stay underneath the player until the trailer fades in. */}
+          <PosterImage src={item.poster_path} alt={title} className="rounded-[10.92px]" />
+          {hasHovered && item.backdrop_path && (
+            <PosterImage
+              src={item.backdrop_path}
+              alt=""
+              className="rounded-[10.92px] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+            />
+          )}
+          {isPlaying && videoKey && (
             <MediaVideoPlayer
               videoKey={videoKey}
               iframeId={iframeId}
               title={title}
               isMuted={isMuted}
               onToggleMute={handleToggleMute} // Passed here
-            />
-          ) : (
-            <PosterImage
-              src={(isPlaying && !videoKey && item.backdrop_path) || item.poster_path}
-              alt={title}
-              className={clsx('rounded-[10.92px]', isPlaying && !videoKey && 'rounded-b-0')}
             />
           )}
 
