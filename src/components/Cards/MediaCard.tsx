@@ -33,14 +33,10 @@ const MediaCard = ({ media, className }: Props) => {
 
       <Image
         className={`h-auto w-full transition-opacity duration-300 ease-in-out ${isLoaded ? 'opacity-100' : 'opacity-0'} relative z-[2] rounded-xl shadow-md`}
-        src={
-          poster_path
-            ? `https://image.tmdb.org/t/p/w342${poster_path}`
-            : `https://image.tmdb.org/t/p/w342/`
-        }
-        width={70}
-        height={105}
-        alt={displayName ?? 'Image poster'}
+        src={poster_path ? `https://image.tmdb.org/t/p/w342${poster_path}` : '/images/logo.webp'}
+        width={342}
+        height={513}
+        alt={displayName ?? 'Poster'}
         priority
         onLoad={() => setIsLoaded(true)}
       />

@@ -12,8 +12,6 @@ import { MediaWithDetails } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
 import { getMoreMediaAction } from '@/utils/serverActions/media';
 
-import { LoadingSkeletons } from '../Skeletons/LoadingSkeletons';
-
 interface Props {
   initialMedia: MediaWithDetails[];
   initialGenres: Record<number, string>;
@@ -26,38 +24,49 @@ export default function MediaList({ initialMedia, initialGenres, mediaMode }: Pr
   const [buttonHidden, setButtonHidden] = useState(initialMedia.length === 0);
   const [loading, setLoading] = useState(false);
 
-  const genres = initialGenres;
-  const itemsPerRow = useResponsiveItems(CAROUSEL_BREAKPOINTS);
+  const [error, setError] = useState(false);
 
-  if (itemsPerRow === null) return <LoadingSkeletons />;
+  const genres = initialGenres;
+  // Null until hydrated – the grid still renders on the server (SEO + no layout shift).
+  const itemsPerRow = useResponsiveItems(CAROUSEL_BREAKPOINTS);
 
   const loadMoreMedia = async () => {
     setLoading(true);
+    setError(false);
     const nextPage = page + 1;
 
-    const mediaList = await getMoreMediaAction(mediaMode, nextPage);
+    try {
+      const mediaList = await getMoreMediaAction(mediaMode, nextPage);
 
-    const newMedia = mediaList.filter(
-      (newItem) => !media.some((existing) => existing.id === newItem.id),
-    );
-
-    setButtonHidden(mediaList.length === 0);
-    setMedia((prev) => [...prev, ...newMedia]);
-    setPage(nextPage);
-    setLoading(false);
+      setButtonHidden(mediaList.length === 0);
+      setMedia((prev) => {
+        const seen = new Set(prev.map((item) => item.id));
+        return [...prev, ...mediaList.filter((item) => !seen.has(item.id))];
+      });
+      setPage(nextPage);
+    } catch {
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <MediaProvider mediaMode={mediaMode} genres={genres}>
       <div className="animate-fadeIn">
         <div className="relative mb-8 grid w-full grid-cols-2 gap-8 overflow-hidden transition-all sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
-          {media.map((item, index) => {
-            const isLastInRow = (index + 1) % itemsPerRow === 0;
-
-            if (!item.poster_path) return null;
-
-            return <MediaCard2 key={item.id} item={item} isLast={isLastInRow} />;
-          })}
+          {media
+            .filter((item) => item.poster_path)
+            .map((item, index) => {
+              const isLastInRow = itemsPerRow !== null && (index + 1) % itemsPerRow === 0;
+              return <MediaCard2 key={item.id} item={item} isLast={isLastInRow} />;
+            })}
         </div>
+
+        {error && (
+          <p role="alert" className="mb-4 text-center text-[14px] text-red-300">
+            Couldn’t load more titles. Please try again.
+          </p>
+        )}
 
         {!buttonHidden && (
           <div className="flex justify-center">
@@ -65,8 +74,9 @@ export default function MediaList({ initialMedia, initialGenres, mediaMode }: Pr
               icon={loading && <Loader className="animate-spin" />}
               onClick={loadMoreMedia}
               disabled={loading}
+              aria-busy={loading}
             >
-              Load More
+              {loading ? 'Loading…' : 'Load More'}
             </Button>
           </div>
         )}

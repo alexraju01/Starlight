@@ -1,3 +1,5 @@
+import { ImageOff } from 'lucide-react';
+
 interface Props {
   className?: string;
 }
@@ -5,9 +7,11 @@ interface Props {
 export default function BrokenImage({ className = '' }: Props) {
   return (
     <div
-      className={`flex h-full w-full items-center justify-center rounded-full bg-[#123] text-center text-white ${className}`}
+      role="img"
+      aria-label="Image not available"
+      className={`flex h-full w-full items-center justify-center bg-[#222] text-center text-white/40 ${className}`}
     >
-      <p>Image not available</p>
+      <ImageOff aria-hidden="true" className="size-1/3 max-h-10 max-w-10" />
     </div>
   );
 }

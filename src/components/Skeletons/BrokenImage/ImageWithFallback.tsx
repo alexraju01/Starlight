@@ -14,7 +14,8 @@ interface Props {
 
 export default function ImageWithFallback({ src, alt, className, width, height }: Props) {
   const [imgError, setImgError] = useState(false);
-  return imgError ? (
+  // No source at all → show the fallback immediately instead of requesting a 404.
+  return imgError || !src ? (
     <BrokenImage className={className ?? ''} />
   ) : (
     <Image
@@ -28,7 +29,7 @@ export default function ImageWithFallback({ src, alt, className, width, height }
         objectFit: 'cover',
         objectPosition: 'center 20%',
       }}
-      quality={100}
+      sizes="200px"
       onError={() => setImgError(true)}
     />
   );
