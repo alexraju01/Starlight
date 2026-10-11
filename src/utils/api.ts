@@ -9,6 +9,7 @@ import {
 } from '@/types';
 import { APIResponse, MediaWithDetails, TVShow } from '@/types/global';
 
+import { getMediaDate } from './date/formatDate';
 import { fetchData } from './fetchData';
 import { getImageUrl } from './image/getImageUrl';
 import { getTvSeasons } from './serverActions/tvSeason';
@@ -58,6 +59,21 @@ function sortQuery(mediaMode: MediaMode, sort: SortOption): Record<string, strin
       return { sort_by: 'popularity.desc' };
   }
 }
+
+/** Which genre id to use for each media type (movie and TV genre lists differ). */
+export type GenreIds = { movie?: number; tv?: number };
+
+/** a1, b1, a2, b2, … then whatever is left of the longer list. */
+const interleave = <T>(a: T[], b: T[]): T[] =>
+  Array.from({ length: Math.max(a.length, b.length) }, (_, i) => [a[i], b[i]])
+    .flat()
+    .filter((item): item is T => item !== undefined);
+
+/** Value each sort orders by, used to merge movie and TV results. */
+const SORT_KEY: Record<Exclude<SortOption, 'popular'>, (item: MediaWithDetails) => number> = {
+  top_rated: (item) => item.vote_average,
+  newest: (item) => Date.parse(getMediaDate(item)) || 0,
+};
 
 /** Tags list results with their media type (TV shows also get their season count). */
 const withMediaType = (
@@ -133,13 +149,24 @@ export const api = {
       return results.flatMap((item) => byKey.get(`${item.media_type}-${item.id}`) ?? []);
     },
 
-    /** Movies followed by TV shows for one genre. */
-    getGenreMedia: async (genreId: number, page = 1) => {
+    /**
+     * One page of a genre's movies and/or shows (a genre can exist for only one of them),
+     * merged so the combined list still follows the chosen sort.
+     */
+    getGenreMedia: async (
+      genreIds: GenreIds,
+      page = 1,
+      sort: SortOption = DEFAULT_SORT,
+    ): Promise<MediaWithDetails[]> => {
       const [movies, tvShows] = await Promise.all([
-        api.media.getMedia(MediaMode.MOVIE, page, [genreId]),
-        api.media.getMedia(MediaMode.TV, page, [genreId]),
+        genreIds.movie ? api.media.getMedia(MediaMode.MOVIE, page, [genreIds.movie], sort) : [],
+        genreIds.tv ? api.media.getMedia(MediaMode.TV, page, [genreIds.tv], sort) : [],
       ]);
-      return [...movies, ...tvShows];
+      // TMDB popularity isn't comparable between movies and TV (shows score far higher), so
+      // "popular" alternates the two lists; ratings and dates can be merged directly.
+      if (sort === 'popular') return interleave(movies, tvShows);
+      const key = SORT_KEY[sort];
+      return [...movies, ...tvShows].sort((a, b) => key(b) - key(a));
     },
 
     getOneMedia: async (
@@ -229,6 +256,39 @@ export const api = {
         api.genre.getGenres('tv'),
       ]);
       return { movieGenres, tvGenres, genresMap: toGenreMap([...movieGenres, ...tvGenres]) };
+    },
+
+    /**
+     * A distinct backdrop for every movie and TV genre (for the genres index). Uses the raw
+     * discover endpoint – no season lookups – and never repeats an image across cards.
+     */
+    getGenreBackdrops: async (movieGenres: Genre[], tvGenres: Genre[]) => {
+      const lookup = (mediaMode: MediaMode, genre: Genre) =>
+        fetchData<APIResponse>('3', `discover/${mediaMode}`, {
+          query: { with_genres: genre.id, sort_by: 'popularity.desc' },
+          cache: { type: 'revalidate', seconds: DAY },
+        })
+          .then(({ results }) => results)
+          .catch(() => []);
+
+      const [movieLists, tvLists] = await Promise.all([
+        Promise.all(movieGenres.map((g) => lookup(MediaMode.MOVIE, g))),
+        Promise.all(tvGenres.map((g) => lookup(MediaMode.TV, g))),
+      ]);
+
+      const used = new Set<string>();
+      const pick = (results: APIResponse['results']) => {
+        const path = results.find(
+          (m) => m.backdrop_path && !used.has(m.backdrop_path),
+        )?.backdrop_path;
+        if (path) used.add(path);
+        return path ?? null;
+      };
+
+      return {
+        movie: movieLists.map(pick),
+        tv: tvLists.map(pick),
+      };
     },
 
     fetchGenreMovies: async (genre: Genre, seenMovieIds: Set<number>): Promise<GenreWithMovies> => {

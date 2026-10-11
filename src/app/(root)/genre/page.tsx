@@ -2,9 +2,14 @@ import { Metadata } from 'next';
 import { Suspense } from 'react';
 
 import { GenreCard } from '@/components/Genre/GenreCollection';
+import SectionHeading from '@/components/Navigation/SectionHeading';
 import { GenreSkeleton } from '@/components/Skeletons/LoadingSkeletons';
-import { GenreKey, Icons } from '@/utils';
+import { Genre } from '@/types';
+import { GenreKey, Icons, slugify } from '@/utils';
 import { api } from '@/utils/api';
+import { getImageUrl } from '@/utils/image/getImageUrl';
+
+import type { Route } from 'next';
 
 export const metadata: Metadata = {
   title: 'Genres – Browse Movies & TV Categories',
@@ -24,46 +29,78 @@ export const metadata: Metadata = {
   ],
 };
 
-async function GenreGrid() {
-  const { movieGenres, tvGenres } = await api.genre.getAllGenres();
+const byName = (genres: Genre[]) => [...genres].sort((a, b) => a.name.localeCompare(b.name));
 
-  const uniqueGenres = Array.from(
-    new Map([...movieGenres, ...tvGenres].map((g) => [g.id, g])).values(),
-  ).sort((a, b) => a.name.localeCompare(b.name));
+async function GenreSections() {
+  const { movieGenres, tvGenres } = await api.genre.getAllGenres();
+  const movies = byName(movieGenres);
+  const tv = byName(tvGenres);
+  const backdrops = await api.genre.getGenreBackdrops(movies, tv);
+
+  // Genres that exist on both sides ("Drama") open pre-filtered to the section's type.
+  const sharedIds = new Set(movies.filter((m) => tv.some((t) => t.id === m.id)).map((m) => m.id));
+
+  const sections = [
+    { id: 'movie', title: 'Movie genres', genres: movies, images: backdrops.movie },
+    { id: 'tv', title: 'TV genres', genres: tv, images: backdrops.tv },
+  ];
 
   return (
-    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
-      {uniqueGenres.map((genre, i) => (
-        <GenreCard
-          key={genre.id}
-          name={genre.name}
-          index={i}
-          icon={Icons.genreIcons[genre.name as GenreKey]}
-        />
+    <div className="flex flex-col gap-[40px] lg:gap-[56px]">
+      {sections.map((section, sectionIndex) => (
+        <section
+          key={section.id}
+          aria-labelledby={`${section.id}-genres`}
+          className="flex flex-col gap-[20px]"
+        >
+          <SectionHeading id={`${section.id}-genres`} count={section.genres.length}>
+            {section.title}
+          </SectionHeading>
+          <ul className="grid grid-cols-2 gap-[12px] sm:grid-cols-3 sm:gap-[16px] lg:grid-cols-4 2xl:grid-cols-5">
+            {section.genres.map((genre, i) => (
+              <li key={genre.id}>
+                <GenreCard
+                  name={genre.name}
+                  href={
+                    `/genre/${slugify(genre.name)}${sharedIds.has(genre.id) ? `?type=${section.id}` : ''}` as Route
+                  }
+                  backdrop={getImageUrl(section.images[i], 'backdrop', 'w780') || null}
+                  icon={Icons.genreIcons[genre.name as GenreKey]}
+                  priority={sectionIndex === 0 && i < 4}
+                />
+              </li>
+            ))}
+          </ul>
+        </section>
       ))}
     </div>
   );
 }
 
-export default function GenrePage() {
+export default function GenresPage() {
   return (
-    <main className="animate-fadeIn bg-[#050505] text-white">
-      <div className="relative border-b border-white/5 bg-gradient-to-b from-red-900/16 to-transparent pt-16">
-        <div className="content-container">
-          <h1 className="text-4xl font-black tracking-tight uppercase md:text-6xl">
-            Browse by <span className="text-primary">Genres</span>
+    <div className="animate-fadeIn pb-[48px] lg:pb-[72px]">
+      <header className="page-gutter relative overflow-hidden pt-[32px] lg:pt-[56px]">
+        <div
+          aria-hidden="true"
+          className="from-primary/20 pointer-events-none absolute inset-x-0 -top-[120px] h-[320px] bg-gradient-to-b to-transparent blur-2xl"
+        />
+        <div className="relative flex flex-col gap-[8px] lg:gap-[12px]">
+          <h1 className="text-[clamp(32px,4vw,52px)] leading-[1.05] font-extrabold tracking-[-0.02em] text-white">
+            Genres
           </h1>
-          <p className="mt-4 max-w-xl text-lg text-slate-400">
-            From pulse-pounding action to heart-wrenching dramas, find your next favorite story.
+          <p className="max-w-[56ch] text-[15px] leading-[1.6] text-pretty text-white/60 lg:text-[16px]">
+            From pulse-pounding action to heart-wrenching dramas — pick a mood and find your next
+            favourite story.
           </p>
         </div>
-      </div>
+      </header>
 
-      <section className="content-container py-16">
+      <div className="page-gutter pt-[32px] lg:pt-[48px]">
         <Suspense fallback={<GenreSkeleton />}>
-          <GenreGrid />
+          <GenreSections />
         </Suspense>
-      </section>
-    </main>
+      </div>
+    </div>
   );
 }
