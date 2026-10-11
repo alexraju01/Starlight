@@ -4,9 +4,10 @@ import clsx from 'clsx';
 import { Info, VolumeX } from 'lucide-react';
 import Link from 'next/link';
 
+import Icons from '@/utils/icons';
+
 import type { Route } from 'next';
 
-import Icons from '@/utils/icons';
 
 interface ActionButtonsProps {
   onWatchTrailer: () => void;
@@ -35,7 +36,7 @@ export default function ActionButtons({
           disabled={isLoading}
           aria-busy={isLoading}
           className={clsx(
-            'flex h-[50px] w-full flex-shrink-0 cursor-pointer sm:w-[220px] items-center justify-center gap-2 rounded-[8px] px-4 text-[17.14px] transition-all duration-300 sm:h-[59px] sm:text-[20px]',
+            'flex h-[50px] w-full flex-shrink-0 cursor-pointer items-center justify-center gap-2 rounded-[8px] px-4 text-[17.14px] transition-all duration-300 sm:h-[59px] sm:w-[220px] sm:text-[20px]',
             isTrailerActive
               ? 'border border-white/20 bg-black/80 text-white shadow-lg hover:bg-[#9E221A]'
               : 'sm:bg-primary bg-white text-black hover:bg-[#9E221A] sm:text-white',
