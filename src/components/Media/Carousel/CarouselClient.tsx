@@ -67,14 +67,30 @@ export default function CarouselClient({ children, itemCount }: Props) {
     [itemCount],
   );
 
+  /** Where the slides are on screen right now – mid-transition this lags behind `position`. */
+  const visualPosition = () => {
+    const track = trackRef.current;
+    const active = track?.children[currentIndex] as HTMLElement | undefined;
+    if (!track || !active) return position;
+    const offsetPx = new DOMMatrix(getComputedStyle(active).transform).m41;
+    return position - offsetPx / (track.offsetWidth || 1);
+  };
+
+  // Position the drag started from, so grabbing a slide mid-animation doesn't make it jump.
+  const dragOrigin = useRef(0);
+
   const { isDragging, handlers: swipeHandlers } = useCarouselSwipe({
     enabled: !isAnyVideoPlaying && itemCount > 1,
     getWidth: () => trackRef.current?.offsetWidth ?? 1,
-    onDrag: (slidesMoved) => layout(position - slidesMoved),
+    onDragStart: () => {
+      dragOrigin.current = visualPosition();
+      layout(dragOrigin.current);
+    },
+    onDrag: (slidesMoved) => layout(dragOrigin.current - slidesMoved),
     onRelease: (direction) => {
-      if (direction === 1) handleNext();
-      else if (direction === -1) handlePrev();
-      else layout(position); // snap back
+      const target = Math.round(dragOrigin.current) + direction;
+      if (target === position) layout(position); // snap back
+      else setPosition(target);
     },
   });
 
