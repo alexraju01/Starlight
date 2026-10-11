@@ -110,6 +110,29 @@ export const api = {
       return withMediaType(mediaMode, results);
     },
 
+    /** This week's trending movies and shows together, in TMDB's trending order. */
+    getTrendingAll: async (): Promise<MediaWithDetails[]> => {
+      const { results } = await fetchData<APIResponse>('3', 'trending/all/week', {
+        cache: { type: 'revalidate', seconds: HOUR },
+      });
+
+      const [movies, tvShows] = await Promise.all([
+        withMediaType(
+          MediaMode.MOVIE,
+          results.filter((item) => item.media_type === MediaMode.MOVIE),
+        ),
+        withMediaType(
+          MediaMode.TV,
+          results.filter((item) => item.media_type === MediaMode.TV),
+        ),
+      ]);
+
+      const byKey = new Map(
+        [...movies, ...tvShows].map((item) => [`${item.media_type}-${item.id}`, item]),
+      );
+      return results.flatMap((item) => byKey.get(`${item.media_type}-${item.id}`) ?? []);
+    },
+
     /** Movies followed by TV shows for one genre. */
     getGenreMedia: async (genreId: number, page = 1) => {
       const [movies, tvShows] = await Promise.all([

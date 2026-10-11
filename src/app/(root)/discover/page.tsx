@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 
 import DiscoverClient from '@/components/DiscoverClient';
+import { api } from '@/utils/api';
 import { searchMediaAction, getAllGenresAction } from '@/utils/serverActions/media';
 
 export const metadata: Metadata = {
@@ -27,7 +28,19 @@ export default async function DiscoverPage({
   const { search } = await searchParams;
   const query = (Array.isArray(search) ? search[0] : search)?.trim() ?? '';
 
-  const [results, genreMap] = await Promise.all([searchMediaAction(query), getAllGenresAction()]);
+  const [results, genreMap, trending] = await Promise.all([
+    searchMediaAction(query),
+    getAllGenresAction(),
+    // Only needed for the "nothing searched yet" state.
+    query ? [] : api.media.getTrendingAll().catch(() => []),
+  ]);
 
-  return <DiscoverClient results={results} genreMap={genreMap} initialQuery={query} />;
+  return (
+    <DiscoverClient
+      results={results}
+      trending={trending}
+      genreMap={genreMap}
+      initialQuery={query}
+    />
+  );
 }

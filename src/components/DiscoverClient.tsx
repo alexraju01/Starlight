@@ -4,19 +4,23 @@ import { useRouter } from 'next/navigation';
 import { useRef, useState, useTransition } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 
+import SearchResults from '@/components/Discover/SearchResults';
 import { SearchForm } from '@/components/Forms/SearchForm';
+import MovieGrid from '@/components/Media/MovieGrid';
+import SectionHeading from '@/components/Navigation/SectionHeading';
+import { LoadingSkeletons } from '@/components/Skeletons/LoadingSkeletons';
 import { ROUTES } from '@/constants/route';
-
-import MovieGrid from './Media/MovieGrid';
-import { LoadingSkeletons } from './Skeletons/LoadingSkeletons';
+import { MediaWithDetails } from '@/types/global';
 
 interface Props {
-  results: React.ComponentProps<typeof MovieGrid>['media'];
+  results: MediaWithDetails[];
+  /** Shown before the user has searched for anything. */
+  trending: MediaWithDetails[];
   genreMap: Record<number, string>;
   initialQuery: string;
 }
 
-export default function DiscoverClient({ results, genreMap, initialQuery }: Props) {
+export default function DiscoverClient({ results, trending, genreMap, initialQuery }: Props) {
   const router = useRouter();
   const [query, setQuery] = useState(initialQuery);
   const [isPending, startTransition] = useTransition();
@@ -51,56 +55,64 @@ export default function DiscoverClient({ results, genreMap, initialQuery }: Prop
     debouncedPush(value);
   };
 
-  const handleSubmit = () => {
+  const pushNow = (value: string) => {
     debouncedPush.cancel();
-    pushQuery(query);
+    pushQuery(value);
   };
 
-  const hasQuery = initialQuery.length > 0;
-
   return (
-    <div className="flex min-h-[70vh] w-full flex-col items-center gap-12 px-4 py-12 sm:gap-16">
-      <div className="flex w-full flex-col items-center gap-4 text-center">
-        <h1 className="animate-fadeIn text-4xl font-bold text-white md:text-5xl">
-          Discover movies &amp; TV shows
-        </h1>
-        <p className="text-[16px] text-slate-400">Search by title — results update as you type.</p>
-      </div>
+    <div className="animate-fadeIn pb-[48px] lg:pb-[72px]">
+      <header className="page-gutter relative overflow-hidden pt-[32px] lg:pt-[56px]">
+        <div
+          aria-hidden="true"
+          className="from-primary/20 pointer-events-none absolute inset-x-0 -top-[120px] h-[320px] bg-gradient-to-b to-transparent blur-2xl"
+        />
+        <div className="relative flex flex-col gap-[8px] lg:gap-[12px]">
+          <h1 className="text-[clamp(32px,4vw,52px)] leading-[1.05] font-extrabold tracking-[-0.02em] text-white">
+            Discover
+          </h1>
+          <p className="max-w-[56ch] text-[15px] leading-[1.6] text-pretty text-white/60 lg:text-[16px]">
+            Search thousands of movies and TV shows by title — results update as you type.
+          </p>
+        </div>
+        <div className="relative mt-[24px] lg:mt-[32px]">
+          <SearchForm
+            query={query}
+            onChangeAction={handleInputChange}
+            onSubmitAction={() => pushNow(query)}
+            onClearAction={() => {
+              setQuery('');
+              pushNow('');
+            }}
+            isPending={isPending}
+          />
+        </div>
+      </header>
 
-      <SearchForm
-        query={query}
-        onChangeAction={handleInputChange}
-        onSubmitAction={handleSubmit}
-        isPending={isPending}
-      />
-
-      <div
-        className="w-full px-2 sm:px-6 lg:px-[68px] 2xl:px-[101px]"
+      <section
         aria-busy={isPending}
         aria-live="polite"
+        className="page-gutter pt-[32px] lg:pt-[48px]"
       >
         {isPending ? (
           <LoadingSkeletons count={12} />
-        ) : !hasQuery ? (
-          <p className="text-center text-[16px] text-slate-500">
-            Start typing to search thousands of movies and TV shows.
-          </p>
-        ) : results.length === 0 ? (
-          <div className="flex flex-col items-center gap-2 text-center">
-            <p className="text-2xl font-semibold text-white">No results for “{initialQuery}”</p>
-            <p className="text-[16px] text-slate-400">
-              Check the spelling or try a different title.
-            </p>
-          </div>
+        ) : initialQuery ? (
+          // Keyed so a new search starts again from page 1 with the "All" tab.
+          <SearchResults
+            key={initialQuery}
+            query={initialQuery}
+            initialResults={results}
+            genreMap={genreMap}
+          />
         ) : (
-          <>
-            <p className="mb-6 text-[14px] text-slate-400">
-              {results.length} result{results.length === 1 ? '' : 's'} for “{initialQuery}”
-            </p>
-            <MovieGrid media={results} genreMap={genreMap} />
-          </>
+          trending.length > 0 && (
+            <div className="flex flex-col gap-[20px] lg:gap-[24px]">
+              <SectionHeading>Trending this week</SectionHeading>
+              <MovieGrid media={trending} genreMap={genreMap} />
+            </div>
+          )
         )}
-      </div>
+      </section>
     </div>
   );
 }

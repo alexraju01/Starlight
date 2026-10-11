@@ -40,14 +40,14 @@ export async function fetchGenreMedia(genreId: number, page: number) {
   }
 }
 
-/** Used by the navbar dropdown and the discover page. */
-export async function searchMediaAction(query: string) {
-  if (typeof query !== 'string') return [];
+/** Used by the navbar dropdown and the discover page (`page` for "Load more"). */
+export async function searchMediaAction(query: string, page = 1) {
+  if (typeof query !== 'string' || !isPositiveInt(page, MAX_PAGE)) return [];
   const trimmed = query.trim().slice(0, MAX_QUERY_LENGTH);
   if (!trimmed) return [];
 
   try {
-    return await api.media.search(trimmed);
+    return await api.media.search(trimmed, page);
   } catch (error) {
     console.error('Search Action Error:', error);
     return [];
