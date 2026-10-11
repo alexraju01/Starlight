@@ -10,6 +10,7 @@ import { MediaProvider } from '@/context/MediaContext';
 import { useResponsiveItems } from '@/hooks/useResponsiveItems';
 import { MediaWithDetails } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
+import { completeRows } from '@/utils/completeRows';
 import { getMoreMediaAction } from '@/utils/serverActions/media';
 
 interface Props {
@@ -29,6 +30,16 @@ export default function MediaList({ initialMedia, initialGenres, mediaMode }: Pr
   const genres = initialGenres;
   // Null until hydrated – the grid still renders on the server (SEO + no layout shift).
   const itemsPerRow = useResponsiveItems(CAROUSEL_BREAKPOINTS);
+  // Only whole rows while "Load More" is showing, so the grid never looks like it ended.
+  const visibleMedia = completeRows(
+    media.filter((item) => item.poster_path),
+    itemsPerRow,
+    !buttonHidden,
+  );
+
+  const gridStyle = itemsPerRow
+    ? { gridTemplateColumns: `repeat(${itemsPerRow}, minmax(0, 1fr))` }
+    : undefined;
 
   const loadMoreMedia = async () => {
     setLoading(true);
@@ -53,13 +64,16 @@ export default function MediaList({ initialMedia, initialGenres, mediaMode }: Pr
   return (
     <MediaProvider mediaMode={mediaMode} genres={genres}>
       <div className="animate-fadeIn">
-        <div className="relative mb-8 grid w-full grid-cols-2 gap-8 overflow-hidden transition-all sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
-          {media
-            .filter((item) => item.poster_path)
-            .map((item, index) => {
-              const isLastInRow = itemsPerRow !== null && (index + 1) % itemsPerRow === 0;
-              return <MediaCard2 key={item.id} item={item} isLast={isLastInRow} />;
-            })}
+        {/* The Tailwind columns cover the server render; once hydrated the column count comes
+            from the same breakpoints used to trim rows, so the two can never disagree. */}
+        <div
+          className="relative mb-8 grid w-full grid-cols-2 gap-8 overflow-hidden transition-all sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6"
+          style={gridStyle}
+        >
+          {visibleMedia.map((item, index) => {
+            const isLastInRow = itemsPerRow !== null && (index + 1) % itemsPerRow === 0;
+            return <MediaCard2 key={item.id} item={item} isLast={isLastInRow} />;
+          })}
         </div>
 
         {error && (
