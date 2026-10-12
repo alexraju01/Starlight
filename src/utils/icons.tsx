@@ -23,7 +23,7 @@ import {
   FaComment,
   FaGavel,
 } from 'react-icons/fa';
-import { FaCompass, FaFilm, FaArrowLeft } from 'react-icons/fa6';
+import { FaCompass, FaFilm } from 'react-icons/fa6';
 import { IoPlay } from 'react-icons/io5';
 import { LuClapperboard } from 'react-icons/lu';
 
@@ -60,7 +60,6 @@ const genreIcons = {
 type GenreKey = keyof typeof genreIcons;
 
 const Icons = {
-  goBack: <FaArrowLeft />,
   play: <IoPlay />,
   genreIcons,
 };

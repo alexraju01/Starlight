@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import { buttonClass } from '@/components/ui/buttonStyles';
+import { prefersReducedMotion } from '@/utils/motion';
 
 import PosterFan from './PosterFan';
 
@@ -19,7 +20,6 @@ export interface SpotlightGenre {
   tint: string;
   backdrop: string | null;
   posters: string[];
-  /** "Movies · TV", "Movies" or "TV". */
   coverage: string;
   featuredTitle: string | null;
 }
@@ -30,13 +30,12 @@ interface Props {
   allHrefs: Route[];
 }
 
-/** How long each genre stays in the spotlight before rotating (ms). */
 const ROTATE_MS = 7000;
 
 /**
- * Full-bleed "What are you in the mood for?" hero. Cross-fades between headline genres
- * (artwork, colour glow and poster fan), auto-rotating with a progress bar on the active
- * chip. Rotation pauses on hover/focus and is off for users who prefer reduced motion.
+ * "What are you in the mood for?" hero: cross-fades between headline genres, auto-rotating
+ * with a progress bar on the active chip. Pauses on hover/focus, in a background tab and
+ * for reduced motion.
  */
 export default function GenreSpotlight({ genres, allHrefs }: Props) {
   const router = useRouter();
@@ -45,24 +44,22 @@ export default function GenreSpotlight({ genres, allHrefs }: Props) {
   const [reduceMotion, setReduceMotion] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const genre = genres[active];
-  // Hover/focus pauses; so does a background tab, so you don't come back several genres on.
   const isHalted = isPaused || isHidden;
 
   useEffect(() => {
-    setReduceMotion(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    setReduceMotion(prefersReducedMotion());
     const onVisibility = () => setIsHidden(document.hidden);
     document.addEventListener('visibilitychange', onVisibility);
     return () => document.removeEventListener('visibilitychange', onVisibility);
   }, []);
 
-  // Restarts on every change, so picking a chip gives it a full turn.
+  // Restarts on every change, so a picked chip gets a full turn.
   useEffect(() => {
     if (isHalted || reduceMotion || genres.length < 2) return;
     const id = window.setTimeout(() => setActive((i) => (i + 1) % genres.length), ROTATE_MS);
     return () => window.clearTimeout(id);
   }, [active, isHalted, reduceMotion, genres.length]);
 
-  // Never "surprise" with the genre already on screen.
   const surprise = () => {
     const others = allHrefs.filter((href) => href !== genre.href);
     const pool = others.length > 0 ? others : allHrefs;
@@ -79,7 +76,6 @@ export default function GenreSpotlight({ genres, allHrefs }: Props) {
       style={{ '--tint': genre.tint } as React.CSSProperties}
       className="relative isolate flex min-h-[560px] items-end overflow-hidden transition-[--tint] duration-1000 lg:min-h-[min(720px,calc(100svh-var(--nav-h)))]"
     >
-      {/* Artwork: every genre stacked, the active one faded in with a slow zoom. */}
       {genres.map((g, i) => (
         <div
           key={g.name}
@@ -104,7 +100,6 @@ export default function GenreSpotlight({ genres, allHrefs }: Props) {
           )}
         </div>
       ))}
-      {/* Legibility: dark from the left and bottom, then the genre's colour glowing up. */}
       <div className="from-secondary via-secondary/80 lg:via-secondary/55 absolute inset-0 -z-10 bg-gradient-to-r to-transparent" />
       <div
         aria-hidden="true"
@@ -116,7 +111,7 @@ export default function GenreSpotlight({ genres, allHrefs }: Props) {
       />
       <div className="from-secondary absolute inset-0 -z-10 bg-gradient-to-t via-transparent to-transparent" />
 
-      {/* Poster fan (desktop): keyed so it re-animates for each genre. */}
+      {/* Keyed so it replays for each genre. */}
       <PosterFan
         key={genre.name}
         posters={genre.posters}
@@ -131,7 +126,6 @@ export default function GenreSpotlight({ genres, allHrefs }: Props) {
           What are you in the mood for?
         </h1>
 
-        {/* Genre picker. aria-pressed buttons (not tabs): each switches the spotlight. */}
         <div
           role="group"
           aria-label="Spotlight genre"

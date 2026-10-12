@@ -5,6 +5,7 @@ import { useState, ReactNode, useCallback, useEffect, useRef } from 'react';
 
 import { useCarousel } from '@/context/CarouselContext';
 import { useSwipe } from '@/hooks/useSwipe';
+import { prefersReducedMotion } from '@/utils/motion';
 
 import CarouselControls from './CarouselControls';
 import CarouselDots from './CarouselDots';
@@ -14,7 +15,6 @@ interface Props {
   itemCount: number;
 }
 
-/** How long each slide stays on screen before autoplay moves on (ms). */
 const AUTOPLAY_MS = 5000;
 
 /** True modulo (`-1 mod 9` → 8). */
@@ -26,15 +26,11 @@ const ringDistance = (to: number, from: number, count: number) => {
   return d > count / 2 ? d - count : d;
 };
 
-/*
- * Endless loop: every slide is absolutely positioned and placed by its distance from the
- * current position around a ring, so after the last slide the first one comes in from the
- * right (instead of the track rewinding through every slide).
- *
- *   position  unbounded counter (…, 8, 9, 10, …); the active slide is position mod count
- *   --d       each slide's signed distance from the centre, set imperatively so dragging
- *             never re-renders React. CSS turns it into the slide offset and the backdrop
- *             parallax (see .carousel-slide in globals.css).
+/**
+ * Endless hero carousel. Slides sit on a ring: `position` is an unbounded counter (the
+ * active slide is position mod count) and each slide gets its signed distance as `--d`,
+ * written to the DOM so dragging never re-renders. CSS turns `--d` into the slide offset
+ * and parallax (.carousel-slide in globals.css).
  */
 export default function CarouselClient({ children, itemCount }: Props) {
   const [position, setPosition] = useState(0);
@@ -59,15 +55,14 @@ export default function CarouselClient({ children, itemCount }: Props) {
         const el = slide as HTMLElement;
         const d = ringDistance(i, pos, itemCount);
         el.style.setProperty('--d', String(d));
-        // Slides more than one step away are off-screen; hiding them means a slide that
-        // wraps from the far left to the far right never visibly flies across.
+        // Hidden off-screen, so a slide wrapping round the ring never flies across.
         el.style.visibility = Math.abs(d) > 1.5 ? 'hidden' : '';
       });
     },
     [itemCount],
   );
 
-  /** Where the slides are on screen right now – mid-transition this lags behind `position`. */
+  /** Where the slides are on screen now (lags `position` mid-transition). */
   const visualPosition = () => {
     const track = trackRef.current;
     const active = track?.children[currentIndex] as HTMLElement | undefined;
@@ -76,7 +71,7 @@ export default function CarouselClient({ children, itemCount }: Props) {
     return position - offsetPx / (track.offsetWidth || 1);
   };
 
-  // Position the drag started from, so grabbing a slide mid-animation doesn't make it jump.
+  // Grabbing mid-animation starts from where the slides are, so nothing jumps.
   const dragOrigin = useRef(0);
 
   const { isDragging, handlers: swipeHandlers } = useSwipe({
@@ -88,14 +83,12 @@ export default function CarouselClient({ children, itemCount }: Props) {
     onDrag: (dx) => layout(dragOrigin.current - dx / (trackRef.current?.offsetWidth || 1)),
     onRelease: (direction) => {
       const target = Math.round(dragOrigin.current) + direction;
-      if (target === position)
-        layout(position); // snap back
+      if (target === position) layout(position);
       else setPosition(target);
     },
   });
 
-  // Place slides, and hide off-screen ones from keyboard + screen readers so Tab can't
-  // land on invisible buttons.
+  // Off-screen slides are inert so Tab can't land on invisible buttons.
   useEffect(() => {
     layout(position);
     Array.from(trackRef.current?.children ?? []).forEach((slide, i) => {
@@ -105,21 +98,19 @@ export default function CarouselClient({ children, itemCount }: Props) {
     });
   }, [position, currentIndex, layout]);
 
-  // Transitions are off for the very first placement so slides don't animate in from the
-  // server-rendered stack.
+  // No transitions for the first placement, so slides don't animate in from the SSR stack.
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
-    void section.offsetWidth; // flush the instant layout before re-enabling transitions
+    void section.offsetWidth; // flush layout before re-enabling transitions
     section.removeAttribute('data-instant');
   }, []);
 
-  // Autoplay. Pauses on hover/focus, while dragging or a trailer plays, when the tab is
-  // hidden, and is disabled for users who prefer reduced motion. `position` is a dependency
-  // so the timer restarts after every manual slide change.
+  // Autoplay: paused on hover/focus, while dragging or playing a trailer, in a hidden tab
+  // and for reduced motion. Restarts after every slide change (`position` dependency).
   useEffect(() => {
     if (isPaused || isDragging || isAnyVideoPlaying || itemCount < 2) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (prefersReducedMotion()) return;
 
     const id = window.setInterval(() => {
       if (document.visibilityState === 'visible') handleNext();
@@ -153,9 +144,7 @@ export default function CarouselClient({ children, itemCount }: Props) {
         aria-live={isPaused ? 'polite' : 'off'}
         className={clsx(
           'relative w-full overflow-hidden',
-          // Below 840px: Viki's billboard sizing – the larger of the screen width or 77% of
-          // its height (roughly poster-shaped). From 840px: 16:9, but never taller than the
-          // space between the bottom of the navbar and the bottom of the screen.
+          // Poster-shaped below 840px; 16:9 above, capped to the space under the navbar.
           'h-[max(100vw,77svh)] min-[840px]:h-[min(56.25vw,calc(100svh-var(--nav-h)))]',
         )}
       >
@@ -168,7 +157,6 @@ export default function CarouselClient({ children, itemCount }: Props) {
           isAnyVideoPlaying ? 'pointer-events-none opacity-0' : 'opacity-100',
         )}
       >
-        {/* Arrows on larger screens; mobile uses swipe. */}
         <div className="hidden sm:block">
           <CarouselControls onPrev={handlePrev} onNext={handleNext} />
         </div>

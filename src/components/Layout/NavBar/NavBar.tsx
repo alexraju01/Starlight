@@ -16,7 +16,7 @@ import NavLinks from './NavLinks';
 const iconButton =
   'flex size-[40px] items-center justify-center rounded-full text-white/80 transition-colors hover:bg-white/10 hover:text-white';
 
-const NavBar = () => {
+export default function NavBar() {
   const {
     isMobileNavOpen,
     isSearchOpen,
@@ -31,9 +31,7 @@ const NavBar = () => {
   useFocusTrap(refs.mobileNavRef, isMobileNavOpen);
   const barRef = useRef<HTMLDivElement>(null);
 
-  // Publish the bar's real height as --nav-h so the page offset and full-height
-  // sections (hero carousel) line up exactly with the bottom of the navbar.
-  // Measures the bar only, not the mobile overlays, so opening them doesn't shift the page.
+  // Publishes the bar's height (not the overlays') as --nav-h for page offsets and full-height heroes.
   useEffect(() => {
     const bar = barRef.current;
     if (!bar) return;
@@ -45,8 +43,7 @@ const NavBar = () => {
   }, []);
 
   return (
-    // No background/filter on <header> itself: a backdrop-filter here would make it the
-    // containing block for the fixed-position drawer and trap it inside the bar.
+    // No backdrop-filter on <header>: it would become the fixed drawer's containing block.
     <header className="fixed top-0 left-0 z-50 w-full">
       <div
         ref={barRef}
@@ -106,6 +103,4 @@ const NavBar = () => {
       />
     </header>
   );
-};
-
-export default NavBar;
+}

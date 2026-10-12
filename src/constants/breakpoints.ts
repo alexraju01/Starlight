@@ -1,17 +1,12 @@
 /**
  * Items per row by viewport width: the first entry whose `max` (px, inclusive) fits wins.
- *
- * The `max` values are Tailwind's breakpoints minus one (sm 640, md 768, lg 1024,
- * xl 1280, 2xl 1536), so JS logic (edge cards, slider paging) agrees with the CSS
- * grid columns at every width – including the exact breakpoint pixels.
+ * The `max` values are Tailwind's breakpoints minus one, so JS (row paging, edge cards)
+ * agrees with the CSS grid columns at every width.
  */
 export type Breakpoint = { max: number; value: number };
 
-/**
- * Media card grids and rows (home, "More like this"). Must match MovieGrid's Tailwind columns:
- * `grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6`.
- */
-export const CAROUSEL_BREAKPOINTS: Breakpoint[] = [
+/** Media card grids and rows. Must match MediaGrid's `grid-cols-*` classes. */
+export const MEDIA_COLUMNS: Breakpoint[] = [
   { max: 639, value: 2 },
   { max: 767, value: 3 },
   { max: 1279, value: 4 },
@@ -19,8 +14,8 @@ export const CAROUSEL_BREAKPOINTS: Breakpoint[] = [
   { max: Infinity, value: 6 },
 ];
 
-/** "Browse by genre" row on the home page (5 per screen above 1000px). */
-export const GENRE_COLLECTION_BREAKPOINTS: Breakpoint[] = [
+/** "Browse by genre" row on the home page. */
+export const GENRE_ROW_COLUMNS: Breakpoint[] = [
   { max: 500, value: 2 },
   { max: 768, value: 3 },
   { max: 1000, value: 4 },

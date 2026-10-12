@@ -1,9 +1,7 @@
 import { useState } from 'react';
 
 import { MediaWithDetails } from '@/types/global';
-
-/** Movies and shows can share numeric ids, so dedupe on type + id. */
-const keyOf = (item: MediaWithDetails) => `${item.media_type}-${item.id}`;
+import { mediaKey } from '@/utils/media';
 
 /**
  * "Load More" pagination for a media grid: appends the next page (skipping titles already
@@ -32,8 +30,8 @@ export function useLoadMore(
       }
 
       setItems((prev) => {
-        const seen = new Set(prev.map(keyOf));
-        return [...prev, ...nextItems.filter((item) => !seen.has(keyOf(item)))];
+        const seen = new Set(prev.map(mediaKey));
+        return [...prev, ...nextItems.filter((item) => !seen.has(mediaKey(item)))];
       });
       setPage(nextPage);
     } catch {

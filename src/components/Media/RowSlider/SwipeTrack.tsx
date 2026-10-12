@@ -16,13 +16,10 @@ interface Props {
   children: React.ReactNode;
 }
 
-/** Drag past the first/last page moves the track at this fraction of the pointer (rubber band). */
+/** Rubber band: past the first/last page the track moves at this fraction of the drag. */
 const EDGE_RESISTANCE = 0.3;
 
-/**
- * Slider track that follows a swipe / mouse drag and settles on the previous or next page
- * on release. The drag offset is written straight to the DOM so dragging never re-renders.
- */
+/** Track that follows a drag and settles on the previous / next page (DOM writes, no re-renders). */
 export default function SwipeTrack({
   baseTransform,
   canGoPrev,
@@ -46,7 +43,7 @@ export default function SwipeTrack({
     onRelease: (direction) => {
       if (direction === 1 && canGoNext) return onNext();
       if (direction === -1 && canGoPrev) return onPrev();
-      // Snap back: wait a frame so the transition is re-enabled before moving.
+      // Snap back a frame later, once the transition is re-enabled.
       requestAnimationFrame(() => {
         if (trackRef.current) trackRef.current.style.transform = baseTransform;
       });

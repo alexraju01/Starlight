@@ -1,24 +1,24 @@
 'use client';
 
-import clsx from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 
 import SectionHeading from '@/components/Navigation/SectionHeading';
 import ScrollRow from '@/components/ui/ScrollRow';
+import { SegmentedButtons } from '@/components/ui/Segmented';
 import { ROUTES } from '@/constants/route';
 import { MediaWithDetails } from '@/types/global';
 import { getImageUrl } from '@/utils/image/getImageUrl';
-import { displayName } from '@/utils/stringUtils';
+import { displayName, mediaKey } from '@/utils/media';
 
 type Kind = 'movies' | 'shows';
 
 interface Props {
   genreName: string;
-  /** Genre accent colour (hex) – each rank lights up in it on hover. */
+  /** Accent colour (hex) for the hovered rank. */
   tint: string;
-  /** Most popular first. Either list may be empty (genres can be movie- or TV-only). */
+  /** Most popular first; either may be empty. */
   movies: MediaWithDetails[];
   shows: MediaWithDetails[];
 }
@@ -28,9 +28,8 @@ const LABEL: Record<Kind, string> = { movies: 'Movies', shows: 'TV Shows' };
 const rankable = (titles: MediaWithDetails[]) => titles.filter((m) => m.poster_path).slice(0, 10);
 
 /**
- * "Top 10 Horror Movies": a ranked row with large outlined numbers beside each poster.
- * Movies and shows are ranked separately – TMDB popularity isn't comparable between the
- * two, so a mixed list would just alternate them. Genres with both get a toggle.
+ * "Top 10 Horror Movies" with large outlined ranks. Movies and shows are ranked separately
+ * (TMDB popularity isn't comparable across the two); genres with both get a toggle.
  */
 export default function TopTenRow({ genreName, tint, movies, shows }: Props) {
   const lists: Record<Kind, MediaWithDetails[]> = {
@@ -47,45 +46,30 @@ export default function TopTenRow({ genreName, tint, movies, shows }: Props) {
   return (
     <section aria-labelledby="top-ten-heading" style={{ '--tint': tint } as React.CSSProperties}>
       <ScrollRow
-        // Remount on toggle so the new list starts at #1.
+        // Remount on toggle so the list starts at #1.
         key={active}
         heading={
           <div className="flex flex-wrap items-center gap-x-[16px] gap-y-[10px]">
             <SectionHeading id="top-ten-heading">{title}</SectionHeading>
             {kinds.length > 1 && (
-              <div
-                role="group"
-                aria-label="Rank"
-                className="inline-grid grid-cols-2 rounded-[10px] border border-white/10 bg-white/[0.04] p-[3px]"
-              >
-                {kinds.map((kind) => (
-                  <button
-                    key={kind}
-                    type="button"
-                    onClick={() => setActive(kind)}
-                    aria-pressed={kind === active}
-                    className={clsx(
-                      'h-[32px] rounded-[7px] px-[14px] text-[13px] font-medium transition-colors',
-                      kind === active
-                        ? 'text-secondary bg-white'
-                        : 'text-white/70 hover:text-white',
-                    )}
-                  >
-                    {LABEL[kind]}
-                  </button>
-                ))}
-              </div>
+              <SegmentedButtons
+                label="Rank"
+                size="sm"
+                value={active}
+                onChange={setActive}
+                options={kinds.map((kind) => ({ value: kind, label: LABEL[kind] }))}
+              />
             )}
           </div>
         }
         label={title}
-        // Room for the hover lift above and the poster shadows below (the list clips).
+        // Room for the hover lift and shadows (the list clips).
         listClassName="gap-[16px] pt-[8px] pb-[16px]"
       >
         {ranked.map((media, i) => {
           const name = displayName(media);
           return (
-            <li key={`${media.media_type}-${media.id}`} className="shrink-0 snap-start">
+            <li key={mediaKey(media)} className="shrink-0 snap-start">
               <Link
                 href={ROUTES.MEDIA(media.media_type, media.id, name)}
                 aria-label={`#${i + 1}: ${name}`}
@@ -103,7 +87,7 @@ export default function TopTenRow({ genreName, tint, movies, shows }: Props) {
                     alt=""
                     fill
                     sizes="150px"
-                    // Only ten small posters: load them up front so none decode mid-swipe.
+                    // Ten small posters: load up front so none decode mid-swipe.
                     loading="eager"
                     className="object-cover"
                   />

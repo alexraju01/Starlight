@@ -5,10 +5,12 @@ import { useEffect, useRef, useState, useTransition } from 'react';
 
 import { buttonClass } from '@/components/ui/buttonStyles';
 import { useFocusTrap } from '@/hooks/useFocusTrap';
+import { useScrollLock } from '@/hooks/useScrollLock';
+import { MediaMode } from '@/types/mediaMode';
 import { getVideoKey } from '@/utils/serverActions/getVideoKey';
 
 interface Props {
-  mediaMode: 'movie' | 'tv';
+  mediaMode: MediaMode;
   id: number;
   title: string;
 }
@@ -23,6 +25,7 @@ export default function TrailerButton({ mediaMode, id, title }: Props) {
   const closeRef = useRef<HTMLButtonElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
   useFocusTrap(dialogRef, isOpen);
+  useScrollLock(isOpen);
 
   const open = () => {
     if (videoKey) return setIsOpen(true);
@@ -43,12 +46,10 @@ export default function TrailerButton({ mediaMode, id, title }: Props) {
     triggerRef.current?.focus();
   };
 
-  // While open: Escape closes, the page behind doesn't scroll, focus starts on "Close".
+  // While open: focus starts on "Close" and Escape closes.
   useEffect(() => {
     if (!isOpen) return;
     closeRef.current?.focus();
-    const { overflow } = document.body.style;
-    document.body.style.overflow = 'hidden';
 
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -57,10 +58,7 @@ export default function TrailerButton({ mediaMode, id, title }: Props) {
       }
     };
     document.addEventListener('keydown', onKeyDown);
-    return () => {
-      document.body.style.overflow = overflow;
-      document.removeEventListener('keydown', onKeyDown);
-    };
+    return () => document.removeEventListener('keydown', onKeyDown);
   }, [isOpen]);
 
   return (

@@ -2,22 +2,24 @@ import { DEFAULT_SORT, SortOption } from '@/constants/browse';
 import {
   CastMember,
   Credits,
+  CrewMember,
   Genre,
+  GenreIds,
   GenreResponse,
+  GenreShowcaseItem,
   GenreWithMovies,
   MediaMode,
   MovieWithLogos,
+  TvAggregateCastMember,
 } from '@/types';
 import { APIResponse, MediaWithDetails, TVShow } from '@/types/global';
 
-import { getMediaDate } from './date/formatDate';
-import { fetchData } from './fetchData';
+import { TTL, fetchData } from './fetchData';
 import { getImageUrl } from './image/getImageUrl';
 import { interleave } from './interleave';
+import { logError } from './logger';
+import { getMediaDate, mediaKey } from './media';
 import { getTvSeasons } from './serverActions/tvSeason';
-
-const HOUR = 60 * 60;
-const DAY = 24 * HOUR;
 
 const toGenreMap = (genres: Genre[]): Record<number, string> =>
   Object.fromEntries(genres.map(({ id, name }) => [id, name]));
@@ -62,21 +64,6 @@ function sortQuery(mediaMode: MediaMode, sort: SortOption): Record<string, strin
   }
 }
 
-/** Raw TMDB shapes for credits (only the fields used). */
-interface TvAggregateCastMember {
-  id: number;
-  name: string;
-  profile_path: string | null;
-  total_episode_count: number;
-  roles?: { character: string; episode_count: number }[];
-}
-interface CrewMember {
-  id: number;
-  name: string;
-  job: string;
-  profile_path: string | null;
-}
-
 /** Behind-the-camera roles worth showing, in order (TMDB job names). */
 const KEY_CREW = [
   { label: 'Director', jobs: ['Director'] },
@@ -84,25 +71,24 @@ const KEY_CREW = [
   { label: 'Composer', jobs: ['Original Music Composer'] },
 ];
 
-/** Which genre id to use for each media type (movie and TV genre lists differ). */
-export type GenreIds = { movie?: number; tv?: number };
-
-/** One tile on the genres index. */
-export interface GenreShowcaseItem {
-  name: string;
-  ids: GenreIds;
-  backdropPath: string | null;
-  /** The popular title the backdrop belongs to. */
-  featuredTitle: string | null;
-  /** Up to three of the genre's most popular posters. */
-  posterPaths: string[];
-}
-
 /** Value each sort orders by, used to merge movie and TV results. */
 const SORT_KEY: Record<Exclude<SortOption, 'popular'>, (item: MediaWithDetails) => number> = {
   top_rated: (item) => item.vote_average,
   newest: (item) => Date.parse(getMediaDate(item)) || 0,
 };
+
+/** Up to four of a genre's popular movies whose posters no other genre tile uses yet. */
+async function withCollagePosters(genre: Genre, seen: Set<number>): Promise<GenreWithMovies> {
+  try {
+    const results = await api.media.getMedia(MediaMode.MOVIE, 1, [genre.id]);
+    const movies = results.filter((m) => m.poster_path && !seen.has(m.id)).slice(0, 4);
+    movies.forEach((m) => seen.add(m.id));
+    return { ...genre, movies };
+  } catch (error) {
+    logError(`withCollagePosters ${genre.name}`, error);
+    return { ...genre, movies: [] };
+  }
+}
 
 /** Tags list results with their media type (TV shows also get their season count). */
 const withMediaType = (
@@ -120,15 +106,15 @@ export const api = {
     search: async (query: string, page = 1): Promise<MediaWithDetails[]> => {
       const { results } = await fetchData<APIResponse>('3', 'search/multi', {
         query: {
-          // URLSearchParams already encodes – encoding here as well double-encoded the query.
           query,
           page,
           include_adult: 'false',
           language: 'en-US',
         },
-        cache: { type: 'revalidate', seconds: HOUR },
+        cache: { type: 'revalidate', seconds: TTL.HOUR },
       });
 
+      // search/multi also returns people.
       return results
         .filter(
           (item) =>
@@ -149,7 +135,7 @@ export const api = {
 
       const { results } = await fetchData<APIResponse>('3', `discover/${mediaMode}`, {
         query,
-        cache: { type: 'revalidate', seconds: HOUR },
+        cache: { type: 'revalidate', seconds: TTL.HOUR },
       });
 
       return withMediaType(mediaMode, results);
@@ -158,7 +144,7 @@ export const api = {
     /** This week's trending movies and shows together, in TMDB's trending order. */
     getTrendingAll: async (): Promise<MediaWithDetails[]> => {
       const { results } = await fetchData<APIResponse>('3', 'trending/all/week', {
-        cache: { type: 'revalidate', seconds: HOUR },
+        cache: { type: 'revalidate', seconds: TTL.HOUR },
       });
 
       const [movies, tvShows] = await Promise.all([
@@ -172,10 +158,8 @@ export const api = {
         ),
       ]);
 
-      const byKey = new Map(
-        [...movies, ...tvShows].map((item) => [`${item.media_type}-${item.id}`, item]),
-      );
-      return results.flatMap((item) => byKey.get(`${item.media_type}-${item.id}`) ?? []);
+      const byKey = new Map([...movies, ...tvShows].map((item) => [mediaKey(item), item]));
+      return results.flatMap((item) => byKey.get(mediaKey(item)) ?? []);
     },
 
     /**
@@ -204,11 +188,11 @@ export const api = {
     ): Promise<MediaWithDetails | null> => {
       try {
         const details = await fetchData<MediaWithDetails>('3', `${mediaMode}/${id}`, {
-          cache: { type: 'revalidate', seconds: DAY },
+          cache: { type: 'revalidate', seconds: TTL.DAY },
         });
 
         if (details) {
-          details.media_type = mediaMode as MediaMode.MOVIE | MediaMode.TV;
+          details.media_type = mediaMode;
           if (mediaMode === MediaMode.TV) {
             details.number_of_seasons =
               details.number_of_seasons ?? (await getTvSeasons(Number(id))) ?? undefined;
@@ -216,7 +200,7 @@ export const api = {
         }
         return details;
       } catch (error) {
-        console.error(`Failed to fetch ${mediaMode} details for ID ${id}:`, error);
+        logError(`getOneMedia ${mediaMode}/${id}`, error);
         return null;
       }
     },
@@ -232,7 +216,7 @@ export const api = {
           const { cast } = await fetchData<{ cast: TvAggregateCastMember[] }>(
             '3',
             `tv/${id}/aggregate_credits`,
-            { cache: { type: 'revalidate', seconds: DAY } },
+            { cache: { type: 'revalidate', seconds: TTL.DAY } },
           );
           return {
             cast: cast.map((person) => ({
@@ -249,7 +233,7 @@ export const api = {
         const { cast, crew } = await fetchData<{ cast: CastMember[]; crew: CrewMember[] }>(
           '3',
           `movie/${id}/credits`,
-          { cache: { type: 'revalidate', seconds: DAY } },
+          { cache: { type: 'revalidate', seconds: TTL.DAY } },
         );
         return {
           cast: cast.map((person) => ({
@@ -272,14 +256,14 @@ export const api = {
           }).filter((credit) => credit.people.length > 0),
         };
       } catch (error) {
-        console.error(`Failed to fetch credits for ${mediaMode} ${id}:`, error);
+        logError(`getCredits ${mediaMode}/${id}`, error);
         return { cast: [], keyCrew: [] };
       }
     },
 
     getSliderData: async (mediaMode: MediaMode, endpoint: string): Promise<MediaWithDetails[]> => {
       const { results } = await fetchData<APIResponse>('3', endpoint, {
-        cache: { type: 'revalidate', seconds: DAY },
+        cache: { type: 'revalidate', seconds: TTL.DAY },
       });
 
       return withMediaType(mediaMode, results);
@@ -295,7 +279,7 @@ export const api = {
           '3',
           `${mediaMode}/${id}/recommendations`,
           {
-            cache: { type: 'revalidate', seconds: DAY },
+            cache: { type: 'revalidate', seconds: TTL.DAY },
           },
         );
         return results.length > 0;
@@ -308,7 +292,7 @@ export const api = {
       const { results } = await fetchData<APIResponse<MovieWithLogos>>(
         '3',
         `trending/${mediaMode}/${time}`,
-        { page, cache: { type: 'revalidate', seconds: 60 * 10 } },
+        { page, cache: { type: 'revalidate', seconds: TTL.TEN_MINUTES } },
       );
       return results;
     },
@@ -318,22 +302,22 @@ export const api = {
         const { logos } = await fetchData<{ logos: { file_path: string; iso_639_1: string }[] }>(
           '3',
           `${mediaMode}/${mediaId}/images`,
-          { cache: { type: 'revalidate', seconds: HOUR } },
+          { cache: { type: 'revalidate', seconds: TTL.HOUR } },
         );
 
         const logo = logos?.find((l) => l.iso_639_1 === 'en') ?? logos?.[0];
         return logo?.file_path ? getImageUrl(logo.file_path, 'logo', 'w300') : undefined;
-      } catch (err) {
-        console.warn(`Failed to fetch logos for ${mediaMode} ${mediaId}:`, err);
+      } catch (error) {
+        logError(`getLogos ${mediaMode}/${mediaId}`, error);
         return undefined;
       }
     },
   },
 
   genre: {
-    getGenres: async (mediaMode: string) => {
+    getGenres: async (mediaMode: MediaMode) => {
       const data = await fetchData<GenreResponse>('3', `genre/${mediaMode}/list`, {
-        cache: { type: 'revalidate', seconds: DAY },
+        cache: { type: 'revalidate', seconds: TTL.DAY },
       });
 
       return { genres: data.genres, genresMap: toGenreMap(data.genres) };
@@ -342,8 +326,8 @@ export const api = {
     /** Movie + TV genres, plus one id → name map covering both. */
     getAllGenres: async () => {
       const [{ genres: movieGenres }, { genres: tvGenres }] = await Promise.all([
-        api.genre.getGenres('movie'),
-        api.genre.getGenres('tv'),
+        api.genre.getGenres(MediaMode.MOVIE),
+        api.genre.getGenres(MediaMode.TV),
       ]);
       return { movieGenres, tvGenres, genresMap: toGenreMap([...movieGenres, ...tvGenres]) };
     },
@@ -370,7 +354,7 @@ export const api = {
         genres.map(({ ids }) =>
           fetchData<APIResponse>('3', `discover/${ids.movie ? MediaMode.MOVIE : MediaMode.TV}`, {
             query: { with_genres: (ids.movie ?? ids.tv)!, sort_by: 'popularity.desc' },
-            cache: { type: 'revalidate', seconds: DAY },
+            cache: { type: 'revalidate', seconds: TTL.DAY },
           })
             .then(({ results }) => results)
             .catch(() => []),
@@ -397,24 +381,11 @@ export const api = {
       });
     },
 
-    fetchGenreMovies: async (genre: Genre, seenMovieIds: Set<number>): Promise<GenreWithMovies> => {
-      try {
-        const results = await api.media.getMedia(MediaMode.MOVIE, 1, [genre.id]);
-        const uniqueMovies = results
-          .filter((movie) => movie.poster_path && !seenMovieIds.has(movie.id))
-          .slice(0, 4);
-        uniqueMovies.forEach((movie) => seenMovieIds.add(movie.id));
-        return { ...genre, movies: uniqueMovies };
-      } catch (error) {
-        console.error(`Failed to fetch movies for genre ${genre.name}:`, error);
-        return { ...genre, movies: [] };
-      }
-    },
-
+    /** Every movie genre with four posters for the home page row, no poster used twice. */
     getGenreCollection: async (): Promise<GenreWithMovies[]> => {
-      const { genres } = await api.genre.getGenres('movie');
+      const { genres } = await api.genre.getGenres(MediaMode.MOVIE);
       const seenMovieIds = new Set<number>();
-      return Promise.all(genres.map((genre) => api.genre.fetchGenreMovies(genre, seenMovieIds)));
+      return Promise.all(genres.map((genre) => withCollagePosters(genre, seenMovieIds)));
     },
   },
 };

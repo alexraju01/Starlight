@@ -8,6 +8,15 @@ type FetchDataOptions = {
   query?: Record<string, string | number | boolean>;
 };
 type CachePolicy = { type: 'no-store' } | { type: 'revalidate'; seconds: number };
+
+/** Cache lifetimes (seconds) for `revalidate` policies. */
+export const TTL = {
+  TEN_MINUTES: 60 * 10,
+  HOUR: 60 * 60,
+  DAY: 60 * 60 * 24,
+  WEEK: 60 * 60 * 24 * 7,
+} as const;
+
 const DEFAULT_CACHE: CachePolicy = { type: 'no-store' };
 
 const resolveCacheOptions = (cache?: CachePolicy): RequestInit => {

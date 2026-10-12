@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import MovieGrid from '@/components/Media/MovieGrid';
+import MediaGrid from '@/components/Media/MediaGrid';
 import SectionHeading from '@/components/Navigation/SectionHeading';
 import { ghostButton, primaryButton } from '@/components/ui/buttonStyles';
 import SearchBox from '@/components/ui/SearchBox/SearchBox';
@@ -58,7 +58,7 @@ export default async function NotFoundContent() {
       {trending.length > 0 && (
         <section className="page-gutter flex flex-col gap-[20px] pb-[48px] lg:gap-[24px] lg:pb-[72px]">
           <SectionHeading>Trending this week</SectionHeading>
-          <MovieGrid media={trending.slice(0, TRENDING_COUNT)} genreMap={genresMap} />
+          <MediaGrid media={trending.slice(0, TRENDING_COUNT)} genreMap={genresMap} />
         </section>
       )}
     </>

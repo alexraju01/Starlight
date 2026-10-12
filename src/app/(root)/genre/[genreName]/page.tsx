@@ -8,30 +8,29 @@ import GenreMediaList from '@/components/Genre/GenreMediaList';
 import RelatedGenres from '@/components/Genre/RelatedGenres';
 import TopTenRow from '@/components/Genre/TopTenRow';
 import SectionHeading from '@/components/Navigation/SectionHeading';
-import { LoadingSkeletons } from '@/components/Skeletons/LoadingSkeletons';
+import GridSkeleton from '@/components/Skeletons/GridSkeleton';
 import { buttonClass } from '@/components/ui/buttonStyles';
-import SegmentedLinks from '@/components/ui/SegmentedLinks';
+import { SegmentedLinks } from '@/components/ui/Segmented';
 import { DEFAULT_SORT, SORT_OPTIONS, SortOption, parseSort } from '@/constants/browse';
 import { moodOf } from '@/constants/genreMoods';
 import { genreTint } from '@/constants/genreTints';
+import { GenreIds } from '@/types';
 import { MediaMode } from '@/types/mediaMode';
-import { slugify } from '@/utils';
-import { api, GenreIds } from '@/utils/api';
+import { api } from '@/utils/api';
 import { getImageUrl } from '@/utils/image/getImageUrl';
+import { firstParam } from '@/utils/searchParams';
+import { slugify } from '@/utils/stringUtils';
 
 import type { Route } from 'next';
 
-type TypeFilter = 'all' | 'movie' | 'tv';
+type TypeFilter = 'all' | MediaMode;
 
 interface Props {
   params: Promise<{ genreName: string }>;
   searchParams: Promise<{ type?: string | string[]; sort?: string | string[] }>;
 }
 
-/**
- * Resolves a URL slug to the genre. Movie and TV genre lists overlap only partly
- * ("Drama" is both, "Action" is movie-only, "Kids" TV-only), so keep each side's id.
- */
+/** Slug → genre, keeping each side's id ("Drama" is both, "Action" movie-only, "Kids" TV-only). */
 async function getGenreData(genreSlug: string) {
   const { movieGenres, tvGenres, genresMap } = await api.genre.getAllGenres();
   const movieGenre = movieGenres.find((g) => slugify(g.name) === genreSlug);
@@ -43,11 +42,9 @@ async function getGenreData(genreSlug: string) {
   return { name: genre.name, ids, genresMap };
 }
 
-/** "movies", "TV shows" or "movies and TV shows" – whatever this genre actually has. */
+/** "movies", "TV shows" or "movies and TV shows". */
 const describeTypes = (ids: GenreIds) =>
   [ids.movie && 'movies', ids.tv && 'TV shows'].filter(Boolean).join(' and ');
-
-const first = (value?: string | string[]) => (Array.isArray(value) ? value[0] : value);
 
 const genreHref = (slug: string, type: TypeFilter, sort: SortOption): Route => {
   const params = new URLSearchParams();
@@ -64,7 +61,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const image =
     getImageUrl(media.find((m) => m.backdrop_path)?.backdrop_path, 'backdrop', 'w780') || undefined;
 
-  // The root layout template already appends "| Starlight".
   const kinds = describeTypes(ids);
   const title = `${name} ${kinds.replace('movies', 'Movies').replace('TV shows', 'TV Shows')}`;
   const description = `Explore the best ${name} ${kinds} on Starlight. Discover trending, popular, and top-rated ${name} titles.`;
@@ -122,15 +118,15 @@ export default async function GenrePage({ params, searchParams }: Props) {
   const { name, ids, genresMap } = await getGenreData(slug);
 
   const hasBothTypes = Boolean(ids.movie && ids.tv);
-  const requestedType = first(query.type);
+  const requestedType = firstParam(query.type);
   const type: TypeFilter =
-    hasBothTypes && (requestedType === 'movie' || requestedType === 'tv') ? requestedType : 'all';
-  const sort = parseSort(first(query.sort));
+    hasBothTypes && (requestedType === MediaMode.MOVIE || requestedType === MediaMode.TV)
+      ? requestedType
+      : 'all';
+  const sort = parseSort(firstParam(query.sort));
   const activeIds: GenreIds = type === 'all' ? ids : { [type]: ids[type] };
 
-  // The genre's most popular titles (cached; the same request as the default results).
-  // Movies and shows ranked separately: popularity isn't comparable across the two.
-  // (Cached; the same requests the default "Browse all" grid makes.)
+  // Ranked per type: popularity isn't comparable across the two. Same (cached) requests as the grid.
   const [topMovies, topShows] = await Promise.all([
     ids.movie ? api.media.getMedia(MediaMode.MOVIE, 1, [ids.movie]).catch(() => []) : [],
     ids.tv ? api.media.getMedia(MediaMode.TV, 1, [ids.tv]).catch(() => []) : [],
@@ -142,8 +138,8 @@ export default async function GenrePage({ params, searchParams }: Props) {
     ? (
         [
           ['all', 'All'],
-          ['movie', 'Movies'],
-          ['tv', 'TV Shows'],
+          [MediaMode.MOVIE, 'Movies'],
+          [MediaMode.TV, 'TV Shows'],
         ] as const
       ).map(([value, label]) => ({
         key: value,
@@ -155,7 +151,7 @@ export default async function GenrePage({ params, searchParams }: Props) {
 
   const resultsLabel = [
     SORT_OPTIONS.find((o) => o.value === sort)?.label,
-    type === 'movie' ? 'Movies' : type === 'tv' ? 'TV Shows' : null,
+    type === MediaMode.MOVIE ? 'Movies' : type === MediaMode.TV ? 'TV Shows' : null,
   ]
     .filter(Boolean)
     .join(' · ');
@@ -198,8 +194,8 @@ export default async function GenrePage({ params, searchParams }: Props) {
           <p className="mb-[16px] text-[14px] font-medium tracking-[0.02em] text-white/50 lg:mb-[24px]">
             {resultsLabel}
           </p>
-          {/* Keyed on the filters so changing them shows the skeleton and resets pagination. */}
-          <Suspense key={`${type}-${sort}`} fallback={<LoadingSkeletons />}>
+          {/* Keyed: a filter change shows the skeleton and resets pagination. */}
+          <Suspense key={`${type}-${sort}`} fallback={<GridSkeleton />}>
             <GenreResults
               name={name}
               slug={slug}

@@ -20,7 +20,7 @@ interface NavLinksProps {
   onLinkClick?: () => void;
 }
 
-const NavLinks = ({ variant, onLinkClick }: NavLinksProps) => {
+export default function NavLinks({ variant, onLinkClick }: NavLinksProps) {
   const pathname = usePathname();
 
   return (
@@ -68,6 +68,4 @@ const NavLinks = ({ variant, onLinkClick }: NavLinksProps) => {
       })}
     </ul>
   );
-};
-
-export default NavLinks;
+}

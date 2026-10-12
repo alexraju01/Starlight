@@ -1,9 +1,11 @@
 'use server';
 
 import { parseSort } from '@/constants/browse';
+import { GenreIds } from '@/types';
 import { MediaWithDetails } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
-import { api, GenreIds } from '@/utils/api';
+import { api } from '@/utils/api';
+import { logError } from '@/utils/logger';
 
 import { MAX_PAGE, MAX_QUERY_LENGTH, isMediaMode, isPositiveInt } from './validate';
 
@@ -24,9 +26,9 @@ export async function getMoreMediaAction(
       parseSort(sort),
     );
   } catch (error) {
-    console.error('Server Action Error:', error);
-    // Throw (generic message, nothing internal leaks): returning [] here looked like
-    // "no more titles" and hid the failure from the Load More error state.
+    logError('getMoreMediaAction', error);
+    // Generic message only: nothing internal reaches the client. Returning [] would read
+    // as "no more titles" and hide the failure from the Load More error state.
     throw new Error('Could not load more titles');
   }
 }
@@ -41,7 +43,7 @@ export async function fetchGenreMedia(genreIds: GenreIds, page: number, sort?: s
   try {
     return await api.media.getGenreMedia({ movie, tv }, page, parseSort(sort));
   } catch (error) {
-    console.error('Action error:', error);
+    logError('fetchGenreMedia', error);
     throw new Error('Could not load more titles');
   }
 }
@@ -55,7 +57,7 @@ export async function searchMediaAction(query: string, page = 1) {
   try {
     return await api.media.search(trimmed, page);
   } catch (error) {
-    console.error('Search Action Error:', error);
+    logError('searchMediaAction', error);
     throw new Error('Search is unavailable right now');
   }
 }
@@ -65,7 +67,7 @@ export async function getAllGenresAction() {
     const { genresMap } = await api.genre.getAllGenres();
     return genresMap;
   } catch (error) {
-    console.error('Failed to fetch all genres for map:', error);
+    logError('getAllGenresAction', error);
     return {};
   }
 }

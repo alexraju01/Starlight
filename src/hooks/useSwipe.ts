@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 
 const SWIPE_THRESHOLD_PX = 50;
-/** A release faster than this (px/ms) counts as a flick even if the drag was short. */
+/** Release speed (px/ms) that counts as a flick even for a short drag. */
 const FLICK_VELOCITY = 0.4;
-/** Pointer samples older than this (ms) are ignored when measuring release velocity. */
 const VELOCITY_WINDOW_MS = 100;
+/** Movement (px) before the drag locks to an axis. */
+const AXIS_LOCK_PX = 6;
 
 interface Options {
   enabled: boolean;
@@ -20,20 +21,18 @@ interface DragState {
   x: number;
   y: number;
   axis: 'x' | 'y' | null;
-  /** Recent pointer positions, for the release velocity. */
   samples: { x: number; t: number }[];
 }
 
 /**
- * Swipe (touch) and click-and-drag (mouse) via pointer events, used by the hero carousel
- * and the row sliders. Locks to an axis on the first real movement so vertical page
- * scrolling still works (pair it with `touch-action: pan-y`).
+ * Swipe and mouse drag via pointer events (hero carousel, row sliders). Locks to an axis on
+ * the first real movement so vertical scrolling still works – pair with `touch-action: pan-y`.
  */
 export function useSwipe({ enabled, onDragStart, onDrag, onRelease }: Options) {
   const [isDragging, setIsDragging] = useState(false);
   const drag = useRef<DragState | null>(null);
   const didDrag = useRef(false);
-  // Pointer moves can arrive several times per frame; only lay out once per frame.
+  // Moves can arrive several times per frame: lay out once per frame.
   const frame = useRef(0);
   const pendingDx = useRef(0);
 
@@ -53,15 +52,14 @@ export function useSwipe({ enabled, onDragStart, onDrag, onRelease }: Options) {
     if (!state.axis) {
       const dx = e.clientX - state.x;
       const dy = e.clientY - state.y;
-      if (Math.abs(dx) < 6 && Math.abs(dy) < 6) return;
+      if (Math.abs(dx) < AXIS_LOCK_PX && Math.abs(dy) < AXIS_LOCK_PX) return;
       state.axis = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
       if (state.axis !== 'x') return;
 
-      // Measure from here so the dead zone above doesn't make the slide jump.
+      // Measure from here so the dead zone doesn't make the slide jump.
       state.x = e.clientX;
       setIsDragging(true);
       onDragStart?.();
-      // Keep receiving moves even if the mouse leaves the carousel mid-drag.
       e.currentTarget.setPointerCapture(e.pointerId);
     }
     if (state.axis !== 'x') return;
@@ -72,7 +70,6 @@ export function useSwipe({ enabled, onDragStart, onDrag, onRelease }: Options) {
       state.samples.shift();
     }
 
-    // The slides follow the pointer 1:1.
     pendingDx.current = e.clientX - state.x;
     if (!frame.current) {
       frame.current = requestAnimationFrame(() => {
@@ -104,8 +101,7 @@ export function useSwipe({ enabled, onDragStart, onDrag, onRelease }: Options) {
     else onRelease(delta < 0 ? 1 : -1);
   };
 
-  // A mouse drag still fires `click` on release – don't let it trigger the
-  // trailer button / links underneath the pointer.
+  // A drag still fires `click` on release: don't let it hit the button or link underneath.
   const onClickCapture = (e: React.MouseEvent) => {
     if (!didDrag.current) return;
     didDrag.current = false;
@@ -121,7 +117,7 @@ export function useSwipe({ enabled, onDragStart, onDrag, onRelease }: Options) {
       onPointerUp,
       onPointerCancel: onPointerUp,
       onClickCapture,
-      // Stop the browser's native image drag from hijacking a mouse swipe.
+      // Native image drag would hijack a mouse swipe.
       onDragStart: (e: React.DragEvent) => e.preventDefault(),
     },
   };

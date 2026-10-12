@@ -1,4 +1,4 @@
-const block = 'animate-pulse rounded-[8px] bg-white/[0.07]';
+import { skeleton as block } from './skeleton';
 
 /** Placeholder for a row of portrait cards (cast, seasons). */
 export function CardRowSkeleton({ count = 8 }: { count?: number }) {

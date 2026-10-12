@@ -2,17 +2,15 @@ import SectionHeading from '@/components/Navigation/SectionHeading';
 import { moodOf } from '@/constants/genreMoods';
 import { genreTint } from '@/constants/genreTints';
 import { ROUTES } from '@/constants/route';
-import { GenreKey, Icons, genreCoverage } from '@/utils';
 import { api } from '@/utils/api';
+import { genreCoverage } from '@/utils/genre';
 import { gridSpanClasses } from '@/utils/gridSpan';
+import Icons, { GenreKey } from '@/utils/icons';
 import { getImageUrl } from '@/utils/image/getImageUrl';
 
-import { GenreCard } from './GenreCollection';
+import GenreCard from './GenreCard';
 
-/**
- * "More like Horror": the other genres in the same mood, so a visitor who finishes a genre
- * has somewhere to go next instead of a dead end.
- */
+/** "More like Horror": the other genres in the same mood, so a genre page isn't a dead end. */
 export default async function RelatedGenres({ genreName }: { genreName: string }) {
   const mood = moodOf(genreName);
   if (!mood) return null;

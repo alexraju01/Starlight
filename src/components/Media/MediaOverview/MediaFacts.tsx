@@ -1,8 +1,13 @@
 import SectionHeading from '@/components/Navigation/SectionHeading';
 import { MediaMode } from '@/types';
 import { MediaWithDetails } from '@/types/global';
-import { displayRuntime } from '@/utils';
-import { formatFullDate, formatLanguage, formatMoney, pluralize } from '@/utils/mediaFormat';
+import {
+  formatFullDate,
+  formatLanguage,
+  formatMediaRuntime,
+  formatMoney,
+  pluralize,
+} from '@/utils/format';
 
 /** Name lists can run long – give them the full card width on mobile instead of a cramped half. */
 const WIDE_FACTS = new Set(['Production', 'Network', 'Created by']);
@@ -36,7 +41,7 @@ function getFacts(media: MediaWithDetails): [label: string, value: string | null
         'Episodes',
         media.number_of_episodes ? pluralize(media.number_of_episodes, 'Episode') : null,
       ],
-      ['Episode length', displayRuntime(media)],
+      ['Episode length', formatMediaRuntime(media)],
       ['Network', names(media.networks)],
       ['Created by', names(media.created_by)],
     ];
@@ -45,7 +50,7 @@ function getFacts(media: MediaWithDetails): [label: string, value: string | null
   return [
     ...shared,
     ['Release date', formatFullDate(media.release_date)],
-    ['Runtime', displayRuntime(media)],
+    ['Runtime', formatMediaRuntime(media)],
     ['Budget', formatMoney(media.budget)],
     ['Revenue', formatMoney(media.revenue)],
     ['Production', names(media.production_companies)],

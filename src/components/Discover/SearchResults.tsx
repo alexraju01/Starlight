@@ -1,19 +1,19 @@
 'use client';
 
-import clsx from 'clsx';
 import { SearchX } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 
 import LoadMore from '@/components/Media/LoadMore';
-import MovieGrid from '@/components/Media/MovieGrid';
+import MediaGrid from '@/components/Media/MediaGrid';
 import { buttonClass } from '@/components/ui/buttonStyles';
+import { SegmentedButtons } from '@/components/ui/Segmented';
 import { useLoadMore } from '@/hooks/useLoadMore';
 import { MediaWithDetails } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
 import { searchMediaAction } from '@/utils/serverActions/media';
 
-type TypeFilter = 'all' | MediaMode.MOVIE | MediaMode.TV;
+type TypeFilter = 'all' | MediaMode;
 
 const TABS: { value: TypeFilter; label: string }[] = [
   { value: 'all', label: 'All' },
@@ -47,42 +47,27 @@ export default function SearchResults({ query, initialResults, genreMap }: Props
           Results for <span className="font-semibold text-white">“{query}”</span>
         </h2>
 
-        <div
-          role="group"
-          aria-label="Show"
-          className="grid grid-cols-3 rounded-[10px] border border-white/10 bg-white/[0.04] p-[4px] sm:inline-grid sm:w-fit"
-        >
-          {TABS.map((tab) => {
-            const isActive = tab.value === type;
-            return (
-              <button
-                key={tab.value}
-                type="button"
-                onClick={() => setType(tab.value)}
-                aria-pressed={isActive}
-                className={clsx(
-                  'flex h-[36px] items-center justify-center gap-[6px] rounded-[7px] px-[14px] text-[14px] font-medium whitespace-nowrap transition-colors',
-                  isActive ? 'text-secondary bg-white' : 'text-white/70 hover:text-white',
-                )}
-              >
+        <SegmentedButtons
+          label="Show"
+          value={type}
+          onChange={setType}
+          options={TABS.map((tab) => ({
+            value: tab.value,
+            label: (
+              <>
                 {tab.label}
-                <span
-                  className={clsx(
-                    'text-[12px] tabular-nums',
-                    isActive ? 'text-black/50' : 'text-white/40',
-                  )}
-                >
+                <span className="text-[12px] text-white/40 tabular-nums group-aria-pressed:text-black/50">
                   {countOf(tab.value)}
                 </span>
-              </button>
-            );
-          })}
-        </div>
+              </>
+            ),
+          }))}
+        />
       </div>
 
       {visible.length > 0 ? (
         // Whole-row trimming only on "All": a filtered tab must show every title its count promises.
-        <MovieGrid media={visible} genreMap={genreMap} hasMore={type === 'all' && hasMore} />
+        <MediaGrid media={visible} genreMap={genreMap} hasMore={type === 'all' && hasMore} />
       ) : (
         <p className="py-[48px] text-center text-[15px] text-white/55">
           No {type === MediaMode.TV ? 'TV shows' : 'movies'} in these results

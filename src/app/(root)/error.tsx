@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useEffect } from 'react';
 
 import { ghostButton, primaryButton } from '@/components/ui/buttonStyles';
+import { logError } from '@/utils/logger';
 
 export default function Error({
   error,
@@ -14,7 +15,7 @@ export default function Error({
   reset: () => void;
 }) {
   useEffect(() => {
-    console.error(error);
+    logError('Route error boundary', error);
   }, [error]);
 
   return (

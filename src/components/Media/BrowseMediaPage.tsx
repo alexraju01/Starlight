@@ -2,12 +2,13 @@ import Link from 'next/link';
 import { Suspense } from 'react';
 
 import PageHeader from '@/components/Layout/PageHeader';
-import { LoadingSkeletons } from '@/components/Skeletons/LoadingSkeletons';
+import GridSkeleton from '@/components/Skeletons/GridSkeleton';
 import { buttonClass } from '@/components/ui/buttonStyles';
 import { SORT_OPTIONS, SortOption, parseSort } from '@/constants/browse';
 import { Genre } from '@/types';
 import { MediaMode } from '@/types/mediaMode';
 import { api } from '@/utils/api';
+import { firstParam } from '@/utils/searchParams';
 
 import BrowseToolbar, { browseHref } from './BrowseToolbar';
 import MediaList from './MediaList';
@@ -15,8 +16,7 @@ import MediaList from './MediaList';
 export type BrowseSearchParams = Promise<{ genre?: string | string[]; sort?: string | string[] }>;
 
 interface Props {
-  mediaMode: MediaMode.MOVIE | MediaMode.TV;
-  /** Page title, e.g. "Movies". */
+  mediaMode: MediaMode;
   heading: string;
   tagline: string;
   searchParams: BrowseSearchParams;
@@ -26,8 +26,6 @@ interface Filters {
   genreId: number | null;
   sort: SortOption;
 }
-
-const first = (value?: string | string[]) => (Array.isArray(value) ? value[0] : value);
 
 async function BrowseContent({
   mediaMode,
@@ -42,7 +40,7 @@ async function BrowseContent({
   return (
     <MediaList
       initialMedia={media}
-      initialGenres={genresMap}
+      genreMap={genresMap}
       mediaMode={mediaMode}
       genreId={genreId}
       sort={sort}
@@ -81,12 +79,12 @@ export default async function BrowseMediaPage({
     api.genre.getGenres(mediaMode),
   ]);
 
-  // Unknown genre ids (stale links, typos) are ignored rather than showing an empty page.
-  const requestedGenre = Number(first(params.genre));
+  // Unknown genre ids (stale links, typos) are ignored rather than showing nothing.
+  const requestedGenre = Number(firstParam(params.genre));
   const activeGenre = genres.find((g) => g.id === requestedGenre);
   const filters: Filters = {
     genreId: activeGenre?.id ?? null,
-    sort: parseSort(first(params.sort)),
+    sort: parseSort(firstParam(params.sort)),
   };
 
   return (
@@ -111,8 +109,8 @@ export default async function BrowseMediaPage({
         >
           {resultsLabel(filters.sort, activeGenre)}
         </h2>
-        {/* Keyed on the filters so changing them shows the skeleton and resets pagination. */}
-        <Suspense key={`${filters.genreId}-${filters.sort}`} fallback={<LoadingSkeletons />}>
+        {/* Keyed: a filter change shows the skeleton and resets pagination. */}
+        <Suspense key={`${filters.genreId}-${filters.sort}`} fallback={<GridSkeleton />}>
           <BrowseContent
             mediaMode={mediaMode}
             heading={heading}

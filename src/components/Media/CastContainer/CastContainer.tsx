@@ -1,7 +1,7 @@
 import SectionHeading from '@/components/Navigation/SectionHeading';
 import ScrollRow from '@/components/ui/ScrollRow';
 import { Credits } from '@/types/cast';
-import { pluralize } from '@/utils/mediaFormat';
+import { pluralize } from '@/utils/format';
 
 import PersonAvatar from './PersonAvatar';
 
@@ -9,11 +9,7 @@ interface Props {
   credits: Credits;
 }
 
-/**
- * Top cast as round portraits in a swipeable row (arrows on larger screens, no scrollbar),
- * with each actor's role – and for TV, how many episodes they're in – followed by the key
- * people behind the camera.
- */
+/** Top cast (role, and episode count for TV) in a scrollable row, then key crew. */
 export default function CastContainer({ credits }: Props) {
   const { cast, keyCrew } = credits;
   if (cast.length === 0 && keyCrew.length === 0) return null;

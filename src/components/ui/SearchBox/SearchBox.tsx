@@ -19,7 +19,7 @@ interface Props {
   fullWidth?: boolean;
 }
 
-/** Typing outside a form field? (So "/" can be used as a shortcut without hijacking input.) */
+/** Focus is in a text field, so "/" is typing, not the shortcut. */
 const isTypingTarget = (el: EventTarget | null) =>
   el instanceof HTMLElement &&
   (el.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(el.tagName));
@@ -38,7 +38,6 @@ export default function SearchBox({
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const listboxId = useId();
-  // Combobox state: where each dropdown option leads, and which one is highlighted.
   const [options, setOptions] = useState<Route[]>([]);
   const [activeIndex, setActiveIndex] = useState(-1);
   const handleOptionsChange = useCallback((hrefs: Route[]) => {
@@ -46,7 +45,7 @@ export default function SearchBox({
     setActiveIndex(-1);
   }, []);
 
-  // Reset after navigating to a result so the dropdown doesn't linger on the new page.
+  // Reset after navigating so the dropdown doesn't linger on the new page.
   const [lastPathname, setLastPathname] = useState(pathname);
   if (pathname !== lastPathname) {
     setLastPathname(pathname);
@@ -110,7 +109,6 @@ export default function SearchBox({
     return () => document.removeEventListener('keydown', onKeyDown);
   }, [shortcut]);
 
-  // Close dropdown if clicking outside
   useEffect(() => {
     const handlePointerDown = (event: PointerEvent) => {
       if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
@@ -158,7 +156,7 @@ export default function SearchBox({
           onChange={handleSearchChange}
           onFocus={() => search && setIsOpen(true)}
           onKeyDown={handleKeyDown}
-          // 16px minimum stops iOS Safari from zooming the page on focus.
+          // 16px+ stops iOS Safari zooming on focus.
           className="h-full w-full truncate rounded-[12px] bg-transparent pr-[44px] pl-[42px] text-[16px] text-white placeholder:text-white/40 focus:outline-none lg:text-[15px] [&::-webkit-search-cancel-button]:hidden"
         />
 

@@ -4,7 +4,7 @@ import { buildMediaJsonLd, getMediaOrNotFound, jsonLdString } from '@/utils/medi
 import MediaOverview from './MediaOverview';
 
 interface Props {
-  mediaMode: MediaMode.MOVIE | MediaMode.TV;
+  mediaMode: MediaMode;
   slug: string;
 }
 

@@ -9,13 +9,10 @@ import { MediaWithDetails } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
 
 import { api } from './api';
-import { getMediaDate } from './date/formatDate';
 import { getImageUrl } from './image/getImageUrl';
-import { displayName } from './stringUtils';
+import { displayName, getMediaDate } from './media';
 
 import type { Metadata } from 'next';
-
-type DetailMode = MediaMode.MOVIE | MediaMode.TV;
 
 /** `/movie/550-fight-club` → `550`. Returns null for anything that isn't a TMDB id. */
 export const parseMediaId = (slug: string): number | null => {
@@ -28,7 +25,7 @@ export const parseMediaId = (slug: string): number | null => {
  * Wrapped in React `cache` so generateMetadata and the page share one request.
  */
 export const getMediaOrNotFound = cache(
-  async (mediaMode: DetailMode, slug: string): Promise<MediaWithDetails> => {
+  async (mediaMode: MediaMode, slug: string): Promise<MediaWithDetails> => {
     const id = parseMediaId(slug);
     if (!id) notFound();
 
@@ -39,7 +36,7 @@ export const getMediaOrNotFound = cache(
   },
 );
 
-export function buildMediaMetadata(media: MediaWithDetails, mediaMode: DetailMode): Metadata {
+export function buildMediaMetadata(media: MediaWithDetails, mediaMode: MediaMode): Metadata {
   const name = displayName(media);
   const year = getMediaDate(media)?.slice(0, 4);
   const kind = mediaMode === MediaMode.MOVIE ? 'Movie' : 'TV Show';
@@ -71,7 +68,7 @@ export function buildMediaMetadata(media: MediaWithDetails, mediaMode: DetailMod
 }
 
 /** schema.org Movie / TVSeries structured data for rich search results. */
-export function buildMediaJsonLd(media: MediaWithDetails, mediaMode: DetailMode) {
+export function buildMediaJsonLd(media: MediaWithDetails, mediaMode: MediaMode) {
   const name = displayName(media);
 
   return {

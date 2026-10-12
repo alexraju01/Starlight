@@ -5,17 +5,14 @@ import { SITE_URL } from '@/constants/site';
 import { APIResponse } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
 
-import { fetchData } from './fetchData';
+import { TTL, fetchData } from './fetchData';
 
 /** TMDB's discover endpoint never returns more than 500 pages. */
 const MAX_TMDB_PAGE = 500;
 
 const escapeXml = (value: string) => value.replace(/[<>&'"]/g, (c) => `&#${c.charCodeAt(0)};`);
 
-/**
- * Parses the `[page]` segment. Sitemap index links use `/sitemap/movies/1.xml`,
- * so the `.xml` suffix must be accepted (previously `Number('1.xml')` → NaN → 400).
- */
+/** `[page]` segment → page number. Links are `/sitemap/movies/1.xml`, so `.xml` is allowed. */
 export const parseSitemapPage = (raw: string): number | null => {
   const pageNum = Number(raw.replace(/\.xml$/i, ''));
   return Number.isInteger(pageNum) && pageNum >= 1 && pageNum <= MAX_TMDB_PAGE ? pageNum : null;
@@ -25,11 +22,10 @@ export async function buildMediaSitemap(mediaMode: MediaMode, rawPage: string): 
   const page = parseSitemapPage(rawPage);
   if (!page) return new Response('Invalid page', { status: 400 });
 
-  // Use the raw discover endpoint: `api.media.getMedia` would also fetch season
-  // counts for every TV show, which a sitemap does not need.
+  // Raw discover endpoint: `api.media.getMedia` would also fetch every show's season count.
   const { results } = await fetchData<APIResponse>('3', `discover/${mediaMode}`, {
     query: { page, sort_by: 'popularity.desc' },
-    cache: { type: 'revalidate', seconds: 60 * 60 * 24 },
+    cache: { type: 'revalidate', seconds: TTL.DAY },
   });
 
   const urls = results

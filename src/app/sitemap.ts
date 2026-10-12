@@ -1,6 +1,6 @@
 import { SITE_URL } from '@/constants/site';
-import { slugify } from '@/utils';
 import { api } from '@/utils/api';
+import { slugify } from '@/utils/stringUtils';
 
 import type { MetadataRoute } from 'next';
 

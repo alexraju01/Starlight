@@ -12,6 +12,23 @@ export interface CastMember {
   order: number;
 }
 
+/** Raw TMDB `tv/{id}/aggregate_credits` cast entry (fields used only). */
+export interface TvAggregateCastMember {
+  id: number;
+  name: string;
+  profile_path: string | null;
+  total_episode_count: number;
+  roles?: { character: string; episode_count: number }[];
+}
+
+/** Raw TMDB crew entry (fields used only). */
+export interface CrewMember {
+  id: number;
+  name: string;
+  job: string;
+  profile_path: string | null;
+}
+
 /** One person in a title's cast, the same shape for movie credits and TV aggregate credits. */
 export interface CastPerson {
   id: number;

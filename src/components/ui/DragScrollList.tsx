@@ -3,40 +3,38 @@
 import clsx from 'clsx';
 import { useEffect, useRef, useState } from 'react';
 
+import { prefersReducedMotion } from '@/utils/motion';
 import { nearestSnapPoint } from '@/utils/scrollSnap';
 
 interface Props {
   className?: string;
   style?: React.CSSProperties;
-  /** Lets a parent control scrolling (e.g. arrow buttons). */
   ref?: React.Ref<HTMLUListElement>;
-  /** Accessible name for the list. */
   'aria-label'?: string;
   children: React.ReactNode;
 }
 
-/** Pixels the pointer must move before a press counts as a drag rather than a click. */
+/** Movement (px) before a press counts as a drag rather than a click. */
 const DRAG_THRESHOLD_PX = 5;
 /** Only motion this recent (ms) counts towards the release speed. */
 const VELOCITY_WINDOW_MS = 80;
-/** Holding still this long (ms) before letting go means "no fling". */
+/** Held still this long (ms) before letting go = no fling. */
 const STILL_MS = 120;
-/** How far a release coasts: release speed (px/ms) × this. */
+/** Coasting distance = release speed (px/ms) × this. */
 const MOMENTUM_MS = 320;
-/** Glide duration bounds (ms). */
 const MIN_GLIDE_MS = 240;
 const MAX_GLIDE_MS = 900;
+const SETTLE_MS = 320;
 
 interface DragState {
   startX: number;
   startScroll: number;
   moved: boolean;
-  /** Whether the list snaps when left alone (snapping is suspended while we drive it). */
+  /** The list snaps when left alone (suspended while we drive it). */
   snaps: boolean;
   /**
-   * The row's on-screen position at each drawn frame while dragging. Release speed comes
-   * from these (what the user actually saw move), not from pointer events, which can
-   * arrive bunched up and under-report the speed.
+   * Scroll position at each drawn frame. Release speed comes from what was on screen, not
+   * from pointer events, which arrive bunched up and under-report it.
    */
   frames: { t: number; left: number }[];
 }
@@ -44,26 +42,21 @@ interface DragState {
 const easeOutCubic = (t: number) => 1 - (1 - t) ** 3;
 
 /**
- * Horizontally scrollable list that can also be dragged with a mouse. On release the row
- * keeps the drag's momentum and decelerates to rest – on an item edge when the list snaps –
- * starting at exactly the release speed, so there's no hitch between dragging and gliding.
- * Touch keeps the browser's native swipe; a drag never triggers the link it started on.
+ * Horizontal list that a mouse can also drag. On release it glides on at exactly the release
+ * speed and eases to rest (on an item edge if the list snaps). Touch keeps native scrolling.
  */
 export default function DragScrollList({ className, style, ref, children, ...rest }: Props) {
   const drag = useRef<DragState | null>(null);
   const suppressClick = useRef(false);
   const frame = useRef(0);
-  /** The glide in flight: which list, and whether that list snaps when left alone. */
   const gliding = useRef<{ list: HTMLElement; snaps: boolean } | null>(null);
   const [isDragging, setIsDragging] = useState(false);
 
-  // Driving scrollLeft ourselves: snapping must be off right away (a React state update
-  // lands a frame late, and the browser would tug the row towards items meanwhile).
+  // Set directly: a state update lands a frame late, and snapping would tug the row meanwhile.
   const setSnapping = (list: HTMLElement, on: boolean) => {
     list.style.scrollSnapType = on ? '' : 'none';
   };
 
-  /** Halts an in-flight glide (and gives the list its snapping back). */
   const stopGlide = () => {
     cancelAnimationFrame(frame.current);
     frame.current = 0;
@@ -71,7 +64,6 @@ export default function DragScrollList({ className, style, ref, children, ...res
     gliding.current = null;
   };
 
-  // Never leave a glide running after unmount.
   useEffect(() => {
     const pending = frame;
     return () => cancelAnimationFrame(pending.current);
@@ -87,17 +79,16 @@ export default function DragScrollList({ className, style, ref, children, ...res
       gliding.current = null;
       if (snaps) setSnapping(list, true);
     };
-    if (Math.abs(distance) < 1 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (Math.abs(distance) < 1 || prefersReducedMotion()) {
       list.scrollLeft = target;
       return done();
     }
 
-    // easeOutCubic starts at 3 × average speed: pick the duration that matches the release
-    // speed when gliding onwards; a short settle when snapping back against it.
+    // easeOutCubic starts at 3× its average speed, so this duration starts at the release speed.
     const onwards = Math.sign(distance) === Math.sign(speed) && Math.abs(speed) > 0.05;
     const duration = onwards
       ? Math.min(Math.max((3 * Math.abs(distance)) / Math.abs(speed), MIN_GLIDE_MS), MAX_GLIDE_MS)
-      : 320;
+      : SETTLE_MS;
 
     const startedAt = performance.now();
     const step = (now: number) => {
@@ -112,7 +103,7 @@ export default function DragScrollList({ className, style, ref, children, ...res
   const onPointerDown = (e: React.PointerEvent<HTMLUListElement>) => {
     if (e.pointerType !== 'mouse' || e.button !== 0) return;
     const list = e.currentTarget;
-    stopGlide(); // grabbing mid-glide catches the row where it is (and restores snapping)
+    stopGlide();
 
     suppressClick.current = false;
     drag.current = {
@@ -134,10 +125,8 @@ export default function DragScrollList({ className, style, ref, children, ...res
       if (Math.abs(dx) < DRAG_THRESHOLD_PX) return;
       state.moved = true;
       setIsDragging(true);
-      // Keep tracking if the cursor leaves the row mid-drag.
       e.currentTarget.setPointerCapture(e.pointerId);
 
-      // Record the row's position every frame until this drag ends.
       const list = e.currentTarget;
       const track = (t: number) => {
         if (drag.current !== state) return;
@@ -160,7 +149,6 @@ export default function DragScrollList({ className, style, ref, children, ...res
     const list = e.currentTarget;
 
     if (!state.moved) {
-      // A plain click: put snapping back as it was.
       if (state.snaps) setSnapping(list, true);
       return;
     }
@@ -168,8 +156,7 @@ export default function DragScrollList({ className, style, ref, children, ...res
     suppressClick.current = true;
     setIsDragging(false);
 
-    // The row's speed over its last frames on screen, faded out if it was held still before
-    // letting go (so a deliberate stop doesn't fling).
+    // Speed over the last frames, faded out if the row was held still before release.
     const now = performance.now();
     const frames = [...state.frames, { t: now, left: list.scrollLeft }];
     const first = frames[0];
@@ -189,7 +176,7 @@ export default function DragScrollList({ className, style, ref, children, ...res
     glideTo(list, target, speed, state.snaps);
   };
 
-  // The click that ends a drag would otherwise open whichever item the mouse was released on.
+  // The click ending a drag would otherwise open the item under the pointer.
   const onClickCapture = (e: React.MouseEvent) => {
     if (!suppressClick.current) return;
     suppressClick.current = false;
@@ -205,18 +192,17 @@ export default function DragScrollList({ className, style, ref, children, ...res
       className={clsx(
         className,
         'relative cursor-grab',
-        // While dragging, items ignore the pointer so hover effects don't flicker underneath.
+        // Items ignore the pointer mid-drag so hover effects don't flicker.
         isDragging && 'cursor-grabbing select-none [&>*]:pointer-events-none',
       )}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={endDrag}
       onPointerCancel={endDrag}
-      // Wheel / touch take over from an in-flight glide.
       onWheel={stopGlide}
       onTouchStart={stopGlide}
       onClickCapture={onClickCapture}
-      // Links are natively draggable; that would hijack the mouse drag.
+      // Links are natively draggable, which would hijack the mouse drag.
       onDragStart={(e) => e.preventDefault()}
     >
       {children}

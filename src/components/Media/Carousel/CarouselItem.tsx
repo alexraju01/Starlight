@@ -4,16 +4,16 @@ import clsx from 'clsx';
 import Image from 'next/image';
 import { useState, useTransition, useEffect } from 'react';
 
-import { MediaVideoPlayer } from '@/components/Cards/MediaCard2/MediaVideoPlayer';
+import MediaVideoPlayer from '@/components/Cards/MediaCard/MediaVideoPlayer';
 import { ROUTES } from '@/constants/route';
 import { useCarousel } from '@/context/CarouselContext';
 import { MediaMode } from '@/types';
 import { MovieWithLogos } from '@/types/global';
 import { getImageSrcSet, getImageUrl } from '@/utils/image/getImageUrl';
+import { displayName } from '@/utils/media';
 import { getVideoKey } from '@/utils/serverActions/getVideoKey';
-import { displayName } from '@/utils/stringUtils';
 
-import ActionButtons from './ActionButton';
+import ActionButtons from './ActionButtons';
 import MediaMeta from './MediaMeta';
 
 interface CarouselItemProps {
@@ -45,13 +45,9 @@ export default function CarouselItem({ movie, genres, priority, mediaMode }: Car
 
     setTrailerError(false);
     startTransition(async () => {
-      const key = await getVideoKey(mediaMode as 'movie' | 'tv', movie.id);
-      if (key) {
-        setVideoKey(key);
-      } else {
-        // Inline message instead of a blocking `alert()`.
-        setTrailerError(true);
-      }
+      const key = await getVideoKey(mediaMode, movie.id);
+      if (key) setVideoKey(key);
+      else setTrailerError(true);
     });
   };
 
@@ -60,11 +56,8 @@ export default function CarouselItem({ movie, genres, priority, mediaMode }: Car
     setIsMuted((prev) => !prev);
   };
 
-  // Below 840px the slide is roughly poster-shaped, so it shows the portrait poster; from
-  // 840px (16:9) it shows the landscape backdrop. Each lists TMDB's sizes so the browser
-  // downloads the smallest that fits – `original` is 1.5–2 MB, w1280 / w780 ~200–270 KB.
-  // w1280 is offered up to 1600px wide: the hero art is darkened and masked, so a slight
-  // upscale on 1440–1600px screens is invisible and saves over a megabyte.
+  // Poster below 840px, backdrop above. w1280 serves up to 1600px wide: the art is darkened
+  // and masked, so the slight upscale is invisible and saves over a megabyte vs `original`.
   const backdropSrcSet = getImageSrcSet(movie.backdrop_path, 'backdrop', [
     ['w780', 780],
     ['w1280', 1600],
@@ -81,10 +74,8 @@ export default function CarouselItem({ movie, genres, priority, mediaMode }: Car
 
   return (
     <li className="carousel-slide flex-evenly max-[840px]:bg-card-bg absolute inset-0 overflow-hidden">
-      {/* Same size as the slide (no zoom); it drifts for the parallax effect. Stays
-          underneath the trailer so the backdrop shows until the video fades in. */}
+      {/* Drifts for the parallax; stays under the trailer until the video fades in. */}
       <div className="carousel-parallax absolute inset-0">
-        {/* <picture> so each device downloads only the image it shows. */}
         <picture>
           <source media="(min-width: 840px)" srcSet={backdropSrcSet} sizes="100vw" />
           <img
@@ -92,7 +83,6 @@ export default function CarouselItem({ movie, genres, priority, mediaMode }: Car
             srcSet={posterSrcSet || backdropSrcSet}
             sizes="100vw"
             alt=""
-            // The first slide is the page's main image; the rest load as they come into view.
             loading={priority ? 'eager' : 'lazy'}
             fetchPriority={priority ? 'high' : 'auto'}
             decoding="async"
@@ -104,17 +94,15 @@ export default function CarouselItem({ movie, genres, priority, mediaMode }: Car
         <MediaVideoPlayer
           videoKey={videoKey!}
           iframeId={`player-${movie.id}`}
-          title={displayName(movie)}
+          title={title}
           isMuted={isMuted}
           onToggleMute={toggleMute}
-          isCarousel={true}
+          isCarousel
         />
       ) : (
-        // Mobile cards fade to black inside the card rather than into the page.
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent min-[840px]:hidden" />
       )}
 
-      {/* Same horizontal gutter as the rest of the page (.page-gutter). */}
       <div className="absolute inset-x-[16px] bottom-0 z-10 max-w-screen space-y-4 sm:inset-x-[24px] lg:left-[68px] lg:w-[854px] 2xl:left-[101px]">
         <div
           className={clsx(
@@ -125,16 +113,14 @@ export default function CarouselItem({ movie, genres, priority, mediaMode }: Car
           )}
         >
           {movie.logoImage ? (
-            // Logo is an image – keep a real heading for screen readers / SEO.
-            <h2 className="sr-only">{title}</h2>
-          ) : null}
-          {movie.logoImage ? (
             <div className="relative mb-5 h-[clamp(1rem,14vw,13rem)] w-[clamp(19rem,20vw,33rem)]">
+              {/* The logo is an image: keep a real heading for screen readers and SEO. */}
+              <h2 className="sr-only">{title}</h2>
               <Image
                 src={movie.logoImage}
                 fill
                 sizes="330px"
-                alt={title}
+                alt=""
                 className="img-contain-center"
               />
             </div>

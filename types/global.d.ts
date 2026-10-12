@@ -129,16 +129,6 @@ export type MediaListItem = (Movie & { genre_ids: number[] }) | (TVShow & { genr
 /*          Extended Types */
 /* ---------------------------------- */
 
-export interface Logo {
-  aspect_ratio: number;
-  height: number;
-  iso_639_1: string | null;
-  file_path: string;
-  vote_average: number;
-  vote_count: number;
-  width: number;
-}
-
 export type MovieWithLogos = Movie & {
   logoImage?: string;
 };

@@ -7,7 +7,7 @@ interface Props {
   seasons?: Season[];
 }
 
-const Seasons = ({ seasons }: Props) => {
+export default function Seasons({ seasons }: Props) {
   if (!seasons || seasons.length === 0) return null;
 
   return (
@@ -23,6 +23,4 @@ const Seasons = ({ seasons }: Props) => {
       </ul>
     </section>
   );
-};
-
-export default Seasons;
+}

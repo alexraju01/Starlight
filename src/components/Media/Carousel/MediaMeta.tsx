@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 import { ROUTES } from '@/constants/route';
 import { MovieWithLogos } from '@/types/global';
-import { dateConverter } from '@/utils/date';
+import { formatMonthYear } from '@/utils/format';
 import { capitalize } from '@/utils/stringUtils';
 
 interface Props {
@@ -17,7 +17,7 @@ export default function MediaMeta({ movie, genres }: Props) {
   return (
     <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-[clamp(1.3rem,1.2vw,1.8rem)] md:mb-6">
       <span className="font-bold tracking-tight text-white">
-        {dateConverter(movie.release_date)}
+        {formatMonthYear(movie.release_date) ?? '----'}
       </span>
 
       <DotSeparator />
@@ -45,9 +45,11 @@ export default function MediaMeta({ movie, genres }: Props) {
   );
 }
 
-const DotSeparator = ({ className }: { className?: string }) => (
-  <span
-    className={clsx('size-1.5 rounded-full bg-white/30 md:size-2', className)}
-    aria-hidden="true"
-  />
-);
+function DotSeparator({ className }: { className?: string }) {
+  return (
+    <span
+      className={clsx('size-1.5 rounded-full bg-white/30 md:size-2', className)}
+      aria-hidden="true"
+    />
+  );
+}

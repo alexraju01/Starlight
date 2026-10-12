@@ -9,11 +9,10 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { ROUTES } from '@/constants/route';
 import { MediaWithDetails } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
-import { getMediaDate } from '@/utils/date/formatDate';
+import { formatYear } from '@/utils/format';
 import { getImageUrl } from '@/utils/image/getImageUrl';
-import { formatYear } from '@/utils/mediaFormat';
+import { displayName, getMediaDate, mediaKey } from '@/utils/media';
 import { searchMediaAction } from '@/utils/serverActions/media';
-import { displayName } from '@/utils/stringUtils';
 
 import type { Route } from 'next';
 
@@ -21,10 +20,10 @@ interface Props {
   /** Listbox id; options get `${id}-option-${index}` for aria-activedescendant. */
   id: string;
   query: string;
-  /** Highlighted option (keyboard / hover), or -1. */
+  /** Highlighted option, or -1. */
   activeIndex: number;
   onActiveIndexChange: (index: number) => void;
-  /** Reports the options' destinations (results, then "See all") whenever they change. */
+  /** Option destinations (results, then "See all"), so the field can handle ↑/↓/Enter. */
   onOptionsChange: (hrefs: Route[]) => void;
   /** Navbar: a wider panel anchored to the field's right edge on desktop. */
   alignRight?: boolean;
@@ -62,7 +61,7 @@ export default function SearchCard({
   useEffect(() => {
     if (trimmedQuery.length <= 1) return;
 
-    // Ignore responses that arrive after the user has typed something newer.
+    // Ignore responses for a query the user has already changed.
     let cancelled = false;
 
     searchMediaAction(trimmedQuery)
@@ -78,7 +77,6 @@ export default function SearchCard({
     };
   }, [trimmedQuery]);
 
-  // Results for an older query are treated as still loading.
   const isLoading = state.query !== trimmedQuery || state.status === 'loading';
   const results = useMemo(
     () => (isLoading ? [] : state.results.slice(0, MAX_RESULTS)),
@@ -86,8 +84,7 @@ export default function SearchCard({
   );
   const seeAllHref = ROUTES.DISCOVER(trimmedQuery);
 
-  // Tell the field which options exist, so ↑/↓/Enter can work from the input. Memoized so
-  // the effect only fires when the list actually changes.
+  // Memoized so the effect below only fires when the options really change.
   const options = useMemo(
     () =>
       results.length
@@ -99,7 +96,6 @@ export default function SearchCard({
     onOptionsChange(options);
   }, [options, onOptionsChange]);
 
-  // Keep the highlighted option in view when moving with the keyboard.
   useEffect(() => {
     if (activeIndex < 0) return;
     listRef.current
@@ -157,7 +153,7 @@ export default function SearchCard({
             ].filter(Boolean);
 
             return (
-              <li key={`${media.media_type}-${media.id}`}>
+              <li key={mediaKey(media)}>
                 <Link
                   id={optionId(id, index)}
                   role="option"
