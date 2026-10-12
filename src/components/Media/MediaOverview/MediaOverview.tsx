@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 
 import GoBack from '@/components/Navigation/GoBack';
 import CustomSliderSkeleton from '@/components/Skeletons/LoadingSkeletons/CustomSliderLoading';
-import { CardRowSkeleton } from '@/components/Skeletons/MediaDetailsSkeleton';
+import { CastSkeleton } from '@/components/Skeletons/MediaDetailsSkeleton';
 import { MediaMode } from '@/types';
 import { MediaWithDetails } from '@/types/global';
 import { api } from '@/utils/api';
@@ -22,8 +22,8 @@ interface Props {
 const CAST_LIMIT = 15;
 
 async function Cast({ media, mediaMode }: Props) {
-  const cast = await api.media.getAllActors(mediaMode, media.id);
-  return <CastContainer castList={cast.slice(0, CAST_LIMIT)} />;
+  const credits = await api.media.getCredits(mediaMode, media.id);
+  return <CastContainer credits={{ ...credits, cast: credits.cast.slice(0, CAST_LIMIT) }} />;
 }
 
 /**
@@ -52,7 +52,7 @@ export default function MediaOverview({ media, mediaMode }: Props) {
       <div className="page-gutter mt-[40px] grid grid-cols-1 gap-[40px] lg:mt-[56px] lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-[56px] 2xl:grid-cols-[minmax(0,1fr)_360px]">
         <div className="flex min-w-0 flex-col gap-[40px] lg:gap-[56px]">
           {media.media_type === MediaMode.TV && <Seasons seasons={media.seasons} />}
-          <Suspense fallback={<CardRowSkeleton />}>
+          <Suspense fallback={<CastSkeleton />}>
             <Cast media={media} mediaMode={mediaMode} />
           </Suspense>
         </div>
