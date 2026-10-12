@@ -4,6 +4,7 @@ import { Loader2, Play, X } from 'lucide-react';
 import { useEffect, useRef, useState, useTransition } from 'react';
 
 import { buttonClass } from '@/components/ui/buttonStyles';
+import { useFocusTrap } from '@/hooks/useFocusTrap';
 import { getVideoKey } from '@/utils/serverActions/getVideoKey';
 
 interface Props {
@@ -20,6 +21,8 @@ export default function TrailerButton({ mediaMode, id, title }: Props) {
   const [isPending, startTransition] = useTransition();
   const triggerRef = useRef<HTMLButtonElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  useFocusTrap(dialogRef, isOpen);
 
   const open = () => {
     if (videoKey) return setIsOpen(true);
@@ -84,6 +87,7 @@ export default function TrailerButton({ mediaMode, id, title }: Props) {
 
       {isOpen && videoKey && (
         <div
+          ref={dialogRef}
           role="dialog"
           aria-modal="true"
           aria-label={`${title} trailer`}

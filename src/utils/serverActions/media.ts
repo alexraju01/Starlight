@@ -25,7 +25,9 @@ export async function getMoreMediaAction(
     );
   } catch (error) {
     console.error('Server Action Error:', error);
-    return [];
+    // Throw (generic message, nothing internal leaks): returning [] here looked like
+    // "no more titles" and hid the failure from the Load More error state.
+    throw new Error('Could not load more titles');
   }
 }
 
@@ -40,7 +42,7 @@ export async function fetchGenreMedia(genreIds: GenreIds, page: number, sort?: s
     return await api.media.getGenreMedia({ movie, tv }, page, parseSort(sort));
   } catch (error) {
     console.error('Action error:', error);
-    return [];
+    throw new Error('Could not load more titles');
   }
 }
 
@@ -54,7 +56,7 @@ export async function searchMediaAction(query: string, page = 1) {
     return await api.media.search(trimmed, page);
   } catch (error) {
     console.error('Search Action Error:', error);
-    return [];
+    throw new Error('Search is unavailable right now');
   }
 }
 

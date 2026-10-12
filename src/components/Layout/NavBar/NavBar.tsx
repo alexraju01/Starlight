@@ -5,6 +5,7 @@ import { Menu, Search } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 
 import SearchBox from '@/components/ui/SearchBox/SearchBox';
+import { useFocusTrap } from '@/hooks/useFocusTrap';
 import { useTrackInAppNavigation } from '@/hooks/useInAppHistory';
 import { useNavBarLogic } from '@/hooks/useNavBarLogic';
 
@@ -27,6 +28,7 @@ const NavBar = () => {
     refs,
   } = useNavBarLogic();
   useTrackInAppNavigation();
+  useFocusTrap(refs.mobileNavRef, isMobileNavOpen);
   const barRef = useRef<HTMLDivElement>(null);
 
   // Publish the bar's real height as --nav-h so the page offset and full-height

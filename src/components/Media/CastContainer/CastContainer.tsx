@@ -30,7 +30,7 @@ export default function CastContainer({ credits }: Props) {
             {cast.map((person) => (
               <li
                 key={person.id}
-                className="group flex w-[116px] shrink-0 snap-start flex-col items-center text-center lg:w-[132px]"
+                className="flex w-[116px] shrink-0 snap-start flex-col items-center text-center lg:w-[132px]"
               >
                 <PersonAvatar
                   name={person.name}

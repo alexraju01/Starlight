@@ -15,13 +15,21 @@ import { MediaWithDetails } from '@/types/global';
 
 interface Props {
   results: MediaWithDetails[];
+  /** TMDB couldn't be reached for this search. */
+  searchFailed?: boolean;
   /** Shown before the user has searched for anything. */
   trending: MediaWithDetails[];
   genreMap: Record<number, string>;
   initialQuery: string;
 }
 
-export default function DiscoverClient({ results, trending, genreMap, initialQuery }: Props) {
+export default function DiscoverClient({
+  results,
+  searchFailed = false,
+  trending,
+  genreMap,
+  initialQuery,
+}: Props) {
   const router = useRouter();
   const [query, setQuery] = useState(initialQuery);
   const [isPending, startTransition] = useTransition();
@@ -86,6 +94,10 @@ export default function DiscoverClient({ results, trending, genreMap, initialQue
       >
         {isPending ? (
           <LoadingSkeletons count={12} />
+        ) : initialQuery && searchFailed ? (
+          <p role="alert" className="py-[64px] text-center text-[15px] text-red-300">
+            Search is unavailable right now. Please try again in a moment.
+          </p>
         ) : initialQuery ? (
           // Keyed so a new search starts again from page 1 with the "All" tab.
           <SearchResults

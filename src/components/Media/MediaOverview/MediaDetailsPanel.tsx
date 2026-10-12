@@ -16,6 +16,8 @@ import TrailerButton from './TrailerButton';
 interface Props {
   media: MediaWithDetails;
   mediaMode: MediaMode.TV | MediaMode.MOVIE;
+  /** Show the "More like this" jump link (only when there are recommendations to jump to). */
+  hasSimilar: boolean;
 }
 
 /**
@@ -26,7 +28,7 @@ interface Props {
  *   desktop  [poster | title  ]
  *            [poster | details]  poster spans both rows, bottom-aligned with the text
  */
-export default function MediaDetailsPanel({ media, mediaMode }: Props) {
+export default function MediaDetailsPanel({ media, mediaMode, hasSimilar }: Props) {
   const title = displayName(media);
   const isTv = media.media_type === MediaMode.TV;
   const poster = getImageUrl(media.poster_path, 'poster', 'w500');
@@ -119,10 +121,12 @@ export default function MediaDetailsPanel({ media, mediaMode }: Props) {
 
         <div className="flex flex-col gap-[12px] pt-[4px] sm:flex-row">
           <TrailerButton mediaMode={mediaMode} id={media.id} title={title} />
-          <a href="#similar" className={buttonClass('ghost', 'lg', 'backdrop-blur-md')}>
-            More like this
-            <ChevronDown aria-hidden="true" className="size-[18px]" />
-          </a>
+          {hasSimilar && (
+            <a href="#similar" className={buttonClass('ghost', 'lg', 'backdrop-blur-md')}>
+              More like this
+              <ChevronDown aria-hidden="true" className="size-[18px]" />
+            </a>
+          )}
         </div>
       </div>
     </div>

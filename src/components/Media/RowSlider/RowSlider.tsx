@@ -95,6 +95,9 @@ export default function RowSlider({
               key={i}
               className="shrink-0"
               style={{ width: itemWidth, marginRight: i === count - 1 ? 0 : gap }}
+              // Off-page cards are hidden by overflow: keep them out of the tab order too,
+              // otherwise keyboard users land on invisible cards.
+              inert={i < slider.index || i >= slider.index + perPage}
             >
               {renderItem(i, {
                 isFirst: i === slider.index,

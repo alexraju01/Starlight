@@ -285,6 +285,25 @@ export const api = {
       return withMediaType(mediaMode, results);
     },
 
+    /**
+     * Whether TMDB has recommendations for a title. Same request (and cache entry) as the
+     * recommendations slider, but without the per-show season lookups, so it's cheap to await.
+     */
+    hasRecommendations: async (mediaMode: MediaMode, id: number): Promise<boolean> => {
+      try {
+        const { results } = await fetchData<APIResponse>(
+          '3',
+          `${mediaMode}/${id}/recommendations`,
+          {
+            cache: { type: 'revalidate', seconds: DAY },
+          },
+        );
+        return results.length > 0;
+      } catch {
+        return false;
+      }
+    },
+
     getTrending: async (mediaMode: MediaMode, page = 1, time: 'day' | 'week' = 'day') => {
       const { results } = await fetchData<APIResponse<MovieWithLogos>>(
         '3',

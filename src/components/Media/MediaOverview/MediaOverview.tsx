@@ -35,7 +35,9 @@ async function Cast({ media, mediaMode }: Props) {
  *             and drops below them on mobile.
  *   Similar   full-width recommendations slider.
  */
-export default function MediaOverview({ media, mediaMode }: Props) {
+export default async function MediaOverview({ media, mediaMode }: Props) {
+  const hasSimilar = await api.media.hasRecommendations(mediaMode, media.id);
+
   return (
     <article className="pb-[48px] lg:pb-[72px]">
       <section
@@ -45,7 +47,7 @@ export default function MediaOverview({ media, mediaMode }: Props) {
         <MediaBackdrop media={media} />
         <GoBack className="absolute top-[16px] left-[16px] z-10 sm:left-[24px] lg:top-[24px] lg:left-[68px] 2xl:left-[101px]" />
         <div className="page-gutter relative -mt-[72px] w-full sm:-mt-[96px] lg:mt-0 lg:pt-[96px] lg:pb-[64px]">
-          <MediaDetailsPanel media={media} mediaMode={mediaMode} />
+          <MediaDetailsPanel media={media} mediaMode={mediaMode} hasSimilar={hasSimilar} />
         </div>
       </section>
 
@@ -64,13 +66,15 @@ export default function MediaOverview({ media, mediaMode }: Props) {
         </aside>
       </div>
 
-      <div className="page-gutter mt-[48px] lg:mt-[72px]">
-        <SliderBoundary message="Failed to load recommendations.">
-          <Suspense fallback={<CustomSliderSkeleton />}>
-            <SimilarMedia mediaMode={mediaMode} id={media.id} />
-          </Suspense>
-        </SliderBoundary>
-      </div>
+      {hasSimilar && (
+        <div className="page-gutter mt-[48px] lg:mt-[72px]">
+          <SliderBoundary message="Failed to load recommendations.">
+            <Suspense fallback={<CustomSliderSkeleton />}>
+              <SimilarMedia mediaMode={mediaMode} id={media.id} />
+            </Suspense>
+          </SliderBoundary>
+        </div>
+      )}
     </article>
   );
 }
