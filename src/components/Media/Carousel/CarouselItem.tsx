@@ -1,7 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
-import Image, { getImageProps } from 'next/image';
+import Image from 'next/image';
 import { useState, useTransition, useEffect } from 'react';
 
 import { MediaVideoPlayer } from '@/components/Cards/MediaCard2/MediaVideoPlayer';
@@ -9,7 +9,7 @@ import { ROUTES } from '@/constants/route';
 import { useCarousel } from '@/context/CarouselContext';
 import { MediaMode } from '@/types';
 import { MovieWithLogos } from '@/types/global';
-import { getImageUrl } from '@/utils/image/getImageUrl';
+import { getImageSrcSet, getImageUrl } from '@/utils/image/getImageUrl';
 import { getVideoKey } from '@/utils/serverActions/getVideoKey';
 import { displayName } from '@/utils/stringUtils';
 
@@ -60,26 +60,24 @@ export default function CarouselItem({ movie, genres, priority, mediaMode }: Car
     setIsMuted((prev) => !prev);
   };
 
-  // Full-resolution art for the hero (large files – images are unoptimized).
-  // Below 840px the slide is roughly poster-shaped, so it shows the portrait poster;
-  // from 840px (16:9) it shows the landscape backdrop.
-  const backdropSrc = getImageUrl(movie.backdrop_path, 'backdrop', 'original');
-  const posterSrc = getImageUrl(movie.poster_path, 'poster', 'original');
+  // Below 840px the slide is roughly poster-shaped, so it shows the portrait poster; from
+  // 840px (16:9) it shows the landscape backdrop. Each lists TMDB's sizes so the browser
+  // downloads the smallest that fits – `original` is 1.5–2 MB, w1280 / w780 ~200–270 KB.
+  // w1280 is offered up to 1600px wide: the hero art is darkened and masked, so a slight
+  // upscale on 1440–1600px screens is invisible and saves over a megabyte.
+  const backdropSrcSet = getImageSrcSet(movie.backdrop_path, 'backdrop', [
+    ['w780', 780],
+    ['w1280', 1600],
+    ['original', 3840],
+  ]);
+  const posterSrcSet = getImageSrcSet(movie.poster_path, 'poster', [
+    ['w342', 342],
+    ['w500', 500],
+    ['w780', 780],
+    ['original', 2000],
+  ]);
   const title = displayName(movie);
   const detailsHref = ROUTES.MEDIA(mediaMode, movie.id, title);
-
-  const imageCommon = {
-    alt: '',
-    fill: true,
-    priority,
-    loading: priority ? undefined : ('lazy' as const),
-  };
-  const desktopImage = getImageProps({ ...imageCommon, src: backdropSrc, sizes: '100vw' }).props;
-  const { srcSet: mobileSrcSet, ...mobileImage } = getImageProps({
-    ...imageCommon,
-    src: posterSrc || backdropSrc,
-    sizes: '100vw',
-  }).props;
 
   return (
     <li className="carousel-slide flex-evenly absolute inset-0 overflow-hidden max-[840px]:bg-[#1a1a1a]">
@@ -88,12 +86,17 @@ export default function CarouselItem({ movie, genres, priority, mediaMode }: Car
       <div className="carousel-parallax absolute inset-0">
         {/* <picture> so each device downloads only the image it shows. */}
         <picture>
-          <source media="(min-width: 840px)" srcSet={desktopImage.srcSet ?? desktopImage.src} />
+          <source media="(min-width: 840px)" srcSet={backdropSrcSet} sizes="100vw" />
           <img
-            {...mobileImage}
-            srcSet={mobileSrcSet ?? mobileImage.src}
+            src={getImageUrl(movie.poster_path || movie.backdrop_path, 'poster', 'w780')}
+            srcSet={posterSrcSet || backdropSrcSet}
+            sizes="100vw"
             alt=""
-            className="img-cover-center carousel-mask-gradiant brightness-[80%]"
+            // The first slide is the page's main image; the rest load as they come into view.
+            loading={priority ? 'eager' : 'lazy'}
+            fetchPriority={priority ? 'high' : 'auto'}
+            decoding="async"
+            className="img-cover-center carousel-mask-gradiant absolute inset-0 size-full brightness-[80%]"
           />
         </picture>
       </div>

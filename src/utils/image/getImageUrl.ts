@@ -46,3 +46,18 @@ export const getImageUrl = <T extends ImageCategory, S extends ImageSizes[T]>(
   type: T,
   size: S,
 ): string => (!path ? '' : `${BASE_URL}/${size}${path}`);
+
+/**
+ * Responsive `srcset` from TMDB's fixed sizes, e.g.
+ * `getImageSrcSet(path, 'poster', [['w500', 500], ['w780', 780]])`
+ * → "…/w500/x.jpg 500w, …/w780/x.jpg 780w". Empty string when there's no path.
+ * (Next's image optimiser is off, so TMDB's own sizes are the only resized versions.)
+ */
+export const getImageSrcSet = <T extends ImageCategory>(
+  path: string | null | undefined,
+  type: T,
+  candidates: [size: ImageSizes[T], width: number][],
+): string =>
+  path
+    ? candidates.map(([size, width]) => `${getImageUrl(path, type, size)} ${width}w`).join(', ')
+    : '';
