@@ -9,7 +9,7 @@ import DragScrollList from '@/components/ui/DragScrollList';
 import { MOODS, Mood, SPOTLIGHT_GENRES } from '@/constants/genreMoods';
 import { genreTint } from '@/constants/genreTints';
 import { ROUTES } from '@/constants/route';
-import { GenreKey, Icons } from '@/utils';
+import { GenreKey, Icons, genreCoverage } from '@/utils';
 import { api, GenreShowcaseItem } from '@/utils/api';
 import { gridSpanClasses } from '@/utils/gridSpan';
 import { getImageUrl } from '@/utils/image/getImageUrl';
@@ -32,9 +32,8 @@ export const metadata: Metadata = {
   ],
 };
 
-/** "Movies · TV", "Movies" or "TV". (TMDB caps title counts at 20,001, so no counts.) */
-const coverageOf = ({ ids }: GenreShowcaseItem) =>
-  ids.movie && ids.tv ? 'Movies · TV' : ids.movie ? 'Movies' : 'TV';
+/** (TMDB caps title counts at 20,001, so tiles show coverage, not counts.) */
+const coverageOf = (genre: GenreShowcaseItem) => genreCoverage(genre.ids);
 
 const posterUrls = (genre: GenreShowcaseItem) =>
   genre.posterPaths.map((path) => getImageUrl(path, 'poster', 'w185'));

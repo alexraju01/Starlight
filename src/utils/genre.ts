@@ -10,3 +10,7 @@ export function formatGenres(item: MediaListItem, genreMap: Record<number, strin
     .filter(Boolean)
     .join(', ');
 }
+
+/** What a genre covers: "Movies · TV", "Movies" or "TV". */
+export const genreCoverage = (ids: { movie?: number; tv?: number }): string =>
+  ids.movie && ids.tv ? 'Movies · TV' : ids.movie ? 'Movies' : 'TV';
