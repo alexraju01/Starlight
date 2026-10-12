@@ -3,15 +3,15 @@
 import clsx from 'clsx';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState, useMemo, useRef } from 'react';
+import { useMemo } from 'react';
 
 import { ROUTES } from '@/constants/route';
 import { useMediaContext } from '@/context/MediaContext';
+import { useHoverPreview } from '@/hooks/useHoverPreview';
 import { MediaMode } from '@/types';
 import { MediaWithDetails } from '@/types/global';
 import { formatGenres } from '@/utils';
 import { formatDate, getMediaDate } from '@/utils/date';
-import { getVideoKey } from '@/utils/serverActions/getVideoKey';
 
 import { MediaCardInfo } from './MediaCardInfo';
 import { MediaVideoPlayer } from './MediaVideoPlayer';
@@ -24,21 +24,11 @@ interface Props {
   isLast?: boolean;
 }
 
+/** Poster card that grows into a muted trailer preview on mouse hover. */
 const MediaCard2 = ({ item, style, isFirst, isLast }: Props) => {
   const { mediaMode, genres } = useMediaContext();
-  const [isPlaying, setIsPlaying] = useState(false);
-  // The backdrop is only fetched once the card has been hovered, then kept so it can fade
-  // out again on leave.
-  const [hasHovered, setHasHovered] = useState(false);
-  const [videoKey, setVideoKey] = useState<string | null>(null);
-  // Hover previews start muted – unexpected audio on hover is a poor experience.
-  const [isMuted, setIsMuted] = useState(true);
   const router = useRouter();
-
-  const videoKeyRef = useRef<string | null>(null);
-  const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const slotRef = useRef<HTMLDivElement>(null);
-  const unlockTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const preview = useHoverPreview(mediaMode, item.id);
   const iframeId = `yt-player-${item.id}`;
 
   const title = item.media_type === MediaMode.MOVIE ? item.title : item.name;
@@ -48,54 +38,6 @@ const MediaCard2 = ({ item, style, isFirst, isLast }: Props) => {
   const dateStr = formatDate(item);
   const hasValidRating = typeof item.vote_average === 'number' && item.vote_average > 0;
   const isUpcoming = useMemo(() => new Date(mediaDate) > new Date(), [mediaDate]);
-
-  const loadVideo = async () => {
-    if (!videoKeyRef.current) {
-      const key = await getVideoKey(mediaMode as 'movie' | 'tv', item.id);
-      if (key) {
-        videoKeyRef.current = key;
-        setVideoKey(key);
-      }
-    }
-  };
-
-  const handleToggleMute = (e: React.MouseEvent) => {
-    // IMPORTANT: Stop the click from reaching handleImageClick
-    e.preventDefault();
-    e.stopPropagation();
-    setIsMuted((prev) => !prev);
-  };
-
-  const handlePointerEnter = (e: React.PointerEvent) => {
-    // Only trigger auto-play on mouse hover (desktop)
-    if (e.pointerType === 'mouse') {
-      // The enlarged card stays in the layout flow, and its height changes as it widens
-      // (poster → landscape). Pin the slot at its resting height so the row – and on the
-      // last row, the page height and scroll position – doesn't jump, which could also pull
-      // the card out from under the cursor and make the hover flicker on and off.
-      if (unlockTimeoutRef.current) clearTimeout(unlockTimeoutRef.current);
-      const slot = slotRef.current;
-      if (slot && !slot.style.height) slot.style.height = `${slot.offsetHeight}px`;
-
-      setHasHovered(true);
-      hoverTimeoutRef.current = setTimeout(async () => {
-        setIsPlaying(true);
-        await loadVideo();
-      }, 400);
-    }
-  };
-
-  const handlePointerLeave = (e: React.PointerEvent) => {
-    if (e.pointerType === 'mouse') {
-      if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
-      // Release the pin once the card has shrunk back (matches the 300ms transitions).
-      unlockTimeoutRef.current = setTimeout(() => {
-        if (slotRef.current) slotRef.current.style.height = '';
-      }, 300);
-      setIsPlaying(false);
-      setIsMuted(true);
-    }
-  };
 
   // Tapping/clicking the artwork opens the title (previously a tap on mobile started
   // a trailer instead, so touch users had to find the small text link to navigate).
@@ -116,11 +58,10 @@ const MediaCard2 = ({ item, style, isFirst, isLast }: Props) => {
 
   return (
     <div
-      ref={slotRef}
+      ref={preview.slotRef}
       className="group relative w-full flex-shrink-0 overflow-visible"
       style={{ ...style, display: 'block' }}
-      onPointerEnter={handlePointerEnter}
-      onPointerLeave={handlePointerLeave}
+      {...preview.hoverHandlers}
     >
       <div
         className={cardClasses}
@@ -133,20 +74,20 @@ const MediaCard2 = ({ item, style, isFirst, isLast }: Props) => {
           {/* Poster, with the landscape backdrop cross-fading over it as the card widens on
               hover. Both stay underneath the player until the trailer fades in. */}
           <PosterImage src={item.poster_path} alt={title} className="rounded-[10.92px]" />
-          {hasHovered && item.backdrop_path && (
+          {preview.hasHovered && item.backdrop_path && (
             <PosterImage
               src={item.backdrop_path}
               alt=""
               className="rounded-[10.92px] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
             />
           )}
-          {isPlaying && videoKey && (
+          {preview.showTrailer && preview.videoKey && (
             <MediaVideoPlayer
-              videoKey={videoKey}
+              videoKey={preview.videoKey}
               iframeId={iframeId}
               title={title}
-              isMuted={isMuted}
-              onToggleMute={handleToggleMute} // Passed here
+              isMuted={preview.isMuted}
+              onToggleMute={preview.toggleMute}
             />
           )}
 
