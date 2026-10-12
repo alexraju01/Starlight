@@ -57,3 +57,7 @@ export const SPOTLIGHT_GENRES = [
   'Romance',
   'Animation',
 ];
+
+/** The mood a genre belongs to, if any. */
+export const moodOf = (genreName: string): Mood | undefined =>
+  MOODS.find((mood) => mood.genres.includes(genreName));

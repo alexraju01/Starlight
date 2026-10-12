@@ -9,6 +9,8 @@ import { useEffect, useState } from 'react';
 
 import { buttonClass } from '@/components/ui/buttonStyles';
 
+import PosterFan from './PosterFan';
+
 import type { Route } from 'next';
 
 export interface SpotlightGenre {
@@ -30,13 +32,6 @@ interface Props {
 
 /** How long each genre stays in the spotlight before rotating (ms). */
 const ROTATE_MS = 7000;
-
-/** Poster fan: [x offset px, rotation deg, stacking] for back-left, front, back-right. */
-const FAN = [
-  [-118, -9, 1],
-  [0, 0, 3],
-  [118, 9, 2],
-] as const;
 
 /**
  * Full-bleed "What are you in the mood for?" hero. Cross-fades between headline genres
@@ -100,7 +95,6 @@ export default function GenreSpotlight({ genres, allHrefs }: Props) {
       ))}
       {/* Legibility: dark from the left and bottom, then the genre's colour glowing up. */}
       <div className="from-secondary via-secondary/80 lg:via-secondary/55 absolute inset-0 -z-10 bg-gradient-to-r to-transparent" />
-      <div className="from-secondary absolute inset-0 -z-10 bg-gradient-to-t via-transparent to-transparent" />
       <div
         aria-hidden="true"
         className="absolute inset-0 -z-10 opacity-60 mix-blend-screen"
@@ -109,36 +103,14 @@ export default function GenreSpotlight({ genres, allHrefs }: Props) {
             'radial-gradient(70% 90% at 0% 100%, color-mix(in srgb, var(--tint) 55%, transparent), transparent 70%)',
         }}
       />
+      <div className="from-secondary absolute inset-0 -z-10 bg-gradient-to-t via-transparent to-transparent" />
 
-      {/* Poster fan (desktop): re-animates for each genre. */}
-      <div
+      {/* Poster fan (desktop): keyed so it re-animates for each genre. */}
+      <PosterFan
         key={genre.name}
-        aria-hidden="true"
-        className="pointer-events-none absolute right-[68px] bottom-[64px] hidden h-[340px] w-[420px] lg:block 2xl:right-[101px]"
-      >
-        {genre.posters.slice(0, 3).map((poster, i) => {
-          const [x, rotate, z] = FAN[i];
-          return (
-            <div
-              key={poster}
-              className="absolute bottom-0 left-1/2 w-[180px]"
-              style={{
-                zIndex: z,
-                transform: `translateX(calc(-50% + ${x}px)) rotate(${rotate}deg)`,
-              }}
-            >
-              <div
-                className="relative aspect-[2/3] overflow-hidden rounded-[14px] opacity-0 shadow-[0_24px_48px_rgba(0,0,0,0.6)] ring-1 ring-white/15"
-                style={{
-                  animation: `fan-in 700ms cubic-bezier(0.22,1,0.36,1) ${120 * i}ms forwards`,
-                }}
-              >
-                <Image src={poster} alt="" fill sizes="180px" className="object-cover" />
-              </div>
-            </div>
-          );
-        })}
-      </div>
+        posters={genre.posters}
+        className="absolute right-[68px] bottom-[64px] hidden h-[340px] w-[420px] lg:block 2xl:right-[101px]"
+      />
 
       <div className="page-gutter relative w-full pt-[48px] pb-[40px] lg:pb-[64px]">
         <p className="text-[13px] font-semibold tracking-[0.14em] text-white/60 uppercase">

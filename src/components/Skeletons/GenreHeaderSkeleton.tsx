@@ -1,18 +1,23 @@
 const bar = 'animate-pulse rounded-[8px] bg-white/[0.07]';
 
-/** Placeholder for the genre page hero + filter bar. */
+/** Placeholder for a genre page: the tall hero, then the Top 10 row. */
 const GenreHeaderSkeleton = () => (
   <div aria-hidden="true">
-    <div className="page-gutter flex flex-col gap-[12px] pt-[24px] pb-[32px] sm:pt-[32px] lg:min-h-[340px] lg:justify-end lg:pt-[56px] lg:pb-[48px]">
-      <div className={`${bar} h-[20px] w-[96px]`} />
-      <div className={`${bar} h-[40px] w-[220px] lg:h-[60px] lg:w-[320px]`} />
-      <div className={`${bar} h-[16px] w-[280px] max-w-full`} />
-    </div>
-    <div className="border-y border-white/[0.06] py-[16px]">
-      <div className="page-gutter flex justify-between gap-[12px]">
-        <div className={`${bar} h-[46px] w-[260px] rounded-[10px]`} />
-        <div className={`${bar} hidden h-[46px] w-[300px] rounded-[10px] sm:block`} />
+    <div className="flex min-h-[500px] items-end bg-white/[0.02] lg:min-h-[600px]">
+      <div className="page-gutter w-full pb-[36px] lg:pb-[56px]">
+        <div className={`${bar} h-[14px] w-[160px]`} />
+        <div className={`${bar} mt-[16px] h-[52px] w-[260px] lg:h-[96px] lg:w-[420px]`} />
+        <div className={`${bar} mt-[16px] h-[16px] w-[320px] max-w-full`} />
+        <div className={`${bar} mt-[28px] h-[98px] w-full max-w-[440px] rounded-[14px]`} />
       </div>
+    </div>
+    <div className="page-gutter flex gap-[16px] overflow-hidden pt-[32px] lg:pt-[48px]">
+      {Array.from({ length: 7 }, (_, i) => (
+        <div
+          key={i}
+          className={`${bar} aspect-[2/3] w-[120px] shrink-0 rounded-[12px] lg:w-[150px]`}
+        />
+      ))}
     </div>
   </div>
 );
