@@ -5,7 +5,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useMemo } from 'react';
 
-import { stripLeadingSlash, validRoutes } from '@/utils';
+import { TOP_LEVEL_ROUTES } from '@/constants/route';
+import { stripLeadingSlash } from '@/utils/stringUtils';
 
 import type { Route } from 'next';
 
@@ -16,7 +17,7 @@ export default function NotFoundPath() {
   const suggestion = useMemo(() => {
     const firstSegment = cleanPath.split('/')[0];
     if (!firstSegment) return null;
-    const fuse = new Fuse(validRoutes, { threshold: 0.4 });
+    const fuse = new Fuse(TOP_LEVEL_ROUTES, { threshold: 0.4 });
     return fuse.search(firstSegment)[0]?.item ?? null;
   }, [cleanPath]);
 

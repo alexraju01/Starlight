@@ -14,10 +14,7 @@ const FAN = [
   [118, 9, 2],
 ] as const;
 
-/**
- * Three posters fanned out like a hand of cards, each sliding up in turn. Give it a new
- * `key` to replay the entrance (the spotlight does, on every genre change).
- */
+/** Three posters fanned like a hand of cards, sliding up in turn. A new `key` replays it. */
 export default function PosterFan({ posters, className }: Props) {
   return (
     <div aria-hidden="true" className={clsx('pointer-events-none', className)}>

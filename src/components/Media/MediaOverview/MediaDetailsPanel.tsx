@@ -6,27 +6,22 @@ import { buttonClass } from '@/components/ui/buttonStyles';
 import { ROUTES } from '@/constants/route';
 import { MediaMode } from '@/types';
 import { MediaWithDetails } from '@/types/global';
-import { displayRuntime, getMediaDate } from '@/utils';
+import { formatCount, formatMediaRuntime, formatYear, pluralize } from '@/utils/format';
 import { getImageUrl } from '@/utils/image/getImageUrl';
-import { formatCount, formatYear, pluralize } from '@/utils/mediaFormat';
-import { displayName } from '@/utils/stringUtils';
+import { displayName, getMediaDate } from '@/utils/media';
 
 import TrailerButton from './TrailerButton';
 
 interface Props {
   media: MediaWithDetails;
-  mediaMode: MediaMode.TV | MediaMode.MOVIE;
-  /** Show the "More like this" jump link (only when there are recommendations to jump to). */
+  mediaMode: MediaMode;
+  /** Show the "More like this" jump link. */
   hasSimilar: boolean;
 }
 
 /**
- * Poster, title, key facts, genres, overview and actions.
- *
- * One grid, two layouts:
- *   mobile   [poster | title]    then everything else full width under both
- *   desktop  [poster | title  ]
- *            [poster | details]  poster spans both rows, bottom-aligned with the text
+ * Poster, title, facts, genres, overview and actions. One grid: on mobile the details run
+ * full width under [poster | title]; on desktop the poster spans both rows beside them.
  */
 export default function MediaDetailsPanel({ media, mediaMode, hasSimilar }: Props) {
   const title = displayName(media);
@@ -34,17 +29,15 @@ export default function MediaDetailsPanel({ media, mediaMode, hasSimilar }: Prop
   const poster = getImageUrl(media.poster_path, 'poster', 'w500');
   const hasRating = media.vote_count > 0 && media.vote_average > 0;
 
-  // Year · runtime (or seasons for a show) – each part is skipped when unknown.
   const facts = [
     formatYear(getMediaDate(media)),
     isTv && media.number_of_seasons
       ? pluralize(media.number_of_seasons, 'Season')
-      : displayRuntime(media),
+      : formatMediaRuntime(media),
   ].filter(Boolean);
 
   return (
     <div className="grid grid-cols-[112px_minmax(0,1fr)] items-end gap-x-[16px] gap-y-[20px] sm:grid-cols-[148px_minmax(0,1fr)] sm:gap-x-[24px] lg:grid-cols-[264px_minmax(0,1fr)] lg:gap-x-[48px] lg:gap-y-[24px] 2xl:grid-cols-[300px_minmax(0,1fr)]">
-      {/* Poster */}
       <div className="bg-card-bg relative aspect-[2/3] w-full overflow-hidden rounded-[12px] shadow-[0_16px_48px_rgba(0,0,0,0.6)] ring-1 ring-white/10 lg:row-span-2 lg:rounded-[16px]">
         {poster && (
           <Image
@@ -58,7 +51,6 @@ export default function MediaDetailsPanel({ media, mediaMode, hasSimilar }: Prop
         )}
       </div>
 
-      {/* Title block */}
       <div className="flex min-w-0 flex-col gap-[8px] lg:gap-[12px]">
         <span className="border-primary/60 bg-primary/15 text-accent-soft w-fit rounded-[4px] border px-[8px] py-[3px] text-[10px] leading-none font-bold tracking-[0.14em] uppercase lg:text-[11px]">
           {isTv ? 'TV Series' : 'Movie'}
@@ -73,7 +65,6 @@ export default function MediaDetailsPanel({ media, mediaMode, hasSimilar }: Prop
         )}
       </div>
 
-      {/* Details */}
       <div className="col-span-2 flex min-w-0 flex-col gap-[20px] lg:col-span-1 lg:col-start-2">
         <ul className="flex flex-wrap items-center gap-x-[12px] gap-y-[8px] text-[14px] text-white/70 lg:text-[16px]">
           {hasRating && (

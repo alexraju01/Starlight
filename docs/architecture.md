@@ -28,18 +28,21 @@ src/
     sitemap.ts, sitemap/, robots.ts   SEO
   components/
     Layout/            SiteShell, NavBar, Footer, PageHeader
-    Media/             Carousel, RowSlider, MovieGrid, browse pages, details page
-    Cards/             MediaCard2 (hover-preview card), SearchCard (search dropdown)
+    Media/             Carousel, MediaRow, RowSlider, MediaGrid, browse pages, details page
+    Cards/             MediaCard (hover-preview card), SearchCard (search dropdown)
     Genre/, Discover/  Page-specific pieces
-    ui/                Small shared primitives (SearchBox, SegmentedLinks, buttonStyles)
+    Error/             404 content, RowErrorBoundary
+    ui/                Shared primitives (SearchBox, ScrollRow, Segmented, ArrowButton, buttonStyles)
     Skeletons/         Loading placeholders matching each layout
-  hooks/               Client behaviour (swipe, paging, load more, hover preview, nav)
-  utils/               Data access, formatting and pure helpers
+  hooks/               Client behaviour (swipe, paging, load more, hover preview, nav, focus trap)
+  utils/               Data access (api, fetchData), format, media helpers, logger
   constants/           Routes, nav links, breakpoints, sort options
 types/                 Shared TypeScript types (TMDB shapes, YouTube player API)
 ```
 
-Imports use the `@/` alias (`@/components/...`, `@/utils/...`, `@/types/...`).
+Imports use the `@/` alias (`@/components/...`, `@/utils/...`, `@/types/...`) and point at the
+module itself rather than a re-exporting barrel, so importing one helper never pulls in a whole
+folder (e.g. every react-icons component). `types/index.ts` is the exception: types only.
 
 ## Rendering
 
@@ -68,7 +71,10 @@ client component ──► server action (src/utils/serverActions/*) ──► a
 - **Server actions** (`getMoreMediaAction`, `fetchGenreMedia`, `searchMediaAction`, `getVideoKey`)
   are public HTTP endpoints. They validate every argument with `serverActions/validate.ts` before
   calling `api`.
-- **Caching** uses Next's fetch cache: lists 1 hour, details/genres 1 day, TV season counts 7 days.
+- **Caching** uses Next's fetch cache with the `TTL` constants in `fetchData.ts`: lists 1 hour,
+  details/genres 1 day, TV season counts 7 days.
+- **Errors** are reported through `logError` (`utils/logger.ts`) – the one place to plug in an
+  error-tracking service.
 - **Sorting across movies + TV** (genre pages): ratings and dates are merged directly; popularity
   is not comparable between the two, so "Popular" alternates the lists (`utils/interleave.ts`).
 
@@ -84,15 +90,15 @@ client component ──► server action (src/utils/serverActions/*) ──► a
 
 ## Key behaviours
 
-| Feature               | Where                                        | Notes                                                                                |
-| --------------------- | -------------------------------------------- | ------------------------------------------------------------------------------------ |
-| Hero carousel         | `Media/Carousel/*`                           | Endless loop, swipe/drag via `useSwipe`, responsive TMDB `srcset`                    |
-| Row sliders           | `Media/RowSlider/*`                          | Page-at-a-time; arrows + swipe/drag (`SwipeTrack` + `useSwipe`), rubber-band at ends |
-| Grids + "Load more"   | `MovieGrid`, `useLoadMore`, `completeRows`   | Column count from `CAROUSEL_BREAKPOINTS`; only whole rows while more can load        |
-| Hover trailer preview | `MediaCard2` + `useHoverPreview`             | Mouse only; slot height is pinned while enlarged so the layout never jumps           |
-| Trailer player        | `MediaVideoPlayer`                           | YouTube IFrame API (typed in `types/youtube.ts`); hidden until frames advance        |
-| Search dropdown       | `SearchBox` + `SearchCard`                   | ARIA combobox: ↑/↓/Enter/Escape; `/` focuses the navbar search                       |
-| Mobile navigation     | `NavBar`, `MobileOverlays`, `useNavBarLogic` | Slide-in drawer, scroll lock, focus return                                           |
+| Feature               | Where                                            | Notes                                                                                  |
+| --------------------- | ------------------------------------------------ | -------------------------------------------------------------------------------------- |
+| Hero carousel         | `Media/Carousel/*`                               | Endless loop, swipe/drag via `useSwipe`, responsive TMDB `srcset`                      |
+| Row sliders           | `Media/RowSlider/*`                              | Page-at-a-time; arrows + swipe/drag (`SwipeTrack` + `useSwipe`), rubber-band at ends   |
+| Grids + "Load more"   | `PaginatedMediaGrid`, `MediaGrid`, `useLoadMore` | Columns match `MEDIA_COLUMNS`; a partial last row is hidden by CSS while more can load |
+| Hover trailer preview | `MediaCard` + `useHoverPreview`                  | Mouse only; slot height is pinned while enlarged so the layout never jumps             |
+| Trailer player        | `MediaVideoPlayer`                               | YouTube IFrame API (typed in `types/youtube.ts`); hidden until frames advance          |
+| Search dropdown       | `SearchBox` + `SearchCard`                       | ARIA combobox: ↑/↓/Enter/Escape; `/` focuses the navbar search                         |
+| Mobile navigation     | `NavBar`, `MobileOverlays`, `useNavBarLogic`     | Slide-in drawer, scroll lock, focus return                                             |
 
 ## Quality checks
 

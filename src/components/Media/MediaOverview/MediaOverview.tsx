@@ -1,22 +1,23 @@
 import { Suspense } from 'react';
 
+import RowErrorBoundary from '@/components/Error/RowErrorBoundary';
+import CastContainer from '@/components/Media/CastContainer/CastContainer';
 import GoBack from '@/components/Navigation/GoBack';
-import CustomSliderSkeleton from '@/components/Skeletons/LoadingSkeletons/CustomSliderLoading';
 import { CastSkeleton } from '@/components/Skeletons/MediaDetailsSkeleton';
+import MediaRowSkeleton from '@/components/Skeletons/MediaRowSkeleton';
 import { MediaMode } from '@/types';
 import { MediaWithDetails } from '@/types/global';
 import { api } from '@/utils/api';
 
-import { Seasons, SimilarMedia } from '.';
 import MediaBackdrop from './MediaBackdrop';
 import MediaDetailsPanel from './MediaDetailsPanel';
 import MediaFacts from './MediaFacts';
-import CastContainer from '../CastContainer/CastContainer';
-import SliderBoundary from '../CustomSlider/SliderBoundary';
+import Seasons from './Seasons';
+import SimilarMedia from './SimilarMedia';
 
 interface Props {
   media: MediaWithDetails;
-  mediaMode: MediaMode.TV | MediaMode.MOVIE;
+  mediaMode: MediaMode;
 }
 
 const CAST_LIMIT = 15;
@@ -27,13 +28,8 @@ async function Cast({ media, mediaMode }: Props) {
 }
 
 /**
- * Details page layout.
- *
- *   Hero      backdrop + poster/title/actions. Mobile: banner with the poster overlapping
- *             its bottom edge. Desktop: full-bleed, content anchored bottom-left.
- *   Body      seasons + cast; the "Details" card sits in a sticky right column on desktop
- *             and drops below them on mobile.
- *   Similar   full-width recommendations slider.
+ * Details page: hero (backdrop, poster, title, actions), then seasons + cast beside a sticky
+ * "Details" card (below them on mobile), then "More like this".
  */
 export default async function MediaOverview({ media, mediaMode }: Props) {
   const hasSimilar = await api.media.hasRecommendations(mediaMode, media.id);
@@ -68,11 +64,11 @@ export default async function MediaOverview({ media, mediaMode }: Props) {
 
       {hasSimilar && (
         <div className="page-gutter mt-[48px] lg:mt-[72px]">
-          <SliderBoundary message="Failed to load recommendations.">
-            <Suspense fallback={<CustomSliderSkeleton />}>
+          <RowErrorBoundary message="Failed to load recommendations.">
+            <Suspense fallback={<MediaRowSkeleton />}>
               <SimilarMedia mediaMode={mediaMode} id={media.id} />
             </Suspense>
-          </SliderBoundary>
+          </RowErrorBoundary>
         </div>
       )}
     </article>

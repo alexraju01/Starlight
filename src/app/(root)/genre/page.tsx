@@ -2,16 +2,18 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { Suspense } from 'react';
 
-import { GenreCard } from '@/components/Genre/GenreCollection';
+import GenreCard from '@/components/Genre/GenreCard';
 import GenreSpotlight, { SpotlightGenre } from '@/components/Genre/GenreSpotlight';
-import { GenreSkeleton } from '@/components/Skeletons/LoadingSkeletons';
+import GenreIndexSkeleton from '@/components/Skeletons/GenreIndexSkeleton';
 import DragScrollList from '@/components/ui/DragScrollList';
 import { MOODS, Mood, SPOTLIGHT_GENRES } from '@/constants/genreMoods';
 import { genreTint } from '@/constants/genreTints';
 import { ROUTES } from '@/constants/route';
-import { GenreKey, Icons, genreCoverage } from '@/utils';
-import { api, GenreShowcaseItem } from '@/utils/api';
+import { GenreShowcaseItem } from '@/types';
+import { api } from '@/utils/api';
+import { genreCoverage } from '@/utils/genre';
 import { gridSpanClasses } from '@/utils/gridSpan';
+import Icons, { GenreKey } from '@/utils/icons';
 import { getImageUrl } from '@/utils/image/getImageUrl';
 
 export const metadata: Metadata = {
@@ -32,7 +34,7 @@ export const metadata: Metadata = {
   ],
 };
 
-/** (TMDB caps title counts at 20,001, so tiles show coverage, not counts.) */
+/** Coverage rather than title counts: TMDB caps those at 20,001. */
 const coverageOf = (genre: GenreShowcaseItem) => genreCoverage(genre.ids);
 
 const posterUrls = (genre: GenreShowcaseItem) =>
@@ -45,7 +47,6 @@ function MoodSection({ mood, genres }: { mood: Mood; genres: GenreShowcaseItem[]
       aria-labelledby={`mood-${mood.id}-title`}
       className="grid scroll-mt-[calc(var(--nav-h)+88px)] gap-[20px] lg:grid-cols-[260px_minmax(0,1fr)] lg:gap-[48px]"
     >
-      {/* Sticky editorial intro on desktop, a simple heading on mobile. */}
       <div className="lg:sticky lg:top-[calc(var(--nav-h)+104px)] lg:self-start">
         <h2
           id={`mood-${mood.id}-title`}
@@ -125,7 +126,6 @@ async function GenreIndex() {
     <>
       <GenreSpotlight genres={spotlight} allHrefs={genres.map((g) => ROUTES.GENRE(g.name))} />
 
-      {/* Jump between moods; sticks under the navbar on desktop. */}
       <nav
         aria-label="Moods"
         className="bg-secondary/95 border-y border-white/[0.06] py-[14px] backdrop-blur-xl lg:sticky lg:top-[var(--nav-h)] lg:z-30"
@@ -161,7 +161,7 @@ async function GenreIndex() {
 export default function GenresPage() {
   return (
     <div className="animate-fadeIn pb-[56px] lg:pb-[96px]">
-      <Suspense fallback={<GenreSkeleton />}>
+      <Suspense fallback={<GenreIndexSkeleton />}>
         <GenreIndex />
       </Suspense>
     </div>

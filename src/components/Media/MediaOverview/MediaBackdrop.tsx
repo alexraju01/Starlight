@@ -7,10 +7,7 @@ interface Props {
   media: MediaWithDetails;
 }
 
-/**
- * Hero artwork. Mobile: a 16:10 banner above the content. From `lg`: fills the whole hero
- * behind the content, with scrims that keep the text legible on any image.
- */
+/** Hero artwork: a banner on mobile; from `lg` it fills the hero behind the text, with scrims. */
 export default function MediaBackdrop({ media }: Props) {
   const src =
     getImageUrl(media.backdrop_path, 'backdrop', 'w1280') ||
@@ -31,9 +28,7 @@ export default function MediaBackdrop({ media }: Props) {
           className="animate-fadeIn object-cover object-[center_20%]"
         />
       )}
-      {/* Fade into the page at the bottom (all sizes)… */}
       <div className="to-secondary via-secondary/60 absolute inset-0 bg-gradient-to-b from-transparent from-40% via-75% lg:from-30%" />
-      {/* …and darken the left side on desktop, where the text sits. */}
       <div className="from-secondary via-secondary/75 absolute inset-0 hidden bg-gradient-to-r via-40% to-transparent to-75% lg:block" />
     </div>
   );

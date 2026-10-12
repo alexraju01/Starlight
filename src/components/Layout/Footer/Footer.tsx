@@ -10,7 +10,7 @@ import type { Route } from 'next';
 
 interface LinkGroup {
   title: string;
-  /** On phones, span both columns and list the links in two columns (long lists). */
+  /** Long list: full width with two link columns on phones. */
   wide?: boolean;
   links: { name: string; href: Route }[];
 }
@@ -22,7 +22,6 @@ const GROUPS: LinkGroup[] = [
   },
   {
     title: 'Explore',
-    // Deep links into the filtered browse pages.
     links: [
       { name: 'Top rated movies', href: '/movie?sort=top_rated' as Route },
       { name: 'New movie releases', href: '/movie?sort=newest' as Route },
@@ -37,12 +36,11 @@ const GROUPS: LinkGroup[] = [
   },
 ];
 
-const Footer = () => {
+export default function Footer() {
   return (
     <footer className="relative z-1 border-t border-white/[0.06] bg-[#0c0b0c] text-white">
       <div className="page-gutter pt-[48px] pb-[max(32px,env(safe-area-inset-bottom))] lg:pt-[64px]">
         <div className="grid gap-[40px] lg:grid-cols-[minmax(0,1.3fr)_minmax(0,3fr)] lg:gap-[64px]">
-          {/* Brand */}
           <div className="flex flex-col gap-[16px]">
             <Logo />
             <p className="max-w-[36ch] text-[14px] leading-[1.6] text-white/55 lg:text-[15px]">
@@ -67,7 +65,6 @@ const Footer = () => {
             </a>
           </div>
 
-          {/* Link groups */}
           <nav
             aria-label="Footer"
             className="grid grid-cols-2 gap-x-[24px] gap-y-[32px] sm:grid-cols-3"
@@ -114,6 +111,4 @@ const Footer = () => {
       </div>
     </footer>
   );
-};
-
-export default Footer;
+}

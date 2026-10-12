@@ -1,42 +1,23 @@
 'use client';
 
-import LoadMore from '@/components/Media/LoadMore';
-import MovieGrid from '@/components/Media/MovieGrid';
+import PaginatedMediaGrid from '@/components/Media/PaginatedMediaGrid';
 import { SortOption } from '@/constants/browse';
-import { useLoadMore } from '@/hooks/useLoadMore';
 import { MediaWithDetails } from '@/types/global';
 import { fetchGenreMedia } from '@/utils/serverActions/media';
 
-import type { GenreIds } from '@/utils/api';
+import type { GenreIds } from '@/types';
 
-interface GenreMediaListProps {
+interface Props {
   initialMedia: MediaWithDetails[];
+  genreMap: Record<number, string>;
   genreIds: GenreIds;
   sort: SortOption;
-  genreMap: Record<number, string>;
-  /** Shown when the current filters match nothing. */
   emptyState: React.ReactNode;
 }
 
-/** Paginated grid for one genre (remounted whenever the filters change). */
-export default function GenreMediaList({
-  initialMedia,
-  genreIds,
-  sort,
-  genreMap,
-  emptyState,
-}: GenreMediaListProps) {
-  const { items, hasMore, isLoading, hasError, loadMore } = useLoadMore(initialMedia, (page) =>
-    fetchGenreMedia(genreIds, page, sort),
-  );
-  const withPosters = items.filter((item) => item.poster_path);
-
-  if (withPosters.length === 0) return emptyState;
-
+/** One genre's grid (remounted whenever the filters change). */
+export default function GenreMediaList({ genreIds, sort, ...grid }: Props) {
   return (
-    <div className="animate-fadeIn">
-      <MovieGrid media={withPosters} genreMap={genreMap} hasMore={hasMore} />
-      <LoadMore hasMore={hasMore} isLoading={isLoading} hasError={hasError} onLoadMore={loadMore} />
-    </div>
+    <PaginatedMediaGrid {...grid} fetchPage={(page) => fetchGenreMedia(genreIds, page, sort)} />
   );
 }

@@ -3,38 +3,34 @@
 import clsx from 'clsx';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import CustomSliderButtons from '@/components/Media/CustomSlider/CustomSliderButtons';
 import { nearestSnapPoint, scrollBehavior, snapPoints } from '@/utils/scrollSnap';
 
+import ArrowButton from './ArrowButton';
 import DragScrollList from './DragScrollList';
 
 interface Props {
-  /** Row title (e.g. a SectionHeading); the arrows sit opposite it. */
+  /** Shown opposite the arrows. */
   heading: React.ReactNode;
-  /** Accessible name for the list itself. */
+  /** Accessible name for the list. */
   label: string;
-  /** Extra classes for the list, e.g. gaps or padding for hover effects. */
   listClassName?: string;
   /** `<li>` items. */
   children: React.ReactNode;
 }
 
-/** How far each arrow press scrolls, as a share of the visible width. */
+/** Share of the visible width each arrow press scrolls. */
 const PAGE_FRACTION = 0.85;
-/** Width of the fade on an edge that has more content beyond it. */
 const FADE_PX = 56;
 
 /**
- * Free-scrolling horizontal row with no visible scrollbar: arrow buttons page through it on
- * larger screens, touch swipes it, a mouse can drag it. Each edge fades out only while
- * there's more content past it, so the row always hints at where it continues.
+ * Free-scrolling row without a scrollbar: arrows on larger screens, swipe, mouse drag. Each
+ * edge fades only while there's more content past it.
  */
 export default function ScrollRow({ heading, label, listClassName, children }: Props) {
   const listRef = useRef<HTMLUListElement>(null);
   const [edges, setEdges] = useState({ atStart: true, atEnd: false });
 
-  // Runs on every scroll event, but only re-renders when an edge actually flips – a
-  // re-render per scroll frame made the whole row stutter (worst in dev builds).
+  // Runs per scroll event but only re-renders when an edge flips (per-frame renders stutter).
   const measure = useCallback(() => {
     const el = listRef.current;
     if (!el) return;
@@ -58,14 +54,14 @@ export default function ScrollRow({ heading, label, listClassName, children }: P
     };
   }, [measure]);
 
-  /** Glides about a screen's width, landing exactly on an item edge (no snap correction). */
+  /** Glides about a screen's width, landing exactly on an item edge. */
   const page = (direction: -1 | 1) => {
     const el = listRef.current;
     if (!el) return;
     const points = snapPoints(el);
     const desired = el.scrollLeft + direction * el.clientWidth * PAGE_FRACTION;
     let target = nearestSnapPoint(el, desired);
-    // Items wider than a page: still move at least one item.
+    // Items wider than a page: still move at least one.
     if (Math.abs(target - el.scrollLeft) < 2) {
       target =
         direction > 0
@@ -80,12 +76,12 @@ export default function ScrollRow({ heading, label, listClassName, children }: P
       <div className="flex items-center justify-between gap-[16px]">
         {heading}
         <div className="hidden gap-[8px] sm:flex">
-          <CustomSliderButtons direction="left" onClick={() => page(-1)} disabled={edges.atStart} />
-          <CustomSliderButtons direction="right" onClick={() => page(1)} disabled={edges.atEnd} />
+          <ArrowButton direction="left" onClick={() => page(-1)} disabled={edges.atStart} />
+          <ArrowButton direction="right" onClick={() => page(1)} disabled={edges.atEnd} />
         </div>
       </div>
 
-      {/* Bleeds to the screen edge on mobile so items scroll under the gutter. */}
+      {/* Bleeds to the screen edge on mobile. */}
       <div className="relative -mx-[16px] sm:-mx-[24px] lg:mx-0">
         <DragScrollList
           ref={listRef}
@@ -97,8 +93,7 @@ export default function ScrollRow({ heading, label, listClassName, children }: P
         >
           {children}
         </DragScrollList>
-        {/* Edge fades as overlays, not a mask on the scroller: a masked scroller is repainted
-            on every frame, while overlays let the browser just slide the row. */}
+        {/* Overlays, not a mask: a masked scroller repaints every frame. */}
         <div
           aria-hidden="true"
           className={clsx(

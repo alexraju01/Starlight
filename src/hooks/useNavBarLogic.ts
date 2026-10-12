@@ -1,19 +1,20 @@
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
+import { useScrollLock } from './useScrollLock';
+
 export const useNavBarLogic = () => {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const pathname = usePathname();
 
-  // Refs for click-outside detection
   const searchWrapperRef = useRef<HTMLDivElement | null>(null);
   const searchButtonRef = useRef<HTMLButtonElement | null>(null);
   const mobileNavRef = useRef<HTMLElement | null>(null);
   const mobileMenuButtonRef = useRef<HTMLButtonElement | null>(null);
   const drawerCloseButtonRef = useRef<HTMLButtonElement | null>(null);
 
-  // True once the page has scrolled, so the bar can switch to its translucent style.
+  // Switches the bar to its translucent style.
   const [isScrolled, setIsScrolled] = useState(false);
   useEffect(() => {
     const update = () => setIsScrolled(window.scrollY > 8);
@@ -38,21 +39,17 @@ export const useNavBarLogic = () => {
     mobileMenuButtonRef.current?.focus();
   };
 
-  // While the drawer is open: the page behind doesn't scroll, focus starts on "Close", and
-  // widening the window past the mobile layout closes it.
+  // While the drawer is open: the page can't scroll, focus starts on "Close", and widening
+  // the window to the desktop layout closes it.
+  useScrollLock(isMobileNavOpen);
   useEffect(() => {
     if (!isMobileNavOpen) return;
     drawerCloseButtonRef.current?.focus();
-    const { overflow } = document.body.style;
-    document.body.style.overflow = 'hidden';
 
     const desktop = window.matchMedia('(min-width: 1024px)');
     const onChange = (e: MediaQueryListEvent) => e.matches && setIsMobileNavOpen(false);
     desktop.addEventListener('change', onChange);
-    return () => {
-      document.body.style.overflow = overflow;
-      desktop.removeEventListener('change', onChange);
-    };
+    return () => desktop.removeEventListener('change', onChange);
   }, [isMobileNavOpen]);
 
   const closeAll = () => {
@@ -60,8 +57,7 @@ export const useNavBarLogic = () => {
     setIsSearchOpen(false);
   };
 
-  // Close any open overlay after navigating (e.g. picking a search result).
-  // Adjusting state during render is the React-recommended way to react to a prop change.
+  // Close overlays after navigating (state adjusted during render, as React recommends).
   const [lastPathname, setLastPathname] = useState(pathname);
   if (pathname !== lastPathname) {
     setLastPathname(pathname);
@@ -74,8 +70,6 @@ export const useNavBarLogic = () => {
 
     const handleClickOutside = (e: MouseEvent | TouchEvent) => {
       const target = e.target as Node;
-
-      // Search outside click
       if (
         isSearchOpen &&
         searchWrapperRef.current &&
@@ -85,8 +79,6 @@ export const useNavBarLogic = () => {
       ) {
         setIsSearchOpen(false);
       }
-
-      // Mobile Nav outside click
       if (
         isMobileNavOpen &&
         mobileNavRef.current &&

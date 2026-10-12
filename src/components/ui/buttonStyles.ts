@@ -20,9 +20,8 @@ const VARIANTS: Record<Variant, string> = {
 };
 
 /**
- * Shared button look (for <button> or <Link>). Pass `size: null` when the caller sets its
- * own height / padding / gap / text size – there's no class merging, so a size preset and
- * a conflicting override must not be combined.
+ * Shared button look for <button> or <Link>. Pass `size: null` when setting your own size
+ * classes: there's no class merging, so a preset and an override would conflict.
  */
 export const buttonClass = (variant: Variant, size: Size | null = 'md', className?: string) =>
   clsx(SHAPE, size && SIZES[size], VARIANTS[variant], className);

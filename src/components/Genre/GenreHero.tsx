@@ -4,31 +4,28 @@ import Link from 'next/link';
 
 import { ROUTES } from '@/constants/route';
 import { MediaWithDetails } from '@/types/global';
-import { getMediaDate } from '@/utils/date/formatDate';
+import { MediaMode } from '@/types/mediaMode';
+import { formatYear } from '@/utils/format';
 import { getImageUrl } from '@/utils/image/getImageUrl';
-import { formatYear } from '@/utils/mediaFormat';
-import { displayName } from '@/utils/stringUtils';
+import { displayName, getMediaDate } from '@/utils/media';
 
 import PosterFan from './PosterFan';
 
 interface Props {
   name: string;
-  /** Genre accent colour (hex). */
+  /** Accent colour (hex). */
   tint: string;
   /** e.g. "Dark & twisted". */
   moodTitle?: string;
   /** e.g. "movies and TV shows". */
   kinds: string;
-  /** The genre's most popular titles of one type (movies if it has them), best first. */
+  /** Most popular of one type (movies if the genre has them), best first. */
   topTitles: MediaWithDetails[];
 }
 
-/**
- * Cinematic genre header in the genre's own colour: the #1 title's artwork with a slow
- * zoom, a colour glow, its top posters fanned out, and a card linking to the #1 title.
- */
+/** Genre header in its own colour: the #1 title's artwork, top posters and a link to the #1. */
 export default function GenreHero({ name, tint, moodTitle, kinds, topTitles }: Props) {
-  // The #1 card is the actual #1; the artwork can come from the next title if it has none.
+  // The artwork may come from the next title if the #1 has none.
   const featured = topTitles[0];
   const backdrop = getImageUrl(
     topTitles.find((m) => m.backdrop_path)?.backdrop_path,
@@ -44,7 +41,7 @@ export default function GenreHero({ name, tint, moodTitle, kinds, topTitles }: P
   const featuredMeta = featured
     ? [
         formatYear(getMediaDate(featured)),
-        featured.media_type === 'tv' ? 'TV Series' : 'Movie',
+        featured.media_type === MediaMode.TV ? 'TV Series' : 'Movie',
       ].filter(Boolean)
     : [];
 
@@ -120,7 +117,7 @@ export default function GenreHero({ name, tint, moodTitle, kinds, topTitles }: P
             )}
             <div className="min-w-0 flex-1">
               <p className="text-[11px] font-bold tracking-[0.14em] text-[color:var(--tint)] uppercase">
-                #1 {name} {featured.media_type === 'tv' ? 'show' : 'movie'} right now
+                #1 {name} {featured.media_type === MediaMode.TV ? 'show' : 'movie'} right now
               </p>
               <p className="mt-[2px] line-clamp-1 text-[16px] font-semibold text-white">
                 {featuredTitle}

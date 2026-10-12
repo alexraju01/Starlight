@@ -1,13 +1,13 @@
-import ImageWithFallback from '@/components/Skeletons/BrokenImage/ImageWithFallback';
+import ImageWithFallback from '@/components/ui/ImageWithFallback';
 import { Season } from '@/types/seasons';
+import { formatYear, pluralize } from '@/utils/format';
 import { getImageUrl } from '@/utils/image/getImageUrl';
-import { formatYear, pluralize } from '@/utils/mediaFormat';
 
 interface Props {
   season: Season;
 }
 
-const SeasonsCard = ({ season }: Props) => {
+export default function SeasonsCard({ season }: Props) {
   const meta = [
     season.episode_count ? pluralize(season.episode_count, 'Episode') : null,
     formatYear(season.air_date),
@@ -29,6 +29,4 @@ const SeasonsCard = ({ season }: Props) => {
       )}
     </li>
   );
-};
-
-export default SeasonsCard;
+}

@@ -1,7 +1,8 @@
 import { api } from '@/utils/api';
+import { logError } from '@/utils/logger';
 
-import Slider from './Slider';
-import GenreCollectionCard from '../GenreCollectionCard';
+import GenreCollectionCard from './GenreCollectionCard';
+import GenreRow from './GenreRow';
 
 const GenreCollection = async () => {
   try {
@@ -10,14 +11,14 @@ const GenreCollection = async () => {
     if (!genreMovies || genreMovies.length === 0) return null;
 
     return (
-      <Slider title="Browse by genre" href="/genre">
+      <GenreRow title="Browse by genre" href="/genre">
         {genreMovies.map((genre) => (
           <GenreCollectionCard key={genre.id} genre={genre} />
         ))}
-      </Slider>
+      </GenreRow>
     );
   } catch (error) {
-    console.error('GenreCollection Error:', error);
+    logError('GenreCollection', error);
     return null;
   }
 };

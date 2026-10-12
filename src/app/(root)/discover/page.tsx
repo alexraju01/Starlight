@@ -1,7 +1,8 @@
 import { Metadata } from 'next';
 
-import DiscoverClient from '@/components/DiscoverClient';
+import DiscoverClient from '@/components/Discover/DiscoverClient';
 import { api } from '@/utils/api';
+import { firstParam } from '@/utils/searchParams';
 import { searchMediaAction, getAllGenresAction } from '@/utils/serverActions/media';
 
 export const metadata: Metadata = {
@@ -26,7 +27,7 @@ export default async function DiscoverPage({
   searchParams: Promise<{ search?: string | string[] }>;
 }) {
   const params = await searchParams;
-  const query = (Array.isArray(params.search) ? params.search[0] : params.search)?.trim() ?? '';
+  const query = firstParam(params.search)?.trim() ?? '';
 
   const [search, genreMap, trending] = await Promise.all([
     // A failed search shows an error state rather than a misleading "No results".

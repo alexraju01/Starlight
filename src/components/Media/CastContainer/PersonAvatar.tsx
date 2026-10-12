@@ -6,11 +6,10 @@ import { getImageUrl } from '@/utils/image/getImageUrl';
 interface Props {
   name: string;
   profilePath: string | null;
-  /** Tailwind size classes for the circle, e.g. "size-[96px] lg:size-[112px]". */
+  /** e.g. "size-[96px] lg:size-[112px]". */
   sizeClass: string;
-  /** Image `sizes` hint (px). */
   sizes: string;
-  /** Initials text size for the no-photo fallback. */
+  /** Text size of the no-photo monogram. */
   initialsClass?: string;
 }
 
@@ -23,7 +22,7 @@ const initialsOf = (name: string) =>
     .map((part) => part[0]?.toUpperCase())
     .join('');
 
-/** A stable, muted colour per name, so a monogram always looks the same for that person. */
+/** Stable hue per name, so a person's monogram always looks the same. */
 const hueOf = (name: string) =>
   [...name].reduce((hash, char) => (hash * 31 + char.charCodeAt(0)) % 360, 7);
 
@@ -39,8 +38,7 @@ export default function PersonAvatar({
   const hue = hueOf(name);
 
   return (
-    // Gradient ring → dark gap → photo. (A CSS `ring` for the gap would be drawn on top of
-    // the gradient and hide it.) Static: portraits aren't links, so no hover state.
+    // Gradient ring → dark gap → photo (a CSS `ring` gap would be drawn over the gradient).
     <div className="rounded-full bg-gradient-to-br from-white/30 via-white/[0.08] to-white/20 p-[2px]">
       <div className="bg-secondary rounded-full p-[3px]">
         <div className={clsx('relative overflow-hidden rounded-full', sizeClass)}>

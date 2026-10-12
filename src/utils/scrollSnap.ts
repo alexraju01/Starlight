@@ -1,3 +1,5 @@
+import { prefersReducedMotion } from './motion';
+
 /**
  * Scroll positions at which each child's start lines up with the list's scroll padding
  * (i.e. where `snap-start` items rest), plus the very end of the list.
@@ -22,5 +24,4 @@ export function nearestSnapPoint(list: HTMLElement, left: number): number {
 }
 
 /** Smooth unless the user prefers reduced motion. */
-export const scrollBehavior = (): ScrollBehavior =>
-  window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+export const scrollBehavior = (): ScrollBehavior => (prefersReducedMotion() ? 'auto' : 'smooth');

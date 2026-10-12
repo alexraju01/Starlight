@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import Link from 'next/link';
 
 import DragScrollList from '@/components/ui/DragScrollList';
-import SegmentedLinks from '@/components/ui/SegmentedLinks';
+import { SegmentedLinks } from '@/components/ui/Segmented';
 import { DEFAULT_SORT, SORT_OPTIONS, SortOption } from '@/constants/browse';
 import { Genre } from '@/types';
 
@@ -31,10 +31,7 @@ export const browseHref = (
 const chip =
   'inline-flex h-[36px] shrink-0 items-center rounded-full border px-[16px] text-[14px] font-medium whitespace-nowrap transition-colors';
 
-/**
- * Genre chips + sort control. Plain links rather than client state: filtered views are
- * shareable, work with back/forward, and render on the server.
- */
+/** Genre chips + sort control, as links: filtered views are shareable and server-rendered. */
 export default function BrowseToolbar({ basePath, genres, activeGenreId, activeSort }: Props) {
   const genreChips = [{ id: null, name: 'All' }, ...genres];
 

@@ -3,16 +3,15 @@
 import { ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 
-import CustomSliderButtons from '@/components/Media/CustomSlider/CustomSliderButtons';
 import SectionHeading from '@/components/Navigation/SectionHeading';
+import ArrowButton from '@/components/ui/ArrowButton';
+import { Breakpoint } from '@/constants/breakpoints';
 import { useResponsiveItems } from '@/hooks/useResponsiveItems';
 import { useSliderPaging } from '@/hooks/useSliderPaging';
 
 import SwipeTrack from './SwipeTrack';
 
 import type { Route } from 'next';
-
-type Breakpoint = { max: number; value: number };
 
 interface Props {
   /** A string gets the standard section heading; pass an element for a custom one. */
@@ -21,8 +20,8 @@ interface Props {
   href?: Route;
   breakpoints: Breakpoint[];
   count: number;
-  /** `isFirst` / `isLast` mark the edge cards of the visible page (hover cards grow inwards). */
-  renderItem: (index: number, edge: { isFirst: boolean; isLast: boolean }) => React.ReactNode;
+  /** `isLast` marks the last card on screen (its hover preview grows inwards). */
+  renderItem: (index: number, page: { isLast: boolean }) => React.ReactNode;
   /** Gap between cards in px. */
   gap?: number;
   /** Rendered until the viewport width (and so the cards per page) is known. */
@@ -68,22 +67,13 @@ export default function RowSlider({
             </Link>
           )}
           <div className="hidden gap-[8px] sm:flex">
-            <CustomSliderButtons
-              direction="left"
-              onClick={slider.prev}
-              disabled={!slider.canGoPrev}
-            />
-            <CustomSliderButtons
-              direction="right"
-              onClick={slider.next}
-              disabled={!slider.canGoNext}
-            />
+            <ArrowButton direction="left" onClick={slider.prev} disabled={!slider.canGoPrev} />
+            <ArrowButton direction="right" onClick={slider.next} disabled={!slider.canGoNext} />
           </div>
         </div>
       </header>
 
-      {/* Clip sideways only: off-page cards stay hidden, but a hovered card can grow past
-          the row's top and bottom (`hidden` would clip both axes and cut the preview off). */}
+      {/* Clip sideways only, so a hovered card can still grow past the row's top and bottom. */}
       <div className="overflow-x-clip">
         <SwipeTrack
           baseTransform={baseTransform}
@@ -97,14 +87,10 @@ export default function RowSlider({
               key={i}
               className="shrink-0"
               style={{ width: itemWidth, marginRight: i === count - 1 ? 0 : gap }}
-              // Off-page cards are hidden by overflow: keep them out of the tab order too,
-              // otherwise keyboard users land on invisible cards.
+              // Off-page cards are clipped: keep them out of the tab order too.
               inert={i < slider.index || i >= slider.index + perPage}
             >
-              {renderItem(i, {
-                isFirst: i === slider.index,
-                isLast: i === slider.index + perPage - 1,
-              })}
+              {renderItem(i, { isLast: i === slider.index + perPage - 1 })}
             </div>
           ))}
         </SwipeTrack>
