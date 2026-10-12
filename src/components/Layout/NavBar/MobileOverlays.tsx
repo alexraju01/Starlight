@@ -65,7 +65,7 @@ const MobileOverlays = ({
         aria-label="Mobile"
         ref={mobileNavRef}
         className={clsx(
-          'absolute inset-y-0 left-0 flex w-[min(320px,85vw)] flex-col overflow-y-auto overscroll-contain border-r border-white/[0.06] bg-[#141414] shadow-[16px_0_48px_rgba(0,0,0,0.5)] transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]',
+          'bg-panel absolute inset-y-0 left-0 flex w-[min(320px,85vw)] flex-col overflow-y-auto overscroll-contain border-r border-white/[0.06] shadow-[16px_0_48px_rgba(0,0,0,0.5)] transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]',
           isMobileNavOpen ? 'translate-x-0' : '-translate-x-full',
         )}
       >

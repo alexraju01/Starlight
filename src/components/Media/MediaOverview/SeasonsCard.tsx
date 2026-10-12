@@ -15,7 +15,7 @@ const SeasonsCard = ({ season }: Props) => {
 
   return (
     <li className="w-[132px] shrink-0 snap-start sm:w-[148px] lg:w-[160px]">
-      <div className="relative aspect-[2/3] overflow-hidden rounded-[12px] bg-[#1a1a1a] ring-1 ring-white/[0.06]">
+      <div className="bg-card-bg relative aspect-[2/3] overflow-hidden rounded-[12px] ring-1 ring-white/[0.06]">
         <ImageWithFallback
           src={getImageUrl(season.poster_path, 'poster', 'w342')}
           alt={season.name}

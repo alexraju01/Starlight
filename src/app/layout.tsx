@@ -77,7 +77,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={inter.className}>
-      <body className="flex min-h-dvh w-full flex-col bg-[#100f10] text-white antialiased">
+      <body className="bg-secondary flex min-h-dvh w-full flex-col text-white antialiased">
         <a
           href="#main-content"
           className="bg-primary sr-only z-[100] rounded-md px-6 py-3 text-[16px] font-semibold text-white focus:not-sr-only focus:fixed focus:top-4 focus:left-4"

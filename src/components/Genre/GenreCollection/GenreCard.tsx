@@ -19,7 +19,7 @@ export default function GenreCard({ name, href, backdrop, icon, priority }: Genr
   return (
     <Link
       href={href}
-      className="group relative block aspect-[16/10] overflow-hidden rounded-[14px] bg-[#1a1a1a] ring-1 ring-white/[0.08] transition-[box-shadow,transform] duration-300 hover:-translate-y-[2px] hover:shadow-[0_16px_40px_rgba(0,0,0,0.5)] hover:ring-white/25"
+      className="group bg-card-bg relative block aspect-[16/10] overflow-hidden rounded-[14px] ring-1 ring-white/[0.08] transition-[box-shadow,transform] duration-300 hover:-translate-y-[2px] hover:shadow-[0_16px_40px_rgba(0,0,0,0.5)] hover:ring-white/25"
     >
       {backdrop ? (
         <Image
@@ -31,7 +31,7 @@ export default function GenreCard({ name, href, backdrop, icon, priority }: Genr
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
       ) : (
-        <div className="from-primary/40 absolute inset-0 bg-gradient-to-br to-[#1a1a1a]" />
+        <div className="from-primary/40 to-card-bg absolute inset-0 bg-gradient-to-br" />
       )}
       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-black/10" />
 

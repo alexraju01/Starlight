@@ -3,6 +3,7 @@
 import { Loader2, Play, X } from 'lucide-react';
 import { useEffect, useRef, useState, useTransition } from 'react';
 
+import { buttonClass } from '@/components/ui/buttonStyles';
 import { getVideoKey } from '@/utils/serverActions/getVideoKey';
 
 interface Props {
@@ -67,7 +68,11 @@ export default function TrailerButton({ mediaMode, id, title }: Props) {
         onClick={open}
         disabled={isPending || isUnavailable}
         aria-busy={isPending}
-        className="bg-primary inline-flex h-[52px] items-center justify-center gap-[10px] rounded-[10px] px-[28px] text-[16px] font-semibold text-white shadow-[0_8px_24px_rgba(158,34,26,0.35)] transition-[background-color,transform] duration-200 hover:bg-[#b8281f] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none"
+        className={buttonClass(
+          'primary',
+          null,
+          'h-[52px] gap-[10px] px-[28px] text-[16px] shadow-[0_8px_24px_rgba(158,34,26,0.35)] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none',
+        )}
       >
         {isPending ? (
           <Loader2 aria-hidden="true" className="size-[20px] animate-spin" />

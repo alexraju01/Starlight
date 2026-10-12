@@ -37,8 +37,8 @@ export default function ActionButtons({
           className={clsx(
             'flex h-[50px] w-full flex-shrink-0 cursor-pointer items-center justify-center gap-2 rounded-[8px] px-4 text-[17.14px] transition-all duration-300 sm:h-[59px] sm:w-[220px] sm:text-[20px]',
             isTrailerActive
-              ? 'border border-white/20 bg-black/80 text-white shadow-lg hover:bg-[#9E221A]'
-              : 'sm:bg-primary bg-white text-black hover:bg-[#9E221A] sm:text-white',
+              ? 'hover:bg-primary border border-white/20 bg-black/80 text-white shadow-lg'
+              : 'sm:bg-primary hover:bg-primary bg-white text-black sm:text-white',
             isLoading && 'cursor-not-allowed opacity-40',
           )}
         >
@@ -76,7 +76,7 @@ export default function ActionButtons({
             aria-label={isMuted ? 'Unmute trailer' : 'Mute trailer'}
             aria-pressed={!isMuted}
             className={clsx(
-              'flex h-[33px] w-[33px] cursor-pointer items-center justify-center rounded-[4.72px] border border-solid bg-[#100F10] transition-all duration-300 sm:h-[56px] sm:w-[56px] sm:rounded-[5.33px]',
+              'bg-secondary flex h-[33px] w-[33px] cursor-pointer items-center justify-center rounded-[4.72px] border border-solid transition-all duration-300 sm:h-[56px] sm:w-[56px] sm:rounded-[5.33px]',
               isTrailerActive
                 ? 'hover:border-card-stroke border-transparent'
                 : 'border-card-stroke',

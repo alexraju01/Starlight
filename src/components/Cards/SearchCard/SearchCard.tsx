@@ -183,14 +183,14 @@ export default function SearchCard({
                     <p className="flex flex-wrap items-center gap-x-[8px] text-[13px] text-white/50">
                       {meta.join(' · ')}
                       {rating === 'upcoming' ? (
-                        <span className="border-primary/60 bg-primary/15 rounded-[4px] border px-[6px] py-[1px] text-[10px] font-bold tracking-[0.1em] text-[#ff7a6e] uppercase">
+                        <span className="border-primary/60 bg-primary/15 text-accent-soft rounded-[4px] border px-[6px] py-[1px] text-[10px] font-bold tracking-[0.1em] uppercase">
                           Upcoming
                         </span>
                       ) : rating ? (
                         <span className="flex items-center gap-[4px] text-white/70">
                           <Star
                             aria-hidden="true"
-                            className="size-[12px] fill-[#FACC15] text-[#FACC15]"
+                            className="fill-rating text-rating size-[12px]"
                           />
                           {rating}
                         </span>

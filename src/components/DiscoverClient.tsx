@@ -6,6 +6,7 @@ import { useDebouncedCallback } from 'use-debounce';
 
 import SearchResults from '@/components/Discover/SearchResults';
 import { SearchForm } from '@/components/Forms/SearchForm';
+import PageHeader from '@/components/Layout/PageHeader';
 import MovieGrid from '@/components/Media/MovieGrid';
 import SectionHeading from '@/components/Navigation/SectionHeading';
 import { LoadingSkeletons } from '@/components/Skeletons/LoadingSkeletons';
@@ -62,32 +63,21 @@ export default function DiscoverClient({ results, trending, genreMap, initialQue
 
   return (
     <div className="animate-fadeIn pb-[48px] lg:pb-[72px]">
-      <header className="page-gutter relative overflow-hidden pt-[32px] lg:pt-[56px]">
-        <div
-          aria-hidden="true"
-          className="from-primary/20 pointer-events-none absolute inset-x-0 -top-[120px] h-[320px] bg-gradient-to-b to-transparent blur-2xl"
+      <PageHeader
+        title="Discover"
+        description="Search thousands of movies and TV shows by title — results update as you type."
+      >
+        <SearchForm
+          query={query}
+          onChangeAction={handleInputChange}
+          onSubmitAction={() => pushNow(query)}
+          onClearAction={() => {
+            setQuery('');
+            pushNow('');
+          }}
+          isPending={isPending}
         />
-        <div className="relative flex flex-col gap-[8px] lg:gap-[12px]">
-          <h1 className="text-[clamp(32px,4vw,52px)] leading-[1.05] font-extrabold tracking-[-0.02em] text-white">
-            Discover
-          </h1>
-          <p className="max-w-[56ch] text-[15px] leading-[1.6] text-pretty text-white/60 lg:text-[16px]">
-            Search thousands of movies and TV shows by title — results update as you type.
-          </p>
-        </div>
-        <div className="relative mt-[24px] lg:mt-[32px]">
-          <SearchForm
-            query={query}
-            onChangeAction={handleInputChange}
-            onSubmitAction={() => pushNow(query)}
-            onClearAction={() => {
-              setQuery('');
-              pushNow('');
-            }}
-            isPending={isPending}
-          />
-        </div>
-      </header>
+      </PageHeader>
 
       <section
         aria-busy={isPending}

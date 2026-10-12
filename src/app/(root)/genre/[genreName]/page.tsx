@@ -7,6 +7,7 @@ import { Suspense } from 'react';
 
 import GenreMediaList from '@/components/Genre/GenreMediaList';
 import { LoadingSkeletons } from '@/components/Skeletons/LoadingSkeletons';
+import { buttonClass } from '@/components/ui/buttonStyles';
 import SegmentedLinks from '@/components/ui/SegmentedLinks';
 import { DEFAULT_SORT, SORT_OPTIONS, SortOption, parseSort } from '@/constants/browse';
 import { slugify } from '@/utils';
@@ -101,7 +102,7 @@ async function GenreResults({
           <Link
             href={genreHref(slug, 'all', DEFAULT_SORT)}
             scroll={false}
-            className="mt-[8px] inline-flex h-[44px] items-center rounded-[10px] border border-white/20 bg-white/[0.06] px-[20px] text-[15px] font-medium text-white transition-colors hover:bg-white/15"
+            className={buttonClass('ghost', 'sm', 'mt-[8px]')}
           >
             Show all {name}
           </Link>
@@ -179,7 +180,7 @@ export default async function GenrePage({ params, searchParams }: Props) {
             <ChevronLeft aria-hidden="true" className="size-[16px]" />
             All genres
           </Link>
-          <span className="border-primary/60 bg-primary/15 w-fit rounded-[4px] border px-[8px] py-[3px] text-[11px] leading-none font-bold tracking-[0.14em] text-[#ff7a6e] uppercase">
+          <span className="border-primary/60 bg-primary/15 text-accent-soft w-fit rounded-[4px] border px-[8px] py-[3px] text-[11px] leading-none font-bold tracking-[0.14em] uppercase">
             Genre
           </span>
           <h1 className="text-[clamp(36px,5vw,64px)] leading-[1.05] font-extrabold tracking-[-0.02em] text-white">

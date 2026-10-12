@@ -18,7 +18,7 @@ const SeasonBadge = ({ item }: Props) => {
 
   return (
     <div className="flex truncate md:text-lg">
-      <div className="flex-center gap-[4px] rounded-[51px] border border-[#262626] bg-[#141414] py-[6px] pr-[10px] pl-[6px] text-xl text-gray-400">
+      <div className="flex-center border-card-stroke bg-panel gap-[4px] rounded-[51px] border py-[6px] pr-[10px] pl-[6px] text-xl text-gray-400">
         <i>
           <HiRectangleStack size={18} />
         </i>

@@ -60,7 +60,7 @@ export default function MediaFacts({ media }: Props) {
   return (
     <section
       aria-labelledby="details-heading"
-      className="border-card-stroke rounded-[16px] border bg-[#141414] p-[20px] lg:p-[24px]"
+      className="border-card-stroke bg-panel rounded-[16px] border p-[20px] lg:p-[24px]"
     >
       <SectionHeading id="details-heading">Details</SectionHeading>
       <dl className="mt-[20px] grid grid-cols-2 gap-x-[16px] gap-y-[18px] sm:grid-cols-3 sm:gap-x-[24px] lg:grid-cols-1">
