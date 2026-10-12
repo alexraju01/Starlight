@@ -250,6 +250,45 @@
     @apply object-contain object-center;
   }
 }
+/*
+ * Genre accent colour. Registered so it can transition: the genres spotlight glides
+ * between genre colours instead of snapping.
+ */
+@property --tint {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #9e221a;
+}
+
+@keyframes spotlight-zoom {
+  from {
+    transform: scale(1.08);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes fan-in {
+  from {
+    opacity: 0;
+    translate: 0 32px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@keyframes chip-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
 @theme {
   --font-Helvetica: 'Helvetica', 'sans-serif';
   --font-Inter: 'Inter', 'sans-serif';

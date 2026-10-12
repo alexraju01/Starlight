@@ -64,6 +64,17 @@ function sortQuery(mediaMode: MediaMode, sort: SortOption): Record<string, strin
 /** Which genre id to use for each media type (movie and TV genre lists differ). */
 export type GenreIds = { movie?: number; tv?: number };
 
+/** One tile on the genres index. */
+export interface GenreShowcaseItem {
+  name: string;
+  ids: GenreIds;
+  backdropPath: string | null;
+  /** The popular title the backdrop belongs to. */
+  featuredTitle: string | null;
+  /** Up to three of the genre's most popular posters. */
+  posterPaths: string[];
+}
+
 /** Value each sort orders by, used to merge movie and TV results. */
 const SORT_KEY: Record<Exclude<SortOption, 'popular'>, (item: MediaWithDetails) => number> = {
   top_rated: (item) => item.vote_average,
@@ -254,36 +265,52 @@ export const api = {
     },
 
     /**
-     * A distinct backdrop for every movie and TV genre (for the genres index). Uses the raw
-     * discover endpoint – no season lookups – and never repeats an image across cards.
+     * Every genre once (movie and TV lists merged by name) for the genres index: a distinct
+     * backdrop, the title it came from and top posters. One raw discover request per genre
+     * (no season lookups); images never repeat if avoidable.
      */
-    getGenreBackdrops: async (movieGenres: Genre[], tvGenres: Genre[]) => {
-      const lookup = (mediaMode: MediaMode, genre: Genre) =>
-        fetchData<APIResponse>('3', `discover/${mediaMode}`, {
-          query: { with_genres: genre.id, sort_by: 'popularity.desc' },
-          cache: { type: 'revalidate', seconds: DAY },
-        })
-          .then(({ results }) => results)
-          .catch(() => []);
+    getGenreShowcase: async (): Promise<GenreShowcaseItem[]> => {
+      const { movieGenres, tvGenres } = await api.genre.getAllGenres();
 
-      const [movieLists, tvLists] = await Promise.all([
-        Promise.all(movieGenres.map((g) => lookup(MediaMode.MOVIE, g))),
-        Promise.all(tvGenres.map((g) => lookup(MediaMode.TV, g))),
-      ]);
+      const byName = new Map<string, { name: string; ids: GenreIds }>();
+      movieGenres.forEach((g) => byName.set(g.name, { name: g.name, ids: { movie: g.id } }));
+      tvGenres.forEach((g) => {
+        const existing = byName.get(g.name);
+        if (existing) existing.ids.tv = g.id;
+        else byName.set(g.name, { name: g.name, ids: { tv: g.id } });
+      });
+      const genres = [...byName.values()].sort((a, b) => a.name.localeCompare(b.name));
+
+      // Artwork from the movie list when the genre has one (richer backdrops), else TV.
+      const lists = await Promise.all(
+        genres.map(({ ids }) =>
+          fetchData<APIResponse>('3', `discover/${ids.movie ? MediaMode.MOVIE : MediaMode.TV}`, {
+            query: { with_genres: (ids.movie ?? ids.tv)!, sort_by: 'popularity.desc' },
+            cache: { type: 'revalidate', seconds: DAY },
+          })
+            .then(({ results }) => results)
+            .catch(() => []),
+        ),
+      );
 
       const used = new Set<string>();
-      const pick = (results: APIResponse['results']) => {
-        const path = results.find(
-          (m) => m.backdrop_path && !used.has(m.backdrop_path),
-        )?.backdrop_path;
-        if (path) used.add(path);
-        return path ?? null;
-      };
+      return genres.map((genre, i) => {
+        // Prefer an image no other tile uses; reuse one rather than show none.
+        const pick =
+          lists[i].find((m) => m.backdrop_path && !used.has(m.backdrop_path)) ??
+          lists[i].find((m) => m.backdrop_path);
+        if (pick?.backdrop_path) used.add(pick.backdrop_path);
 
-      return {
-        movie: movieLists.map(pick),
-        tv: tvLists.map(pick),
-      };
+        return {
+          ...genre,
+          backdropPath: pick?.backdrop_path ?? null,
+          featuredTitle: pick ? ('title' in pick ? pick.title : pick.name) : null,
+          posterPaths: lists[i]
+            .map((m) => m.poster_path)
+            .filter((path): path is string => Boolean(path))
+            .slice(0, 3),
+        };
+      });
     },
 
     fetchGenreMovies: async (genre: Genre, seenMovieIds: Set<number>): Promise<GenreWithMovies> => {
