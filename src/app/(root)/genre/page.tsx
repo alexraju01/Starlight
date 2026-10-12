@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { Suspense } from 'react';
 
 import { GenreCard } from '@/components/Genre/GenreCollection';
+import PageHeader from '@/components/Layout/PageHeader';
 import SectionHeading from '@/components/Navigation/SectionHeading';
 import { GenreSkeleton } from '@/components/Skeletons/LoadingSkeletons';
 import { Genre } from '@/types';
@@ -80,21 +81,10 @@ async function GenreSections() {
 export default function GenresPage() {
   return (
     <div className="animate-fadeIn pb-[48px] lg:pb-[72px]">
-      <header className="page-gutter relative overflow-hidden pt-[32px] lg:pt-[56px]">
-        <div
-          aria-hidden="true"
-          className="from-primary/20 pointer-events-none absolute inset-x-0 -top-[120px] h-[320px] bg-gradient-to-b to-transparent blur-2xl"
-        />
-        <div className="relative flex flex-col gap-[8px] lg:gap-[12px]">
-          <h1 className="text-[clamp(32px,4vw,52px)] leading-[1.05] font-extrabold tracking-[-0.02em] text-white">
-            Genres
-          </h1>
-          <p className="max-w-[56ch] text-[15px] leading-[1.6] text-pretty text-white/60 lg:text-[16px]">
-            From pulse-pounding action to heart-wrenching dramas — pick a mood and find your next
-            favourite story.
-          </p>
-        </div>
-      </header>
+      <PageHeader
+        title="Genres"
+        description="From pulse-pounding action to heart-wrenching dramas — pick a mood and find your next favourite story."
+      />
 
       <div className="page-gutter pt-[32px] lg:pt-[48px]">
         <Suspense fallback={<GenreSkeleton />}>

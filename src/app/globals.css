@@ -259,7 +259,14 @@
   /* Colour Pallette */
 
   --color-primary: #9e221a;
+  --color-primary-hover: #b8281f;
   --color-secondary: #100f10;
+  /* Raised panels: details card, mobile drawer. */
+  --color-panel: #141414;
+  /* Star ratings. */
+  --color-rating: #facc15;
+  /* Small red labels ("Movie", "Genre", "Upcoming"). */
+  --color-accent-soft: #ff7a6e;
 
   /* --color-primary: #e50000; */
 

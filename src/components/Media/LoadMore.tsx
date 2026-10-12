@@ -1,5 +1,7 @@
 import { ChevronDown, Loader2 } from 'lucide-react';
 
+import { buttonClass } from '@/components/ui/buttonStyles';
+
 interface Props {
   hasMore: boolean;
   isLoading: boolean;
@@ -25,7 +27,11 @@ export default function LoadMore({ hasMore, isLoading, hasError, onLoadMore }: P
           onClick={onLoadMore}
           disabled={isLoading}
           aria-busy={isLoading}
-          className="inline-flex h-[52px] min-w-[200px] items-center justify-center gap-[8px] rounded-[10px] border border-white/20 bg-white/[0.06] px-[32px] text-[16px] font-medium text-white transition-colors hover:bg-white/15 disabled:cursor-wait disabled:opacity-60"
+          className={buttonClass(
+            'ghost',
+            null,
+            'h-[52px] min-w-[200px] gap-[8px] px-[32px] text-[16px] disabled:cursor-wait disabled:opacity-60',
+          )}
         >
           {isLoading ? (
             <Loader2 aria-hidden="true" className="size-[18px] animate-spin" />

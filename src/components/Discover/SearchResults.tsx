@@ -7,6 +7,7 @@ import { useState } from 'react';
 
 import LoadMore from '@/components/Media/LoadMore';
 import MovieGrid from '@/components/Media/MovieGrid';
+import { buttonClass } from '@/components/ui/buttonStyles';
 import { useLoadMore } from '@/hooks/useLoadMore';
 import { MediaWithDetails } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
@@ -61,7 +62,7 @@ export default function SearchResults({ query, initialResults, genreMap }: Props
                 aria-pressed={isActive}
                 className={clsx(
                   'flex h-[36px] items-center justify-center gap-[6px] rounded-[7px] px-[14px] text-[14px] font-medium whitespace-nowrap transition-colors',
-                  isActive ? 'bg-white text-[#100f10]' : 'text-white/70 hover:text-white',
+                  isActive ? 'text-secondary bg-white' : 'text-white/70 hover:text-white',
                 )}
               >
                 {tab.label}
@@ -108,11 +109,7 @@ function NoResults({ query }: { query: string }) {
           { href: '/movie' as const, label: 'Browse movies' },
           { href: '/tv' as const, label: 'Browse TV shows' },
         ].map((link) => (
-          <Link
-            key={link.href}
-            href={link.href}
-            className="inline-flex h-[44px] items-center rounded-[10px] border border-white/20 bg-white/[0.06] px-[20px] text-[15px] font-medium text-white transition-colors hover:bg-white/15"
-          >
+          <Link key={link.href} href={link.href} className={buttonClass('ghost', 'sm')}>
             {link.label}
           </Link>
         ))}

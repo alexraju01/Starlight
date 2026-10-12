@@ -35,7 +35,7 @@ export default function SegmentedLinks({ label, options }: Props) {
           aria-current={option.active ? 'true' : undefined}
           className={clsx(
             'flex h-[36px] items-center justify-center rounded-[7px] px-[16px] text-[14px] font-medium whitespace-nowrap transition-colors',
-            option.active ? 'bg-white text-[#100f10]' : 'text-white/70 hover:text-white',
+            option.active ? 'text-secondary bg-white' : 'text-white/70 hover:text-white',
           )}
         >
           {option.label}

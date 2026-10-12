@@ -15,7 +15,7 @@ const GenreCollectionCard = ({ genre }: GenreCollectionCardProps) => {
   return (
     <Link
       href={ROUTES.GENRE(genre.name)}
-      className="flex h-full flex-col gap-[12px] rounded-[13.75px] border-[1.15px] border-solid border-[#262626] bg-[#1A1A1A] p-[12px] transition-colors hover:border-[#E50000] hover:bg-[#E500000F] lg:gap-[16px] lg:p-[16px]"
+      className="border-card-stroke bg-card-bg flex h-full flex-col gap-[12px] rounded-[13.75px] border-[1.15px] border-solid p-[12px] transition-colors hover:border-[#E50000] hover:bg-[#E500000F] lg:gap-[16px] lg:p-[16px]"
     >
       <div className="relative grid grid-cols-2 gap-[7px]">
         <div className="genre-gradient absolute inset-0 z-20 rounded-[9px]" />

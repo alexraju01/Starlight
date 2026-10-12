@@ -80,7 +80,7 @@ export default function CarouselItem({ movie, genres, priority, mediaMode }: Car
   const detailsHref = ROUTES.MEDIA(mediaMode, movie.id, title);
 
   return (
-    <li className="carousel-slide flex-evenly absolute inset-0 overflow-hidden max-[840px]:bg-[#1a1a1a]">
+    <li className="carousel-slide flex-evenly max-[840px]:bg-card-bg absolute inset-0 overflow-hidden">
       {/* Same size as the slide (no zoom); it drifts for the parallax effect. Stays
           underneath the trailer so the backdrop shows until the video fades in. */}
       <div className="carousel-parallax absolute inset-0">

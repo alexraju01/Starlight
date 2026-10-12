@@ -21,7 +21,7 @@ export default function CastContainer({ castList }: Props) {
             key={cast.credit_id}
             className="w-[124px] shrink-0 snap-start sm:w-[140px] lg:w-[152px]"
           >
-            <div className="relative aspect-[2/3] overflow-hidden rounded-[12px] bg-[#1a1a1a] ring-1 ring-white/[0.06]">
+            <div className="bg-card-bg relative aspect-[2/3] overflow-hidden rounded-[12px] ring-1 ring-white/[0.06]">
               <ImageWithFallback
                 src={getImageUrl(cast.profile_path, 'profile', 'w185')}
                 alt={cast.name}
