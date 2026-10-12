@@ -1,5 +1,4 @@
 import SectionHeading from '@/components/Navigation/SectionHeading';
-import { DISCOVER_BREAKPOINTS } from '@/constants/breakpoints';
 import { MediaMode } from '@/types/mediaMode';
 
 import CustomSlider from '../CustomSlider/CustomSlider';
@@ -17,7 +16,6 @@ const SimilarMedia = ({ mediaMode, id }: Props) => (
       endpoint={`${mediaMode}/${id}/recommendations`}
       title={<SectionHeading>More like this</SectionHeading>}
       mediaMode={mediaMode}
-      breakpoints={DISCOVER_BREAKPOINTS}
     />
   </section>
 );
