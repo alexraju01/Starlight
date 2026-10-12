@@ -82,7 +82,9 @@ export default function RowSlider({
         </div>
       </header>
 
-      <div className="overflow-hidden">
+      {/* Clip sideways only: off-page cards stay hidden, but a hovered card can grow past
+          the row's top and bottom (`hidden` would clip both axes and cut the preview off). */}
+      <div className="overflow-x-clip">
         <SwipeTrack
           baseTransform={baseTransform}
           canGoPrev={slider.canGoPrev}
