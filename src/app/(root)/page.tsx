@@ -1,5 +1,7 @@
-import { Carousel, CustomSlider, GenreCollection } from '@/components';
 import BlurBackground from '@/components/Blurs/BackgroundBlur';
+import GenreCollection from '@/components/Genre/GenreCollection/GenreCollection';
+import Carousel from '@/components/Media/Carousel/Carousel';
+import CustomSlider from '@/components/Media/CustomSlider/CustomSlider';
 import SliderBoundary from '@/components/Media/CustomSlider/SliderBoundary';
 import { ENDPOINTS } from '@/constants';
 import { MediaMode } from '@/types/mediaMode';

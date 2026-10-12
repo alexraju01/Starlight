@@ -75,7 +75,12 @@ export const MediaVideoPlayer = ({
   const [isVideoVisible, setIsVideoVisible] = useState(false);
   const revealPollRef = useRef<ReturnType<typeof setInterval>>(undefined);
 
+  // Latest mute state for the player's onReady callback, without rebuilding the player
+  // (and restarting the trailer) every time sound is toggled.
+  const isMutedRef = useRef(isMuted);
+
   useEffect(() => {
+    isMutedRef.current = isMuted;
     if (playerRef.current && typeof playerRef.current.mute === 'function') {
       if (isMuted) {
         playerRef.current.mute();
@@ -101,7 +106,7 @@ export const MediaVideoPlayer = ({
             player.mute();
             player.playVideo();
 
-            if (!isMuted) {
+            if (!isMutedRef.current) {
               player.unMute();
             }
           },
