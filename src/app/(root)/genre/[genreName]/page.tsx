@@ -14,6 +14,7 @@ import SegmentedLinks from '@/components/ui/SegmentedLinks';
 import { DEFAULT_SORT, SORT_OPTIONS, SortOption, parseSort } from '@/constants/browse';
 import { moodOf } from '@/constants/genreMoods';
 import { genreTint } from '@/constants/genreTints';
+import { MediaMode } from '@/types/mediaMode';
 import { slugify } from '@/utils';
 import { api, GenreIds } from '@/utils/api';
 import { getImageUrl } from '@/utils/image/getImageUrl';
@@ -128,7 +129,13 @@ export default async function GenrePage({ params, searchParams }: Props) {
   const activeIds: GenreIds = type === 'all' ? ids : { [type]: ids[type] };
 
   // The genre's most popular titles (cached; the same request as the default results).
-  const topTitles = await api.media.getGenreMedia(ids).catch(() => []);
+  // Movies and shows ranked separately: popularity isn't comparable across the two.
+  // (Cached; the same requests the default "Browse all" grid makes.)
+  const [topMovies, topShows] = await Promise.all([
+    ids.movie ? api.media.getMedia(MediaMode.MOVIE, 1, [ids.movie]).catch(() => []) : [],
+    ids.tv ? api.media.getMedia(MediaMode.TV, 1, [ids.tv]).catch(() => []) : [],
+  ]);
+  const heroTitles = topMovies.length > 0 ? topMovies : topShows;
   const tint = genreTint(name);
 
   const typeOptions = hasBothTypes
@@ -160,11 +167,11 @@ export default async function GenrePage({ params, searchParams }: Props) {
         tint={tint}
         moodTitle={moodOf(name)?.title}
         kinds={describeTypes(ids)}
-        topTitles={topTitles}
+        topTitles={heroTitles}
       />
 
       <div className="page-gutter pt-[32px] pb-[40px] lg:pt-[48px] lg:pb-[56px]">
-        <TopTenRow genreName={name} tint={tint} titles={topTitles} />
+        <TopTenRow genreName={name} tint={tint} movies={topMovies} shows={topShows} />
       </div>
 
       {/* Own wrapper so the sticky filter bar un-sticks once the grid ends. */}

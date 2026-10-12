@@ -25,11 +25,14 @@ export default async function DiscoverPage({
 }: {
   searchParams: Promise<{ search?: string | string[] }>;
 }) {
-  const { search } = await searchParams;
-  const query = (Array.isArray(search) ? search[0] : search)?.trim() ?? '';
+  const params = await searchParams;
+  const query = (Array.isArray(params.search) ? params.search[0] : params.search)?.trim() ?? '';
 
-  const [results, genreMap, trending] = await Promise.all([
-    searchMediaAction(query),
+  const [search, genreMap, trending] = await Promise.all([
+    // A failed search shows an error state rather than a misleading "No results".
+    searchMediaAction(query)
+      .then((results) => ({ results, failed: false }))
+      .catch(() => ({ results: [], failed: true })),
     getAllGenresAction(),
     // Only needed for the "nothing searched yet" state.
     query ? [] : api.media.getTrendingAll().catch(() => []),
@@ -37,7 +40,8 @@ export default async function DiscoverPage({
 
   return (
     <DiscoverClient
-      results={results}
+      results={search.results}
+      searchFailed={search.failed}
       trending={trending}
       genreMap={genreMap}
       initialQuery={query}

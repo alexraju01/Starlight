@@ -1,29 +1,33 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useSyncExternalStore } from 'react';
 
-type Breakpoint = { max: number; value: number };
+import type { Breakpoint } from '@/constants/breakpoints';
+
+// One shared `resize` listener for every component using this hook (previously each grid
+// and slider registered its own).
+const listeners = new Set<() => void>();
+const notify = () => listeners.forEach((listener) => listener());
+
+const subscribe = (listener: () => void) => {
+  if (listeners.size === 0) window.addEventListener('resize', notify);
+  listeners.add(listener);
+  return () => {
+    listeners.delete(listener);
+    if (listeners.size === 0) window.removeEventListener('resize', notify);
+  };
+};
+
+/** The server can't know the viewport: callers render their CSS-only layout until hydrated. */
+const serverSnapshot = () => null;
 
 /**
- * Returns how many items fit per row for the current viewport, or `null` before hydration.
- * Widths above the largest breakpoint fall back to `defaultValue`, which defaults to the
- * last breakpoint's value (previously a hard-coded 4, so >1980px screens showed 4 huge cards).
+ * Items per row for the current viewport, or `null` before hydration. Only re-renders when
+ * the result changes (crossing a breakpoint), not on every pixel of a resize.
  */
-export const useResponsiveItems = (
-  breakpoints: Breakpoint[],
-  defaultValue: number = breakpoints[breakpoints.length - 1]?.value ?? 4,
-): number | null => {
-  const [itemsPerScreen, setItemsPerScreen] = useState<number | null>(null);
+export const useResponsiveItems = (breakpoints: Breakpoint[]): number | null => {
+  const snapshot = useCallback(() => {
+    const width = window.innerWidth;
+    return (breakpoints.find((bp) => width <= bp.max) ?? breakpoints[breakpoints.length - 1]).value;
+  }, [breakpoints]);
 
-  useEffect(() => {
-    const updateItems = () => {
-      const width = window.innerWidth;
-      const matched = breakpoints.find((bp) => width <= bp.max);
-      setItemsPerScreen(matched?.value ?? defaultValue);
-    };
-
-    updateItems();
-    window.addEventListener('resize', updateItems);
-    return () => window.removeEventListener('resize', updateItems);
-  }, [breakpoints, defaultValue]);
-
-  return itemsPerScreen;
+  return useSyncExternalStore(subscribe, snapshot, serverSnapshot);
 };

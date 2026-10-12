@@ -19,7 +19,7 @@ interface Props {
   moodTitle?: string;
   /** e.g. "movies and TV shows". */
   kinds: string;
-  /** The genre's most popular titles, best first. */
+  /** The genre's most popular titles of one type (movies if it has them), best first. */
   topTitles: MediaWithDetails[];
 }
 
@@ -28,8 +28,13 @@ interface Props {
  * zoom, a colour glow, its top posters fanned out, and a card linking to the #1 title.
  */
 export default function GenreHero({ name, tint, moodTitle, kinds, topTitles }: Props) {
-  const featured = topTitles.find((m) => m.backdrop_path) ?? topTitles[0];
-  const backdrop = getImageUrl(featured?.backdrop_path, 'backdrop', 'w1280');
+  // The #1 card is the actual #1; the artwork can come from the next title if it has none.
+  const featured = topTitles[0];
+  const backdrop = getImageUrl(
+    topTitles.find((m) => m.backdrop_path)?.backdrop_path,
+    'backdrop',
+    'w1280',
+  );
   const posters = topTitles
     .filter((m) => m.poster_path)
     .slice(0, 3)
@@ -115,7 +120,7 @@ export default function GenreHero({ name, tint, moodTitle, kinds, topTitles }: P
             )}
             <div className="min-w-0 flex-1">
               <p className="text-[11px] font-bold tracking-[0.14em] text-[color:var(--tint)] uppercase">
-                #1 in {name} right now
+                #1 {name} {featured.media_type === 'tv' ? 'show' : 'movie'} right now
               </p>
               <p className="mt-[2px] line-clamp-1 text-[16px] font-semibold text-white">
                 {featuredTitle}

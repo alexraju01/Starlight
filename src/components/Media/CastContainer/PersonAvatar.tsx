@@ -40,8 +40,8 @@ export default function PersonAvatar({
 
   return (
     // Gradient ring → dark gap → photo. (A CSS `ring` for the gap would be drawn on top of
-    // the gradient and hide it.) The ring turns brand red when the parent `group` is hovered.
-    <div className="group-hover:from-primary group-hover:via-primary/60 group-hover:to-primary/30 rounded-full bg-gradient-to-br from-white/30 via-white/[0.08] to-white/20 p-[2px] transition-colors duration-300">
+    // the gradient and hide it.) Static: portraits aren't links, so no hover state.
+    <div className="rounded-full bg-gradient-to-br from-white/30 via-white/[0.08] to-white/20 p-[2px]">
       <div className="bg-secondary rounded-full p-[3px]">
         <div className={clsx('relative overflow-hidden rounded-full', sizeClass)}>
           {photo ? (
@@ -50,7 +50,7 @@ export default function PersonAvatar({
               alt={name}
               fill
               sizes={sizes}
-              className="object-cover object-[center_20%] transition-[scale] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]"
+              className="object-cover object-[center_20%]"
             />
           ) : (
             <div

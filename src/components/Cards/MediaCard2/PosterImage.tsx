@@ -8,10 +8,18 @@ interface Props {
   alt: string;
   className?: string;
   priority?: boolean;
+  /**
+   * `backdrop`: the landscape art shown when a card enlarges (up to ~70vw on phones,
+   * ~26–41vw on desktop) – fetched at w780 so it isn't a blurry upscale of a 342px poster.
+   */
+  variant?: 'poster' | 'backdrop';
 }
 
-const PosterImage = ({ src, alt, className, priority = false }: Props) => {
-  const url = getImageUrl(src, 'poster', 'w342');
+const PosterImage = ({ src, alt, className, priority = false, variant = 'poster' }: Props) => {
+  const isBackdrop = variant === 'backdrop';
+  const url = isBackdrop
+    ? getImageUrl(src, 'backdrop', 'w780')
+    : getImageUrl(src, 'poster', 'w342');
 
   // Previously a missing poster produced a broken URL ("…/w342Media Poster").
   if (!url) {
@@ -34,7 +42,11 @@ const PosterImage = ({ src, alt, className, priority = false }: Props) => {
       // Lazy-load: grids render dozens of posters and most are below the fold.
       loading={priority ? 'eager' : 'lazy'}
       fill
-      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 342px"
+      sizes={
+        isBackdrop
+          ? '(min-width: 1536px) 26vw, (min-width: 1024px) 38vw, (min-width: 640px) 53vw, 70vw'
+          : '(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 342px'
+      }
       className={`object-cover ${className || ''}`}
     />
   );

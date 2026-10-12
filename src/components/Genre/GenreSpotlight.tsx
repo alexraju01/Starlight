@@ -43,20 +43,31 @@ export default function GenreSpotlight({ genres, allHrefs }: Props) {
   const [active, setActive] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [reduceMotion, setReduceMotion] = useState(false);
+  const [isHidden, setIsHidden] = useState(false);
   const genre = genres[active];
+  // Hover/focus pauses; so does a background tab, so you don't come back several genres on.
+  const isHalted = isPaused || isHidden;
 
   useEffect(() => {
     setReduceMotion(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    const onVisibility = () => setIsHidden(document.hidden);
+    document.addEventListener('visibilitychange', onVisibility);
+    return () => document.removeEventListener('visibilitychange', onVisibility);
   }, []);
 
   // Restarts on every change, so picking a chip gives it a full turn.
   useEffect(() => {
-    if (isPaused || reduceMotion || genres.length < 2) return;
+    if (isHalted || reduceMotion || genres.length < 2) return;
     const id = window.setTimeout(() => setActive((i) => (i + 1) % genres.length), ROTATE_MS);
     return () => window.clearTimeout(id);
-  }, [active, isPaused, reduceMotion, genres.length]);
+  }, [active, isHalted, reduceMotion, genres.length]);
 
-  const surprise = () => router.push(allHrefs[Math.floor(Math.random() * allHrefs.length)]);
+  // Never "surprise" with the genre already on screen.
+  const surprise = () => {
+    const others = allHrefs.filter((href) => href !== genre.href);
+    const pool = others.length > 0 ? others : allHrefs;
+    router.push(pool[Math.floor(Math.random() * pool.length)]);
+  };
 
   return (
     <section
@@ -150,7 +161,7 @@ export default function GenreSpotlight({ genres, allHrefs }: Props) {
                     className="absolute inset-x-0 bottom-0 h-[2px] origin-left bg-[color:var(--chip)]"
                     style={{
                       animation: `chip-progress ${ROTATE_MS}ms linear forwards`,
-                      animationPlayState: isPaused ? 'paused' : 'running',
+                      animationPlayState: isHalted ? 'paused' : 'running',
                     }}
                   />
                 )}
