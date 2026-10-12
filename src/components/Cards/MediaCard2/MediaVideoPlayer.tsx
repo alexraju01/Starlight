@@ -4,6 +4,8 @@ import clsx from 'clsx';
 import { Volume2, VolumeX } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
+import type { YTNamespace, YTPlayer } from '@/types/youtube';
+
 interface MediaVideoPlayerProps {
   videoKey: string;
   iframeId: string;
@@ -31,13 +33,13 @@ const COVER_SIZE = (() => {
   return { height, width: `calc(${height} * 16 / 9)` };
 })();
 
-// Load YouTube API
-const loadYouTubeAPI = () => {
-  if (typeof window !== 'undefined' && window.YT && window.YT.Player) {
-    return Promise.resolve();
+/** Loads the YouTube IFrame API once; resolves with it (never resolves if it's blocked). */
+const loadYouTubeAPI = (): Promise<YTNamespace> => {
+  if (typeof window !== 'undefined' && window.YT?.Player) {
+    return Promise.resolve(window.YT);
   }
 
-  return new Promise<void>((resolve) => {
+  return new Promise<YTNamespace>((resolve) => {
     const existingScript = document.getElementById('youtube-sdk');
 
     if (!existingScript) {
@@ -50,9 +52,9 @@ const loadYouTubeAPI = () => {
 
     const startedAt = Date.now();
     const checkYT = setInterval(() => {
-      if (window.YT && window.YT.Player) {
+      if (window.YT?.Player) {
         clearInterval(checkYT);
-        resolve();
+        resolve(window.YT);
       } else if (Date.now() - startedAt > 15000) {
         // e.g. blocked by an ad/content blocker – stop polling.
         clearInterval(checkYT);
@@ -69,7 +71,7 @@ export const MediaVideoPlayer = ({
   onToggleMute,
   isCarousel = false,
 }: MediaVideoPlayerProps) => {
-  const playerRef = useRef<any>(null);
+  const playerRef = useRef<YTPlayer | null>(null);
   // Only shown while frames are actually playing, so YouTube's thumbnail, title, spinner
   // and big play button never show.
   const [isVideoVisible, setIsVideoVisible] = useState(false);
@@ -81,13 +83,8 @@ export const MediaVideoPlayer = ({
 
   useEffect(() => {
     isMutedRef.current = isMuted;
-    if (playerRef.current && typeof playerRef.current.mute === 'function') {
-      if (isMuted) {
-        playerRef.current.mute();
-      } else {
-        playerRef.current.unMute();
-      }
-    }
+    if (isMuted) playerRef.current?.mute();
+    else playerRef.current?.unMute();
   }, [isMuted]);
 
   // Init player
@@ -95,12 +92,12 @@ export const MediaVideoPlayer = ({
     let isMounted = true;
 
     const initPlayer = async () => {
-      await loadYouTubeAPI();
+      const YT = await loadYouTubeAPI();
       if (!isMounted) return;
 
-      playerRef.current = new window.YT.Player(iframeId, {
+      playerRef.current = new YT.Player(iframeId, {
         events: {
-          onReady: (event: any) => {
+          onReady: (event) => {
             const player = event.target;
 
             player.mute();
@@ -111,17 +108,17 @@ export const MediaVideoPlayer = ({
             }
           },
 
-          onStateChange: (event: any) => {
+          onStateChange: (event) => {
             const player = event.target;
-            const { PLAYING } = window.YT.PlayerState;
+            const { PLAYING } = YT.PlayerState;
             // Any other state (buffering, paused, ended, restarting the loop) is where YouTube
             // draws a spinner or play button in the middle, so hide the video then. On
             // PLAYING, reveal it only once frames are visibly advancing.
             clearInterval(revealPollRef.current);
             if (event.data === PLAYING) {
-              const startedAt = player.getCurrentTime?.() ?? 0;
+              const startedAt = player.getCurrentTime();
               revealPollRef.current = setInterval(() => {
-                const played = (player.getCurrentTime?.() ?? 0) - startedAt;
+                const played = player.getCurrentTime() - startedAt;
                 if (played < REVEAL_AFTER_PLAYED_S) return;
                 clearInterval(revealPollRef.current);
                 setIsVideoVisible(true);

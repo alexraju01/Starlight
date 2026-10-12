@@ -6,7 +6,7 @@ Welcome to **Starlight**, a modern Next.js movie and TV series discovery app.
 
 - Browse & search movies and TV shows.
 - Get detailed information from the Movie API.
-- User-friendly UI built with Next.js 15.
+- User-friendly UI built with Next.js 16.
 
 ## 📖 Documentation
 

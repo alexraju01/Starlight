@@ -1,6 +1,7 @@
 import { Genre } from './genre';
 import { MediaMode } from './mediaMode';
 import { Season } from './seasons';
+import { YTNamespace } from './youtube';
 
 /* ---------------------------------- */
 /*          Base Types */
@@ -165,7 +166,7 @@ export interface APIResponse<T = Media> {
 
 declare global {
   interface Window {
-    onYouTubeIframeAPIReady: () => void;
-    YT: typeof YT | unknown;
+    /** Set once the YouTube IFrame API script has loaded. */
+    YT?: YTNamespace;
   }
 }
