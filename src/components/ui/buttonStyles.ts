@@ -1,10 +1,10 @@
 import clsx from 'clsx';
 
-type Variant = 'primary' | 'ghost';
+type Variant = 'primary' | 'ghost' | 'light';
 type Size = 'sm' | 'md' | 'lg';
 
 const SHAPE =
-  'inline-flex items-center justify-center rounded-[10px] transition-[background-color,border-color,color,transform]';
+  'inline-flex items-center justify-center rounded-[10px] transition-[background-color,border-color,color,scale]';
 
 const SIZES: Record<Size, string> = {
   sm: 'h-[44px] gap-[8px] px-[20px] text-[15px]',
@@ -15,6 +15,8 @@ const SIZES: Record<Size, string> = {
 const VARIANTS: Record<Variant, string> = {
   primary: 'bg-primary font-semibold text-white hover:bg-primary-hover',
   ghost: 'border border-white/20 bg-white/[0.06] font-medium text-white hover:bg-white/15',
+  /** On busy artwork or coloured backgrounds, where red could clash. */
+  light: 'bg-white font-semibold text-secondary hover:bg-white/85',
 };
 
 /**
