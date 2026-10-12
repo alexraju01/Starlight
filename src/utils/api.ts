@@ -12,6 +12,7 @@ import { APIResponse, MediaWithDetails, TVShow } from '@/types/global';
 import { getMediaDate } from './date/formatDate';
 import { fetchData } from './fetchData';
 import { getImageUrl } from './image/getImageUrl';
+import { interleave } from './interleave';
 import { getTvSeasons } from './serverActions/tvSeason';
 
 const HOUR = 60 * 60;
@@ -62,12 +63,6 @@ function sortQuery(mediaMode: MediaMode, sort: SortOption): Record<string, strin
 
 /** Which genre id to use for each media type (movie and TV genre lists differ). */
 export type GenreIds = { movie?: number; tv?: number };
-
-/** a1, b1, a2, b2, … then whatever is left of the longer list. */
-const interleave = <T>(a: T[], b: T[]): T[] =>
-  Array.from({ length: Math.max(a.length, b.length) }, (_, i) => [a[i], b[i]])
-    .flat()
-    .filter((item): item is T => item !== undefined);
 
 /** Value each sort orders by, used to merge movie and TV results. */
 const SORT_KEY: Record<Exclude<SortOption, 'popular'>, (item: MediaWithDetails) => number> = {

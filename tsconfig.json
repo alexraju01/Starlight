@@ -24,13 +24,8 @@
       "@/*": ["./src/*"],
       "@/types": ["./types/index.ts"],
       "@/types/*": ["./types/*"],
-      // Components barrels
-      "@/components": ["./src/components/index.ts"],
       "@/components/*": ["./src/components/*"],
 
-      // sub-barrel for UI
-      "@/components/ui": ["./src/components/ui/index.ts"],
-      "@/components/ui/*": ["./src/components/ui/*"],
       "@/utils": ["./src/utils/index.ts"],
       "@/utils/*": ["./src/utils/*"]
     },

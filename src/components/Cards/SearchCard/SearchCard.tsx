@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { ArrowRight, ImageOff, Star } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { ROUTES } from '@/constants/route';
 import { MediaWithDetails } from '@/types/global';
@@ -80,20 +80,24 @@ export default function SearchCard({
 
   // Results for an older query are treated as still loading.
   const isLoading = state.query !== trimmedQuery || state.status === 'loading';
-  const results = isLoading ? [] : state.results.slice(0, MAX_RESULTS);
+  const results = useMemo(
+    () => (isLoading ? [] : state.results.slice(0, MAX_RESULTS)),
+    [isLoading, state.results],
+  );
   const seeAllHref = ROUTES.DISCOVER(trimmedQuery);
 
-  // Tell the field which options exist, so ↑/↓/Enter can work from the input.
-  const optionsKey = results.map((m) => `${m.media_type}-${m.id}`).join(',');
-  useEffect(() => {
-    onOptionsChange(
+  // Tell the field which options exist, so ↑/↓/Enter can work from the input. Memoized so
+  // the effect only fires when the list actually changes.
+  const options = useMemo(
+    () =>
       results.length
         ? [...results.map((m) => ROUTES.MEDIA(m.media_type, m.id, displayName(m))), seeAllHref]
         : [],
-    );
-    // Keyed on optionsKey (the results' identity) so it only fires when the list changes;
-    // `onOptionsChange` is a stable callback.
-  }, [optionsKey, seeAllHref]);
+    [results, seeAllHref],
+  );
+  useEffect(() => {
+    onOptionsChange(options);
+  }, [options, onOptionsChange]);
 
   // Keep the highlighted option in view when moving with the keyboard.
   useEffect(() => {
