@@ -1,6 +1,7 @@
 import { DEFAULT_SORT, SortOption } from '@/constants/browse';
 import {
   CastMember,
+  Credits,
   Genre,
   GenreResponse,
   GenreWithMovies,
@@ -60,6 +61,28 @@ function sortQuery(mediaMode: MediaMode, sort: SortOption): Record<string, strin
       return { sort_by: 'popularity.desc' };
   }
 }
+
+/** Raw TMDB shapes for credits (only the fields used). */
+interface TvAggregateCastMember {
+  id: number;
+  name: string;
+  profile_path: string | null;
+  total_episode_count: number;
+  roles?: { character: string; episode_count: number }[];
+}
+interface CrewMember {
+  id: number;
+  name: string;
+  job: string;
+  profile_path: string | null;
+}
+
+/** Behind-the-camera roles worth showing, in order (TMDB job names). */
+const KEY_CREW = [
+  { label: 'Director', jobs: ['Director'] },
+  { label: 'Writer', jobs: ['Screenplay', 'Writer', 'Story', 'Novel'] },
+  { label: 'Composer', jobs: ['Original Music Composer'] },
+];
 
 /** Which genre id to use for each media type (movie and TV genre lists differ). */
 export type GenreIds = { movie?: number; tv?: number };
@@ -198,17 +221,59 @@ export const api = {
       }
     },
 
-    getAllActors: async (mediaMode: MediaMode, id: string | number): Promise<CastMember[]> => {
+    /**
+     * Cast and key crew for the details page. TV uses `aggregate_credits`, which covers the
+     * whole series and gives each actor's episode count (plain credits only list the latest
+     * season). Movies also get their director, writers and composer.
+     */
+    getCredits: async (mediaMode: MediaMode, id: number): Promise<Credits> => {
       try {
-        const { cast } = await fetchData<{ cast: CastMember[] }>(
+        if (mediaMode === MediaMode.TV) {
+          const { cast } = await fetchData<{ cast: TvAggregateCastMember[] }>(
+            '3',
+            `tv/${id}/aggregate_credits`,
+            { cache: { type: 'revalidate', seconds: DAY } },
+          );
+          return {
+            cast: cast.map((person) => ({
+              id: person.id,
+              name: person.name,
+              character: person.roles?.[0]?.character ?? '',
+              profilePath: person.profile_path ?? null,
+              episodeCount: person.total_episode_count,
+            })),
+            keyCrew: [],
+          };
+        }
+
+        const { cast, crew } = await fetchData<{ cast: CastMember[]; crew: CrewMember[] }>(
           '3',
-          `${mediaMode}/${id}/credits`,
+          `movie/${id}/credits`,
           { cache: { type: 'revalidate', seconds: DAY } },
         );
-        return cast || [];
+        return {
+          cast: cast.map((person) => ({
+            id: person.id,
+            name: person.name,
+            character: person.character,
+            profilePath: person.profile_path ?? null,
+          })),
+          keyCrew: KEY_CREW.map(({ label, jobs }) => {
+            const people = crew
+              .filter((member) => jobs.includes(member.job))
+              .filter((member, i, all) => all.findIndex((m) => m.id === member.id) === i)
+              .slice(0, 3)
+              .map((member) => ({
+                id: member.id,
+                name: member.name,
+                profilePath: member.profile_path ?? null,
+              }));
+            return { job: label, people };
+          }).filter((credit) => credit.people.length > 0),
+        };
       } catch (error) {
-        console.error(`Failed to fetch actors for ${mediaMode} ID ${id}:`, error);
-        return [];
+        console.error(`Failed to fetch credits for ${mediaMode} ${id}:`, error);
+        return { cast: [], keyCrew: [] };
       }
     },
 

@@ -18,6 +18,24 @@ export function CardRowSkeleton({ count = 8 }: { count?: number }) {
   );
 }
 
+/** Placeholder for the round cast portraits. */
+export function CastSkeleton({ count = 8 }: { count?: number }) {
+  return (
+    <div aria-hidden="true" className="flex flex-col gap-[16px] lg:gap-[20px]">
+      <div className={`${block} h-[26px] w-[140px]`} />
+      <div className="flex gap-[4px] overflow-hidden lg:gap-[8px]">
+        {Array.from({ length: count }, (_, i) => (
+          <div key={i} className="flex w-[116px] shrink-0 flex-col items-center lg:w-[132px]">
+            <div className={`${block} size-[102px] rounded-full lg:size-[118px]`} />
+            <div className={`${block} mt-[12px] h-[14px] w-4/5`} />
+            <div className={`${block} mt-[6px] h-[12px] w-3/5`} />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 /** Mirrors the details page hero so the layout doesn't jump when the data arrives. */
 export default function MediaDetailsSkeleton() {
   return (
