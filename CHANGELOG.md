@@ -1,3 +1,9 @@
+## [2.9.1](https://github.com/alexraju01/Starlight/compare/v2.9.0...v2.9.1) (2026-10-14)
+
+### 🛠 Refactors
+
+* Update site name to "StarLight" and adjust related metadata ([2b0747b](https://github.com/alexraju01/Starlight/commit/2b0747b921b00bb77bdae82e91e7aed3d2097739))
+
 ## [2.9.0](https://github.com/alexraju01/Starlight/compare/v2.8.0...v2.9.0) (2026-10-14)
 
 ### ✨ Features
