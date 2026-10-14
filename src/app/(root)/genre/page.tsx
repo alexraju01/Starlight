@@ -9,6 +9,7 @@ import DragScrollList from '@/components/ui/DragScrollList';
 import { MOODS, Mood, SPOTLIGHT_GENRES } from '@/constants/genreMoods';
 import { genreTint } from '@/constants/genreTints';
 import { ROUTES } from '@/constants/route';
+import { SITE_NAME } from '@/constants/site';
 import { GenreShowcaseItem } from '@/types';
 import { api } from '@/utils/api';
 import { genreCoverage } from '@/utils/genre';
@@ -18,8 +19,7 @@ import { getImageUrl } from '@/utils/image/getImageUrl';
 
 export const metadata: Metadata = {
   title: 'Genres – Browse Movies & TV Categories',
-  description:
-    'Explore genres across movies and TV shows on Starlight. Discover action, drama, comedy, thriller, and more to find what to watch next.',
+  description: `Explore genres across movies and TV shows on ${SITE_NAME}. Discover action, drama, comedy, thriller, and more to find what to watch next.`,
 
   keywords: [
     'genres',

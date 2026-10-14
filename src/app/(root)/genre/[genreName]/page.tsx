@@ -14,6 +14,7 @@ import { SegmentedLinks } from '@/components/ui/Segmented';
 import { DEFAULT_SORT, SORT_OPTIONS, SortOption, parseSort } from '@/constants/browse';
 import { moodOf } from '@/constants/genreMoods';
 import { genreTint } from '@/constants/genreTints';
+import { SITE_NAME } from '@/constants/site';
 import { GenreIds } from '@/types';
 import { MediaMode } from '@/types/mediaMode';
 import { api } from '@/utils/api';
@@ -63,7 +64,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const kinds = describeTypes(ids);
   const title = `${name} ${kinds.replace('movies', 'Movies').replace('TV shows', 'TV Shows')}`;
-  const description = `Explore the best ${name} ${kinds} on Starlight. Discover trending, popular, and top-rated ${name} titles.`;
+  const description = `Explore the best ${name} ${kinds} on ${SITE_NAME}. Discover trending, popular, and top-rated ${name} titles.`;
 
   return {
     title,

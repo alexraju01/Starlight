@@ -73,7 +73,7 @@ export default function CarouselItem({ movie, genres, priority, mediaMode }: Car
   const detailsHref = ROUTES.MEDIA(mediaMode, movie.id, title);
 
   return (
-    <li className="carousel-slide flex-evenly max-[840px]:bg-card-bg absolute inset-0 overflow-hidden">
+    <li className="carousel-slide max-[840px]:bg-card-bg absolute inset-0 overflow-hidden">
       {/* Drifts for the parallax; stays under the trailer until the video fades in. */}
       <div className="carousel-parallax absolute inset-0">
         <picture>
@@ -86,7 +86,7 @@ export default function CarouselItem({ movie, genres, priority, mediaMode }: Car
             loading={priority ? 'eager' : 'lazy'}
             fetchPriority={priority ? 'high' : 'auto'}
             decoding="async"
-            className="img-cover-center carousel-mask-gradiant absolute inset-0 size-full brightness-[80%]"
+            className="carousel-mask-gradient absolute inset-0 size-full object-cover brightness-[80%]"
           />
         </picture>
       </div>
@@ -103,36 +103,32 @@ export default function CarouselItem({ movie, genres, priority, mediaMode }: Car
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent min-[840px]:hidden" />
       )}
 
-      <div className="absolute inset-x-[16px] bottom-0 z-10 max-w-screen space-y-4 sm:inset-x-[24px] lg:left-[68px] lg:w-[854px] 2xl:left-[101px]">
+      <div className="absolute inset-x-[16px] bottom-0 z-10 flex flex-col gap-[10px] sm:inset-x-[24px] lg:left-[68px] lg:w-[854px] 2xl:left-[101px]">
         <div
           className={clsx(
-            'space-y-4 transition-all duration-500 ease-in-out',
+            'flex flex-col gap-[10px] transition-all duration-500 ease-in-out',
             isPlaying
-              ? 'pointer-events-none translate-y-10 opacity-0'
+              ? 'pointer-events-none translate-y-[24px] opacity-0'
               : 'translate-y-0 opacity-100',
           )}
         >
           {movie.logoImage ? (
-            <div className="relative mb-5 h-[clamp(1rem,14vw,13rem)] w-[clamp(19rem,20vw,33rem)]">
+            <div className="relative mb-[12px] h-[clamp(10px,14vw,130px)] w-[clamp(190px,20vw,330px)]">
               {/* The logo is an image: keep a real heading for screen readers and SEO. */}
               <h2 className="sr-only">{title}</h2>
-              <Image
-                src={movie.logoImage}
-                fill
-                sizes="330px"
-                alt=""
-                className="img-contain-center"
-              />
+              <Image src={movie.logoImage} fill sizes="330px" alt="" className="object-contain" />
             </div>
           ) : (
-            <h2 className="text-[clamp(2rem,5vw,50px)] font-bold text-white">{title}</h2>
+            <h2 className="text-[clamp(26px,5vw,52px)] leading-[1.05] font-extrabold tracking-[-0.02em] text-balance text-white">
+              {title}
+            </h2>
           )}
 
           <MediaMeta movie={movie} genres={genres} />
 
           {movie.overview && (
             <div className="hidden md:block">
-              <p className="line-clamp-3-custom mb-9 max-w-screen text-[clamp(1.6rem,2vw,2rem)] leading-[175%] text-white">
+              <p className="mb-[22px] line-clamp-3 max-w-[68ch] text-[clamp(16px,1.4vw,18px)] leading-[1.7] text-white/85">
                 {movie.overview}
               </p>
             </div>
@@ -141,7 +137,7 @@ export default function CarouselItem({ movie, genres, priority, mediaMode }: Car
 
         <div
           className={clsx(
-            'mt-6 transition-opacity duration-500',
+            'mt-[14px] transition-opacity duration-500',
             isPlaying ? 'opacity-40 hover:opacity-100' : 'opacity-100',
           )}
         >
@@ -154,7 +150,7 @@ export default function CarouselItem({ movie, genres, priority, mediaMode }: Car
             detailsHref={detailsHref}
           />
           {trailerError && (
-            <p role="status" className="-mt-6 mb-6 text-[14px] text-white/80">
+            <p role="status" className="-mt-[14px] mb-[14px] text-[14px] text-white/80">
               Sorry — no trailer is available for this title yet.
             </p>
           )}

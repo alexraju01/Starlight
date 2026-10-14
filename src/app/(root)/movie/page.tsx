@@ -1,14 +1,14 @@
 import { Metadata } from 'next';
 
 import BrowseMediaPage, { BrowseSearchParams } from '@/components/Media/BrowseMediaPage';
+import { SITE_NAME } from '@/constants/site';
 import { MediaMode } from '@/types/mediaMode';
 
 export const metadata: Metadata = {
   // Filtered views (?genre=, ?sort=) are variations of this page, not separate pages.
   alternates: { canonical: '/movie' },
   title: 'Movies – Discover Popular & Trending Films',
-  description:
-    'Browse popular movies, trending films, and timeless classics on Starlight. Watch official trailers, explore movie details, and discover new releases.',
+  description: `Browse popular movies, trending films, and timeless classics on ${SITE_NAME}. Watch official trailers, explore movie details, and discover new releases.`,
 
   keywords: [
     'movies',

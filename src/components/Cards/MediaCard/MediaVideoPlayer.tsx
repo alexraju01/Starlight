@@ -135,7 +135,7 @@ export default function MediaVideoPlayer({
 
   return (
     // Transparent, so the artwork underneath shows until the video fades in.
-    <div className="absolute inset-0 overflow-hidden rounded-[10.92px]">
+    <div className="absolute inset-0 overflow-hidden rounded-[8px]">
       {!isCarousel && (
         <div
           aria-hidden="true"
@@ -148,7 +148,7 @@ export default function MediaVideoPlayer({
         onClick={onToggleMute}
         aria-label={isMuted ? 'Unmute trailer' : 'Mute trailer'}
         aria-pressed={!isMuted}
-        className="absolute right-4 bottom-4 z-50 flex size-13 cursor-pointer items-center justify-center rounded-full border border-white/20 bg-black/60 text-white transition-all"
+        className="absolute right-[10px] bottom-[10px] z-50 flex size-[32px] cursor-pointer items-center justify-center rounded-full border border-white/20 bg-black/60 text-white transition-all"
       >
         {isMuted ? <VolumeX size={23} aria-hidden /> : <Volume2 size={23} aria-hidden />}
       </button>

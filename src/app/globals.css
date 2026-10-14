@@ -71,35 +71,11 @@
     animation: fadeIn 1s forwards;
   }
 
-  .image-pixelated {
-    image-rendering: pixelated;
-  }
-
-  .custom-bg-gradient {
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.8) 100%);
-  }
-
   .genre-gradient {
     background: linear-gradient(180deg, rgba(26, 26, 26, 0) 0%, #1a1a1a 105.79%);
   }
 
-  .genre-item {
-    @apply hover:border-primary rounded-[0.8rem] border-[2px] border-solid border-gray-100 px-[0.7rem] py-[0.4rem] backdrop-blur-lg transition-all duration-300 hover:scale-108 hover:cursor-pointer hover:bg-[#9e221a1a] xl:border xl:border-white/0 xl:bg-white/25 xl:hover:border-white xl:hover:bg-white/10;
-  }
-
-  .mask-gradient-default {
-    mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0.5) 100%);
-    -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0.5) 100%);
-  }
-
-  @media (min-width: 1280px) {
-    .mask-gradient-default {
-      mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.7) 30%);
-      -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.7) 30%);
-    }
-  }
-
-  .carousel-mask-gradiant {
+  .carousel-mask-gradient {
     -webkit-mask-image: linear-gradient(
       to top,
       rgba(0, 0, 0, 0) 0%,
@@ -152,68 +128,10 @@
   }
 
   @media (max-width: 839.98px) {
-    .carousel-slide .carousel-mask-gradiant {
+    .carousel-slide .carousel-mask-gradient {
       -webkit-mask-image: none;
       mask-image: none;
     }
-  }
-
-  .line-clamp-3-custom {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .card-scale {
-    height: 100%;
-    transition: transform 300ms cubic-bezier(0.2, 0, 0, 1);
-    transform-origin: center center;
-  }
-
-  .group:hover .card-scale {
-    transform: scale(1.05);
-  }
-
-  .media-frame {
-    aspect-ratio: 0.7;
-    transition: aspect-ratio 500ms ease;
-  }
-
-  .group:hover .media-frame {
-    aspect-ratio: 16 / 9;
-  }
-
-  .content-container {
-    @apply px-6 py-6 lg:mx-[68px] 2xl:mx-[101px];
-  }
-  /* Flex */
-  .flex-center {
-    @apply flex items-center justify-center;
-  }
-
-  .flex-between {
-    @apply flex items-center justify-between;
-  }
-  .flex-evenly {
-    @apply flex items-center justify-evenly;
-  }
-
-  /* Absolute */
-  .absolute-full {
-    @apply absolute w-full;
-  }
-  .absolute-fill {
-    @apply absolute inset-0;
-  }
-
-  .btn-base {
-    @apply rounded-lg hover:cursor-pointer;
-  }
-
-  .size-btn {
-    @apply size-[33px] sm:size-[59px];
   }
 
   /* Horizontal page padding, aligned with the navbar and home page sections. */
@@ -239,15 +157,6 @@
       -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 64px), transparent);
       mask-image: linear-gradient(to right, #000 calc(100% - 64px), transparent);
     }
-  }
-
-  /* Image helpers */
-  .img-cover-center {
-    @apply object-cover object-center;
-  }
-
-  .img-contain-center {
-    @apply object-contain object-center;
   }
 }
 /*
@@ -290,13 +199,7 @@
 }
 
 @theme {
-  --font-Helvetica: 'Helvetica', 'sans-serif';
-  --font-Inter: 'Inter', 'sans-serif';
-
-  --breakpoint-3xl: 112rem;
-
-  /* Colour Pallette */
-
+  /* Colour palette */
   --color-primary: #9e221a;
   --color-primary-hover: #b8281f;
   --color-secondary: #100f10;
@@ -307,9 +210,6 @@
   /* Small red labels ("Movie", "Genre", "Upcoming"). */
   --color-accent-soft: #ff7a6e;
 
-  /* --color-primary: #e50000; */
-
   --color-card-bg: #1a1a1a;
   --color-card-stroke: #262626;
-  --color-icons: #999999;
 }

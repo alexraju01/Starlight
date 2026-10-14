@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Logo from '@/components/Layout/NavBar/Logo';
 import { QUICK_GENRES, links } from '@/constants';
 import { ROUTES } from '@/constants/route';
+import { SITE_NAME } from '@/constants/site';
 
 import type { Route } from 'next';
 
@@ -105,7 +106,9 @@ export default function Footer() {
         </div>
 
         <div className="mt-[48px] flex flex-col gap-[8px] border-t border-white/[0.06] pt-[24px] text-[13px] text-white/40 sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} StarLight. All rights reserved.</p>
+          <p>
+            © {new Date().getFullYear()} {SITE_NAME}. All rights reserved.
+          </p>
           <p>Movie and TV data provided by TMDB.</p>
         </div>
       </div>

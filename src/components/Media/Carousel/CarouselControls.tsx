@@ -1,6 +1,6 @@
 'use client';
 
-import clsx from 'clsx';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { memo } from 'react';
 
 interface Props {
@@ -8,62 +8,18 @@ interface Props {
   onNext: () => void;
 }
 
+const ARROW =
+  'flex size-[48px] items-center justify-center rounded-full border border-white/20 bg-black/40 text-white backdrop-blur-md transition-colors hover:bg-white hover:text-secondary lg:size-[56px]';
+
+/** Previous / next arrows, bottom-right of the hero on the page gutter. */
 const CarouselControls = memo(function CarouselControls({ onPrev, onNext }: Props) {
   return (
-    <div
-      className={clsx(
-        'absolute z-2 flex h-fit justify-end gap-2.5 p-4 px-6',
-        'top-5 right-5',
-        'bottom-[0px] sm:top-auto sm:right-[25px] sm:w-auto sm:flex-row sm:px-12 md:bottom-[50px] md:pb-0',
-        // Right edge of the arrows on the page gutter.
-        'lg:right-[68px] lg:px-0 2xl:right-[101px]',
-      )}
-    >
-      <button
-        type="button"
-        aria-label="Previous slide"
-        className="flex-center btn-base size-btn border-2 border-solid border-white p-1"
-        onClick={onPrev}
-      >
-        <svg
-          aria-hidden="true"
-          width="20"
-          height="18"
-          viewBox="0 0 20 18"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M18.75 9L1.25 9M1.25 9L9.125 16.875M1.25 9L9.125 1.125"
-            stroke="white"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+    <div className="absolute right-[24px] bottom-[8px] z-[2] flex gap-[10px] md:bottom-[48px] lg:right-[68px] 2xl:right-[101px]">
+      <button type="button" aria-label="Previous slide" onClick={onPrev} className={ARROW}>
+        <ArrowLeft aria-hidden="true" className="size-[20px]" />
       </button>
-      <button
-        type="button"
-        aria-label="Next slide"
-        className="flex size-[33px] items-center justify-center rounded-lg border-1 border-white bg-white p-3 hover:cursor-pointer sm:size-[59px]"
-        onClick={onNext}
-      >
-        <svg
-          aria-hidden="true"
-          width="20"
-          height="18"
-          viewBox="0 0 24 20"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M13.75 1.25L22.5 10M22.5 10L13.75 18.75M22.5 10H1.5"
-            stroke="#100F10"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+      <button type="button" aria-label="Next slide" onClick={onNext} className={ARROW}>
+        <ArrowRight aria-hidden="true" className="size-[20px]" />
       </button>
     </div>
   );

@@ -26,13 +26,13 @@ export default function GenreCollectionCard({ genre }: GenreCollectionCardProps)
               alt={displayName(movie)}
               fill
               sizes="(min-width: 1024px) 10vw, (min-width: 768px) 13vw, 25vw"
-              className="img-cover-center rounded-[11px]"
+              className="rounded-[11px] object-cover"
             />
           </div>
         ))}
       </div>
       <div className="flex items-center justify-between">
-        <span className="font-Helvetica flex items-center justify-between text-[14px] leading-[150%] font-medium text-white xl:text-[22px]">
+        <span className="flex items-center justify-between text-[14px] leading-[150%] font-medium text-white xl:text-[22px]">
           {genre.name}
         </span>
         <ArrowIcon />

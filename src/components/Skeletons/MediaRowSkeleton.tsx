@@ -15,9 +15,9 @@ export default function MediaRowSkeleton() {
         {Array.from({ length: 6 }, (_, i) => (
           <div
             key={i}
-            className="border-card-stroke bg-card-bg w-[calc((100%-16px)/2)] shrink-0 rounded-[10.92px] border p-[12px] sm:w-[calc((100%-32px)/3)] md:w-[calc((100%-48px)/4)] xl:w-[calc((100%-64px)/5)] 2xl:w-[calc((100%-80px)/6)]"
+            className="border-card-stroke bg-card-bg w-[calc((100%-16px)/2)] shrink-0 rounded-[12px] border p-[12px] sm:w-[calc((100%-32px)/3)] md:w-[calc((100%-48px)/4)] xl:w-[calc((100%-64px)/5)] 2xl:w-[calc((100%-80px)/6)]"
           >
-            <div className={`${bar} aspect-[2/3] rounded-[10.92px]`} />
+            <div className={`${bar} aspect-[2/3] rounded-[8px]`} />
             <div className={`${bar} mt-[16px] h-[14px] w-3/4`} />
             <div className={`${bar} mt-[10px] h-[12px] w-1/2`} />
           </div>

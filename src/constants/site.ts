@@ -6,4 +6,4 @@ export const SITE_URL = (
   process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.starlightdiscover.co.uk'
 ).replace(/\/+$/, '');
 
-export const SITE_NAME = 'Starlight';
+export const SITE_NAME = 'StarLight';
