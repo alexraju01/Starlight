@@ -1,3 +1,46 @@
+## [2.9.0](https://github.com/alexraju01/Starlight/compare/v2.8.0...v2.9.0) (2026-10-14)
+
+### ✨ Features
+
+* **browse:** redesign movies/TV pages with genre and sort filters ([dee687b](https://github.com/alexraju01/Starlight/commit/dee687bbfd5a099370bca8a484c41015ee3d3539))
+* **carousel:** add drag-to-slide, mobile peek cards and parallax backdrop ([633e670](https://github.com/alexraju01/Starlight/commit/633e6709e05b6d2ae385454499a8091c1fc20cc7))
+* **carousel:** endless loop, poster on small screens and smoother parallax ([5b89913](https://github.com/alexraju01/Starlight/commit/5b89913485c1cdc81c610115d02d0ce07d1c87bd))
+* **details:** circular cast portraits with episode counts and key crew ([541835c](https://github.com/alexraju01/Starlight/commit/541835c3c624e89842cd9ef92fc3b752ca9466e2))
+* **details:** redesign media details page for desktop and mobile ([da9f570](https://github.com/alexraju01/Starlight/commit/da9f5703ebb2c2e926f426879fdf092f80c5065c))
+* **discover:** redesign search page with type tabs and trending ([9f96cc7](https://github.com/alexraju01/Starlight/commit/9f96cc75ca7efc66a33b6b569ca8a72728a78a31))
+* **errors:** redesign 404 and error pages inside the site shell ([ad53ae5](https://github.com/alexraju01/Starlight/commit/ad53ae5b38de50629d4c5ebc0e81419633556753))
+* **footer:** redesign footer with brand, browse, explore and genre columns ([1cb7288](https://github.com/alexraju01/Starlight/commit/1cb72889953828a92124292eccca674f4b5d920a))
+* **genres:** mood-based genre index with interactive spotlight ([f81bdb8](https://github.com/alexraju01/Starlight/commit/f81bdb8381d89e412087ecc8d80b3a35ed20f991))
+* **genres:** redesign genre index and genre pages ([d8323aa](https://github.com/alexraju01/Starlight/commit/d8323aad5416f762d267ca0cfab45327e9106ad0))
+* **genres:** redesign genre pages with hero, top 10 and smooth drag ([e438150](https://github.com/alexraju01/Starlight/commit/e43815016f6abe1e65c242c816738f764207005f)), closes [#1](https://github.com/alexraju01/Starlight/issues/1)
+* **home:** unify home rows with swipeable sliders and new headings ([11f24a2](https://github.com/alexraju01/Starlight/commit/11f24a2937a41b8524f3254cd968559417e093ca))
+* **nav:** redesign navbar and mobile menu ([5068925](https://github.com/alexraju01/Starlight/commit/50689251518602f1479e66ebece38405524e74dd))
+* **search:** debounce discover search and improve search dropdown ([de6d33a](https://github.com/alexraju01/Starlight/commit/de6d33ab62889b3ba4767fa05d033999a3a54a48))
+* **search:** keyboard-navigable search dropdown with refreshed rows ([c71872d](https://github.com/alexraju01/Starlight/commit/c71872d598176a4781ea3a47e13944cbf7485c04))
+* **seo:** add structured data, canonical URLs and fix media sitemaps ([785e0c8](https://github.com/alexraju01/Starlight/commit/785e0c86c1db5bbfafb01549503359de883c0c22))
+* **ui:** improve accessibility, carousel, navigation and error handling ([01ca6de](https://github.com/alexraju01/Starlight/commit/01ca6dea565cb3002a73088d42aca8f647fde85e))
+
+### 🐛 Bug Fixes
+
+* add slot and unlock timeout refs to improve hover experience ([30eadb4](https://github.com/alexraju01/Starlight/commit/30eadb46c5afdc4bdea28fe2b0ac287fb2ae5a05))
+* address bugs, a11y and design flaws from code audit ([47786f8](https://github.com/alexraju01/Starlight/commit/47786f8a6314b3ce29798ff87b531192f778ad7c))
+* address bugs, a11y and design flaws from code audit ([9920570](https://github.com/alexraju01/Starlight/commit/9920570223329f4707e0682682d5d420e35cb0d9))
+* **card:** align last hover card to row edge; 6-up similar row ([5dfe286](https://github.com/alexraju01/Starlight/commit/5dfe286e6c113d1f0c6307291df62be773bc0003))
+* **security:** keep the TMDB API key server-side and validate server actions ([49b1c5d](https://github.com/alexraju01/Starlight/commit/49b1c5d5193d1374f078a50368f4efddbdd6784c))
+
+### 🛠 Refactors
+
+* **carousel:** enhance MediaCard2 and MediaVideoPlayer for improved video handling and visibility ([04a9829](https://github.com/alexraju01/Starlight/commit/04a982970bc9c10c24a28312bff26dc4748d48ce))
+* **carousel:** enhance transition timing and description for carousel animations ([bddd56e](https://github.com/alexraju01/Starlight/commit/bddd56ecd9bdfe56a52715a35bf586ff17f8e0e4))
+* **carousel:** improve drag handling and add velocity measurement for swipe gestures ([ec22683](https://github.com/alexraju01/Starlight/commit/ec22683c3a3007e377ad1aaf587b84bf21ced83e))
+* code split to reduce carousel client complexity ([340f2e9](https://github.com/alexraju01/Starlight/commit/340f2e9caaee4ae9326e0483de50a8c408dc4752))
+* dedupe grids, sliders and pages; remove unused code and deps ([cae8795](https://github.com/alexraju01/Starlight/commit/cae8795930a300f0b622b4d72a7b59cf9e093eb6))
+* enterprise code-quality pass ([b34b081](https://github.com/alexraju01/Starlight/commit/b34b081b70b189bbcce38b39a6f9318ef992137e))
+* implement completeRows utility for better media grid handling ([4a0d72e](https://github.com/alexraju01/Starlight/commit/4a0d72ebfe0a80cd54e8c1b510702c3d10f158f0))
+* **layout:** use CSS variable for navbar height and update layout styles ([aa9bc00](https://github.com/alexraju01/Starlight/commit/aa9bc0099314bb832304e78046df3f8c04e49a69))
+* typed YouTube player, useHoverPreview hook, architecture docs ([d9327aa](https://github.com/alexraju01/Starlight/commit/d9327aa2e3b74c499787e008bb754fcb7c3ce6cc))
+* **ui:** shared PageHeader, button helper and colour tokens ([9c48370](https://github.com/alexraju01/Starlight/commit/9c4837082a6f4a918141e2e7d1cd09576dfe3315))
+
 ## [2.8.0](https://github.com/alexraju01/Starlight/compare/v2.7.0...v2.8.0) (2026-04-26)
 
 ### ✨ Features
