@@ -1,21 +1,33 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useSyncExternalStore } from 'react';
 
-type Breakpoint = { max: number; value: number };
+import type { Breakpoint } from '@/constants/breakpoints';
 
-export const useResponsiveItems = (breakpoints: Breakpoint[], defaultValue = 4): number | null => {
-  const [itemsPerScreen, setItemsPerScreen] = useState<number | null>(null);
+// One shared `resize` listener for every component using this hook (previously each grid
+// and slider registered its own).
+const listeners = new Set<() => void>();
+const notify = () => listeners.forEach((listener) => listener());
 
-  useEffect(() => {
-    const updateItems = () => {
-      const width = window.innerWidth;
-      const matched = breakpoints.find((bp) => width <= bp.max);
-      setItemsPerScreen(matched?.value ?? defaultValue);
-    };
+const subscribe = (listener: () => void) => {
+  if (listeners.size === 0) window.addEventListener('resize', notify);
+  listeners.add(listener);
+  return () => {
+    listeners.delete(listener);
+    if (listeners.size === 0) window.removeEventListener('resize', notify);
+  };
+};
 
-    updateItems();
-    window.addEventListener('resize', updateItems);
-    return () => window.removeEventListener('resize', updateItems);
-  }, [breakpoints, defaultValue]);
+/** The server can't know the viewport: callers render their CSS-only layout until hydrated. */
+const serverSnapshot = () => null;
 
-  return itemsPerScreen;
+/**
+ * Items per row for the current viewport, or `null` before hydration. Only re-renders when
+ * the result changes (crossing a breakpoint), not on every pixel of a resize.
+ */
+export const useResponsiveItems = (breakpoints: Breakpoint[]): number | null => {
+  const snapshot = useCallback(() => {
+    const width = window.innerWidth;
+    return (breakpoints.find((bp) => width <= bp.max) ?? breakpoints[breakpoints.length - 1]).value;
+  }, [breakpoints]);
+
+  return useSyncExternalStore(subscribe, snapshot, serverSnapshot);
 };

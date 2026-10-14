@@ -1,15 +1,24 @@
-import { JSX, ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 interface Props {
-  icon?: JSX.Element;
   children: ReactNode;
+  /** Muted count shown after the title, e.g. the number of seasons. */
+  count?: number;
+  id?: string;
 }
 
-export default function SectionHeading({ children, icon }: Props) {
+/** Section title with the red accent bar used across the details page. */
+export default function SectionHeading({ children, count, id }: Props) {
   return (
-    <div className="my-4 flex items-center text-[1.8rem] font-bold">
-      <i className="text-white">{icon}</i>
-      <h2 className="ml-3">{children}</h2>
+    <div className="flex items-center gap-[12px]">
+      <span aria-hidden="true" className="bg-primary h-[22px] w-[4px] shrink-0 rounded-full" />
+      <h2
+        id={id}
+        className="text-[20px] leading-[1.3] font-semibold tracking-[-0.01em] text-white lg:text-[24px]"
+      >
+        {children}
+        {count !== undefined && <span className="ml-[8px] font-normal text-white/40">{count}</span>}
+      </h2>
     </div>
   );
 }

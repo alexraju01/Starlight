@@ -1,50 +1,76 @@
-import GoBack from '@/components/Navigation/GoBack';
-import { CastMember, MediaMode } from '@/types';
-import { MediaWithDetails } from '@/types/global';
-import { fetchData } from '@/utils';
+import { Suspense } from 'react';
 
-import { Seasons, SimilarMedia } from '.';
+import RowErrorBoundary from '@/components/Error/RowErrorBoundary';
+import CastContainer from '@/components/Media/CastContainer/CastContainer';
+import GoBack from '@/components/Navigation/GoBack';
+import { CastSkeleton } from '@/components/Skeletons/MediaDetailsSkeleton';
+import MediaRowSkeleton from '@/components/Skeletons/MediaRowSkeleton';
+import { MediaMode } from '@/types';
+import { MediaWithDetails } from '@/types/global';
+import { api } from '@/utils/api';
+
 import MediaBackdrop from './MediaBackdrop';
 import MediaDetailsPanel from './MediaDetailsPanel';
-import CastContainer from '../CastContainer/CastContainer';
+import MediaFacts from './MediaFacts';
+import Seasons from './Seasons';
+import SimilarMedia from './SimilarMedia';
 
 interface Props {
-  params: string;
-  mediaMode: MediaMode.TV | MediaMode.MOVIE;
+  media: MediaWithDetails;
+  mediaMode: MediaMode;
 }
 
-async function fetchMediaData(params: string, mediaMode: MediaMode.TV | MediaMode.MOVIE) {
-  try {
-    const [mediaDetails, credits] = await Promise.all([
-      fetchData<MediaWithDetails>('3', `/${mediaMode}/${params}`),
-      fetchData<{ cast: CastMember[] }>('3', `/${mediaMode}/${params}/credits`),
-    ]);
+const CAST_LIMIT = 15;
 
-    if (mediaDetails) {
-      mediaDetails.media_type = mediaMode;
-    }
-    return { mediaDetails, credits };
-  } catch (error) {
-    console.error('Error fetching media data:', error);
-    return { mediaDetails: null, credits: { cast: [] } };
-  }
+async function Cast({ media, mediaMode }: Props) {
+  const credits = await api.media.getCredits(mediaMode, media.id);
+  return <CastContainer credits={{ ...credits, cast: credits.cast.slice(0, CAST_LIMIT) }} />;
 }
 
-export default async function MediaOverview({ params, mediaMode }: Props) {
-  const { mediaDetails, credits } = await fetchMediaData(params, mediaMode);
-  if (!mediaDetails) return <div>Error loading media details.</div>;
+/**
+ * Details page: hero (backdrop, poster, title, actions), then seasons + cast beside a sticky
+ * "Details" card (below them on mobile), then "More like this".
+ */
+export default async function MediaOverview({ media, mediaMode }: Props) {
+  const hasSimilar = await api.media.hasRecommendations(mediaMode, media.id);
 
   return (
-    <>
-      <MediaBackdrop media={mediaDetails} />
-      <GoBack />
-      <div className="px-6 md:px-12">
-        <MediaDetailsPanel media={mediaDetails} mediaMode={mediaMode} />
+    <article className="pb-[48px] lg:pb-[72px]">
+      <section
+        aria-label="Overview"
+        className="relative lg:flex lg:min-h-[min(820px,calc(100svh-var(--nav-h)))] lg:items-end"
+      >
+        <MediaBackdrop media={media} />
+        <GoBack className="absolute top-[16px] left-[16px] z-10 sm:left-[24px] lg:top-[24px] lg:left-[68px] 2xl:left-[101px]" />
+        <div className="page-gutter relative -mt-[72px] w-full sm:-mt-[96px] lg:mt-0 lg:pt-[96px] lg:pb-[64px]">
+          <MediaDetailsPanel media={media} mediaMode={mediaMode} hasSimilar={hasSimilar} />
+        </div>
+      </section>
 
-        {mediaDetails.media_type === MediaMode.TV && <Seasons seasons={mediaDetails.seasons} />}
-        <CastContainer castList={credits.cast.slice(0, 10)} />
-        <SimilarMedia mediaMode={mediaMode} params={params} />
+      <div className="page-gutter mt-[40px] grid grid-cols-1 gap-[40px] lg:mt-[56px] lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-[56px] 2xl:grid-cols-[minmax(0,1fr)_360px]">
+        <div className="flex min-w-0 flex-col gap-[40px] lg:gap-[56px]">
+          {media.media_type === MediaMode.TV && <Seasons seasons={media.seasons} />}
+          <Suspense fallback={<CastSkeleton />}>
+            <Cast media={media} mediaMode={mediaMode} />
+          </Suspense>
+        </div>
+
+        <aside>
+          <div className="lg:sticky lg:top-[calc(var(--nav-h)+24px)]">
+            <MediaFacts media={media} />
+          </div>
+        </aside>
       </div>
-    </>
+
+      {hasSimilar && (
+        <div className="page-gutter mt-[48px] lg:mt-[72px]">
+          <RowErrorBoundary message="Failed to load recommendations.">
+            <Suspense fallback={<MediaRowSkeleton />}>
+              <SimilarMedia mediaMode={mediaMode} id={media.id} />
+            </Suspense>
+          </RowErrorBoundary>
+        </div>
+      )}
+    </article>
   );
 }

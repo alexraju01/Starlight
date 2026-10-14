@@ -17,7 +17,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '22'
+          node-version: '24'
           cache: 'npm'
 
       - name: Install dependencies
@@ -29,8 +29,8 @@ jobs:
       - name: Run Prettier Check
         run: npm run prettier:check
 
-      # - name: TypeScript Type Check
-      #   run: npm run type-check
+      - name: TypeScript Type Check
+        run: npm run type-check
 
       - name: Ensure Next.js Builds
         run: npm run build

@@ -15,14 +15,18 @@ const CarouselControls = memo(function CarouselControls({ onPrev, onNext }: Prop
         'absolute z-2 flex h-fit justify-end gap-2.5 p-4 px-6',
         'top-5 right-5',
         'bottom-[0px] sm:top-auto sm:right-[25px] sm:w-auto sm:flex-row sm:px-12 md:bottom-[50px] md:pb-0',
-        'lg:right-[101px]',
+        // Right edge of the arrows on the page gutter.
+        'lg:right-[68px] lg:px-0 2xl:right-[101px]',
       )}
     >
       <button
+        type="button"
+        aria-label="Previous slide"
         className="flex-center btn-base size-btn border-2 border-solid border-white p-1"
         onClick={onPrev}
       >
         <svg
+          aria-hidden="true"
           width="20"
           height="18"
           viewBox="0 0 20 18"
@@ -39,10 +43,13 @@ const CarouselControls = memo(function CarouselControls({ onPrev, onNext }: Prop
         </svg>
       </button>
       <button
+        type="button"
+        aria-label="Next slide"
         className="flex size-[33px] items-center justify-center rounded-lg border-1 border-white bg-white p-3 hover:cursor-pointer sm:size-[59px]"
         onClick={onNext}
       >
         <svg
+          aria-hidden="true"
           width="20"
           height="18"
           viewBox="0 0 24 20"

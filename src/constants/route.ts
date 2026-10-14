@@ -1,7 +1,10 @@
-import { slugify } from '@/utils';
+import { MediaMode } from '@/types/mediaMode';
+import { slugify } from '@/utils/stringUtils';
 
-import type { MediaMode } from '@/types/mediaMode';
 import type { Route } from 'next';
+
+/** First path segments that exist – the 404 page suggests the closest one for a typo. */
+export const TOP_LEVEL_ROUTES = ['movie', 'tv', 'genre', 'discover'];
 
 export const ROUTES = {
   HOME: '/' as Route,
@@ -13,11 +16,11 @@ export const ROUTES = {
     (slug ? `/tv/${id}-${slugify(slug)}` : `/tv/${id}`) as Route,
 
   MEDIA: (mode: MediaMode, id: number, slug?: string): Route =>
-    (mode === 'movie' ? ROUTES.MOVIE(id, slug) : ROUTES.TV(id, slug)) as Route,
+    mode === MediaMode.MOVIE ? ROUTES.MOVIE(id, slug) : ROUTES.TV(id, slug),
 
   GENRE: (name: string): Route => `/genre/${slugify(name)}` as Route,
 
-  DISCOVER: (text: string): Route => `/discover?search=${slugify(text)}` as Route,
+  DISCOVER_HOME: '/discover' as Route,
 
-  LOGIN: '/login' as Route,
+  DISCOVER: (text: string): Route => `/discover?search=${encodeURIComponent(text.trim())}` as Route,
 } as const;

@@ -1,73 +1,106 @@
 'use client';
 
-import { AlignJustify, X, Search } from 'lucide-react';
+import clsx from 'clsx';
+import { Menu, Search } from 'lucide-react';
+import { useEffect, useRef } from 'react';
 
-import { Button } from '@/components/ui/button';
 import SearchBox from '@/components/ui/SearchBox/SearchBox';
+import { useFocusTrap } from '@/hooks/useFocusTrap';
+import { useTrackInAppNavigation } from '@/hooks/useInAppHistory';
 import { useNavBarLogic } from '@/hooks/useNavBarLogic';
 
 import Logo from './Logo';
-import MobileControls from './MobileControls';
 import MobileOverlays from './MobileOverlays';
 import NavLinks from './NavLinks';
 
-const NavBar = () => {
-  const { isMobileNavOpen, setIsMobileNavOpen, isSearchOpen, toggleMobileNav, toggleSearch, refs } =
-    useNavBarLogic();
+const iconButton =
+  'flex size-[40px] items-center justify-center rounded-full text-white/80 transition-colors hover:bg-white/10 hover:text-white';
+
+export default function NavBar() {
+  const {
+    isMobileNavOpen,
+    isSearchOpen,
+    isScrolled,
+    toggleMobileNav,
+    toggleSearch,
+    closeMobileNav,
+    dismissMobileNav,
+    refs,
+  } = useNavBarLogic();
+  useTrackInAppNavigation();
+  useFocusTrap(refs.mobileNavRef, isMobileNavOpen);
+  const barRef = useRef<HTMLDivElement>(null);
+
+  // Publishes the bar's height (not the overlays') as --nav-h for page offsets and full-height heroes.
+  useEffect(() => {
+    const bar = barRef.current;
+    if (!bar) return;
+    const observer = new ResizeObserver(() => {
+      document.documentElement.style.setProperty('--nav-h', `${bar.offsetHeight}px`);
+    });
+    observer.observe(bar);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <header className="fixed top-0 left-0 z-50 w-full bg-[#100F10]">
-      <nav className="relative flex w-full flex-col items-start justify-between gap-4 px-6 py-4 md:flex-row md:items-center md:gap-10 lg:px-10">
-        <MobileControls>
-          {/* 1. Mobile Menu Toggle */}
-          <Button
-            size="default"
-            ref={refs.mobileMenuButtonRef}
-            onClick={toggleMobileNav}
-            className="cursor-pointer px-5 py-7 text-white lg:hidden"
-          >
-            {isMobileNavOpen ? <X size={20} /> : <AlignJustify size={20} />}
-          </Button>
+    // No backdrop-filter on <header>: it would become the fixed drawer's containing block.
+    <header className="fixed top-0 left-0 z-50 w-full">
+      <div
+        ref={barRef}
+        className={clsx(
+          'page-gutter flex h-[64px] items-center gap-[8px] border-b transition-[background-color,border-color] duration-300 lg:h-[72px] lg:gap-[32px]',
+          isScrolled || isSearchOpen
+            ? 'bg-secondary/80 border-white/[0.06] backdrop-blur-xl'
+            : 'bg-secondary border-transparent',
+        )}
+      >
+        <button
+          ref={refs.mobileMenuButtonRef}
+          type="button"
+          onClick={toggleMobileNav}
+          aria-label="Open menu"
+          aria-expanded={isMobileNavOpen}
+          aria-controls="mobile-nav"
+          className={clsx(iconButton, '-ml-[8px] lg:hidden')}
+        >
+          <Menu aria-hidden="true" className="size-[22px]" />
+        </button>
 
-          <Logo />
+        <Logo />
 
-          {/* 2. Search Toggle  */}
-          <button
-            ref={refs.searchButtonRef}
-            onClick={(e) => {
-              e.stopPropagation();
-              toggleSearch();
-            }}
-            className="ml-auto text-white lg:hidden"
-          >
-            <Search
-              size={26}
-              className="cursor-pointer text-[#AAAAAA] transition-all duration-300 hover:text-white"
-            />
-          </button>
-        </MobileControls>
+        <nav aria-label="Main" className="hidden lg:block">
+          <NavLinks variant="bar" />
+        </nav>
 
-        {/* Desktop View */}
-        {/* Desktop View */}
-        <NavLinks className="hidden lg:flex" />
-        {/* <div className="hidden lg:flex items-center gap-6 xl:gap-10">
-          <NavLinks />
-        </div> */}
-
-        <div className="hidden flex-1 items-center justify-end gap-5 lg:flex">
-          <SearchBox />
+        <div className="ml-auto hidden lg:block">
+          <SearchBox shortcut />
         </div>
-      </nav>
+
+        <button
+          ref={refs.searchButtonRef}
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            toggleSearch();
+          }}
+          aria-label={isSearchOpen ? 'Close search' : 'Open search'}
+          aria-expanded={isSearchOpen}
+          aria-controls="mobile-search"
+          className={clsx(iconButton, '-mr-[8px] ml-auto lg:hidden', isSearchOpen && 'bg-white/10')}
+        >
+          <Search aria-hidden="true" className="size-[22px]" />
+        </button>
+      </div>
 
       <MobileOverlays
         isSearchOpen={isSearchOpen}
         isMobileNavOpen={isMobileNavOpen}
-        setIsMobileNavOpen={setIsMobileNavOpen}
+        closeMobileNav={closeMobileNav}
+        dismissMobileNav={dismissMobileNav}
         searchWrapperRef={refs.searchWrapperRef}
         mobileNavRef={refs.mobileNavRef}
+        closeButtonRef={refs.drawerCloseButtonRef}
       />
     </header>
   );
-};
-
-export default NavBar;
+}

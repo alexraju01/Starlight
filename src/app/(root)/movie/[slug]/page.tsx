@@ -1,36 +1,20 @@
 import { Metadata } from 'next';
-import { Suspense } from 'react';
 
-import { MediaOverview } from '@/components';
-import { Spinner } from '@/components/Skeletons/LoadingSkeletons';
-import { Movie } from '@/types/global';
+import MediaDetailsPage from '@/components/Media/MediaOverview/MediaDetailsPage';
 import { MediaMode } from '@/types/mediaMode';
-import { api } from '@/utils';
+import { buildMediaMetadata, getMediaOrNotFound } from '@/utils/mediaPage';
 
-interface MoviePageParams {
+interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-export async function generateMetadata({ params }: MoviePageParams): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-
-  const movie = (await api.media.getOneMedia(MediaMode.MOVIE, slug)) as Movie;
-
-  return {
-    title: `${movie.title} – Movie Details`,
-    description:
-      movie.overview?.slice(0, 160) ?? 'Explore details, cast, and similar movies on Starlight.',
-    keywords: [movie.title, 'movie', 'details'],
-  };
+  const media = await getMediaOrNotFound(MediaMode.MOVIE, slug);
+  return buildMediaMetadata(media, MediaMode.MOVIE);
 }
 
-export default async function MovieDetailsPage({ params }: MoviePageParams) {
+export default async function DetailsPage({ params }: PageProps) {
   const { slug } = await params;
-  return (
-    <section className="h-full w-full">
-      <Suspense fallback={<Spinner />}>
-        <MediaOverview params={slug} mediaMode={MediaMode.MOVIE} />
-      </Suspense>
-    </section>
-  );
+  return <MediaDetailsPage mediaMode={MediaMode.MOVIE} slug={slug} />;
 }

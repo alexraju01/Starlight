@@ -50,13 +50,12 @@ Genre List Page - Desktop View
 | Old Design v1 | New Design v2 |
 | ---------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
 | ![starlight-genreList](https://github.com/user-attachments/assets/1e297b80-199c-4f81-b0c8-9b981d374afe) | <img width="1911" height="958" alt="image" src="https://github.com/user-attachments/assets/897204a9-1394-4129-b984-d581cf1c2175" />
- |
+|
 
 Genre specified(Animation) Media List - Desktop View
 | Old Design v1 | New Design v2 |
 | ---------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
 ![Screenshot 2025-04-01 165924](https://github.com/user-attachments/assets/a98e50f6-57e6-4699-a526-f6a7058f8125) | <img width="1894" height="956" alt="image" src="https://github.com/user-attachments/assets/7517d802-42f3-4978-9ff6-d4ce89feeabd" /> |
-
 
 Discover Search Page - Desktop View
 ![Screenshot 2025-04-01 170705](https://github.com/user-attachments/assets/547ecc9d-8eb0-4f11-b44a-99314c6e0dfb)
@@ -65,7 +64,7 @@ Discover Search Page - Desktop View
 
 Prerequisites:
 
-- Node.js v22.14.0 or later
+- Node.js 24 LTS
 
 To get started with Starlight on your local machine, follow these steps:
 

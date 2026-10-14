@@ -6,8 +6,54 @@
     @apply m-0 box-border list-none border-none p-0 no-underline outline-none;
   }
 
+  /* Navbar height. NavBar overwrites this with the measured value after hydration;
+     these are close estimates so the first paint doesn't jump. */
+  :root {
+    --nav-h: 59px;
+  }
+  @media (min-width: 1024px) {
+    :root {
+      --nav-h: 70px;
+    }
+  }
+  @media (min-width: 1280px) {
+    :root {
+      --nav-h: 87px;
+    }
+  }
+
   html {
     font-size: 62.5%;
+    -webkit-text-size-adjust: 100%;
+    scrollbar-gutter: stable;
+  }
+
+  body {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* The reset above removes outlines; restore a clear ring for keyboard users only. */
+  :focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  button:not(:disabled),
+  [role='button']:not([aria-disabled='true']) {
+    cursor: pointer;
+  }
+
+  /* Respect users who ask the OS for less motion. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }
 
@@ -53,18 +99,6 @@
     }
   }
 
-  .slider-control-btn {
-    @apply flex items-center justify-center rounded-[4.72px] border-[1.15px] border-solid border-[#262626] bg-[#1A1A1A] hover:cursor-pointer lg:rounded-[6.1px] 2xl:rounded-[9px];
-
-    width: clamp(33px, 5vw, 64px);
-    height: clamp(33px, 5vw, 64px);
-  }
-
-  .slider-title {
-    @apply text-[22.63px] leading-[150%] font-normal lg:text-[29.28px] 2xl:text-[44px];
-    font-size: clamp(22.63px, 2.5vw, 44px);
-  }
-
   .carousel-mask-gradiant {
     -webkit-mask-image: linear-gradient(
       to top,
@@ -78,6 +112,50 @@
       rgba(0, 0, 0, 0.8) 50%,
       rgba(0, 0, 0, 0.8) 100%
     );
+  }
+
+  /*
+   * Hero carousel (see CarouselClient). --d is the slide's signed distance from the
+   * centre around the ring; --offset is the same, clamped to -1…1 for the parallax.
+   */
+  .carousel-slide {
+    --offset: clamp(-1, var(--d, 0), 1);
+    transform: translateX(calc(var(--d, 0) * 100%));
+  }
+
+  /*
+   * Backdrop drifts against the slide's movement, so it travels slower than its frame
+   * (here at 60% of the slide's speed). The image is the same size as the slide: the
+   * strip it uncovers is always on the slide's off-screen edge, so no gap is ever visible
+   * as long as the shift stays below 100%.
+   */
+  .carousel-parallax {
+    transform: translateX(calc(var(--offset) * -40%));
+  }
+
+  /* Strong ease-out (between quint and expo): moves off briskly, then glides gently into place. */
+  .carousel-slide,
+  .carousel-parallax {
+    transition: transform 850ms cubic-bezier(0.32, 1, 0.32, 1);
+  }
+
+  [data-dragging] .carousel-slide,
+  [data-dragging] .carousel-parallax,
+  [data-instant] .carousel-slide,
+  [data-instant] .carousel-parallax {
+    transition: none;
+  }
+
+  /* Until the carousel hydrates and places its slides, show only the first one. */
+  [data-instant] .carousel-slide:not(:first-child) {
+    visibility: hidden;
+  }
+
+  @media (max-width: 839.98px) {
+    .carousel-slide .carousel-mask-gradiant {
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
   }
 
   .line-clamp-3-custom {
@@ -138,6 +216,31 @@
     @apply size-[33px] sm:size-[59px];
   }
 
+  /* Horizontal page padding, aligned with the navbar and home page sections. */
+  .page-gutter {
+    @apply px-[16px] sm:px-[24px] lg:px-[68px] 2xl:px-[101px];
+  }
+
+  /*
+   * Swipeable row (cast, seasons). Bleeds to the screen edge on mobile so cards scroll
+   * under the gutter, snaps card-by-card, and keeps a slim scrollbar on desktop so the
+   * row still reads as scrollable.
+   */
+  .scroll-row {
+    @apply -mx-[16px] flex snap-x snap-mandatory scroll-px-[16px] gap-[16px] overflow-x-auto px-[16px] pb-[12px] sm:-mx-[24px] sm:scroll-px-[24px] sm:px-[24px] lg:mx-0 lg:scroll-px-0 lg:px-0;
+    scrollbar-width: thin;
+    scrollbar-color: #3a3a3a transparent;
+    overscroll-behavior-x: contain;
+  }
+
+  /* On desktop the row ends at the column edge – fade the cut-off card instead of clipping. */
+  @media (min-width: 1024px) {
+    .scroll-row {
+      -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 64px), transparent);
+      mask-image: linear-gradient(to right, #000 calc(100% - 64px), transparent);
+    }
+  }
+
   /* Image helpers */
   .img-cover-center {
     @apply object-cover object-center;
@@ -147,6 +250,45 @@
     @apply object-contain object-center;
   }
 }
+/*
+ * Genre accent colour. Registered so it can transition: the genres spotlight glides
+ * between genre colours instead of snapping.
+ */
+@property --tint {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #9e221a;
+}
+
+@keyframes spotlight-zoom {
+  from {
+    transform: scale(1.08);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes fan-in {
+  from {
+    opacity: 0;
+    translate: 0 32px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@keyframes chip-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
 @theme {
   --font-Helvetica: 'Helvetica', 'sans-serif';
   --font-Inter: 'Inter', 'sans-serif';
@@ -156,7 +298,14 @@
   /* Colour Pallette */
 
   --color-primary: #9e221a;
+  --color-primary-hover: #b8281f;
   --color-secondary: #100f10;
+  /* Raised panels: details card, mobile drawer. */
+  --color-panel: #141414;
+  /* Star ratings. */
+  --color-rating: #facc15;
+  /* Small red labels ("Movie", "Genre", "Upcoming"). */
+  --color-accent-soft: #ff7a6e;
 
   /* --color-primary: #e50000; */
 

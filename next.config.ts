@@ -1,16 +1,14 @@
-import path from 'path';
-
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  env: { TMDB_API_KEY: process.env.TMDB_API_KEY },
+  // TMDB_API_KEY is read on the server only (see src/utils/fetchData.ts).
+  // Do NOT expose it via `env` – that inlines the secret into client bundles.
 
   typedRoutes: true,
 
-  turbopack: { root: path.join(__dirname, '..') },
+  turbopack: { root: __dirname },
 
   images: {
-    qualities: [60, 75, 90, 100],
     imageSizes: [185, 342],
     unoptimized: true,
 
@@ -28,6 +26,20 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
     ],
+  },
+
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+          { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
+          { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+        ],
+      },
+    ];
   },
 };
 
