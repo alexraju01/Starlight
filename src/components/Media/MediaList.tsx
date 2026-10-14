@@ -1,76 +1,27 @@
 'use client';
 
-import { Loader } from 'lucide-react';
-import { useState } from 'react';
-
-import MediaCard2 from '@/components/Cards/MediaCard2';
-import Button from '@/components/ui/Button/Button';
-import { CAROUSEL_BREAKPOINTS } from '@/constants/breakpoints';
-import { MediaProvider } from '@/context/MediaContext';
-import { useResponsiveItems } from '@/hooks/useResponsiveItems';
+import { SortOption } from '@/constants/browse';
 import { MediaWithDetails } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
 import { getMoreMediaAction } from '@/utils/serverActions/media';
 
-import { LoadingSkeletons } from '../Skeletons/LoadingSkeletons';
+import PaginatedMediaGrid from './PaginatedMediaGrid';
 
 interface Props {
   initialMedia: MediaWithDetails[];
-  initialGenres: Record<number, string>;
+  genreMap: Record<number, string>;
   mediaMode: MediaMode;
+  genreId: number | null;
+  sort: SortOption;
+  emptyState: React.ReactNode;
 }
 
-export default function MediaList({ initialMedia, initialGenres, mediaMode }: Props) {
-  const [media, setMedia] = useState<MediaWithDetails[]>(initialMedia);
-  const [page, setPage] = useState(1);
-  const [buttonHidden, setButtonHidden] = useState(initialMedia.length === 0);
-  const [loading, setLoading] = useState(false);
-
-  const genres = initialGenres;
-  const itemsPerRow = useResponsiveItems(CAROUSEL_BREAKPOINTS);
-
-  if (itemsPerRow === null) return <LoadingSkeletons />;
-
-  const loadMoreMedia = async () => {
-    setLoading(true);
-    const nextPage = page + 1;
-
-    const mediaList = await getMoreMediaAction(mediaMode, nextPage);
-
-    const newMedia = mediaList.filter(
-      (newItem) => !media.some((existing) => existing.id === newItem.id),
-    );
-
-    setButtonHidden(mediaList.length === 0);
-    setMedia((prev) => [...prev, ...newMedia]);
-    setPage(nextPage);
-    setLoading(false);
-  };
+/** Movies / TV Shows grid (remounted whenever the filters change). */
+export default function MediaList({ mediaMode, genreId, sort, ...grid }: Props) {
   return (
-    <MediaProvider mediaMode={mediaMode} genres={genres}>
-      <div className="animate-fadeIn">
-        <div className="relative mb-8 grid w-full grid-cols-2 gap-8 overflow-hidden transition-all sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
-          {media.map((item, index) => {
-            const isLastInRow = (index + 1) % itemsPerRow === 0;
-
-            if (!item.poster_path) return null;
-
-            return <MediaCard2 key={item.id} item={item} isLast={isLastInRow} />;
-          })}
-        </div>
-
-        {!buttonHidden && (
-          <div className="flex justify-center">
-            <Button
-              icon={loading && <Loader className="animate-spin" />}
-              onClick={loadMoreMedia}
-              disabled={loading}
-            >
-              Load More
-            </Button>
-          </div>
-        )}
-      </div>
-    </MediaProvider>
+    <PaginatedMediaGrid
+      {...grid}
+      fetchPage={(page) => getMoreMediaAction(mediaMode, page, genreId ?? undefined, sort)}
+    />
   );
 }

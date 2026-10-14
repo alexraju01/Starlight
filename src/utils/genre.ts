@@ -1,4 +1,3 @@
-import { Genre } from '@/types/genre';
 import { MediaListItem } from '@/types/global';
 
 export function formatGenres(item: MediaListItem, genreMap: Record<number, string>): string {
@@ -12,9 +11,6 @@ export function formatGenres(item: MediaListItem, genreMap: Record<number, strin
     .join(', ');
 }
 
-export function mapGenres(genresArray: Genre[]): Record<number, string> {
-  return genresArray.reduce<Record<number, string>>((acc, genre) => {
-    acc[genre.id] = genre.name;
-    return acc;
-  }, {});
-}
+/** What a genre covers: "Movies · TV", "Movies" or "TV". */
+export const genreCoverage = (ids: { movie?: number; tv?: number }): string =>
+  ids.movie && ids.tv ? 'Movies · TV' : ids.movie ? 'Movies' : 'TV';

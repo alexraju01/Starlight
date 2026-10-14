@@ -1,113 +1,222 @@
 'use client';
 
 import clsx from 'clsx';
+import { ArrowRight, ImageOff, Star } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
-import Dot from '@/components/ui/Dot/Dot';
-import RatingIcon from '@/components/ui/RatingIcon/RatingIcon';
 import { ROUTES } from '@/constants/route';
-import { MediaProvider } from '@/context/MediaContext';
+import { MediaWithDetails } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
-import { SearchMedia } from '@/types/searchMedia';
-import { capitalize, dateConverter } from '@/utils';
-import getSearch from '@/utils/serverActions/getSearch';
+import { formatYear } from '@/utils/format';
+import { getImageUrl } from '@/utils/image/getImageUrl';
+import { displayName, getMediaDate, mediaKey } from '@/utils/media';
+import { searchMediaAction } from '@/utils/serverActions/media';
 
-import MediaCard from '../MediaCard';
+import type { Route } from 'next';
 
 interface Props {
+  /** Listbox id; options get `${id}-option-${index}` for aria-activedescendant. */
+  id: string;
   query: string;
-  genreMap?: Record<number, string>;
+  /** Highlighted option, or -1. */
+  activeIndex: number;
+  onActiveIndexChange: (index: number) => void;
+  /** Option destinations (results, then "See all"), so the field can handle ↑/↓/Enter. */
+  onOptionsChange: (hrefs: Route[]) => void;
+  /** Navbar: a wider panel anchored to the field's right edge on desktop. */
+  alignRight?: boolean;
 }
 
-export default function SearchCard({ query, genreMap }: Props) {
-  const [result, setResult] = useState<SearchMedia[]>([]);
-  const [hasSearched, setHasSearched] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+const MAX_RESULTS = 5;
+
+export const optionId = (listboxId: string, index: number) => `${listboxId}-option-${index}`;
+
+/** "Upcoming" for unreleased titles, the score once people have voted, otherwise nothing. */
+function ratingLabel(media: MediaWithDetails) {
+  const date = getMediaDate(media);
+  if (date && Date.parse(date) > Date.now()) return 'upcoming';
+  return media.vote_count > 0 ? media.vote_average.toFixed(1) : null;
+}
+
+/** Live results dropdown for the navbar / 404 search field (a combobox listbox). */
+export default function SearchCard({
+  id,
+  query,
+  activeIndex,
+  onActiveIndexChange,
+  onOptionsChange,
+  alignRight = false,
+}: Props) {
+  const [state, setState] = useState<{
+    query: string;
+    results: MediaWithDetails[];
+    status: 'loading' | 'done' | 'error';
+  }>({ query: '', results: [], status: 'loading' });
+  const listRef = useRef<HTMLDivElement>(null);
+
+  const trimmedQuery = query.trim();
 
   useEffect(() => {
-    const fetchData = async () => {
-      const trimmedQuery = query.trim();
-      if (trimmedQuery.length > 1) {
-        setIsLoading(true);
-        try {
-          const info: SearchMedia[] = await getSearch(trimmedQuery);
-          setResult(info.slice(0, 4));
-          setHasSearched(true);
-        } catch (error) {
-          console.error('Search failed:', error);
-        } finally {
-          setIsLoading(false);
-        }
-      } else {
-        setResult([]);
-        setHasSearched(false);
-      }
+    if (trimmedQuery.length <= 1) return;
+
+    // Ignore responses for a query the user has already changed.
+    let cancelled = false;
+
+    searchMediaAction(trimmedQuery)
+      .then((results) => {
+        if (!cancelled) setState({ query: trimmedQuery, results, status: 'done' });
+      })
+      .catch(() => {
+        if (!cancelled) setState({ query: trimmedQuery, results: [], status: 'error' });
+      });
+
+    return () => {
+      cancelled = true;
     };
-    fetchData();
-  }, [query]);
+  }, [trimmedQuery]);
+
+  const isLoading = state.query !== trimmedQuery || state.status === 'loading';
+  const results = useMemo(
+    () => (isLoading ? [] : state.results.slice(0, MAX_RESULTS)),
+    [isLoading, state.results],
+  );
+  const seeAllHref = ROUTES.DISCOVER(trimmedQuery);
+
+  // Memoized so the effect below only fires when the options really change.
+  const options = useMemo(
+    () =>
+      results.length
+        ? [...results.map((m) => ROUTES.MEDIA(m.media_type, m.id, displayName(m))), seeAllHref]
+        : [],
+    [results, seeAllHref],
+  );
+  useEffect(() => {
+    onOptionsChange(options);
+  }, [options, onOptionsChange]);
+
+  useEffect(() => {
+    if (activeIndex < 0) return;
+    listRef.current
+      ?.querySelector(`#${CSS.escape(optionId(id, activeIndex))}`)
+      ?.scrollIntoView({ block: 'nearest' });
+  }, [activeIndex, id]);
+
+  if (trimmedQuery.length <= 1) return null;
+
+  const optionClass = (index: number) =>
+    clsx(
+      'flex items-center gap-[12px] rounded-[10px] p-[8px] transition-colors',
+      index === activeIndex ? 'bg-white/[0.08]' : 'hover:bg-white/[0.05]',
+    );
 
   return (
-    <>
-      {query.length > 1 && (
-        <div className="absolute top-full left-0 z-50 mt-2 flex w-full flex-col overflow-y-auto rounded-[13px] border border-[#1D1D1D] bg-[#171717] shadow-xl">
-          {isLoading ? (
-            <p className="px-4 py-4 text-slate-400">Searching...</p>
-          ) : hasSearched && result.length === 0 ? (
-            <p className="px-4 py-4 text-white">No results found</p>
-          ) : (
-            result
-              // Filter only for types supported by your MediaMode
-              .filter((media) => media.media_type === 'movie' || media.media_type === 'tv')
-              .map((media, idx) => {
-                const mode = media.media_type as MediaMode;
-                const title = media.title || media.name || 'Untitled';
-                const date = media.release_date || media.first_air_date;
-
-                return (
-                  <MediaProvider key={media.id} genres={genreMap ?? {}} mediaMode={mode}>
-                    <Link
-                      href={ROUTES.MEDIA(mode, media.id, title)}
-                      className={clsx(
-                        'relative z-[10] flex max-h-[200px] gap-[1.5rem] px-[1.5rem] py-[1rem] transition-all duration-300 ease-in-out hover:bg-[#123]',
-                        idx % 2 === 0 ? 'bg-[#1c1c1e]' : 'bg-[#171717]',
-                      )}
-                    >
-                      <div className="w-[6rem] flex-shrink-0">
-                        <MediaCard media={media} mediaMode={mode} />
-                      </div>
-
-                      <div className="flex w-full min-w-0 flex-col gap-[0.75rem]">
-                        <h2 className="line-clamp-1 overflow-hidden text-[1.3rem] leading-[1.5rem] font-medium text-ellipsis text-white">
-                          {title}
-                        </h2>
-
-                        <div className="flex items-center gap-[0.75rem] text-[1.1rem] text-[#777777]">
-                          <RatingIcon
-                            className="rounded-[0.4rem] text-[0.9rem]"
-                            vote={media.vote_average ?? 0}
-                          />
-                          <Dot />
-                          <p className="whitespace-nowrap">
-                            {mode === 'tv' ? 'TV Series' : capitalize(mode)}
-                          </p>
-                          {date && (
-                            <>
-                              <Dot className="hidden sm:block" />
-                              <p className="hidden whitespace-nowrap sm:block">
-                                {dateConverter(date)}
-                              </p>
-                            </>
-                          )}
-                        </div>
-                      </div>
-                    </Link>
-                  </MediaProvider>
-                );
-              })
-          )}
-        </div>
+    <div
+      ref={listRef}
+      className={clsx(
+        'absolute top-full z-50 mt-[8px] flex max-h-[min(70vh,560px)] w-full flex-col overflow-y-auto overscroll-contain rounded-[14px] border border-white/10 bg-[#161616]/95 p-[6px] shadow-[0_24px_64px_rgba(0,0,0,0.6)] backdrop-blur-xl',
+        alignRight ? 'right-0 lg:w-[420px]' : 'left-0',
       )}
-    </>
+    >
+      <p className="sr-only" aria-live="polite">
+        {isLoading ? 'Searching' : `${results.length} results`}
+      </p>
+
+      {isLoading ? (
+        <ul aria-hidden="true" className="flex flex-col">
+          {Array.from({ length: 3 }, (_, i) => (
+            <li key={i} className="flex animate-pulse items-center gap-[12px] p-[8px]">
+              <div className="h-[66px] w-[44px] rounded-[6px] bg-white/[0.08]" />
+              <div className="flex flex-1 flex-col gap-[8px]">
+                <div className="h-[14px] w-3/4 rounded-[4px] bg-white/[0.08]" />
+                <div className="h-[12px] w-1/2 rounded-[4px] bg-white/[0.08]" />
+              </div>
+            </li>
+          ))}
+        </ul>
+      ) : state.status === 'error' ? (
+        <p className="p-[14px] text-[14px] text-red-300">Search is unavailable right now.</p>
+      ) : results.length === 0 ? (
+        <p className="p-[14px] text-[14px] text-white/70">
+          No results for “<span className="font-semibold text-white">{trimmedQuery}</span>”
+        </p>
+      ) : (
+        <ul id={id} role="listbox" aria-label="Search results" className="flex flex-col">
+          {results.map((media, index) => {
+            const title = displayName(media);
+            const poster = getImageUrl(media.poster_path, 'poster', 'w92');
+            const rating = ratingLabel(media);
+            const meta = [
+              media.media_type === MediaMode.TV ? 'TV Series' : 'Movie',
+              formatYear(getMediaDate(media)),
+            ].filter(Boolean);
+
+            return (
+              <li key={mediaKey(media)}>
+                <Link
+                  id={optionId(id, index)}
+                  role="option"
+                  aria-selected={index === activeIndex}
+                  href={ROUTES.MEDIA(media.media_type, media.id, title)}
+                  onMouseEnter={() => onActiveIndexChange(index)}
+                  className={optionClass(index)}
+                >
+                  <div className="relative h-[66px] w-[44px] shrink-0 overflow-hidden rounded-[6px] bg-white/[0.06]">
+                    {poster ? (
+                      <Image src={poster} alt="" fill sizes="44px" className="object-cover" />
+                    ) : (
+                      <ImageOff
+                        aria-hidden="true"
+                        className="absolute inset-0 m-auto size-[18px] text-white/30"
+                      />
+                    )}
+                  </div>
+                  <div className="flex min-w-0 flex-col gap-[4px]">
+                    <p className="line-clamp-1 text-[14px] leading-[1.35] font-semibold text-white">
+                      {title}
+                    </p>
+                    <p className="flex flex-wrap items-center gap-x-[8px] text-[13px] text-white/50">
+                      {meta.join(' · ')}
+                      {rating === 'upcoming' ? (
+                        <span className="border-primary/60 bg-primary/15 text-accent-soft rounded-[4px] border px-[6px] py-[1px] text-[10px] font-bold tracking-[0.1em] uppercase">
+                          Upcoming
+                        </span>
+                      ) : rating ? (
+                        <span className="flex items-center gap-[4px] text-white/70">
+                          <Star
+                            aria-hidden="true"
+                            className="fill-rating text-rating size-[12px]"
+                          />
+                          {rating}
+                        </span>
+                      ) : (
+                        <span>Not rated yet</span>
+                      )}
+                    </p>
+                  </div>
+                </Link>
+              </li>
+            );
+          })}
+          <li className="mt-[4px] border-t border-white/[0.06] pt-[4px]">
+            <Link
+              id={optionId(id, results.length)}
+              role="option"
+              aria-selected={activeIndex === results.length}
+              href={seeAllHref}
+              onMouseEnter={() => onActiveIndexChange(results.length)}
+              className={clsx(
+                optionClass(results.length),
+                'justify-between px-[12px] text-[14px] font-medium text-white/80',
+              )}
+            >
+              See all results for “{trimmedQuery}”
+              <ArrowRight aria-hidden="true" className="size-[16px]" />
+            </Link>
+          </li>
+        </ul>
+      )}
+    </div>
   );
 }

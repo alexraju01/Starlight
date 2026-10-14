@@ -1,4 +1,7 @@
+import { Genre } from './genre';
 import { MediaMode } from './mediaMode';
+import { Season } from './seasons';
+import { YTNamespace } from './youtube';
 
 /* ---------------------------------- */
 /*          Base Types */
@@ -16,6 +19,53 @@ interface BaseMedia {
   backdrop_path: string | null;
   poster_path: string | null;
   original_language: string;
+  /** Detail endpoint only. */
+  tagline?: string;
+  /** Detail endpoint only, e.g. "Released", "Returning Series". */
+  status?: string;
+}
+
+/* ---------------------------------- */
+/*          Detail sub-types */
+/* ---------------------------------- */
+
+interface ProductionCompany {
+  id: ID;
+  name: string;
+  logo_path: string | null;
+  origin_country: string;
+}
+
+interface ProductionCountry {
+  iso_3166_1: string;
+  name: string;
+}
+
+interface SpokenLanguage {
+  english_name: string;
+  iso_639_1: string;
+  name: string;
+}
+
+interface Network {
+  id: ID;
+  name: string;
+  logo_path: string | null;
+  origin_country: string;
+}
+
+interface Creator {
+  id: ID;
+  name: string;
+  profile_path: string | null;
+}
+
+interface Episode {
+  id: ID;
+  name: string;
+  air_date: string;
+  episode_number: number;
+  season_number: number;
 }
 
 /* ---------------------------------- */
@@ -79,16 +129,6 @@ export type MediaListItem = (Movie & { genre_ids: number[] }) | (TVShow & { genr
 /*          Extended Types */
 /* ---------------------------------- */
 
-export interface Logo {
-  aspect_ratio: number;
-  height: number;
-  iso_639_1: string | null;
-  file_path: string;
-  vote_average: number;
-  vote_count: number;
-  width: number;
-}
-
 export type MovieWithLogos = Movie & {
   logoImage?: string;
 };
@@ -116,7 +156,7 @@ export interface APIResponse<T = Media> {
 
 declare global {
   interface Window {
-    onYouTubeIframeAPIReady: () => void;
-    YT: typeof YT | unknown;
+    /** Set once the YouTube IFrame API script has loaded. */
+    YT?: YTNamespace;
   }
 }

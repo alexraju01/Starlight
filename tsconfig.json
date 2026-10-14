@@ -18,32 +18,19 @@
         "name": "next"
       }
     ],
-    // "baseUrl": ".",
     "paths": {
-      "@": ["./src"],
-      "@/*": ["./src/*"],
       "@/types": ["./types/index.ts"],
       "@/types/*": ["./types/*"],
-      // Components barrels
-      "@/components": ["./src/components/index.ts"],
-      "@/components/*": ["./src/components/*"],
-
-      // sub-barrel for UI
-      "@/components/ui": ["./src/components/ui/index.ts"],
-      "@/components/ui/*": ["./src/components/ui/*"],
-      "@/utils": ["./src/utils/index.ts"],
-      "@/utils/*": ["./src/utils/*"]
+      "@/*": ["./src/*"]
     },
     "forceConsistentCasingInFileNames": true
   },
   "include": [
     "next-env.d.ts",
     ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts",
     "**/*.ts",
-    "**/*.tsx",
-    "src/components/Cards/MediaCard.tsx",
-    "src/utils/getMoviesLogo.js",
-    ".next/dev/types/**/*.ts"
+    "**/*.tsx"
   ],
   "exclude": ["node_modules"]
 }

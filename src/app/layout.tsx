@@ -1,13 +1,25 @@
-import { Metadata } from 'next';
+import { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 
-const inter = Inter({ subsets: ['latin'] });
+import { SITE_NAME, SITE_URL } from '@/constants/site';
+
+const inter = Inter({ subsets: ['latin'], display: 'swap' });
+
+export const viewport: Viewport = {
+  themeColor: '#100f10',
+  colorScheme: 'dark',
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+};
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
+
   title: {
-    default: 'Starlight – Discover Movies, TV Shows & Trending Trailers',
-    template: '%s | Starlight',
+    default: `${SITE_NAME} – Discover Movies, TV Shows & Trending Trailers`,
+    template: `%s | ${SITE_NAME}`,
   },
   description:
     'Starlight helps you discover new and popular movies and TV shows. Explore trending titles, watch trailers, and find your next favorite movies or series.',
@@ -24,28 +36,29 @@ export const metadata: Metadata = {
     'popular tv shows',
   ],
 
+  applicationName: SITE_NAME,
   authors: [{ name: 'Starlight Team' }],
-  creator: 'Starlight',
+  creator: SITE_NAME,
+
+  alternates: { canonical: '/' },
 
   openGraph: {
-    title: 'Starlight – Discover Movies & TV Shows',
+    title: `${SITE_NAME} – Discover Movies & TV Shows`,
     description:
       'Find trending movies and TV shows, watch trailers, and explore your next favorite entertainment.',
-    url: 'https://starlight-seven.vercel.app/',
-    siteName: 'Starlight',
-    images: [
-      {
-        url: 'https://starlight-seven.vercel.app/opengraph-image.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'Starlight Movies and TV Shows',
-      },
-    ],
+    url: '/',
+    siteName: SITE_NAME,
     locale: 'en_GB',
     type: 'website',
+    // Image is supplied automatically by src/app/opengraph-image.jpg
   },
 
-  metadataBase: new URL('https://starlight-seven.vercel.app'),
+  twitter: {
+    card: 'summary_large_image',
+    title: `${SITE_NAME} – Discover Movies & TV Shows`,
+    description:
+      'Find trending movies and TV shows, watch trailers, and explore your next favorite entertainment.',
+  },
 
   robots: {
     index: true,
@@ -63,10 +76,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${inter.className} flex min-h-screen w-full flex-col bg-[#100f10] text-white`}
-      >
+    <html lang="en" className={inter.className}>
+      <body className="bg-secondary flex min-h-dvh w-full flex-col text-white antialiased">
+        <a
+          href="#main-content"
+          className="bg-primary sr-only z-[100] rounded-md px-6 py-3 text-[16px] font-semibold text-white focus:not-sr-only focus:fixed focus:top-4 focus:left-4"
+        >
+          Skip to content
+        </a>
         {children}
       </body>
     </html>

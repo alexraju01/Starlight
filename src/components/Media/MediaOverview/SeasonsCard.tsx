@@ -1,28 +1,32 @@
-import ImageWithFallback from '@/components/Skeletons/BrokenImage/ImageWithFallback';
+import ImageWithFallback from '@/components/ui/ImageWithFallback';
 import { Season } from '@/types/seasons';
+import { formatYear, pluralize } from '@/utils/format';
+import { getImageUrl } from '@/utils/image/getImageUrl';
 
 interface Props {
-  id: number;
   season: Season;
 }
 
-const SeasonsCard = ({ season }: Props) => {
+export default function SeasonsCard({ season }: Props) {
+  const meta = [
+    season.episode_count ? pluralize(season.episode_count, 'Episode') : null,
+    formatYear(season.air_date),
+  ].filter(Boolean);
+
   return (
-    <div key={season.id} className="transition-all duration-300 ease-in-out md:hover:scale-108">
-      <div className="relative flex aspect-[1/1] h-[clamp(10rem,14vw,12rem)] w-full flex-col gap-[0.6rem] text-center text-[1.3rem]">
+    <li className="w-[132px] shrink-0 snap-start sm:w-[148px] lg:w-[160px]">
+      <div className="bg-card-bg relative aspect-[2/3] overflow-hidden rounded-[12px] ring-1 ring-white/[0.06]">
         <ImageWithFallback
-          className="h-full w-full rounded-[0.6rem] bg-black object-cover"
-          src={
-            season.poster_path
-              ? `https://image.tmdb.org/t/p/w342${season.poster_path}`
-              : `https://image.tmdb.org/t/p/w342/`
-          }
+          src={getImageUrl(season.poster_path, 'poster', 'w342')}
           alt={season.name}
         />
       </div>
-      <h2 className="text-center text-[1.2rem]">{season.name}</h2>
-    </div>
+      <p className="mt-[10px] line-clamp-1 text-[14px] leading-[1.4] font-semibold text-white">
+        {season.name}
+      </p>
+      {meta.length > 0 && (
+        <p className="mt-[2px] text-[13px] leading-[1.4] text-white/55">{meta.join(' · ')}</p>
+      )}
+    </li>
   );
-};
-
-export default SeasonsCard;
+}

@@ -1,6 +1,5 @@
 import { CarouselProvider } from '@/context/CarouselContext';
 import { MediaMode } from '@/types';
-import { mapGenres } from '@/utils';
 import { api } from '@/utils/api';
 
 import CarouselClient from './CarouselClient';
@@ -11,12 +10,10 @@ interface CarouselProps {
 }
 
 export default async function Carousel({ mediaMode }: CarouselProps) {
-  const [genresData, trending] = await Promise.all([
+  const [{ genresMap }, trending] = await Promise.all([
     api.genre.getGenres(mediaMode),
     api.media.getTrending(mediaMode, 1, 'week'),
   ]);
-
-  const genreMap = mapGenres(genresData.genres);
 
   const moviesWithLogos = await Promise.all(
     trending.slice(0, 9).map(async (item) => ({
@@ -32,7 +29,7 @@ export default async function Carousel({ mediaMode }: CarouselProps) {
           <CarouselItem
             key={movie.id}
             movie={movie}
-            genres={genreMap}
+            genres={genresMap}
             priority={index === 0}
             mediaMode={mediaMode}
           />

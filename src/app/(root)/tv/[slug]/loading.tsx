@@ -1,5 +1,5 @@
-import { Spinner } from '@/components/Skeletons/LoadingSkeletons';
+import MediaDetailsSkeleton from '@/components/Skeletons/MediaDetailsSkeleton';
 
 export default function Loading() {
-  return <Spinner />;
+  return <MediaDetailsSkeleton />;
 }

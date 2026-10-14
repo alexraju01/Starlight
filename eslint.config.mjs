@@ -4,6 +4,7 @@ import tsParser from '@typescript-eslint/parser';
 import importPlugin from 'eslint-plugin-import';
 import eslintConfigPrettier from 'eslint-config-prettier';
 import nextPlugin from '@next/eslint-plugin-next';
+import reactHooks from 'eslint-plugin-react-hooks';
 
 export default [
   { ignores: ['node_modules/**', '.next/**', 'out/**', 'build/**', 'next-env.d.ts'] },
@@ -26,9 +27,12 @@ export default [
       parser: tsParser,
       parserOptions: { project: ['./tsconfig.json'], tsconfigRootDir: import.meta.dirname },
     },
-    plugins: { '@typescript-eslint': tsPlugin, import: importPlugin },
+    plugins: { '@typescript-eslint': tsPlugin, import: importPlugin, 'react-hooks': reactHooks },
     rules: {
       'no-unused-vars': 'off',
+      // Hooks called conditionally break React; missing effect deps cause stale-state bugs.
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
       '@typescript-eslint/no-unused-vars': [
         'warn',
         { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
@@ -45,8 +49,9 @@ export default [
     settings: {
       'import/resolver': {
         node: { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
-        typescript: { project: './tsconfig.json' },
       },
+      // `@/…` path aliases are our own code ("internal" group in import/order).
+      'import/internal-regex': '^@/',
     },
   },
 

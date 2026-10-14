@@ -1,42 +1,46 @@
-import { Carousel, CustomSlider, GenreCollection } from '@/components';
-import BlurBackground from '@/components/Blurs/BackgroundBlur';
-import SliderBoundary from '@/components/Media/CustomSlider/SliderBoundary';
+import RowErrorBoundary from '@/components/Error/RowErrorBoundary';
+import GenreCollection from '@/components/Genre/GenreCollection/GenreCollection';
+import Carousel from '@/components/Media/Carousel/Carousel';
+import MediaRow from '@/components/Media/MediaRow/MediaRow';
+import BackgroundBlur from '@/components/ui/BackgroundBlur';
+import { ENDPOINTS } from '@/constants';
 import { MediaMode } from '@/types/mediaMode';
 
-const Home = () => {
+export default function Home() {
   return (
     <>
       <Carousel mediaMode={MediaMode.MOVIE} />
-      <section className="relative overflow-hidden sm:mt-15">
-        <BlurBackground />
+      <section className="relative overflow-hidden">
+        <BackgroundBlur />
 
-        <div className="px-2 md:mx-6 lg:mx-[68px] 2xl:mx-[101px]">
+        <div className="page-gutter relative flex flex-col gap-[40px] pt-[32px] pb-[48px] lg:gap-[56px] lg:pt-[48px] lg:pb-[72px]">
           <GenreCollection />
-          <SliderBoundary message="Failed to load trending movies.">
-            <CustomSlider
-              endpoint="trending/movie/day"
+          <RowErrorBoundary message="Failed to load trending movies.">
+            <MediaRow
+              endpoint={ENDPOINTS.TRENDING_MOVIES}
               title="Trending Movies"
+              href="/movie"
               mediaMode={MediaMode.MOVIE}
             />
-          </SliderBoundary>
-          <SliderBoundary message="Failed to load popular movies.">
-            <CustomSlider
-              endpoint="movie/popular"
+          </RowErrorBoundary>
+          <RowErrorBoundary message="Failed to load popular movies.">
+            <MediaRow
+              endpoint={ENDPOINTS.POPULAR_MOVIES}
               title="Popular Movies"
+              href="/movie"
               mediaMode={MediaMode.MOVIE}
             />
-          </SliderBoundary>
-          <SliderBoundary message="Failed to load trending TV shows.">
-            <CustomSlider
-              endpoint="trending/tv/day"
+          </RowErrorBoundary>
+          <RowErrorBoundary message="Failed to load trending TV shows.">
+            <MediaRow
+              endpoint={ENDPOINTS.TRENDING_TV}
               title="Trending TV Shows"
+              href="/tv"
               mediaMode={MediaMode.TV}
             />
-          </SliderBoundary>
+          </RowErrorBoundary>
         </div>
       </section>
     </>
   );
-};
-
-export default Home;
+}
