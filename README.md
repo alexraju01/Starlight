@@ -64,7 +64,7 @@ Discover Search Page - Desktop View
 
 Prerequisites:
 
-- Node.js v22.14.0 or later
+- Node.js 24 LTS
 
 To get started with Starlight on your local machine, follow these steps:
 
