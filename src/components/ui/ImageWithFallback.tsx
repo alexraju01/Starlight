@@ -21,7 +21,7 @@ export default function ImageWithFallback({ src, alt, className = '' }: Props) {
         aria-label="Image not available"
         className={`flex h-full w-full items-center justify-center bg-[#222] text-center text-white/40 ${className}`}
       >
-        <ImageOff aria-hidden="true" className="size-1/3 max-h-10 max-w-10" />
+        <ImageOff aria-hidden="true" className="size-1/3 max-h-[25px] max-w-[25px]" />
       </div>
     );
   }

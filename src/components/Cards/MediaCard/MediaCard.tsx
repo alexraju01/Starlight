@@ -23,7 +23,7 @@ interface Props {
 // interpolated, so the card would jump out from under the cursor and flicker.
 // `--open-w` is the open width per breakpoint, shared by the width and the last card's offset.
 const CARD_CLASSES = clsx(
-  'relative right-0 h-full w-full rounded-[10.92px] border border-solid border-card-stroke bg-card-bg px-[12px] pt-[12px] transition-[width,right,z-index] duration-300',
+  'relative right-0 h-full w-full rounded-[12px] border border-solid border-card-stroke bg-card-bg px-[12px] pt-[12px] transition-[width,right,z-index] duration-300',
   '[--open-w:70vw] sm:[--open-w:53vw] md:[--open-w:41vw] lg:[--open-w:38vw] xl:[--open-w:34vw] 2xl:[--open-w:26vw]',
   'group-hover:z-20 group-hover:h-auto group-hover:w-(--open-w)',
 );
@@ -49,14 +49,14 @@ export default function MediaCard({ item, isLast = false }: Props) {
           isLast && 'group-hover:right-[calc(var(--open-w)-100%)]',
         )}
       >
-        <figure className="relative aspect-2/3 w-full overflow-hidden rounded-[10.92px] bg-white/5 transition-all duration-300 group-hover:aspect-video">
-          <PosterImage src={item.poster_path} alt={title} className="rounded-[10.92px]" />
+        <figure className="relative aspect-2/3 w-full overflow-hidden rounded-[8px] bg-white/5 transition-all duration-300 group-hover:aspect-video">
+          <PosterImage src={item.poster_path} alt={title} />
           {preview.hasHovered && item.backdrop_path && (
             <PosterImage
               src={item.backdrop_path}
               alt=""
               variant="backdrop"
-              className="rounded-[10.92px] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+              className="opacity-0 transition-opacity duration-300 group-hover:opacity-100"
             />
           )}
           {/* Duplicate of the title link below, so hidden from keyboard and screen readers. */}
@@ -71,13 +71,13 @@ export default function MediaCard({ item, isLast = false }: Props) {
             />
           )}
           {isUpcoming && (
-            <figcaption className="bg-primary pointer-events-none absolute top-2 right-2 z-10 rounded-[7px] px-4 py-2 text-lg font-semibold text-white">
+            <figcaption className="bg-primary pointer-events-none absolute top-[6px] right-[6px] z-10 rounded-[6px] px-[10px] py-[5px] text-[11px] leading-none font-semibold text-white">
               Upcoming
             </figcaption>
           )}
         </figure>
 
-        <Link href={href} className="block rounded-md">
+        <Link href={href} className="block rounded-[4px]">
           <MediaCardInfo item={item} title={title} genres={genres} />
         </Link>
       </div>

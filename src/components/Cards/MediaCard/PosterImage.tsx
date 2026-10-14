@@ -29,10 +29,10 @@ export default function PosterImage({
       <div
         role="img"
         aria-label={alt}
-        className={`absolute inset-0 flex flex-col items-center justify-center gap-2 bg-[#222] text-white/40 ${className || ''}`}
+        className={`absolute inset-0 flex flex-col items-center justify-center gap-[6px] bg-[#222] text-white/40 ${className || ''}`}
       >
-        <ImageOff className="size-8" aria-hidden="true" />
-        <span className="line-clamp-2 px-3 text-center text-[12px]">{alt}</span>
+        <ImageOff className="size-[20px]" aria-hidden="true" />
+        <span className="line-clamp-2 px-[8px] text-center text-[12px]">{alt}</span>
       </div>
     );
   }

@@ -21,8 +21,7 @@ export const metadata: Metadata = {
     default: `${SITE_NAME} – Discover Movies, TV Shows & Trending Trailers`,
     template: `%s | ${SITE_NAME}`,
   },
-  description:
-    'Starlight helps you discover new and popular movies and TV shows. Explore trending titles, watch trailers, and find your next favorite movies or series.',
+  description: `${SITE_NAME} helps you discover new and popular movies and TV shows. Explore trending titles, watch trailers, and find your next favorite movies or series.`,
 
   keywords: [
     'movies',
@@ -37,7 +36,7 @@ export const metadata: Metadata = {
   ],
 
   applicationName: SITE_NAME,
-  authors: [{ name: 'Starlight Team' }],
+  authors: [{ name: `${SITE_NAME} Team` }],
   creator: SITE_NAME,
 
   alternates: { canonical: '/' },
@@ -80,7 +79,7 @@ export default function RootLayout({
       <body className="bg-secondary flex min-h-dvh w-full flex-col text-white antialiased">
         <a
           href="#main-content"
-          className="bg-primary sr-only z-[100] rounded-md px-6 py-3 text-[16px] font-semibold text-white focus:not-sr-only focus:fixed focus:top-4 focus:left-4"
+          className="bg-primary sr-only z-[100] rounded-[6px] px-[16px] py-[8px] text-[16px] font-semibold text-white focus:not-sr-only focus:fixed focus:top-4 focus:left-4"
         >
           Skip to content
         </a>

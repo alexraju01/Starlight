@@ -131,7 +131,7 @@ export default function CarouselClient({ children, itemCount }: Props) {
       aria-label="Trending this week"
       data-instant=""
       data-dragging={isDragging || undefined}
-      className="relative flex cursor-grab [touch-action:pan-y] flex-col overflow-hidden pb-2 select-none data-[dragging]:cursor-grabbing min-[840px]:pb-0"
+      className="relative flex cursor-grab [touch-action:pan-y] flex-col overflow-hidden pb-[6px] select-none data-[dragging]:cursor-grabbing min-[840px]:pb-0"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       onFocusCapture={() => setIsPaused(true)}

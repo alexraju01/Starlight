@@ -1,14 +1,14 @@
 import { Metadata } from 'next';
 
 import DiscoverClient from '@/components/Discover/DiscoverClient';
+import { SITE_NAME } from '@/constants/site';
 import { api } from '@/utils/api';
 import { firstParam } from '@/utils/searchParams';
 import { searchMediaAction, getAllGenresAction } from '@/utils/serverActions/media';
 
 export const metadata: Metadata = {
   title: 'Discover Movies & TV Shows – Search & Watch Trailers',
-  description:
-    'Search movies and TV shows on Starlight. Explore titles, discover new releases, and watch official trailers on hover.',
+  description: `Search movies and TV shows on ${SITE_NAME}. Explore titles, discover new releases, and watch official trailers on hover.`,
   alternates: { canonical: '/discover' },
   keywords: [
     'search movies',

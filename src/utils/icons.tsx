@@ -24,7 +24,6 @@ import {
   FaGavel,
 } from 'react-icons/fa';
 import { FaCompass, FaFilm } from 'react-icons/fa6';
-import { IoPlay } from 'react-icons/io5';
 import { LuClapperboard } from 'react-icons/lu';
 
 const genreIcons = {
@@ -60,7 +59,6 @@ const genreIcons = {
 type GenreKey = keyof typeof genreIcons;
 
 const Icons = {
-  play: <IoPlay />,
   genreIcons,
 };
 

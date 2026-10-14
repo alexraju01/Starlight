@@ -15,9 +15,9 @@ export default function GridSkeleton({ count = 20 }: Props) {
       {Array.from({ length: count }, (_, idx) => (
         <div
           key={idx}
-          className="border-card-stroke bg-card-bg rounded-[10.92px] border px-[12px] pt-[12px] pb-[20px]"
+          className="border-card-stroke bg-card-bg rounded-[12px] border px-[12px] pt-[12px] pb-[20px]"
         >
-          <div className={`${bar} aspect-[2/3] rounded-[10.92px]`} />
+          <div className={`${bar} aspect-[2/3] rounded-[8px]`} />
           <div className={`${bar} mt-[20px] h-[14px] w-3/4`} />
           <div className={`${bar} mt-[12px] h-[12px] w-1/2`} />
         </div>

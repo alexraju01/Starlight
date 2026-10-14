@@ -1,14 +1,14 @@
 'use client';
 
 import clsx from 'clsx';
-import { Info, VolumeX } from 'lucide-react';
+import { Info, Loader2, Play, Volume2, VolumeX, X } from 'lucide-react';
 import Link from 'next/link';
 
-import Icons from '@/utils/icons';
+import { buttonClass } from '@/components/ui/buttonStyles';
 
 import type { Route } from 'next';
 
-interface ActionButtonsProps {
+interface Props {
   onWatchTrailer: () => void;
   isLoading: boolean;
   isTrailerActive: boolean;
@@ -17,6 +17,7 @@ interface ActionButtonsProps {
   detailsHref: Route;
 }
 
+/** Hero actions, styled like the details page: red primary, glass secondaries. */
 export default function ActionButtons({
   onWatchTrailer,
   isLoading,
@@ -24,86 +25,65 @@ export default function ActionButtons({
   isMuted,
   onToggleMute,
   detailsHref,
-}: ActionButtonsProps) {
+}: Props) {
+  const TrailerIcon = isLoading ? Loader2 : isTrailerActive ? X : Play;
+
   return (
-    <div className="relative mb-9 flex w-full flex-row items-center justify-start gap-[13px] sm:mb-[7px] md:mb-[47px]">
-      {/* Primary Button */}
-      <div className="group relative flex flex-1 items-center justify-center sm:w-fit sm:flex-none">
-        <button
-          type="button"
-          onClick={onWatchTrailer}
-          disabled={isLoading}
-          aria-busy={isLoading}
+    <div className="relative mb-[22px] flex w-full items-center gap-[12px] sm:mb-[8px] md:mb-[48px]">
+      <button
+        type="button"
+        onClick={onWatchTrailer}
+        disabled={isLoading}
+        aria-busy={isLoading}
+        className={buttonClass(
+          isTrailerActive ? 'ghost' : 'primary',
+          null,
+          clsx(
+            'h-[52px] flex-1 gap-[10px] px-[20px] text-[16px] whitespace-nowrap backdrop-blur-md disabled:cursor-not-allowed disabled:opacity-50 sm:min-w-[200px] sm:flex-none sm:px-[28px]',
+            !isTrailerActive && 'shadow-[0_8px_24px_rgba(158,34,26,0.35)]',
+          ),
+        )}
+      >
+        <TrailerIcon
+          aria-hidden="true"
           className={clsx(
-            'flex h-[50px] w-full flex-shrink-0 cursor-pointer items-center justify-center gap-2 rounded-[8px] px-4 text-[17.14px] transition-all duration-300 sm:h-[59px] sm:w-[220px] sm:text-[20px]',
-            isTrailerActive
-              ? 'hover:bg-primary border border-white/20 bg-black/80 text-white shadow-lg'
-              : 'sm:bg-primary hover:bg-primary bg-white text-black sm:text-white',
-            isLoading && 'cursor-not-allowed opacity-40',
+            'size-[18px]',
+            isLoading && 'animate-spin',
+            !isLoading && !isTrailerActive && 'fill-current',
+          )}
+        />
+        {isLoading ? 'Loading trailer…' : isTrailerActive ? 'Stop Trailer' : 'Watch Trailer'}
+      </button>
+
+      {!isTrailerActive && (
+        <Link
+          href={detailsHref}
+          className={buttonClass(
+            'ghost',
+            null,
+            'h-[52px] gap-[8px] px-[18px] text-[16px] whitespace-nowrap backdrop-blur-md sm:px-[24px]',
           )}
         >
-          <div className="flex items-center justify-center">
-            {isLoading ? (
-              <span className="animate-spin">◌</span>
-            ) : isTrailerActive ? (
-              <span>✕</span>
-            ) : (
-              <span>{Icons.play}</span>
-            )}
-          </div>
+          <Info aria-hidden="true" className="size-[18px]" />
+          More Info
+        </Link>
+      )}
 
-          <span className="min-w-40 tracking-wide whitespace-nowrap">
-            {isLoading ? 'Loading trailer ...' : isTrailerActive ? 'Stop Trailer' : 'Watch Trailer'}
-          </span>
+      {/* Wrapper, because buttonClass sets `inline-flex`, which would override `hidden`. */}
+      <div className="hidden sm:block">
+        <button
+          type="button"
+          onClick={onToggleMute}
+          aria-label={isMuted ? 'Unmute trailer' : 'Mute trailer'}
+          aria-pressed={!isMuted}
+          className={buttonClass('ghost', null, 'size-[52px] backdrop-blur-md')}
+        >
+          {isMuted ? (
+            <VolumeX aria-hidden="true" className="size-[22px]" />
+          ) : (
+            <Volume2 aria-hidden="true" className="size-[22px]" />
+          )}
         </button>
-      </div>
-
-      {/* Secondary Buttons */}
-      <div className="flex gap-2.5 opacity-100 transition-all duration-500 ease-in-out">
-        {!isTrailerActive && (
-          <Link
-            href={detailsHref}
-            className="flex h-[50px] items-center justify-center gap-2 rounded-[8px] border border-white/30 bg-white/10 px-5 text-[16px] text-white backdrop-blur-md transition-colors hover:bg-white/20 sm:h-[59px] sm:text-[18px]"
-          >
-            <Info size={20} aria-hidden="true" />
-            More Info
-          </Link>
-        )}
-        <div className="hidden items-center gap-2.5 sm:flex">
-          <button
-            type="button"
-            onClick={onToggleMute}
-            aria-label={isMuted ? 'Unmute trailer' : 'Mute trailer'}
-            aria-pressed={!isMuted}
-            className={clsx(
-              'bg-secondary flex h-[33px] w-[33px] cursor-pointer items-center justify-center rounded-[4.72px] border border-solid transition-all duration-300 sm:h-[56px] sm:w-[56px] sm:rounded-[5.33px]',
-              isTrailerActive
-                ? 'hover:border-card-stroke border-transparent'
-                : 'border-card-stroke',
-            )}
-          >
-            {isMuted ? (
-              <VolumeX size={30} aria-hidden="true" />
-            ) : (
-              <svg
-                aria-hidden="true"
-                width="26"
-                height="24"
-                viewBox="0 0 26 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M21.2997 4.57529C25.4002 8.6758 25.4002 15.324 21.2997 19.4245M18.2064 7.66898C20.5984 10.0609 20.5984 13.9391 18.2064 16.331M6.875 7.62498L12.3813 2.11869C12.9325 1.56747 13.875 1.95787 13.875 2.73741V21.2625C13.875 22.0421 12.9325 22.4325 12.3813 21.8813L6.875 16.375H4.26056C3.23466 16.375 2.27356 15.7841 2.0011 14.795C1.75595 13.9051 1.625 12.9678 1.625 12C1.625 11.0321 1.75595 10.0949 2.0011 9.20492C2.27356 8.21586 3.23466 7.62498 4.26056 7.62498H6.875Z"
-                  stroke="white"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            )}
-          </button>
-        </div>
       </div>
     </div>
   );
