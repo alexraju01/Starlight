@@ -1,3 +1,10 @@
+## [2.9.2](https://github.com/alexraju01/Starlight/compare/v2.9.1...v2.9.2) (2026-10-15)
+
+### 🛠 Refactors
+
+* enhance metadata and sitemap generation for improved SEO and user experience ([0bf9d8b](https://github.com/alexraju01/Starlight/commit/0bf9d8bf7599bce0f96816cff7317bce5ad2cbe6))
+* remove deprecated sitemap files for movies and TV ([bc9b842](https://github.com/alexraju01/Starlight/commit/bc9b84202899dbd3ae02bb05b10d2a0731a1db88))
+
 ## [2.9.1](https://github.com/alexraju01/Starlight/compare/v2.9.0...v2.9.1) (2026-10-14)
 
 ### 🛠 Refactors
