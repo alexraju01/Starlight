@@ -63,8 +63,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     getImageUrl(media.find((m) => m.backdrop_path)?.backdrop_path, 'backdrop', 'w780') || undefined;
 
   const kinds = describeTypes(ids);
-  const title = `${name} ${kinds.replace('movies', 'Movies').replace('TV shows', 'TV Shows')}`;
-  const description = `Explore the best ${name} ${kinds} on ${SITE_NAME}. Discover trending, popular, and top-rated ${name} titles.`;
+  const title = `Best ${name} ${kinds.replace('movies', 'Movies').replace('TV shows', 'TV Shows')} to Watch`;
+  const description = `The best ${name.toLowerCase()} ${kinds} to watch right now: this week's top 10, top-rated picks and new releases, with trailers. Updated daily on ${SITE_NAME}.`;
 
   return {
     title,

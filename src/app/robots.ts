@@ -1,21 +1,17 @@
 import { SITE_URL } from '@/constants/site';
 
-import { mediaSitemapUrls } from './sitemap';
-
 import type { MetadataRoute } from 'next';
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: [
-      {
-        userAgent: '*',
-        allow: '/',
-        // Note: `/_next/` must stay crawlable – Google needs the JS/CSS to render pages.
-        // Search result pages are thin/duplicate content, so keep them out of the index.
-        disallow: ['/api/', '/discover?'],
-      },
-    ],
-    sitemap: [`${SITE_URL}/sitemap.xml`, ...mediaSitemapUrls()],
-    host: SITE_URL,
+    rules: {
+      userAgent: '*',
+      allow: '/',
+      // Search results are thin, endless variations of other pages. (`/_next/` must stay
+      // crawlable: Google needs the JS/CSS to render pages.)
+      disallow: '/discover?',
+    },
+    // The index lists every other sitemap.
+    sitemap: `${SITE_URL}/sitemap.xml`,
   };
 }
