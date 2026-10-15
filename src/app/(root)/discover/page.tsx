@@ -10,6 +10,8 @@ export const metadata: Metadata = {
   title: 'Discover Movies & TV Shows – Search & Watch Trailers',
   description: `Search movies and TV shows on ${SITE_NAME}. Explore titles, discover new releases, and watch official trailers on hover.`,
   alternates: { canonical: '/discover' },
+  // A search box with no content of its own: keep it out of results, but follow its links.
+  robots: { index: false, follow: true },
   keywords: [
     'search movies',
     'search tv shows',

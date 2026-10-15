@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import { cache } from 'react';
 
 import { ROUTES } from '@/constants/route';
-import { SITE_NAME, SITE_URL } from '@/constants/site';
+import { SITE_URL } from '@/constants/site';
 import { MediaWithDetails } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
 
@@ -36,14 +36,26 @@ export const getMediaOrNotFound = cache(
   },
 );
 
+/** Cuts at a word boundary so search snippets never end mid-word. */
+const truncate = (text: string, max: number) =>
+  text.length <= max
+    ? text
+    : `${text.slice(0, text.lastIndexOf(' ', max - 1)).replace(/[\s.,;:!?–-]+$/, '')}…`;
+
 export function buildMediaMetadata(media: MediaWithDetails, mediaMode: MediaMode): Metadata {
   const name = displayName(media);
   const year = getMediaDate(media)?.slice(0, 4);
-  const kind = mediaMode === MediaMode.MOVIE ? 'Movie' : 'TV Show';
-  const title = `${name}${year ? ` (${year})` : ''} – ${kind} Details`;
-  const description =
-    media.overview?.slice(0, 160) ||
-    `Explore details, cast and similar titles for ${name} on ${SITE_NAME}.`;
+  const label = `${name}${year ? ` (${year})` : ''}`;
+  // Worded the way people search: "<title> trailer", "<title> cast", "<show> seasons".
+  const title =
+    mediaMode === MediaMode.MOVIE
+      ? `${label} – Trailer, Cast & Details`
+      : `${label} – TV Series: Trailer, Seasons & Cast`;
+  const lead =
+    mediaMode === MediaMode.MOVIE
+      ? `Watch the ${label} trailer, see the cast and find similar movies.`
+      : `Watch the ${label} trailer, browse every season and see the cast.`;
+  const description = truncate(media.overview ? `${lead} ${media.overview}` : lead, 160);
   const canonical = ROUTES.MEDIA(mediaMode, media.id, name);
   const image = getImageUrl(media.backdrop_path ?? media.poster_path, 'backdrop', 'w1280');
 
