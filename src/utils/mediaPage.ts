@@ -46,15 +46,15 @@ export function buildMediaMetadata(media: MediaWithDetails, mediaMode: MediaMode
   const name = displayName(media);
   const year = getMediaDate(media)?.slice(0, 4);
   const label = `${name}${year ? ` (${year})` : ''}`;
-  // Worded the way people search: "<title> trailer", "<title> cast", "<show> seasons".
+  // Worded the way people search: "where to watch <title>", "<title> trailer", "<show> seasons".
   const title =
     mediaMode === MediaMode.MOVIE
-      ? `${label} – Trailer, Cast & Details`
-      : `${label} – TV Series: Trailer, Seasons & Cast`;
+      ? `${label} – Where to Watch, Trailer & Cast`
+      : `${label} – Where to Watch, Seasons & Cast`;
   const lead =
     mediaMode === MediaMode.MOVIE
-      ? `Watch the ${label} trailer, see the cast and find similar movies.`
-      : `Watch the ${label} trailer, browse every season and see the cast.`;
+      ? `Where to watch ${label}: streaming, rental and purchase options, plus the trailer and cast.`
+      : `Where to watch ${label}: streaming options, every season, the trailer and cast.`;
   const description = truncate(media.overview ? `${lead} ${media.overview}` : lead, 160);
   const canonical = ROUTES.MEDIA(mediaMode, media.id, name);
   const image = getImageUrl(media.backdrop_path ?? media.poster_path, 'backdrop', 'w1280');

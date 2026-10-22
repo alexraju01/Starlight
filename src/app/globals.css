@@ -24,6 +24,9 @@
 
   html {
     font-size: 62.5%;
+    /* In-page links glide (Next turns it off for route changes, see layout.tsx). The
+       reduced-motion rule below switches it back to instant. */
+    scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
     scrollbar-gutter: stable;
   }
