@@ -8,12 +8,15 @@ import MediaRowSkeleton from '@/components/Skeletons/MediaRowSkeleton';
 import { MediaMode } from '@/types';
 import { MediaWithDetails } from '@/types/global';
 import { api } from '@/utils/api';
+import { displayName } from '@/utils/media';
+import { getViewerRegion, regionName } from '@/utils/region';
 
 import MediaBackdrop from './MediaBackdrop';
 import MediaDetailsPanel from './MediaDetailsPanel';
 import MediaFacts from './MediaFacts';
 import Seasons from './Seasons';
 import SimilarMedia from './SimilarMedia';
+import WhereToWatch from './WhereToWatch';
 
 interface Props {
   media: MediaWithDetails;
@@ -28,11 +31,15 @@ async function Cast({ media, mediaMode }: Props) {
 }
 
 /**
- * Details page: hero (backdrop, poster, title, actions), then seasons + cast beside a sticky
- * "Details" card (below them on mobile), then "More like this".
+ * Details page: hero (backdrop, poster, title, actions), then where to watch, seasons and
+ * cast beside a sticky "Details" card (below them on mobile), then "More like this".
  */
 export default async function MediaOverview({ media, mediaMode }: Props) {
-  const hasSimilar = await api.media.hasRecommendations(mediaMode, media.id);
+  const region = await getViewerRegion();
+  const [hasSimilar, watchOptions] = await Promise.all([
+    api.media.hasRecommendations(mediaMode, media.id),
+    api.media.getWatchOptions(mediaMode, media.id, region),
+  ]);
 
   return (
     <article className="pb-[48px] lg:pb-[72px]">
@@ -43,12 +50,22 @@ export default async function MediaOverview({ media, mediaMode }: Props) {
         <MediaBackdrop media={media} />
         <GoBack className="absolute top-[16px] left-[16px] z-10 sm:left-[24px] lg:top-[24px] lg:left-[68px] 2xl:left-[101px]" />
         <div className="page-gutter relative -mt-[72px] w-full sm:-mt-[96px] lg:mt-0 lg:pt-[96px] lg:pb-[64px]">
-          <MediaDetailsPanel media={media} mediaMode={mediaMode} hasSimilar={hasSimilar} />
+          <MediaDetailsPanel
+            media={media}
+            mediaMode={mediaMode}
+            hasSimilar={hasSimilar}
+            watchOptions={watchOptions}
+          />
         </div>
       </section>
 
       <div className="page-gutter mt-[40px] grid grid-cols-1 gap-[40px] lg:mt-[56px] lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-[56px] 2xl:grid-cols-[minmax(0,1fr)_360px]">
         <div className="flex min-w-0 flex-col gap-[40px] lg:gap-[56px]">
+          <WhereToWatch
+            title={displayName(media)}
+            options={watchOptions}
+            regionLabel={regionName(region)}
+          />
           {media.media_type === MediaMode.TV && <Seasons seasons={media.seasons} />}
           <Suspense fallback={<CastSkeleton />}>
             <Cast media={media} mediaMode={mediaMode} />

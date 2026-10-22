@@ -5,25 +5,28 @@ import Link from 'next/link';
 import { buttonClass } from '@/components/ui/buttonStyles';
 import { ROUTES } from '@/constants/route';
 import { MediaMode } from '@/types';
+import { WatchOptions } from '@/types';
 import { MediaWithDetails } from '@/types/global';
 import { formatCount, formatMediaRuntime, formatYear, pluralize } from '@/utils/format';
 import { getImageUrl } from '@/utils/image/getImageUrl';
 import { displayName, getMediaDate } from '@/utils/media';
 
 import TrailerButton from './TrailerButton';
+import WatchSummary from './WatchSummary';
 
 interface Props {
   media: MediaWithDetails;
   mediaMode: MediaMode;
   /** Show the "More like this" jump link. */
   hasSimilar: boolean;
+  watchOptions: WatchOptions | null;
 }
 
 /**
  * Poster, title, facts, genres, overview and actions. One grid: on mobile the details run
  * full width under [poster | title]; on desktop the poster spans both rows beside them.
  */
-export default function MediaDetailsPanel({ media, mediaMode, hasSimilar }: Props) {
+export default function MediaDetailsPanel({ media, mediaMode, hasSimilar, watchOptions }: Props) {
   const title = displayName(media);
   const isTv = media.media_type === MediaMode.TV;
   const poster = getImageUrl(media.poster_path, 'poster', 'w500');
@@ -119,6 +122,8 @@ export default function MediaDetailsPanel({ media, mediaMode, hasSimilar }: Prop
             </a>
           )}
         </div>
+
+        {watchOptions && <WatchSummary options={watchOptions} />}
       </div>
     </div>
   );

@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import Link from 'next/link';
 import { Suspense } from 'react';
 
 import GenreCard from '@/components/Genre/GenreCard';
@@ -137,12 +136,13 @@ async function GenreIndex() {
           <DragScrollList className="-mx-[16px] flex gap-[8px] overflow-x-auto px-[16px] [scrollbar-width:none] sm:mx-0 sm:px-0 [&::-webkit-scrollbar]:hidden">
             {sections.map(({ mood }) => (
               <li key={mood.id}>
-                <Link
+                {/* Plain <a>: a same-page jump, scrolled smoothly by the browser. */}
+                <a
                   href={`#mood-${mood.id}`}
                   className="inline-flex h-[36px] shrink-0 items-center rounded-full border border-white/12 bg-white/[0.04] px-[16px] text-[14px] font-medium whitespace-nowrap text-white/75 transition-colors hover:border-white/30 hover:bg-white/10 hover:text-white"
                 >
                   {mood.title}
-                </Link>
+                </a>
               </li>
             ))}
           </DragScrollList>

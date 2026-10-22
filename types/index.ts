@@ -9,5 +9,6 @@ export type {
   TvAggregateCastMember,
 } from './cast';
 export { MediaMode } from './mediaMode';
+export type { WatchKind, WatchOptions, WatchProvider } from './watch';
 
 export type { MovieWithLogos } from './global';
