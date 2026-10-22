@@ -11,6 +11,7 @@ import {
   MediaMode,
   MovieWithLogos,
   TvAggregateCastMember,
+  WatchOptions,
 } from '@/types';
 import { APIResponse, MediaWithDetails, TVShow } from '@/types/global';
 
@@ -20,6 +21,8 @@ import { interleave } from './interleave';
 import { logError } from './logger';
 import { getMediaDate, mediaKey } from './media';
 import { getTvSeasons } from './serverActions/tvSeason';
+
+import type { TmdbWatchProvider, TmdbWatchRegion } from '@/types/watch';
 
 const toGenreMap = (genres: Genre[]): Record<number, string> =>
   Object.fromEntries(genres.map(({ id, name }) => [id, name]));
@@ -63,6 +66,17 @@ function sortQuery(mediaMode: MediaMode, sort: SortOption): Record<string, strin
       return { sort_by: 'popularity.desc' };
   }
 }
+
+/** Provider lists in display order. Free and with-ads both count as "free". */
+const WATCH_GROUPS: {
+  kind: WatchOptions['groups'][number]['kind'];
+  keys: (keyof TmdbWatchRegion)[];
+}[] = [
+  { kind: 'stream', keys: ['flatrate'] },
+  { kind: 'free', keys: ['free', 'ads'] },
+  { kind: 'rent', keys: ['rent'] },
+  { kind: 'buy', keys: ['buy'] },
+];
 
 /** Behind-the-camera roles worth showing, in order (TMDB job names). */
 const KEY_CREW = [
@@ -258,6 +272,41 @@ export const api = {
       } catch (error) {
         logError(`getCredits ${mediaMode}/${id}`, error);
         return { cast: [], keyCrew: [] };
+      }
+    },
+
+    /**
+     * Where a title can be streamed, watched free, rented or bought in one country (JustWatch
+     * data via TMDB – the source must be credited). Null when TMDB has nothing for that country.
+     */
+    getWatchOptions: async (
+      mediaMode: MediaMode,
+      id: number,
+      region: string,
+    ): Promise<WatchOptions | null> => {
+      try {
+        const { results } = await fetchData<{ results: Record<string, TmdbWatchRegion> }>(
+          '3',
+          `${mediaMode}/${id}/watch/providers`,
+          { disablePage: true, cache: { type: 'revalidate', seconds: TTL.DAY } },
+        );
+        const country = results?.[region];
+        if (!country) return null;
+
+        const groups = WATCH_GROUPS.map(({ kind, keys }) => {
+          const seen = new Set<number>();
+          const providers = keys
+            .flatMap((key) => (country[key] as TmdbWatchProvider[] | undefined) ?? [])
+            .sort((a, b) => a.display_priority - b.display_priority)
+            .filter((p) => !seen.has(p.provider_id) && seen.add(p.provider_id))
+            .map((p) => ({ id: p.provider_id, name: p.provider_name, logoPath: p.logo_path }));
+          return { kind, providers };
+        }).filter((group) => group.providers.length > 0);
+
+        return groups.length > 0 ? { region, link: country.link, groups } : null;
+      } catch (error) {
+        logError(`getWatchOptions ${mediaMode}/${id}`, error);
+        return null;
       }
     },
 
