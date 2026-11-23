@@ -58,6 +58,7 @@ export async function buildPagesSitemap(): Promise<Response> {
     '/tv',
     '/genre',
     '/person',
+    '/privacy',
     ...[...genreSlugs].map((s) => `/genre/${s}`),
   ]);
 }
