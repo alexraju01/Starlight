@@ -1,6 +1,7 @@
 import { Suspense } from 'react';
 
 import RowErrorBoundary from '@/components/Error/RowErrorBoundary';
+import RecordView from '@/components/Library/RecordView';
 import CastContainer from '@/components/Media/CastContainer/CastContainer';
 import GoBack from '@/components/Navigation/GoBack';
 import { CastSkeleton } from '@/components/Skeletons/MediaDetailsSkeleton';
@@ -45,6 +46,7 @@ export default async function MediaOverview({ media, mediaMode }: Props) {
 
   return (
     <article className="pb-[48px] lg:pb-[72px]">
+      <RecordView media={media} />
       <section
         aria-label="Overview"
         className="relative lg:flex lg:min-h-[min(820px,calc(100svh-var(--nav-h)))] lg:items-end"

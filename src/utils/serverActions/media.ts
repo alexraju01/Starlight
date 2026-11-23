@@ -71,3 +71,17 @@ export async function getAllGenresAction() {
     return {};
   }
 }
+
+/** "Because you looked at …": TMDB recommendations for one title (home page, client-side). */
+export async function getRecommendationsAction(
+  mediaMode: MediaMode,
+  id: number,
+): Promise<MediaWithDetails[]> {
+  if (!isMediaMode(mediaMode) || !isPositiveInt(id)) return [];
+  try {
+    return await api.media.getSliderData(mediaMode, `${mediaMode}/${id}/recommendations`);
+  } catch (error) {
+    logError('getRecommendationsAction', error);
+    return [];
+  }
+}
