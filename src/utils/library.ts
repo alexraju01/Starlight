@@ -1,5 +1,6 @@
 import { MediaWithDetails } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
+import { preferences } from '@/utils/preferences';
 
 /**
  * The visitor's own lists (My List, recently viewed), kept in this browser's localStorage:
@@ -55,13 +56,22 @@ export interface ListStore {
   add: (title: SavedTitle) => void;
   remove: (title: Pick<SavedTitle, 'id' | 'media_type'>) => void;
   clear: () => void;
+  /** Saves the in-memory list to the browser (after the visitor agrees). */
+  persist: () => void;
+  /** Empties the list and deletes it from the browser. */
+  forget: () => void;
 }
 
-function createListStore(key: string, max: number): ListStore {
+/**
+ * `canStore`: while false the list lives in memory only (gone on reload or when the tab
+ * closes) and nothing is written to the device.
+ */
+function createListStore(key: string, max: number, canStore = () => true): ListStore {
   let cache: SavedTitle[] | null = null;
   const listeners = new Set<() => void>();
 
   const read = (): SavedTitle[] => {
+    if (!canStore()) return EMPTY;
     try {
       const parsed = JSON.parse(window.localStorage.getItem(key) ?? '[]');
       return Array.isArray(parsed) ? parsed : EMPTY;
@@ -70,13 +80,17 @@ function createListStore(key: string, max: number): ListStore {
     }
   };
 
-  const write = (list: SavedTitle[]) => {
-    cache = list.slice(0, max);
+  const save = () => {
     try {
       window.localStorage.setItem(key, JSON.stringify(cache));
     } catch {
       // Storage full or blocked: keep the in-memory list for this visit.
     }
+  };
+
+  const write = (list: SavedTitle[]) => {
+    cache = list.slice(0, max);
+    if (canStore()) save();
     listeners.forEach((listener) => listener());
   };
 
@@ -105,8 +119,33 @@ function createListStore(key: string, max: number): ListStore {
       write((cache ?? read()).filter((t) => !sameTitle(t, title)));
     },
     clear: () => write(EMPTY),
+    persist() {
+      cache ??= read();
+      save();
+    },
+    forget() {
+      cache = EMPTY;
+      try {
+        window.localStorage.removeItem(key);
+      } catch {
+        // Blocked: nothing was stored.
+      }
+      listeners.forEach((listener) => listener());
+    },
   };
 }
 
 export const myList = createListStore('starlight:my-list', 500);
-export const recentlyViewed = createListStore('starlight:recently-viewed', 20);
+/** Kept in memory until the visitor chooses to have it remembered between visits. */
+export const recentlyViewed = createListStore(
+  'starlight:recently-viewed',
+  20,
+  () => preferences.getSnapshot().history === true,
+);
+
+/** Turns remembering recently viewed titles on (keeps this visit's) or off (deletes them). */
+export function setHistoryEnabled(enabled: boolean) {
+  preferences.set({ history: enabled });
+  if (enabled) recentlyViewed.persist();
+  else recentlyViewed.forget();
+}

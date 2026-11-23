@@ -4,7 +4,15 @@ import { slugify } from '@/utils/stringUtils';
 import type { Route } from 'next';
 
 /** First path segments that exist – the 404 page suggests the closest one for a typo. */
-export const TOP_LEVEL_ROUTES = ['movie', 'tv', 'genre', 'discover', 'person'];
+export const TOP_LEVEL_ROUTES = [
+  'movie',
+  'tv',
+  'genre',
+  'discover',
+  'person',
+  'my-list',
+  'privacy',
+];
 
 export const ROUTES = {
   HOME: '/' as Route,
@@ -30,6 +38,8 @@ export const ROUTES = {
   DISCOVER_HOME: '/discover' as Route,
 
   MY_LIST: '/my-list' as Route,
+
+  PRIVACY: '/privacy' as Route,
 
   DISCOVER: (text: string): Route => `/discover?search=${encodeURIComponent(text.trim())}` as Route,
 } as const;
