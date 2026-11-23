@@ -109,7 +109,12 @@ export default function Footer() {
           <p>
             © {new Date().getFullYear()} {SITE_NAME}. All rights reserved.
           </p>
-          <p>Movie and TV data provided by TMDB.</p>
+          <div className="flex flex-wrap items-center gap-x-[16px] gap-y-[8px]">
+            <p>Movie and TV data provided by TMDB.</p>
+            <Link href={ROUTES.PRIVACY} className="transition-colors hover:text-white">
+              Privacy
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

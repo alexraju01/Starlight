@@ -1,11 +1,13 @@
 import RowErrorBoundary from '@/components/Error/RowErrorBoundary';
 import GenreCollection from '@/components/Genre/GenreCollection/GenreCollection';
+import PersonalRows from '@/components/Library/PersonalRows';
 import Carousel from '@/components/Media/Carousel/Carousel';
 import MediaRow from '@/components/Media/MediaRow/MediaRow';
 import BackgroundBlur from '@/components/ui/BackgroundBlur';
 import { ENDPOINTS } from '@/constants';
 import { SITE_NAME, SITE_URL } from '@/constants/site';
 import { MediaMode } from '@/types/mediaMode';
+import { api } from '@/utils/api';
 import { jsonLdString } from '@/utils/mediaPage';
 
 /** Tells Google the site's name, so brand searches ("StarLight Discover") match it. */
@@ -17,7 +19,9 @@ const WEBSITE_JSON_LD = {
   url: `${SITE_URL}/`,
 };
 
-export default function Home() {
+export default async function Home() {
+  const { genresMap } = await api.genre.getAllGenres().catch(() => ({ genresMap: {} }));
+
   return (
     <>
       <script
@@ -29,6 +33,8 @@ export default function Home() {
         <BackgroundBlur />
 
         <div className="page-gutter relative flex flex-col gap-[40px] pt-[32px] pb-[48px] lg:gap-[56px] lg:pt-[48px] lg:pb-[72px]">
+          {/* Returning visitors only: built from this browser's history after the page loads. */}
+          <PersonalRows genreMap={genresMap} />
           <GenreCollection />
           <RowErrorBoundary message="Failed to load trending movies.">
             <MediaRow

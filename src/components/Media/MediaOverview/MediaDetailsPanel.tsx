@@ -2,6 +2,7 @@ import { ChevronDown, Star } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
+import SaveButton from '@/components/Library/SaveButton';
 import { buttonClass } from '@/components/ui/buttonStyles';
 import ExpandableText from '@/components/ui/ExpandableText';
 import { ROUTES } from '@/constants/route';
@@ -145,6 +146,7 @@ export default function MediaDetailsPanel({
 
         <div className="flex flex-col gap-[12px] pt-[4px] sm:flex-row">
           <TrailerButton mediaMode={mediaMode} id={media.id} title={title} />
+          <SaveButton media={media} variant="full" />
           {hasSimilar && (
             <a href="#similar" className={buttonClass('ghost', 'lg', 'backdrop-blur-md')}>
               More like this

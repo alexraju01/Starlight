@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 
+import { usePreferences } from '@/hooks/useLibrary';
 import { MediaMode } from '@/types/mediaMode';
+import { preferences } from '@/utils/preferences';
 import { getVideoKey } from '@/utils/serverActions/getVideoKey';
 
 /** Brushing past a card shouldn't load a video. */
@@ -10,7 +12,8 @@ const SHRINK_DURATION_MS = 300;
 
 /**
  * Mouse-hover trailer preview for a media card (touch taps just open the title). Starts
- * muted after a short hover. While enlarged, the slot is pinned at its resting height so
+ * muted after a short hover – once the visitor has agreed to YouTube previews (it may store
+ * data on their device); until they choose, the card asks instead. While enlarged, the slot is pinned at its resting height so
  * the page can't reflow and pull the card out from under the cursor.
  */
 export function useHoverPreview(mediaMode: MediaMode, id: number) {
@@ -19,6 +22,7 @@ export function useHoverPreview(mediaMode: MediaMode, id: number) {
   const [hasHovered, setHasHovered] = useState(false);
   const [videoKey, setVideoKey] = useState<string | null>(null);
   const [isMuted, setIsMuted] = useState(true);
+  const prefs = usePreferences();
 
   const slotRef = useRef<HTMLDivElement>(null);
   const videoKeyRef = useRef<string | null>(null);
@@ -52,7 +56,7 @@ export function useHoverPreview(mediaMode: MediaMode, id: number) {
     setHasHovered(true);
     previewTimeoutRef.current = setTimeout(() => {
       setIsPreviewing(true);
-      void loadVideo();
+      if (preferences.getSnapshot().trailerPreviews) void loadVideo();
     }, PREVIEW_DELAY_MS);
   };
 
@@ -74,11 +78,22 @@ export function useHoverPreview(mediaMode: MediaMode, id: number) {
     setIsMuted((prev) => !prev);
   };
 
+  /** Answer to the "Play trailer previews?" prompt (it sits on the artwork link). */
+  const choosePreviews = (allow: boolean) => (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    preferences.set({ trailerPreviews: allow });
+    if (allow) void loadVideo();
+  };
+
   return {
     slotRef,
     hoverHandlers: { onPointerEnter, onPointerLeave },
     hasHovered,
-    showTrailer: isPreviewing && videoKey !== null,
+    showTrailer: isPreviewing && videoKey !== null && prefs?.trailerPreviews === true,
+    askPreviews: isPreviewing && prefs !== null && prefs.trailerPreviews === undefined,
+    allowPreviews: choosePreviews(true),
+    declinePreviews: choosePreviews(false),
     videoKey,
     isMuted,
     toggleMute,

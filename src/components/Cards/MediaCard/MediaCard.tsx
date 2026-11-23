@@ -3,6 +3,7 @@
 import clsx from 'clsx';
 import Link from 'next/link';
 
+import SaveButton from '@/components/Library/SaveButton';
 import { ROUTES } from '@/constants/route';
 import { useMediaContext } from '@/context/MediaContext';
 import { useHoverPreview } from '@/hooks/useHoverPreview';
@@ -12,6 +13,7 @@ import { displayName, getMediaDate } from '@/utils/media';
 import MediaCardInfo from './MediaCardInfo';
 import MediaVideoPlayer from './MediaVideoPlayer';
 import PosterImage from './PosterImage';
+import PreviewPrompt from './PreviewPrompt';
 
 interface Props {
   item: MediaWithDetails;
@@ -21,9 +23,11 @@ interface Props {
 
 // Every animated offset needs a numeric resting value (`right-0`): `auto` can't be
 // interpolated, so the card would jump out from under the cursor and flicker.
+// `z-0` keeps each card's layers (save button z-60) inside the card, so a neighbour's
+// button can't sit on top of an open preview (z-20).
 // `--open-w` is the open width per breakpoint, shared by the width and the last card's offset.
 const CARD_CLASSES = clsx(
-  'relative right-0 h-full w-full rounded-[12px] border border-solid border-card-stroke bg-card-bg px-[12px] pt-[12px] transition-[width,right,z-index] duration-300',
+  'relative right-0 z-0 h-full w-full rounded-[12px] border border-solid border-card-stroke bg-card-bg px-[12px] pt-[12px] transition-[width,right,z-index] duration-300',
   '[--open-w:70vw] sm:[--open-w:53vw] md:[--open-w:41vw] lg:[--open-w:38vw] xl:[--open-w:34vw] 2xl:[--open-w:26vw]',
   'group-hover:z-20 group-hover:h-auto group-hover:w-(--open-w)',
 );
@@ -61,6 +65,15 @@ export default function MediaCard({ item, isLast = false }: Props) {
           )}
           {/* Duplicate of the title link below, so hidden from keyboard and screen readers. */}
           <Link href={href} tabIndex={-1} aria-hidden="true" className="absolute inset-0 z-[1]" />
+          {/* Above the trailer and its click-to-mute layer (z-40/50). */}
+          <SaveButton
+            media={item}
+            variant="icon"
+            className="absolute top-[8px] left-[8px] z-[60]"
+          />
+          {preview.askPreviews && (
+            <PreviewPrompt onAllow={preview.allowPreviews} onDecline={preview.declinePreviews} />
+          )}
           {preview.showTrailer && preview.videoKey && (
             <MediaVideoPlayer
               videoKey={preview.videoKey}

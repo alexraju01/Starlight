@@ -11,6 +11,7 @@ import { useNavBarLogic } from '@/hooks/useNavBarLogic';
 
 import Logo from './Logo';
 import MobileOverlays from './MobileOverlays';
+import MyListLink from './MyListLink';
 import NavLinks from './NavLinks';
 
 const iconButton =
@@ -72,8 +73,11 @@ export default function NavBar() {
           <NavLinks variant="bar" />
         </nav>
 
-        <div className="ml-auto hidden lg:block">
-          <SearchBox shortcut />
+        <div className="ml-auto flex items-center gap-[8px] lg:gap-[12px]">
+          <MyListLink />
+          <div className="hidden lg:block">
+            <SearchBox shortcut />
+          </div>
         </div>
 
         <button
@@ -86,7 +90,7 @@ export default function NavBar() {
           aria-label={isSearchOpen ? 'Close search' : 'Open search'}
           aria-expanded={isSearchOpen}
           aria-controls="mobile-search"
-          className={clsx(iconButton, '-mr-[8px] ml-auto lg:hidden', isSearchOpen && 'bg-white/10')}
+          className={clsx(iconButton, '-mr-[8px] lg:hidden', isSearchOpen && 'bg-white/10')}
         >
           <Search aria-hidden="true" className="size-[22px]" />
         </button>
