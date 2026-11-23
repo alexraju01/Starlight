@@ -1,3 +1,10 @@
+## [2.14.0](https://github.com/alexraju01/Starlight/compare/v2.13.0...v2.14.0) (2026-11-23)
+
+### ✨ Features
+
+* **home:** add curated lists for cinemas, upcoming films and new episodes ([d18f75f](https://github.com/alexraju01/Starlight/commit/d18f75f96240b5e7e91616a629c0d8aa5666e6fb))
+* **home:** add In Cinemas Now, New Episodes This Week and Coming Soon rows ([15a4d9f](https://github.com/alexraju01/Starlight/commit/15a4d9fc54bde6b209514a77edfc279f99aa8847))
+
 ## [2.13.0](https://github.com/alexraju01/Starlight/compare/v2.12.0...v2.13.0) (2026-11-23)
 
 ### ✨ Features
