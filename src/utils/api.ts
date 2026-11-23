@@ -84,6 +84,17 @@ const WATCH_GROUPS: {
   { kind: 'buy', keys: ['buy'] },
 ];
 
+/** Curated home page lists (see `api.media.getHomeList`). */
+export type HomeList = 'nowPlaying' | 'comingSoon' | 'newEpisodes';
+
+/** UK release dates and cinemas: the site's audience (and keeps the home page pre-built). */
+const HOME_REGION = 'GB';
+/** TV genres that are daily or unscripted, which would crowd "new episodes": Talk, News, Soap, Reality. */
+const NON_SERIES_TV_GENRES = '10767,10763,10766,10764';
+
+const isoDay = (offsetDays = 0) =>
+  new Date(Date.now() + offsetDays * 86_400_000).toISOString().slice(0, 10);
+
 /** People page: the casts of this many trending titles, top-billed few of each. */
 const TRENDING_PEOPLE_TITLES = 12;
 const CAST_PER_TITLE = 10;
@@ -341,6 +352,46 @@ export const api = {
       } catch (error) {
         logError(`getWatchOptions ${mediaMode}/${id}`, error);
         return null;
+      }
+    },
+
+    /**
+     * Home page lists: films in UK cinemas now, upcoming UK releases, and popular scripted
+     * series with an episode airing within a week either side of today.
+     */
+    getHomeList: async (list: HomeList): Promise<MediaWithDetails[]> => {
+      const cache = { type: 'revalidate', seconds: TTL.HOUR } as const;
+      switch (list) {
+        case 'nowPlaying': {
+          const { results } = await fetchData<APIResponse>('3', 'movie/now_playing', {
+            query: { region: HOME_REGION },
+            cache,
+          });
+          return withMediaType(MediaMode.MOVIE, results);
+        }
+        case 'comingSoon': {
+          const { results } = await fetchData<APIResponse>('3', 'movie/upcoming', {
+            query: { region: HOME_REGION },
+            cache,
+          });
+          // TMDB's "upcoming" sometimes still includes films released this week.
+          const today = isoDay();
+          const future = results.filter((m) => 'release_date' in m && m.release_date > today);
+          return withMediaType(MediaMode.MOVIE, future);
+        }
+        case 'newEpisodes': {
+          const { results } = await fetchData<APIResponse>('3', 'discover/tv', {
+            query: {
+              'air_date.gte': isoDay(-7),
+              'air_date.lte': isoDay(7),
+              without_genres: NON_SERIES_TV_GENRES,
+              'vote_count.gte': 50,
+              sort_by: 'popularity.desc',
+            },
+            cache,
+          });
+          return withMediaType(MediaMode.TV, results);
+        }
       }
     },
 

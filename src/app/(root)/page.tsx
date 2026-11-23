@@ -38,13 +38,11 @@ export default function Home() {
               mediaMode={MediaMode.MOVIE}
             />
           </RowErrorBoundary>
-          <RowErrorBoundary message="Failed to load popular movies.">
-            <MediaRow
-              endpoint={ENDPOINTS.POPULAR_MOVIES}
-              title="Popular Movies"
-              href="/movie"
-              mediaMode={MediaMode.MOVIE}
-            />
+          <RowErrorBoundary message="Failed to load films in cinemas.">
+            <MediaRow list="nowPlaying" title="In Cinemas Now" mediaMode={MediaMode.MOVIE} />
+          </RowErrorBoundary>
+          <RowErrorBoundary message="Failed to load new episodes.">
+            <MediaRow list="newEpisodes" title="New Episodes This Week" mediaMode={MediaMode.TV} />
           </RowErrorBoundary>
           <RowErrorBoundary message="Failed to load trending TV shows.">
             <MediaRow
@@ -52,6 +50,17 @@ export default function Home() {
               title="Trending TV Shows"
               href="/tv"
               mediaMode={MediaMode.TV}
+            />
+          </RowErrorBoundary>
+          <RowErrorBoundary message="Failed to load upcoming films.">
+            <MediaRow list="comingSoon" title="Coming Soon" mediaMode={MediaMode.MOVIE} />
+          </RowErrorBoundary>
+          <RowErrorBoundary message="Failed to load popular movies.">
+            <MediaRow
+              endpoint={ENDPOINTS.POPULAR_MOVIES}
+              title="Popular Movies"
+              href="/movie"
+              mediaMode={MediaMode.MOVIE}
             />
           </RowErrorBoundary>
         </div>
