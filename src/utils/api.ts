@@ -33,18 +33,17 @@ import type { TmdbWatchProvider, TmdbWatchRegion } from '@/types/watch';
 const toGenreMap = (genres: Genre[]): Record<number, string> =>
   Object.fromEntries(genres.map(({ id, name }) => [id, name]));
 
+/**
+ * Tags list results as TV. Season counts aren't included in lists and are no longer looked up
+ * here (one request per show made cold pages ~4x slower): cards load them after rendering,
+ * see `useSeasonCounts`.
+ */
 async function attachTvSeasonData<T extends TVShow>(items: T[]): Promise<MediaWithDetails[]> {
-  return Promise.all(
-    items.map(async (item) => {
-      const seasons = item.number_of_seasons ?? (await getTvSeasons(item.id));
-      return {
-        ...item,
-        media_type: MediaMode.TV,
-        number_of_seasons: seasons,
-        genre_ids: item.genre_ids ?? [],
-      };
-    }),
-  );
+  return items.map((item) => ({
+    ...item,
+    media_type: MediaMode.TV,
+    genre_ids: item.genre_ids ?? [],
+  }));
 }
 
 /** TMDB discover parameters for each sort option. */
