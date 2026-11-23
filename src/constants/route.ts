@@ -29,5 +29,7 @@ export const ROUTES = {
 
   DISCOVER_HOME: '/discover' as Route,
 
+  MY_LIST: '/my-list' as Route,
+
   DISCOVER: (text: string): Route => `/discover?search=${encodeURIComponent(text.trim())}` as Route,
 } as const;

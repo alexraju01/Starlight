@@ -3,6 +3,7 @@
 import clsx from 'clsx';
 import Link from 'next/link';
 
+import SaveButton from '@/components/Library/SaveButton';
 import { ROUTES } from '@/constants/route';
 import { useMediaContext } from '@/context/MediaContext';
 import { useHoverPreview } from '@/hooks/useHoverPreview';
@@ -61,6 +62,12 @@ export default function MediaCard({ item, isLast = false }: Props) {
           )}
           {/* Duplicate of the title link below, so hidden from keyboard and screen readers. */}
           <Link href={href} tabIndex={-1} aria-hidden="true" className="absolute inset-0 z-[1]" />
+          {/* Above the trailer and its click-to-mute layer (z-40/50). */}
+          <SaveButton
+            media={item}
+            variant="icon"
+            className="absolute top-[8px] left-[8px] z-[60]"
+          />
           {preview.showTrailer && preview.videoKey && (
             <MediaVideoPlayer
               videoKey={preview.videoKey}
