@@ -137,6 +137,15 @@ export type MediaWithDetails = (Movie | TVShow) & {
   genre_ids: number[];
   number_of_seasons?: number;
   logoImage?: string;
+  /** Movie details only (appended): age ratings per country and release type. */
+  release_dates?: {
+    results: {
+      iso_3166_1: string;
+      release_dates: { certification: string; type: number }[];
+    }[];
+  };
+  /** TV details only (appended): one age rating per country. */
+  content_ratings?: { results: { iso_3166_1: string; rating: string }[] };
 };
 
 /* ---------------------------------- */
