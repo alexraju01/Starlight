@@ -1,3 +1,21 @@
+## [2.11.0](https://github.com/alexraju01/Starlight/compare/v2.10.0...v2.11.0) (2026-11-23)
+
+### ✨ Features
+
+* **cast:** link cast portraits and crew to person pages ([8157ea5](https://github.com/alexraju01/Starlight/commit/8157ea5f8acf7957b8ad39d18ec8986116fec3b0))
+* **nav:** add People to the navbar, mobile menu and footer ([24714fd](https://github.com/alexraju01/Starlight/commit/24714fd24d0bfce1d546cc273f4fde9323e1678a))
+* **people:** add People page with spotlight, trending casts and search ([38eac6c](https://github.com/alexraju01/Starlight/commit/38eac6c20b71ff25b40e0442487ed6a691f34161))
+* **person:** add person pages with biography, known for and filmography ([fbf59e3](https://github.com/alexraju01/Starlight/commit/fbf59e39e63bd9e485be082bff9e3b6b52dd7805))
+* **person:** fetch person profiles, filmographies and trending casts ([79cb360](https://github.com/alexraju01/Starlight/commit/79cb36016fb92deccca5271762a4c6344de0eacc))
+
+### 🐛 Bug Fixes
+
+* **seasons:** count only real seasons and list specials last ([3febf41](https://github.com/alexraju01/Starlight/commit/3febf414cde38cf6e5e164520d53b1d7a790a5ef))
+
+### 🛠 Refactors
+
+* **utils:** add shared truncate, age and role-label helpers ([39212fc](https://github.com/alexraju01/Starlight/commit/39212fc2b52131e1c274c371c046e7954957e8de))
+
 ## [2.10.0](https://github.com/alexraju01/Starlight/compare/v2.9.2...v2.10.0) (2026-10-22)
 
 ### ✨ Features
