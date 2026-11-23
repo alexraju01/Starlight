@@ -1,7 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
-import { Clapperboard, House, LayoutGrid, Tv } from 'lucide-react';
+import { Clapperboard, House, LayoutGrid, Tv, Users } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -12,6 +12,7 @@ const ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
   '/movie': Clapperboard,
   '/tv': Tv,
   '/genre': LayoutGrid,
+  '/person': Users,
 };
 
 interface NavLinksProps {
