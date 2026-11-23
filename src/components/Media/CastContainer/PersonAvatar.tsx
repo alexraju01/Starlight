@@ -39,21 +39,22 @@ export default function PersonAvatar({
 
   return (
     // Gradient ring → dark gap → photo (a CSS `ring` gap would be drawn over the gradient).
-    <div className="rounded-full bg-gradient-to-br from-white/30 via-white/[0.08] to-white/20 p-[2px]">
+    // Brightens on hover of the surrounding link (`group`).
+    <div className="rounded-full bg-gradient-to-br from-white/30 via-white/[0.08] to-white/20 p-[2px] transition-colors duration-300 group-hover:from-white/80 group-hover:via-white/30 group-hover:to-white/60">
       <div className="bg-secondary rounded-full p-[3px]">
         <div className={clsx('relative overflow-hidden rounded-full', sizeClass)}>
           {photo ? (
+            // Decorative: the name is shown next to it, inside the same link.
             <Image
               src={photo}
-              alt={name}
+              alt=""
               fill
               sizes={sizes}
-              className="object-cover object-[center_20%]"
+              className="object-cover object-[center_20%] transition-transform duration-500 group-hover:scale-[1.06]"
             />
           ) : (
             <div
-              role="img"
-              aria-label={name}
+              aria-hidden="true"
               className={clsx(
                 'flex size-full items-center justify-center font-semibold tracking-[0.02em] text-white/85',
                 initialsClass,

@@ -84,3 +84,27 @@ export const formatCount = (count: number): string => compact.format(count);
 /** "3 Seasons", "1 Episode". */
 export const pluralize = (count: number, noun: string): string =>
   `${count} ${noun}${count === 1 ? '' : 's'}`;
+
+/** Whole years between two dates (`to` defaults to today). Null if `from` isn't a date. */
+export const formatAge = (from?: string | null, to?: string | null): number | null => {
+  if (!isValidDate(from)) return null;
+  const start = new Date(from);
+  const end = isValidDate(to) ? new Date(to) : new Date();
+  const hadBirthday =
+    end.getUTCMonth() > start.getUTCMonth() ||
+    (end.getUTCMonth() === start.getUTCMonth() && end.getUTCDate() >= start.getUTCDate());
+  return end.getUTCFullYear() - start.getUTCFullYear() - (hadBirthday ? 0 : 1);
+};
+
+const ROLE_LABELS: Record<string, string> = {
+  Acting: 'Actor',
+  Directing: 'Director',
+  Writing: 'Writer',
+  Production: 'Producer',
+  Sound: 'Composer',
+  Camera: 'Cinematographer',
+  Editing: 'Editor',
+};
+
+/** TMDB department → what to call the person: "Acting" → "Actor". */
+export const roleLabel = (department: string): string => ROLE_LABELS[department] ?? department;

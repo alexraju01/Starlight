@@ -10,5 +10,6 @@ export type {
 } from './cast';
 export { MediaMode } from './mediaMode';
 export type { WatchKind, WatchOptions, WatchProvider } from './watch';
+export type { Person, PersonCredit, PersonSummary, TrendingCast } from './person';
 
 export type { MovieWithLogos } from './global';

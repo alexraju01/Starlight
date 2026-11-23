@@ -10,6 +10,9 @@ import {
   GenreWithMovies,
   MediaMode,
   MovieWithLogos,
+  Person,
+  PersonSummary,
+  TrendingCast,
   TvAggregateCastMember,
   WatchOptions,
 } from '@/types';
@@ -20,8 +23,10 @@ import { getImageUrl } from './image/getImageUrl';
 import { interleave } from './interleave';
 import { logError } from './logger';
 import { getMediaDate, mediaKey } from './media';
+import { normaliseCredits, pickKnownFor } from './personCredits';
 import { getTvSeasons } from './serverActions/tvSeason';
 
+import type { TmdbPersonResponse, TmdbPersonSearchResult } from '@/types/person';
 import type { TmdbWatchProvider, TmdbWatchRegion } from '@/types/watch';
 
 const toGenreMap = (genres: Genre[]): Record<number, string> =>
@@ -77,6 +82,10 @@ const WATCH_GROUPS: {
   { kind: 'rent', keys: ['rent'] },
   { kind: 'buy', keys: ['buy'] },
 ];
+
+/** People page: the casts of this many trending titles, top-billed few of each. */
+const TRENDING_PEOPLE_TITLES = 12;
+const CAST_PER_TITLE = 10;
 
 /** Behind-the-camera roles worth showing, in order (TMDB job names). */
 const KEY_CREW = [
@@ -359,6 +368,113 @@ export const api = {
       } catch (error) {
         logError(`getLogos ${mediaMode}/${mediaId}`, error);
         return undefined;
+      }
+    },
+  },
+
+  person: {
+    /**
+     * This week's trending movies and shows, each with its top-billed cast – a list of people
+     * visitors will recognise (TMDB's own popular/trending people lists are noisy).
+     */
+    getTrendingCasts: async (): Promise<TrendingCast[]> => {
+      const { results } = await fetchData<APIResponse>('3', 'trending/all/week', {
+        cache: { type: 'revalidate', seconds: TTL.HOUR },
+      });
+      const titles = results
+        .filter((t) => t.media_type === MediaMode.MOVIE || t.media_type === MediaMode.TV)
+        .slice(0, TRENDING_PEOPLE_TITLES);
+
+      const casts = await Promise.all(
+        titles.map((title) =>
+          fetchData<{ cast: (CastMember & { popularity: number })[] }>(
+            '3',
+            `${title.media_type}/${title.id}/credits`,
+            { disablePage: true, cache: { type: 'revalidate', seconds: TTL.DAY } },
+          )
+            .then(({ cast }) => cast)
+            .catch(() => []),
+        ),
+      );
+
+      return titles
+        .map((t, i) => ({
+          mediaType: t.media_type,
+          id: t.id,
+          title: 'title' in t ? t.title : t.name,
+          date: 'release_date' in t ? t.release_date : t.first_air_date,
+          posterPath: t.poster_path,
+          backdropPath: t.backdrop_path,
+          cast: casts[i]
+            .flatMap((m) =>
+              !m.adult && m.profile_path
+                ? [
+                    {
+                      id: m.id,
+                      name: m.name,
+                      profilePath: m.profile_path,
+                      character: m.character,
+                      popularity: m.popularity,
+                    },
+                  ]
+                : [],
+            )
+            .slice(0, CAST_PER_TITLE),
+        }))
+        .filter((t) => t.cast.length >= 3);
+    },
+
+    /** People matching a name, most popular first. Adult-content performers are excluded. */
+    search: async (query: string): Promise<PersonSummary[]> => {
+      const { results } = await fetchData<{ results: TmdbPersonSearchResult[] }>(
+        '3',
+        'search/person',
+        {
+          query: { query, include_adult: 'false', language: 'en-US' },
+          cache: { type: 'revalidate', seconds: TTL.HOUR },
+        },
+      );
+      return results
+        .filter((p) => !p.adult)
+        .map((p) => ({
+          id: p.id,
+          name: p.name,
+          profilePath: p.profile_path,
+          knownFor: (p.known_for ?? []).flatMap((t) => t.title ?? t.name ?? []).slice(0, 3),
+        }));
+    },
+
+    /** Profile, cleaned-up filmography and external links in one request; null if unknown. */
+    get: async (id: number): Promise<Person | null> => {
+      try {
+        const raw = await fetchData<TmdbPersonResponse>('3', `person/${id}`, {
+          disablePage: true,
+          query: { append_to_response: 'combined_credits,external_ids' },
+          cache: { type: 'revalidate', seconds: TTL.DAY },
+        });
+        const credits = normaliseCredits(raw.combined_credits.cast, raw.combined_credits.crew);
+        const { imdb_id, instagram_id, wikidata_id } = raw.external_ids;
+        return {
+          id: raw.id,
+          name: raw.name,
+          biography: raw.biography,
+          birthday: raw.birthday,
+          deathday: raw.deathday,
+          placeOfBirth: raw.place_of_birth,
+          profilePath: raw.profile_path,
+          knownForDepartment: raw.known_for_department,
+          alsoKnownAs: raw.also_known_as,
+          knownFor: pickKnownFor(credits, raw.known_for_department),
+          credits,
+          links: {
+            imdb: imdb_id ? `https://www.imdb.com/name/${imdb_id}/` : null,
+            instagram: instagram_id ? `https://www.instagram.com/${instagram_id}/` : null,
+            wikidata: wikidata_id ? `https://www.wikidata.org/wiki/${wikidata_id}` : null,
+          },
+        };
+      } catch (error) {
+        logError(`person.get ${id}`, error);
+        return null;
       }
     },
   },
