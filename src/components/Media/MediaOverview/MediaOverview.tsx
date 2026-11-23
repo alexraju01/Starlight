@@ -66,7 +66,9 @@ export default async function MediaOverview({ media, mediaMode }: Props) {
             options={watchOptions}
             regionLabel={regionName(region)}
           />
-          {media.media_type === MediaMode.TV && <Seasons seasons={media.seasons} />}
+          {media.media_type === MediaMode.TV && (
+            <Seasons seasons={media.seasons} showId={media.id} showName={displayName(media)} />
+          )}
           <Suspense fallback={<CastSkeleton />}>
             <Cast media={media} mediaMode={mediaMode} />
           </Suspense>
