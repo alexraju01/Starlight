@@ -247,6 +247,10 @@ export const api = {
     ): Promise<MediaWithDetails | null> => {
       try {
         const details = await fetchData<MediaWithDetails>('3', `${mediaMode}/${id}`, {
+          // Age ratings in the same request.
+          query: {
+            append_to_response: mediaMode === MediaMode.TV ? 'content_ratings' : 'release_dates',
+          },
           cache: { type: 'revalidate', seconds: TTL.DAY },
         });
 

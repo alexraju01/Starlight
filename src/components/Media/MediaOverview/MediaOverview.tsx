@@ -8,6 +8,7 @@ import MediaRowSkeleton from '@/components/Skeletons/MediaRowSkeleton';
 import { MediaMode } from '@/types';
 import { MediaWithDetails } from '@/types/global';
 import { api } from '@/utils/api';
+import { getCertification } from '@/utils/certification';
 import { displayName } from '@/utils/media';
 import { getViewerRegion, regionName } from '@/utils/region';
 
@@ -40,6 +41,7 @@ export default async function MediaOverview({ media, mediaMode }: Props) {
     api.media.hasRecommendations(mediaMode, media.id),
     api.media.getWatchOptions(mediaMode, media.id, region),
   ]);
+  const certification = getCertification(media, region);
 
   return (
     <article className="pb-[48px] lg:pb-[72px]">
@@ -55,6 +57,7 @@ export default async function MediaOverview({ media, mediaMode }: Props) {
             mediaMode={mediaMode}
             hasSimilar={hasSimilar}
             watchOptions={watchOptions}
+            certification={certification}
           />
         </div>
       </section>
@@ -76,7 +79,12 @@ export default async function MediaOverview({ media, mediaMode }: Props) {
 
         <aside>
           <div className="lg:sticky lg:top-[calc(var(--nav-h)+24px)]">
-            <MediaFacts media={media} />
+            <MediaFacts
+              media={media}
+              ageRating={
+                certification && `${certification.rating} (${regionName(certification.region)})`
+              }
+            />
           </div>
         </aside>
       </div>

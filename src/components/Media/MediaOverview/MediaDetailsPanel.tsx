@@ -15,19 +15,29 @@ import { displayName, getMediaDate } from '@/utils/media';
 import TrailerButton from './TrailerButton';
 import WatchSummary from './WatchSummary';
 
+import type { Certification } from '@/utils/certification';
+
 interface Props {
   media: MediaWithDetails;
   mediaMode: MediaMode;
   /** Show the "More like this" jump link. */
   hasSimilar: boolean;
   watchOptions: WatchOptions | null;
+  /** Age rating for the visitor's country (or a fallback country). */
+  certification: Certification | null;
 }
 
 /**
  * Poster, title, facts, genres, overview and actions. One grid: on mobile the details run
  * full width under [poster | title]; on desktop the poster spans both rows beside them.
  */
-export default function MediaDetailsPanel({ media, mediaMode, hasSimilar, watchOptions }: Props) {
+export default function MediaDetailsPanel({
+  media,
+  mediaMode,
+  hasSimilar,
+  watchOptions,
+  certification,
+}: Props) {
   const title = displayName(media);
   const isTv = media.media_type === MediaMode.TV;
   const poster = getImageUrl(media.poster_path, 'poster', 'w500');
@@ -77,6 +87,20 @@ export default function MediaDetailsPanel({ media, mediaMode, hasSimilar, watchO
               <span className="font-semibold text-white">{media.vote_average.toFixed(1)}</span>
               <span className="sr-only">out of 10,</span>
               <span className="text-white/45">({formatCount(media.vote_count)} votes)</span>
+            </li>
+          )}
+          {certification && (
+            <li className="flex items-center gap-[12px]">
+              {hasRating && (
+                <span aria-hidden="true" className="size-[4px] rounded-full bg-white/30" />
+              )}
+              <span
+                title={`Age rating (${certification.region})`}
+                className="rounded-[4px] border border-white/40 px-[6px] py-[1px] text-[12px] leading-[1.4] font-semibold text-white lg:text-[13px]"
+              >
+                <span className="sr-only">Rated </span>
+                {certification.rating}
+              </span>
             </li>
           )}
           {facts.map((fact) => (
