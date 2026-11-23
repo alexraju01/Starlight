@@ -5,6 +5,7 @@ import RowSlider from '@/components/Media/RowSlider/RowSlider';
 import MediaRowSkeleton from '@/components/Skeletons/MediaRowSkeleton';
 import { MEDIA_COLUMNS } from '@/constants/breakpoints';
 import { MediaProvider } from '@/context/MediaContext';
+import { useRequestSeasonCounts } from '@/hooks/useSeasonCounts';
 import { MediaListItem } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
 
@@ -20,6 +21,8 @@ interface Props {
 
 /** Paged row of hover-preview media cards. */
 export default function MediaRowClient({ media, title, href, mediaMode, genres }: Props) {
+  useRequestSeasonCounts(media);
+
   return (
     <MediaProvider mediaMode={mediaMode} genres={genres}>
       <RowSlider

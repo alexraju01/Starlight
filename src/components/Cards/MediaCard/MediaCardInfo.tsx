@@ -1,3 +1,4 @@
+import { useSeasonCount } from '@/hooks/useSeasonCounts';
 import { MediaWithDetails } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
 import { formatMonthYear } from '@/utils/format';
@@ -16,6 +17,11 @@ interface Props {
 /** Title, rating, date, genres and (for shows) the season count under a card's artwork. */
 export default function MediaCardInfo({ item, title, genres }: Props) {
   const date = getMediaDate(item);
+  const isTv = item.media_type === MediaMode.TV;
+  // Lists don't include it: loaded after the page renders. The row reserves the badge's
+  // full 30px so nothing moves when it arrives.
+  const loadedSeasons = useSeasonCount(isTv ? item.id : null);
+  const seasons = isTv ? (item.number_of_seasons ?? loadedSeasons) : null;
 
   return (
     <div className="flex flex-col gap-[8px] truncate py-[12px] md:px-[3px]">
@@ -30,9 +36,9 @@ export default function MediaCardInfo({ item, title, genres }: Props) {
         <p className="truncate">{formatGenres(item, genres)}</p>
       </div>
 
-      {item.media_type === MediaMode.TV && (
-        <div className="flex min-h-[28px] items-center">
-          {item.number_of_seasons ? <SeasonBadge seasons={item.number_of_seasons} /> : null}
+      {isTv && (
+        <div className="flex min-h-[30px] items-center">
+          {seasons ? <SeasonBadge seasons={seasons} /> : null}
         </div>
       )}
     </div>

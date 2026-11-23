@@ -6,6 +6,7 @@ import MediaCard from '@/components/Cards/MediaCard';
 import { MEDIA_COLUMNS } from '@/constants/breakpoints';
 import { MediaProvider } from '@/context/MediaContext';
 import { useResponsiveItems } from '@/hooks/useResponsiveItems';
+import { useRequestSeasonCounts } from '@/hooks/useSeasonCounts';
 import { MediaWithDetails } from '@/types/global';
 import { mediaKey } from '@/utils/media';
 
@@ -36,6 +37,7 @@ const partialRowClasses = (index: number, count: number) =>
 export default function MediaGrid({ media, genreMap, hasMore = false }: Props) {
   // Only used to find each row's last card (its hover preview grows leftwards).
   const columns = useResponsiveItems(MEDIA_COLUMNS);
+  useRequestSeasonCounts(media);
 
   if (media.length === 0) return null;
 
