@@ -1,3 +1,10 @@
+## [2.15.0](https://github.com/alexraju01/Starlight/compare/v2.14.0...v2.15.0) (2026-11-23)
+
+### ✨ Features
+
+* **ratings:** fetch age ratings with title details ([e5e2f61](https://github.com/alexraju01/Starlight/commit/e5e2f61b6fb7145eb80c4511565ab7fbca891f32))
+* **ratings:** show age-rating badge on title pages ([2c599d6](https://github.com/alexraju01/Starlight/commit/2c599d6047822b6eeb6757d9b8488b2697349088))
+
 ## [2.14.0](https://github.com/alexraju01/Starlight/compare/v2.13.0...v2.14.0) (2026-11-23)
 
 ### ✨ Features
