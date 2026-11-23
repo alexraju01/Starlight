@@ -6,6 +6,7 @@ export const links: { name: string; href: Route }[] = [
   { name: 'Movies', href: '/movie' },
   { name: 'TV Shows', href: '/tv' },
   { name: 'Genres', href: '/genre' },
+  { name: 'People', href: '/person' },
 ];
 
 /** TMDB list endpoints used by the home page sliders. */

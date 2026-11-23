@@ -52,7 +52,14 @@ export function buildSitemapIndex(): Response {
 export async function buildPagesSitemap(): Promise<Response> {
   const { movieGenres, tvGenres } = await api.genre.getAllGenres();
   const genreSlugs = new Set([...movieGenres, ...tvGenres].map((g) => slugify(g.name)));
-  return urlset(['', '/movie', '/tv', '/genre', ...[...genreSlugs].map((s) => `/genre/${s}`)]);
+  return urlset([
+    '',
+    '/movie',
+    '/tv',
+    '/genre',
+    '/person',
+    ...[...genreSlugs].map((s) => `/genre/${s}`),
+  ]);
 }
 
 /** `[page]` segment → page number. Links are `/sitemap/movies/1.xml`, so `.xml` is allowed. */

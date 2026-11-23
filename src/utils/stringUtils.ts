@@ -16,3 +16,9 @@ export const stripLeadingSlash = (path: string | null | undefined): string => {
   if (!path) return '';
   return path.startsWith('/') ? path.slice(1) : path;
 };
+
+/** Cuts at a word boundary so search snippets never end mid-word. */
+export const truncate = (text: string, max: number) =>
+  text.length <= max
+    ? text
+    : `${text.slice(0, text.lastIndexOf(' ', max - 1)).replace(/[\s.,;:!?–-]+$/, '')}…`;

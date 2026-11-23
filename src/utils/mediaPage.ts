@@ -11,10 +11,11 @@ import { MediaMode } from '@/types/mediaMode';
 import { api } from './api';
 import { getImageUrl } from './image/getImageUrl';
 import { displayName, getMediaDate } from './media';
+import { truncate } from './stringUtils';
 
 import type { Metadata } from 'next';
 
-/** `/movie/550-fight-club` → `550`. Returns null for anything that isn't a TMDB id. */
+/** `/movie/550-fight-club` → `550` (also person slugs). Null for anything that isn't a TMDB id. */
 export const parseMediaId = (slug: string): number | null => {
   const id = Number.parseInt(slug, 10);
   return Number.isInteger(id) && id > 0 && /^\d+(-|$)/.test(slug) ? id : null;
@@ -35,12 +36,6 @@ export const getMediaOrNotFound = cache(
     return media;
   },
 );
-
-/** Cuts at a word boundary so search snippets never end mid-word. */
-const truncate = (text: string, max: number) =>
-  text.length <= max
-    ? text
-    : `${text.slice(0, text.lastIndexOf(' ', max - 1)).replace(/[\s.,;:!?–-]+$/, '')}…`;
 
 export function buildMediaMetadata(media: MediaWithDetails, mediaMode: MediaMode): Metadata {
   const name = displayName(media);
