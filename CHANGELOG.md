@@ -1,3 +1,19 @@
+## [2.16.0](https://github.com/alexraju01/Starlight/compare/v2.15.1...v2.16.0) (2026-11-23)
+
+### ✨ Features
+
+* **home:** add Recently viewed and "Because you looked at" rows ([dec29ab](https://github.com/alexraju01/Starlight/commit/dec29ab3f2219fb4e1bb49bf8ef7500c64a41673))
+* **library:** add browser-stored My List and recently viewed stores ([22b1f70](https://github.com/alexraju01/Starlight/commit/22b1f70837cc8f7eb9f1712a1b6b8ec1224cf29f))
+* **library:** add My List button, navbar link and My List page ([1a2f94e](https://github.com/alexraju01/Starlight/commit/1a2f94e188b8e2bd87b1f7f5c41305ea2a8ea857))
+* **privacy:** add contact section to privacy page ([4c5700f](https://github.com/alexraju01/Starlight/commit/4c5700f6458506adfb4cc6b6c458888da3d095ef))
+* **privacy:** add privacy page with settings and footer link ([b33f69c](https://github.com/alexraju01/Starlight/commit/b33f69cf02ee380dba039f413f44d2039ff0757d))
+* **privacy:** ask before playing YouTube hover previews ([adc8bed](https://github.com/alexraju01/Starlight/commit/adc8bed8146283af1cfd38542eb55ac0adea0941))
+* **privacy:** only remember recently viewed after the visitor agrees ([80b99d3](https://github.com/alexraju01/Starlight/commit/80b99d3ab65158860022badc2c65d9685dd14eac))
+
+### 🐛 Bug Fixes
+
+* **cards:** keep neighbouring save buttons below an open preview ([d48ade4](https://github.com/alexraju01/Starlight/commit/d48ade433190952adeaeaf83fddfe4e48529d92f))
+
 ## [2.15.1](https://github.com/alexraju01/Starlight/compare/v2.15.0...v2.15.1) (2026-11-23)
 
 ## [2.15.0](https://github.com/alexraju01/Starlight/compare/v2.14.0...v2.15.0) (2026-11-23)
