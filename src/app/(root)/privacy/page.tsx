@@ -15,6 +15,9 @@ export const metadata: Metadata = {
 
 const UPDATED = '23 November 2026';
 
+/** Where visitors can reach the person who runs the site (contact form on the portfolio). */
+const CONTACT_URL = 'https://alexraju.co.uk/';
+
 /** What's kept in the visitor's browser, by whom and why. */
 const STORED = [
   {
@@ -134,6 +137,17 @@ export default function PrivacyPage() {
             </a>
             , which keeps short-lived technical logs (such as IP addresses and pages requested) to
             run the service and keep it secure.
+          </p>
+        </Section>
+
+        <Section title="Contact">
+          <p>
+            {SITE_NAME} is an independent project. For questions about privacy or anything on this
+            page, send a message through the contact section on{' '}
+            <a href={CONTACT_URL} target="_blank" rel="noopener noreferrer" className={linkClass}>
+              alexraju.co.uk
+            </a>
+            .
           </p>
         </Section>
 
