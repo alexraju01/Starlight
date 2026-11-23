@@ -6,13 +6,16 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
+import PersonAvatar from '@/components/Media/CastContainer/PersonAvatar';
 import { ROUTES } from '@/constants/route';
+import { PersonSummary } from '@/types';
 import { MediaWithDetails } from '@/types/global';
 import { MediaMode } from '@/types/mediaMode';
 import { formatYear } from '@/utils/format';
 import { getImageUrl } from '@/utils/image/getImageUrl';
 import { displayName, getMediaDate, mediaKey } from '@/utils/media';
 import { searchMediaAction } from '@/utils/serverActions/media';
+import { searchPeopleAction } from '@/utils/serverActions/person';
 
 import type { Route } from 'next';
 
@@ -23,13 +26,14 @@ interface Props {
   /** Highlighted option, or -1. */
   activeIndex: number;
   onActiveIndexChange: (index: number) => void;
-  /** Option destinations (results, then "See all"), so the field can handle ↑/↓/Enter. */
+  /** Option destinations (titles, people, then "See all"), so the field can handle ↑/↓/Enter. */
   onOptionsChange: (hrefs: Route[]) => void;
   /** Navbar: a wider panel anchored to the field's right edge on desktop. */
   alignRight?: boolean;
 }
 
 const MAX_RESULTS = 5;
+const MAX_PEOPLE = 3;
 
 export const optionId = (listboxId: string, index: number) => `${listboxId}-option-${index}`;
 
@@ -52,8 +56,9 @@ export default function SearchCard({
   const [state, setState] = useState<{
     query: string;
     results: MediaWithDetails[];
+    people: PersonSummary[];
     status: 'loading' | 'done' | 'error';
-  }>({ query: '', results: [], status: 'loading' });
+  }>({ query: '', results: [], people: [], status: 'loading' });
   const listRef = useRef<HTMLDivElement>(null);
 
   const trimmedQuery = query.trim();
@@ -64,12 +69,13 @@ export default function SearchCard({
     // Ignore responses for a query the user has already changed.
     let cancelled = false;
 
-    searchMediaAction(trimmedQuery)
-      .then((results) => {
-        if (!cancelled) setState({ query: trimmedQuery, results, status: 'done' });
+    // Titles and people in parallel; if only the people search fails, titles still show.
+    Promise.all([searchMediaAction(trimmedQuery), searchPeopleAction(trimmedQuery).catch(() => [])])
+      .then(([results, people]) => {
+        if (!cancelled) setState({ query: trimmedQuery, results, people, status: 'done' });
       })
       .catch(() => {
-        if (!cancelled) setState({ query: trimmedQuery, results: [], status: 'error' });
+        if (!cancelled) setState({ query: trimmedQuery, results: [], people: [], status: 'error' });
       });
 
     return () => {
@@ -82,15 +88,28 @@ export default function SearchCard({
     () => (isLoading ? [] : state.results.slice(0, MAX_RESULTS)),
     [isLoading, state.results],
   );
+  // Only people with a photo: name-only matches ("Dune Landenberg" for "dune") are noise
+  // here; the People page search still finds everyone.
+  const people = useMemo(
+    () => (isLoading ? [] : state.people.filter((p) => p.profilePath).slice(0, MAX_PEOPLE)),
+    [isLoading, state.people],
+  );
   const seeAllHref = ROUTES.DISCOVER(trimmedQuery);
+  const hasMatches = results.length + people.length > 0;
+  // Option indexes: titles first, then people, then "See all".
+  const seeAllIndex = results.length + people.length;
 
   // Memoized so the effect below only fires when the options really change.
   const options = useMemo(
     () =>
-      results.length
-        ? [...results.map((m) => ROUTES.MEDIA(m.media_type, m.id, displayName(m))), seeAllHref]
+      results.length + people.length
+        ? [
+            ...results.map((m) => ROUTES.MEDIA(m.media_type, m.id, displayName(m))),
+            ...people.map((p) => ROUTES.PERSON(p.id, p.name)),
+            seeAllHref,
+          ]
         : [],
-    [results, seeAllHref],
+    [results, people, seeAllHref],
   );
   useEffect(() => {
     onOptionsChange(options);
@@ -120,7 +139,7 @@ export default function SearchCard({
       )}
     >
       <p className="sr-only" aria-live="polite">
-        {isLoading ? 'Searching' : `${results.length} results`}
+        {isLoading ? 'Searching' : `${results.length + people.length} results`}
       </p>
 
       {isLoading ? (
@@ -137,7 +156,7 @@ export default function SearchCard({
         </ul>
       ) : state.status === 'error' ? (
         <p className="p-[14px] text-[14px] text-red-300">Search is unavailable right now.</p>
-      ) : results.length === 0 ? (
+      ) : !hasMatches ? (
         <p className="p-[14px] text-[14px] text-white/70">
           No results for “<span className="font-semibold text-white">{trimmedQuery}</span>”
         </p>
@@ -199,15 +218,57 @@ export default function SearchCard({
               </li>
             );
           })}
+          {people.length > 0 && (
+            <li
+              role="presentation"
+              aria-hidden="true"
+              className="mt-[4px] border-t border-white/[0.06] px-[10px] pt-[10px] pb-[4px] text-[11px] font-semibold tracking-[0.1em] text-white/40 uppercase"
+            >
+              People
+            </li>
+          )}
+          {people.map((person, i) => {
+            const index = results.length + i;
+            return (
+              <li key={`person-${person.id}`}>
+                <Link
+                  id={optionId(id, index)}
+                  role="option"
+                  aria-selected={index === activeIndex}
+                  href={ROUTES.PERSON(person.id, person.name)}
+                  onMouseEnter={() => onActiveIndexChange(index)}
+                  className={optionClass(index)}
+                >
+                  <PersonAvatar
+                    name={person.name}
+                    profilePath={person.profilePath}
+                    sizeClass="size-[38px]"
+                    sizes="44px"
+                    initialsClass="text-[13px]"
+                  />
+                  <div className="flex min-w-0 flex-col gap-[2px]">
+                    <p className="line-clamp-1 text-[14px] leading-[1.35] font-semibold text-white">
+                      {person.name}
+                    </p>
+                    {person.knownFor.length > 0 && (
+                      <p className="line-clamp-1 text-[13px] text-white/50">
+                        {person.knownFor.slice(0, 2).join(', ')}
+                      </p>
+                    )}
+                  </div>
+                </Link>
+              </li>
+            );
+          })}
           <li className="mt-[4px] border-t border-white/[0.06] pt-[4px]">
             <Link
-              id={optionId(id, results.length)}
+              id={optionId(id, seeAllIndex)}
               role="option"
-              aria-selected={activeIndex === results.length}
+              aria-selected={activeIndex === seeAllIndex}
               href={seeAllHref}
-              onMouseEnter={() => onActiveIndexChange(results.length)}
+              onMouseEnter={() => onActiveIndexChange(seeAllIndex)}
               className={clsx(
-                optionClass(results.length),
+                optionClass(seeAllIndex),
                 'justify-between px-[12px] text-[14px] font-medium text-white/80',
               )}
             >
