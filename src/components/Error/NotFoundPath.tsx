@@ -2,20 +2,26 @@
 
 import Fuse from 'fuse.js';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useMemo } from 'react';
+import { useMemo, useSyncExternalStore } from 'react';
 
 import { TOP_LEVEL_ROUTES } from '@/constants/route';
 import { stripLeadingSlash } from '@/utils/stringUtils';
 
 import type { Route } from 'next';
 
+const noSubscribe = () => () => {};
+const browserPath = () => window.location.pathname;
+/** The 404 page is pre-rendered once at build time, so the server can't know the address. */
+const serverPath = () => null;
+
 /** "We couldn't find /moviez" plus a fuzzy "Did you mean /movie?" for typos in the first segment. */
 export default function NotFoundPath() {
-  const cleanPath = stripLeadingSlash(usePathname());
+  // Read in the browser only: the pre-rendered page would otherwise say "/_not-found" first.
+  const pathname = useSyncExternalStore(noSubscribe, browserPath, serverPath);
+  const cleanPath = pathname === null ? null : stripLeadingSlash(pathname);
 
   const suggestion = useMemo(() => {
-    const firstSegment = cleanPath.split('/')[0];
+    const firstSegment = cleanPath?.split('/')[0];
     if (!firstSegment) return null;
     const fuse = new Fuse(TOP_LEVEL_ROUTES, { threshold: 0.4 });
     return fuse.search(firstSegment)[0]?.item ?? null;
@@ -25,9 +31,13 @@ export default function NotFoundPath() {
     <>
       <p className="mt-[12px] max-w-[52ch] text-[15px] leading-[1.6] text-white/60 lg:text-[16px]">
         We couldn’t find{' '}
-        <code className="rounded-[6px] bg-white/[0.08] px-[6px] py-[2px] font-mono text-[14px] break-all text-white/85">
-          /{cleanPath}
-        </code>
+        {cleanPath === null ? (
+          'that page'
+        ) : (
+          <code className="rounded-[6px] bg-white/[0.08] px-[6px] py-[2px] font-mono text-[14px] break-all text-white/85">
+            /{cleanPath}
+          </code>
+        )}
         . It may have moved, or the link may be broken.
       </p>
       {suggestion && (
