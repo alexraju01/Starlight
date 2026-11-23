@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { buttonClass } from '@/components/ui/buttonStyles';
+import ExpandableText from '@/components/ui/ExpandableText';
 import { ROUTES } from '@/constants/route';
 import { MediaMode } from '@/types';
 import { WatchOptions } from '@/types';
@@ -108,9 +109,14 @@ export default function MediaDetailsPanel({ media, mediaMode, hasSimilar, watchO
         )}
 
         {media.overview && (
-          <p className="max-w-[68ch] text-[15px] leading-[1.7] text-pretty text-white/75 lg:text-[16px]">
-            {media.overview}
-          </p>
+          // Collapsed on phones so the actions stay in view; always in full on desktop.
+          <ExpandableText
+            text={media.overview}
+            lines={4}
+            lineHeight={1.7}
+            mobileOnly
+            className="max-w-[68ch] text-[15px] leading-[1.7] text-pretty text-white/75 lg:text-[16px]"
+          />
         )}
 
         <div className="flex flex-col gap-[12px] pt-[4px] sm:flex-row">

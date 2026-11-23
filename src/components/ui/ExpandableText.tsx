@@ -6,8 +6,12 @@ import { useEffect, useId, useRef, useState } from 'react';
 
 interface Props {
   text: string;
-  /** Visible lines while collapsed (at the text's line height). */
+  /** Visible lines while collapsed. */
   lines?: number;
+  /** The text's line height (unitless), so `lines` lands on whole lines. */
+  lineHeight?: number;
+  /** Collapse on phones and tablets only; from `lg` the full text always shows. */
+  mobileOnly?: boolean;
   className?: string;
 }
 
@@ -16,7 +20,13 @@ interface Props {
  * "Read more" only when it actually overflows. Clamped by height: `line-clamp` can't
  * span several paragraphs.
  */
-export default function ExpandableText({ text, lines = 5, className }: Props) {
+export default function ExpandableText({
+  text,
+  lines = 5,
+  lineHeight = 1.75,
+  mobileOnly = false,
+  className,
+}: Props) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [overflows, setOverflows] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -39,10 +49,15 @@ export default function ExpandableText({ text, lines = 5, className }: Props) {
       <div
         ref={ref}
         id={id}
-        style={isExpanded ? undefined : { maxHeight: `${lines * 1.75}em` }}
+        style={{ '--clamp-h': `${lines * lineHeight}em` } as React.CSSProperties}
         className={clsx(
           'flex flex-col gap-[12px] overflow-hidden',
-          isClamped && '[mask-image:linear-gradient(to_bottom,#000_55%,transparent)]',
+          !isExpanded && 'max-h-(--clamp-h)',
+          mobileOnly && 'lg:max-h-none',
+          isClamped &&
+            (mobileOnly
+              ? 'max-lg:[mask-image:linear-gradient(to_bottom,#000_55%,transparent)]'
+              : '[mask-image:linear-gradient(to_bottom,#000_55%,transparent)]'),
         )}
       >
         {text.split(/\n+/).map((paragraph, i) => (
@@ -55,7 +70,10 @@ export default function ExpandableText({ text, lines = 5, className }: Props) {
           onClick={() => setIsExpanded((v) => !v)}
           aria-expanded={isExpanded}
           aria-controls={id}
-          className="mt-[10px] inline-flex min-h-[24px] items-center gap-[4px] text-[14px] font-semibold text-white transition-colors hover:text-white/75"
+          className={clsx(
+            'mt-[10px] inline-flex min-h-[24px] items-center gap-[4px] text-[14px] font-semibold text-white transition-colors hover:text-white/75',
+            mobileOnly && 'lg:hidden',
+          )}
         >
           {isExpanded ? 'Show less' : 'Read more'}
           <ChevronDown
