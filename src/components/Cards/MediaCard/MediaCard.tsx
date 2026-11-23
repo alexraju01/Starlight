@@ -13,6 +13,7 @@ import { displayName, getMediaDate } from '@/utils/media';
 import MediaCardInfo from './MediaCardInfo';
 import MediaVideoPlayer from './MediaVideoPlayer';
 import PosterImage from './PosterImage';
+import PreviewPrompt from './PreviewPrompt';
 
 interface Props {
   item: MediaWithDetails;
@@ -70,6 +71,9 @@ export default function MediaCard({ item, isLast = false }: Props) {
             variant="icon"
             className="absolute top-[8px] left-[8px] z-[60]"
           />
+          {preview.askPreviews && (
+            <PreviewPrompt onAllow={preview.allowPreviews} onDecline={preview.declinePreviews} />
+          )}
           {preview.showTrailer && preview.videoKey && (
             <MediaVideoPlayer
               videoKey={preview.videoKey}
