@@ -27,6 +27,7 @@ import { normaliseCredits, pickKnownFor } from './personCredits';
 import { getTvSeasons } from './serverActions/tvSeason';
 
 import type { TmdbPersonResponse, TmdbPersonSearchResult } from '@/types/person';
+import type { Episode, SeasonDetails } from '@/types/seasons';
 import type { TmdbWatchProvider, TmdbWatchRegion } from '@/types/watch';
 
 const toGenreMap = (genres: Genre[]): Record<number, string> =>
@@ -203,6 +204,30 @@ export const api = {
       if (sort === 'popular') return interleave(movies, tvShows);
       const key = SORT_KEY[sort];
       return [...movies, ...tvShows].sort((a, b) => key(b) - key(a));
+    },
+
+    /** One season of a show with its episodes; null if the show or season doesn't exist. */
+    getSeason: async (showId: number, seasonNumber: number): Promise<SeasonDetails | null> => {
+      try {
+        const season = await fetchData<
+          Omit<SeasonDetails, 'episodes'> & {
+            episodes: (Episode & { crew?: unknown; guest_stars?: unknown })[];
+          }
+        >('3', `tv/${showId}/season/${seasonNumber}`, {
+          disablePage: true,
+          cache: { type: 'revalidate', seconds: TTL.DAY },
+        });
+        // Drop each episode's crew and guest-star lists: large, and not shown.
+        return {
+          ...season,
+          episodes: season.episodes.map(
+            ({ crew: _crew, guest_stars: _guests, ...episode }) => episode,
+          ),
+        };
+      } catch (error) {
+        logError(`getSeason ${showId}/${seasonNumber}`, error);
+        return null;
+      }
     },
 
     getOneMedia: async (

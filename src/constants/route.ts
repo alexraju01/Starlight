@@ -15,6 +15,10 @@ export const ROUTES = {
   TV: (id: number, slug?: string): Route =>
     (slug ? `/tv/${id}-${slugify(slug)}` : `/tv/${id}`) as Route,
 
+  /** `/tv/1399-game-of-thrones/season/3` (season 0 is "Specials"). */
+  SEASON: (showId: number, showName: string, seasonNumber: number): Route =>
+    `/tv/${showId}-${slugify(showName)}/season/${seasonNumber}` as Route,
+
   MEDIA: (mode: MediaMode, id: number, slug?: string): Route =>
     mode === MediaMode.MOVIE ? ROUTES.MOVIE(id, slug) : ROUTES.TV(id, slug),
 
