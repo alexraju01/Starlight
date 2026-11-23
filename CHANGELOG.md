@@ -1,3 +1,14 @@
+## [2.12.0](https://github.com/alexraju01/Starlight/compare/v2.11.0...v2.12.0) (2026-11-23)
+
+### ✨ Features
+
+* **details:** collapse long overviews on mobile with Read more ([b92275f](https://github.com/alexraju01/Starlight/commit/b92275fc3bf41899d24874679bcde2e85967ee92))
+* **search:** suggest people in the navbar search ([2227876](https://github.com/alexraju01/Starlight/commit/2227876c9c1d730d81ef02244ac5af6d6258832e))
+
+### 🐛 Bug Fixes
+
+* **404:** show the real address without a pre-render flash ([7e48ca5](https://github.com/alexraju01/Starlight/commit/7e48ca5a4591883cb900129c53e3ce55c887a85a))
+
 ## [2.11.0](https://github.com/alexraju01/Starlight/compare/v2.10.0...v2.11.0) (2026-11-23)
 
 ### ✨ Features
