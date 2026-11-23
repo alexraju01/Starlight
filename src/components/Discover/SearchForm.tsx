@@ -1,7 +1,7 @@
 'use client';
 
 import { Loader2, Search, X } from 'lucide-react';
-import { useRef } from 'react';
+import { useId, useRef } from 'react';
 
 interface Props {
   query: string;
@@ -9,6 +9,9 @@ interface Props {
   onSubmitAction: () => void;
   onClearAction: () => void;
   isPending?: boolean;
+  /** Accessible label, e.g. "Search people". */
+  label?: string;
+  placeholder?: string;
 }
 
 /** Large search field for the discover page: live results, Enter to search now, one-tap clear. */
@@ -18,7 +21,10 @@ export default function SearchForm({
   onSubmitAction,
   onClearAction,
   isPending = false,
+  label = 'Search movies and TV shows',
+  placeholder = 'Search movies, TV shows…',
 }: Props) {
+  const inputId = useId();
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
@@ -30,8 +36,8 @@ export default function SearchForm({
         onSubmitAction();
       }}
     >
-      <label htmlFor="discover-search" className="sr-only">
-        Search movies and TV shows
+      <label htmlFor={inputId} className="sr-only">
+        {label}
       </label>
       <Search
         aria-hidden="true"
@@ -39,11 +45,11 @@ export default function SearchForm({
       />
       <input
         ref={inputRef}
-        id="discover-search"
+        id={inputId}
         type="search"
         value={query}
         onChange={(e) => onChangeAction(e.target.value)}
-        placeholder="Search movies, TV shows…"
+        placeholder={placeholder}
         autoComplete="off"
         enterKeyHint="search"
         // 16px+ stops iOS Safari zooming on focus.
