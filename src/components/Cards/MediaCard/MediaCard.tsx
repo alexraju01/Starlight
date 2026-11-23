@@ -22,9 +22,11 @@ interface Props {
 
 // Every animated offset needs a numeric resting value (`right-0`): `auto` can't be
 // interpolated, so the card would jump out from under the cursor and flicker.
+// `z-0` keeps each card's layers (save button z-60) inside the card, so a neighbour's
+// button can't sit on top of an open preview (z-20).
 // `--open-w` is the open width per breakpoint, shared by the width and the last card's offset.
 const CARD_CLASSES = clsx(
-  'relative right-0 h-full w-full rounded-[12px] border border-solid border-card-stroke bg-card-bg px-[12px] pt-[12px] transition-[width,right,z-index] duration-300',
+  'relative right-0 z-0 h-full w-full rounded-[12px] border border-solid border-card-stroke bg-card-bg px-[12px] pt-[12px] transition-[width,right,z-index] duration-300',
   '[--open-w:70vw] sm:[--open-w:53vw] md:[--open-w:41vw] lg:[--open-w:38vw] xl:[--open-w:34vw] 2xl:[--open-w:26vw]',
   'group-hover:z-20 group-hover:h-auto group-hover:w-(--open-w)',
 );
