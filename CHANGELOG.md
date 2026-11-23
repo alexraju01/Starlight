@@ -1,3 +1,11 @@
+## [2.13.0](https://github.com/alexraju01/Starlight/compare/v2.12.0...v2.13.0) (2026-11-23)
+
+### ✨ Features
+
+* **seasons:** add season pages with episode list and season navigation ([92c7c47](https://github.com/alexraju01/Starlight/commit/92c7c4741873e8e47181617f02a5faae441f050c))
+* **seasons:** fetch season details with episodes ([9408dad](https://github.com/alexraju01/Starlight/commit/9408dad2fababba14dc8e8579eba8e4c87a5ea0d))
+* **seasons:** link season cards to their season pages ([fa8a234](https://github.com/alexraju01/Starlight/commit/fa8a23404bb6ae1efd760365113b144879641a7f))
+
 ## [2.12.0](https://github.com/alexraju01/Starlight/compare/v2.11.0...v2.12.0) (2026-11-23)
 
 ### ✨ Features
