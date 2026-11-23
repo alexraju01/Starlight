@@ -14,6 +14,8 @@ const WIDE_FACTS = new Set(['Production', 'Network', 'Created by']);
 
 interface Props {
   media: MediaWithDetails;
+  /** e.g. "15 (United Kingdom)". */
+  ageRating?: string | null;
 }
 
 /** First few names of a list, e.g. production companies. */
@@ -58,8 +60,10 @@ function getFacts(media: MediaWithDetails): [label: string, value: string | null
 }
 
 /** "Details" card: the facts that don't fit in the hero. Unknown values are left out. */
-export default function MediaFacts({ media }: Props) {
-  const facts = getFacts(media).filter((fact): fact is [string, string] => Boolean(fact[1]));
+export default function MediaFacts({ media, ageRating = null }: Props) {
+  const facts = [...getFacts(media), ['Age rating', ageRating] as [string, string | null]].filter(
+    (fact): fact is [string, string] => Boolean(fact[1]),
+  );
   if (facts.length === 0) return null;
 
   return (
